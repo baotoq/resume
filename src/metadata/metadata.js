@@ -39,6 +39,7 @@ module.exports = {
         "Golang",
         "gRPC",
         "ELK Stack",
+        "Redis",
         "Kubenetes",
         "AWS",
         "Terraform",
@@ -47,14 +48,11 @@ module.exports = {
       contents: `
 Played a crucial role in automating and optimizing the live selling process for merchants on Facebook and Instagram through an innovative e-commerce platform.
 
-Key Responsibilities:
+Key Responsibilities and Achievements:
 
 * Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
 * Designing and building a scalable system, aligning architecture with business needs and future growth.
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
-
-Achievements:
-
 * Achieved a remarkable reduction in release time from 2 hours to an impressive **30 minutes**. This optimization significantly heightened platform agility, reducing time-to-market for new features and updates.
 `,
     },
@@ -68,7 +66,7 @@ Achievements:
       contents: `
 Played a pivotal role in the development of a state-of-the-art web portal designed to aid internal users in efficiently managing personal injury claims.
 
-Key Responsibilities:
+Key Responsibilities and Achievements:
 
 * Worked closely with the Product Owner and UK colleagues to thoroughly understand and refine project requirements, ensuring alignment with user needs and business objectives.
 * Developed responsive React.js portal, designed RESTful APIs, optimized data flow and ensured smooth communication between different components of the portal.
@@ -88,13 +86,14 @@ Key Responsibilities:
         "gRPC",
         "PostgreSQL",
         "Vue.js",
+        "Grafana",
         "Kubenetes",
         "Azure",
       ],
       contents: `
 Contributed significantly to the development of a cutting-edge portal facilitating seamless document management and interaction with Courts for internal users.
 
-Key Responsibilities:
+Key Responsibilities and Achievements:
 
 * Implemented a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring smooth integration with internal systems.
 * Implemented a feature-rich Vue.js portal, designed RESTful APIs, gRPC services and other backend solutions.
