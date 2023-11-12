@@ -4,25 +4,28 @@ module.exports = {
   baseUrl: "",
   facts: {
     LinkedIn:
-      '<a href="https://www.linkedin.com/in/baotoq"><i class="fab fa-linkedin fact-icon"></i>baotoq</a>',
+      '<a href="https://www.linkedin.com/in/baotoq"><i class="fab fa-linkedin fact-icon"></i>LinkedIn</a>',
     GitHub:
-      '<a href="https://github.com/baotoq"><i class="fab fa-github fact-icon"></i>baotoq</a>',
+      '<a href="https://github.com/baotoq"><i class="fab fa-github fact-icon"></i>Github</a>',
+    Stackoverflow:
+      '<a href="https://stackoverflow.com/users/9076736"><i class="fab fa-stack-overflow fact-icon"></i>Stackoverflow</a>',
     Email: '<a href="mailto:baotoq@outlook.com">baotoq@outlook.com</a>',
   },
   skills: [
-    ["JS/TS", "+++"],
-    ["Golang", "+++"],
-    ["CI/CD", "+++"],
-    ["SQL", "+++"],
-    ["Kubernetes", "++"],
-    ["ELK", "++"],
-    ["AWS", "++"],
-    ["GCP", "+"],
+    [".NET"],
+    ["Golang"],
+    ["gRPC"],
+    ["CI/CD"],
+    ["ELK"],
+    ["Kubernetes"],
+    ["AWS"],
+    ["Azure"],
+    ["Terraform"],
   ],
   summary: `
-    <div>Have 5 years of experience working in software development industry.</div>
-    <div>Experience in using Microsoft technologies, especially .NET Core and Azure to develop RESTful APIs and gRPC services.</div>
-    <div>Familiar with micro-services architecture. Knowledge of Docker, Kubernetes, CI/CD and GitOps.</div>
+    <div>More than 5 years of experience working in software development industry.</div>
+    <div>Experience in using Microsoft technologies, especially .NET Core to develop RESTful APIs and gRPC services.</div>
+    <div>Familiar with micro-services architecture. Knowledge of CI/CD, Docker, and Kubernetes.</div>
     `,
   positions: [
     {
@@ -51,9 +54,22 @@ hello world
       location: "",
       title: "Software Engineer",
       period: "Jan 2021 - Sep 2021",
-      skills: ["NodeJS", "ReactJS", "Kubenetes", "AWS", "GCP"],
+      skills: [
+        ".NET Core 3.1",
+        "EF Core",
+        "MS SQL",
+        "React.js",
+        "Azure pipelines",
+      ],
       contents: `
-asasdas
+Developed a modern web portal is used to assist internal users in resolving personal injury claims.
+
+Key Responsibilities:
+
+* Worked collaboratively with Product Owner, UK colleagues to understand and clarify requirements.
+* Developed a React.js portal, built RESTful APIs, and integrated with other services.
+* Performed unit tests for both frontend and backend as well as code review with other members.
+* Created and configured CI & CD using Azure pipelines.
 `,
     },
     {
