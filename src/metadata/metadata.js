@@ -35,7 +35,7 @@ module.exports = {
       title: "Software Engineer",
       period: "Oct 2021 - Now",
       skills: [
-        "ASP.NET Core",
+        ".NET Core",
         "Golang",
         "gRPC",
         "ELK Stack",
@@ -54,15 +54,9 @@ hello world
       location: "",
       title: "Software Engineer",
       period: "Jan 2021 - Sep 2021",
-      skills: [
-        ".NET Core 3.1",
-        "EF Core",
-        "MS SQL",
-        "React.js",
-        "Azure pipelines",
-      ],
+      skills: [".NET Core", "EF Core", "MS SQL", "React.js", "Azure"],
       contents: `
-Developed a modern web portal is used to assist internal users in resolving personal injury claims.
+Participated in developing a modern web portal is used to assist internal users in resolving personal injury claims.
 
 Key Responsibilities:
 
@@ -78,9 +72,24 @@ Key Responsibilities:
       location: "",
       title: "Software Engineer",
       period: "Dec 2018 - Dec 2020",
-      skills: ["NodeJS", "ReactJS", "ELK Stack", "Kubenetes"],
+      skills: [
+        ".NET Core",
+        "Dapper",
+        "gRPC",
+        "PostgreSQL",
+        "Vue.js",
+        "Kubenetes",
+        "Azure",
+      ],
       contents: `
-dsvdfvdfv
+Participated in developing a modern portal helps internal users manage documents and interact with Courts.
+
+Key Responsibilities:
+
+* Implemented a data standardization adapter that converts and transforms data from external legacy systems into internal systems.
+* Implemented a Vue.js portal, RESTful APIs, gRPC services and other background services to manage and sign financial documents that integrated with internal and external systems.
+* Built a real-time push notification with Azure SignalR.
+* Performed unit tests and integration tests.
 `,
     },
   ],
