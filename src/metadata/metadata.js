@@ -49,7 +49,9 @@ Played a crucial role in automating and optimizing the live selling process for 
 
 Key Responsibilities:
 
-* Maintaining GitOps workflow, managing Kubernetes clusters, CI/CD pipelines, and other essential components. Ensured the seamless integration of development operations.
+* Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
+* Designing and building a scalable system, aligning architecture with business needs and future growth.
+* Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
 
 Achievements:
 
@@ -97,7 +99,8 @@ Key Responsibilities:
 * Implemented a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring smooth integration with internal systems.
 * Implemented a feature-rich Vue.js portal, designed RESTful APIs, gRPC services and other backend solutions.
 * Built a real-time push notification with Azure SignalR providing instant updates and notifications.
-* Conducted comprehensive unit tests and integration tests, ensuring the robustness and reliability of the developed features.
+* Integrated with Grafana, Prometheus, Alert Manager, Jeager for effective measurement and monitoring of metrics.
+* Conducted comprehensive unit tests and integration tests, maintaining a minimum code coverage of 80%.
 `,
     },
   ],
