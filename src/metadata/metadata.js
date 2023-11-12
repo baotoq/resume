@@ -12,7 +12,7 @@ module.exports = {
     Email: '<a href="mailto:baotoq@outlook.com">baotoq@outlook.com</a>',
   },
   skills: [
-    [".NET"],
+    [".NET Core"],
     ["Golang"],
     ["gRPC"],
     ["CI/CD"],
@@ -32,7 +32,7 @@ module.exports = {
       company: "Upmesh",
       link: "https://www.upmesh.io",
       location: "",
-      title: "Software Engineer",
+      title: "Senior Software Engineer",
       period: "Oct 2021 - Now",
       skills: [
         ".NET Core",
