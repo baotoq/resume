@@ -23,9 +23,9 @@ module.exports = {
     ["Terraform"],
   ],
   summary: `
-    <div>More than 5 years of experience working in software development industry.</div>
-    <div>Experience in using Microsoft technologies, especially .NET Core to develop RESTful APIs and gRPC services.</div>
-    <div>Familiar with micro-services architecture. Knowledge of CI/CD, Docker, and Kubernetes.</div>
+    <div>More than 5 years of experience in the software development industry.</div>
+    <div>Proficient in leveraging Microsoft technologies, particularly .NET Core, for the development of robust RESTful APIs and gRPC services.</div>
+    <div>Knowledge of micro-services architecture and demonstrates expertise in CI/CD practices, and Kubernetes.</div>
     `,
   positions: [
     {
@@ -49,11 +49,11 @@ Played a crucial role in automating and optimizing the live selling process for 
 
 Key Responsibilities:
 
-* Maintaining the DevOps workflow, managing Kubernetes clusters, CI/CD pipelines, and other essential components. Ensured the seamless integration of development operations.
+* Maintaining GitOps workflow, managing Kubernetes clusters, CI/CD pipelines, and other essential components. Ensured the seamless integration of development operations.
 
 Achievements:
 
-* Achieved a remarkable reduction in release time from 2 hours to an impressive **30 minutes**, enhancing the platform's agility and reducing time-to-market for new features and updates.
+* Achieved a remarkable reduction in release time from 2 hours to an impressive **30 minutes**. This optimization significantly heightened platform agility, reducing time-to-market for new features and updates.
 `,
     },
     {
