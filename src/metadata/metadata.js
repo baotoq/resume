@@ -45,7 +45,15 @@ module.exports = {
         "FluxCD",
       ],
       contents: `
-hello world
+Played a crucial role in automating and optimizing the live selling process for merchants on Facebook and Instagram through an innovative e-commerce platform.
+
+Key Responsibilities:
+
+* Maintaining the DevOps workflow, managing Kubernetes clusters, CI/CD pipelines, and other essential components. Ensured the seamless integration of development operations.
+
+Achievements:
+
+* Achieved a remarkable reduction in release time from 2 hours to an impressive **30 minutes**, enhancing the platform's agility and reducing time-to-market for new features and updates.
 `,
     },
     {
@@ -54,16 +62,16 @@ hello world
       location: "",
       title: "Software Engineer",
       period: "Jan 2021 - Sep 2021",
-      skills: [".NET Core", "EF Core", "MS SQL", "React.js", "Azure"],
+      skills: [".NET Core", "EF Core", "MS SQL", "React.js", "CI/CD", "Azure"],
       contents: `
-Participated in developing a modern web portal is used to assist internal users in resolving personal injury claims.
+Played a pivotal role in the development of a state-of-the-art web portal designed to aid internal users in efficiently managing personal injury claims.
 
 Key Responsibilities:
 
-* Worked collaboratively with Product Owner, UK colleagues to understand and clarify requirements.
-* Developed a React.js portal, built RESTful APIs, and integrated with other services.
-* Performed unit tests for both frontend and backend as well as code review with other members.
-* Created and configured CI & CD using Azure pipelines.
+* Worked closely with the Product Owner and UK colleagues to thoroughly understand and refine project requirements, ensuring alignment with user needs and business objectives.
+* Developed responsive React.js portal, designed RESTful APIs, optimized data flow and ensured smooth communication between different components of the portal.
+* Performed unit tests for both frontend and backend. Collaborated code reviews with team members to maintain coding standards and improve overall code quality.
+* Established and configured CI/CD pipelines using Azure, enabling automated testing and efficient deployment processes.
 `,
     },
     {
@@ -82,14 +90,14 @@ Key Responsibilities:
         "Azure",
       ],
       contents: `
-Participated in developing a modern portal helps internal users manage documents and interact with Courts.
+Contributed significantly to the development of a cutting-edge portal facilitating seamless document management and interaction with Courts for internal users.
 
 Key Responsibilities:
 
-* Implemented a data standardization adapter that converts and transforms data from external legacy systems into internal systems.
-* Implemented a Vue.js portal, RESTful APIs, gRPC services and other background services to manage and sign financial documents that integrated with internal and external systems.
-* Built a real-time push notification with Azure SignalR.
-* Performed unit tests and integration tests.
+* Implemented a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring smooth integration with internal systems.
+* Implemented a feature-rich Vue.js portal, designed RESTful APIs, gRPC services and other backend solutions.
+* Built a real-time push notification with Azure SignalR providing instant updates and notifications.
+* Conducted comprehensive unit tests and integration tests, ensuring the robustness and reliability of the developed features.
 `,
     },
   ],
