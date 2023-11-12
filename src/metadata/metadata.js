@@ -53,7 +53,7 @@ Key Responsibilities and Achievements:
 * Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
 * Designing and building a scalable system, aligning architecture with business needs and future growth.
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
-* Achieved a remarkable reduction in release time from 2 hours to an impressive **30 minutes**. This optimization significantly heightened platform agility, reducing time-to-market for new features and updates.
+* Achieved a remarkable reduction in release time from 2 hours to 30 minutes, significantly heightened platform agility, reducing time-to-market for new features and updates.
 `,
     },
     {
