@@ -51,9 +51,11 @@ Played a crucial role in automating and optimizing the live selling process for 
 Key Responsibilities and Achievements:
 
 * Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
-* Designing and building a scalable system, aligning architecture with business needs and future growth.
+* Designing and building a scalable system, integrating with Stripe for online payment, third-party logistic service, aligning architecture with business needs and future growth.
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
 * Achieved a remarkable reduction in release time from 2 hours to 30 minutes, significantly heightened platform agility, reducing time-to-market for new features and updates.
+* Achieved a remarkable reduction in release time from 2 hours to 30 minutes, significantly heightened platform agility, reducing time-to-market for new features and updates.
+
 `,
     },
     {
@@ -97,7 +99,7 @@ Key Responsibilities and Achievements:
 
 * Implemented a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring smooth integration with internal systems.
 * Implemented a feature-rich Vue.js portal, designed RESTful APIs, gRPC services and other backend solutions.
-* Built a real-time push notification with Azure SignalR providing instant updates and notifications.
+* Implemented a real-time push notification with Azure SignalR providing instant updates and notifications.
 * Integrated with Grafana, Prometheus, Alert Manager, Jeager for effective measurement and monitoring of metrics.
 * Conducted comprehensive unit tests and integration tests, maintaining a minimum code coverage of 80%.
 `,
