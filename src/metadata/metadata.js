@@ -54,7 +54,6 @@ Key Responsibilities and Achievements:
 * Designing and building a scalable system, integrating with Stripe for online payment, third-party logistic service, aligning architecture with business needs and future growth.
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
 * Achieved a remarkable reduction in release time from 2 hours to 30 minutes, significantly heightened platform agility, reducing time-to-market for new features and updates.
-* Achieved a remarkable reduction in release time from 2 hours to 30 minutes, significantly heightened platform agility, reducing time-to-market for new features and updates.
 
 `,
     },
