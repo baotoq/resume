@@ -73,7 +73,7 @@ Key Responsibilities and Achievements:
 * Worked closely with the Product Owner and UK colleagues to thoroughly understand and refine project requirements, ensuring alignment with user needs and business objectives.
 * Developed responsive React.js portal, designed RESTful APIs, optimized data flow and ensured smooth communication between different components of the portal.
 * Performed unit tests for both frontend and backend. Collaborated code reviews with team members to maintain coding standards and improve overall code quality.
-* Established and configured CI/CD pipelines using Azure, enabling automated testing and efficient deployment processes.
+* Established and configured CI/CD pipelines using Azure Devops, enabling automated testing and efficient deployment processes.
 `,
     },
     {
