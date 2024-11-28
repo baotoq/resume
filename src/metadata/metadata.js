@@ -13,14 +13,13 @@ module.exports = {
   },
   skills: [
     [".NET Core"],
-    ["Golang"],
     ["gRPC"],
     ["CI/CD"],
-    ["ELK"],
+    ["ELK Stack"],
     ["Kubernetes"],
     ["AWS"],
     ["Azure"],
-    ["Terraform"],
+    ["FluxCD"],
   ],
   summary: `
     <div>Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications.</div>
@@ -39,8 +38,10 @@ module.exports = {
         "Golang",
         "gRPC",
         "ELK Stack",
+        "MySQL",
         "Redis",
-        "Kubenetes",
+        "Kubernetes",
+        "GitHub Actions",
         "AWS",
         "Terraform",
         "FluxCD",
@@ -89,7 +90,7 @@ Key Responsibilities and Achievements:
         "PostgreSQL",
         "Vue.js",
         "Grafana",
-        "Kubenetes",
+        "Kubernetes",
         "Azure",
       ],
       contents: `
