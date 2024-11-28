@@ -4,12 +4,15 @@ module.exports = {
   baseUrl: "",
   facts: {
     LinkedIn:
-      '<a href="https://www.linkedin.com/in/baotoq"><i class="fab fa-linkedin fact-icon"></i>LinkedIn</a>',
+      '<a href="https://www.linkedin.com/in/baotoq"><i class="fa-brands fa-linkedin fact-icon"></i>LinkedIn</a>',
     GitHub:
-      '<a href="https://github.com/baotoq"><i class="fab fa-github fact-icon"></i>Github</a>',
+      '<a href="https://github.com/baotoq"><i class="fa-brands fa-github fact-icon"></i></i>Github</a>',
     Stackoverflow:
-      '<a href="https://stackoverflow.com/users/9076736"><i class="fab fa-stack-overflow fact-icon"></i>Stackoverflow</a>',
-    Email: '<a href="mailto:baotoq@outlook.com">baotoq@outlook.com</a>',
+      '<a href="https://stackoverflow.com/users/9076736"><i class="fa-brands fa-stack-overflow fact-icon"></i></i>Stackoverflow</a>',
+    Email:
+      '<a href="mailto:baotoq@outlook.com"><i class="fa-solid fa-envelope fact-icon"></i>baotoq@outlook.com</a>',
+    Phone:
+      '<a href="#"><i class="fa-solid fa-phone fact-icon"></i></i>0708270396</a>',
   },
   skills: [
     [".NET Core"],
