@@ -58,7 +58,7 @@ Key Responsibilities and Achievements:
 * Implementing full-text search using Elasticsearch for millions of records, improving search query performance significantly.
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
 * Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
-* Optimized CI/CD pipeline,reducing deployment time by 75%, significantly improved time-to-market for new features and updates.
+* Optimized CI/CD pipeline, successfully reducing deployment time by 75%, significantly improved time-to-market for new features and updates.
 
 `,
     },
