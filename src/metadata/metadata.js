@@ -23,8 +23,8 @@ module.exports = {
     ["Terraform"],
   ],
   summary: `
-    <div>More than 5 years of experience in the software development industry.</div>
-    <div>Proficient in leveraging Microsoft technologies, particularly .NET Core, for the development of robust RESTful APIs and gRPC services.</div>
+    <div>Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications.</div>
+    <div>Proficient in leveraging Microsoft technologies, particularly .NET Core, to develop robust RESTful APIs and gRPC services.</div>
     <div>Knowledge of micro-services architecture and demonstrates expertise in CI/CD practices, and Kubernetes.</div>
     `,
   positions: [
@@ -50,10 +50,11 @@ Played a crucial role in automating and optimizing the live selling process for 
 
 Key Responsibilities and Achievements:
 
-* Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
-* Designing and building a scalable system, integrating with Stripe for online payment, third-party logistic service, aligning architecture with business needs and future growth.
+* Designing and building a scalable system using .NET Core, integrating with Stripe, 3rd-party logistic service, aligning architecture with business needs and future growth.
+* Working with Elasticsearch to implement full-text search operations for millions of records, achieving significant performance improvements in search query execution.
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
-* Achieved a remarkable reduction in release time from 2 hours to 30 minutes, significantly heightened platform agility, reducing time-to-market for new features and updates.
+* Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
+* Optimized the CI/CD pipeline, achieving a 75% reduction in deployment time, which significantly improved platform agility and accelerated time-to-market for new features and updates.
 
 `,
     },
