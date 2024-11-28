@@ -50,11 +50,11 @@ Played a crucial role in automating and optimizing the live selling process for 
 
 Key Responsibilities and Achievements:
 
-* Designing and building a scalable system using .NET Core, integrating with Stripe, 3rd-party logistic service, aligning architecture with business needs and future growth.
-* Working with Elasticsearch to implement full-text search operations for millions of records, achieving significant performance improvements in search query execution.
+* Designing and building scalable APIs using .NET Core, integrating Stripe and 3rd-party logistics services to align architecture with business needs and future growth.
+* Implementing full-text search using Elasticsearch for millions of records, improving search query performance significantly.
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
 * Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
-* Optimized the CI/CD pipeline, achieving a 75% reduction in deployment time, which significantly improved platform agility and accelerated time-to-market for new features and updates.
+* Optimized CI/CD pipeline,reducing deployment time by 75%, significantly improved time-to-market for new features and updates.
 
 `,
     },
