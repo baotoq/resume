@@ -1,7 +1,7 @@
 module.exports = {
   name: "To Quoc Bao",
   title: "Software Engineer",
-  baseUrl: "",
+  baseUrl: "https://baotoq.github.io/resume",
   facts: {
     LinkedIn:
       '<a href="https://www.linkedin.com/in/baotoq"><i class="fa-brands fa-linkedin fact-icon"></i>LinkedIn</a>',
