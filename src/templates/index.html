@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container page">
-    <a href="https://github.com/baotoq/resume" class="github-corner screen" aria-label="View source on Github">
+    <a href="{{ baseUrl }}" class="github-corner screen" aria-label="View source on Github">
         <svg width="80" height="80" viewBox="0 0 250 250"
              style="fill:#deeef9; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
             <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -58,10 +58,8 @@
                 <time datetime="{{ buildinfo.date }}" class="text-muted">Last update: {{ updated }}</time>
             </p>
             <p>
-                <span class="screen"><a href="{{ pdfFileName }}"><i class="far fa-file-pdf"></i>Download PDF version</a></span>
-                <span class="print">Up-to-date version of CV is available at <a href="{{ baseUrl }}"
-                                                                                class="text-nowrap"><i
-                    class="fab fa-github" aria-hidden="true"></i>{{ baseUrl }}</a></span>
+                <span class="screen"><a href="{{ pdfFileName }}"><i class="fa-solid fa-file-pdf mr-2"></i>Download PDF version</a></span>
+                <span class="print">Up-to-date version of CV is available at <a href="{{ baseUrl }}" class="text-nowrap"><i class="fa-brands fa-github mr-2" aria-hidden="true"></i>{{ baseUrl }}</a></span>
             </p>
         </div>
         <div class="col-md-6 col-print-6">
@@ -74,13 +72,13 @@
         </div>
     </div>
 
-    <h3 class="screen">Technical Skills</h3>
-    <div class="row m-3">
+    <h3 class="">Technical Skills</h3>
+    <div class="row">
+        <div class="col">
         {{#each skills}}
-        <div class="mx-1 text-right">
             <span class="badge badge-primary">{{ this.[0] }}</span>
-        </div>
         {{/each}}
+        </div>
     </div>
 
     {{#if summary}}
