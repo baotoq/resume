@@ -3,10 +3,10 @@ module.exports = {
   title: "Senior Software Engineer",
   baseUrl: "https://baotoq.github.io/resume",
   facts: {
-    LinkedIn:
-      '<a href="https://www.linkedin.com/in/baotoq"><i class="fa-brands fa-linkedin fact-icon"></i>LinkedIn</a>',
     GitHub:
       '<a href="https://github.com/baotoq"><i class="fa-brands fa-github fact-icon"></i></i>Github</a>',
+    LinkedIn:
+      '<a href="https://www.linkedin.com/in/baotoq"><i class="fa-brands fa-linkedin fact-icon"></i>LinkedIn</a>',
     Stackoverflow:
       '<a href="https://stackoverflow.com/users/9076736"><i class="fa-brands fa-stack-overflow fact-icon"></i></i>Stackoverflow</a>',
     Email:
@@ -60,16 +60,22 @@ Key Responsibilities and Achievements:
 * Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
 * Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
 * Optimized CI/CD pipeline, successfully reducing deployment time by 75%, significantly improved time-to-market for new features and updates.
-
 `,
     },
     {
       company: "AS White Global",
-      link: "",
+      link: "#",
       location: "",
       title: "Software Engineer",
       period: "Jan 2021 - Sep 2021",
-      skills: [".NET Core", "EF Core", "MS SQL", "React.js", "CI/CD", "Azure"],
+      skills: [
+        ".NET Core",
+        "EF Core",
+        "MS SQL",
+        "React.js",
+        "CI/CD",
+        "Azure"
+      ],
       contents: `
 Played a pivotal role in the development of a state-of-the-art web portal designed to aid internal users in efficiently managing personal injury claims.
 
@@ -83,7 +89,7 @@ Key Responsibilities and Achievements:
     },
     {
       company: "NashTech Limited",
-      link: "",
+      link: "#",
       location: "",
       title: "Software Engineer",
       period: "Dec 2018 - Dec 2020",

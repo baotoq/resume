@@ -59,7 +59,7 @@
             </p>
             <p>
                 <span class="screen"><a href="{{ pdfFileName }}"><i class="fa-solid fa-file-pdf mr-2"></i>Download PDF version</a></span>
-                <span class="print">Up-to-date version of CV is available at <a href="{{ baseUrl }}" class="text-nowrap"><i class="fa-brands fa-github mr-2" aria-hidden="true"></i>{{ baseUrl }}</a></span>
+                <!-- <span class="print">Up-to-date version of CV is available at <a href="{{ baseUrl }}" class="text-nowrap"><i class="fa-brands fa-github mr-2" aria-hidden="true"></i>{{ baseUrl }}</a></span> -->
             </p>
         </div>
         <div class="col-md-6 col-print-6">
@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <h3 class="">Technical Skills</h3>
+    <h2 class="mt-1">Technical Skills</h2>
     <div class="row">
         <div class="col">
         {{#each skills}}
@@ -105,13 +105,13 @@
                 </h3>
             {{/if}}
             
-            <p>{{ title }}</p>
+            <b>{{ title }}</b>
             <p class="text-muted">{{ period }}</p>
 
-            <div>{{{markdown contents }}}</div>
+            <div>{{{markdown contents}}}</div>
 
             <p>
-                {{#each skills }}
+                {{#each skills}}
                 <span class="badge badge-primary">{{ this }}</span>
                 {{/each}}
             </p>
