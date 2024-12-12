@@ -71,14 +71,6 @@ a {
   }
 }
 
-.far,
-.fab,
-.fas,
-.fa {
-  text-decoration: none !important;
-  margin-right: 5px;
-}
-
 .badge {
   font-weight: normal;
   letter-spacing: 0.05rem;
