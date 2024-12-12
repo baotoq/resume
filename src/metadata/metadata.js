@@ -1,6 +1,6 @@
 module.exports = {
   name: "To Quoc Bao",
-  title: "Software Engineer",
+  title: "Senior Software Engineer",
   baseUrl: "https://baotoq.github.io/resume",
   facts: {
     LinkedIn:
@@ -17,17 +17,18 @@ module.exports = {
   skills: [
     [".NET Core"],
     ["gRPC"],
-    ["CI/CD"],
     ["ELK Stack"],
-    ["Kubernetes"],
     ["AWS"],
     ["Azure"],
+    ["CI/CD"],
     ["FluxCD"],
+    ["GitOps"],
+    ["Kubernetes"],
   ],
   summary: `
     <div>Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications.</div>
     <div>Proficient in leveraging Microsoft technologies, particularly .NET Core, to develop robust RESTful APIs and gRPC services.</div>
-    <div>Knowledge of micro-services architecture and demonstrates expertise in CI/CD practices, and Kubernetes.</div>
+    <div>Knowledge of micro-services architecture and demonstrates expertise in CI/CD practices, GitOps and Kubernetes.</div>
     `,
   positions: [
     {
@@ -92,7 +93,8 @@ Key Responsibilities and Achievements:
         "gRPC",
         "PostgreSQL",
         "Vue.js",
-        "Grafana",
+        "Angular",
+        "OpenTelemetry",
         "Kubernetes",
         "Azure",
       ],
@@ -102,7 +104,7 @@ Contributed significantly to the development of a cutting-edge portal facilitati
 Key Responsibilities and Achievements:
 
 * Implemented a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring smooth integration with internal systems.
-* Implemented a feature-rich Vue.js portal, designed RESTful APIs, gRPC services and other backend solutions.
+* Implemented a feature-rich portal, designed RESTful APIs, gRPC services and other backend solutions.
 * Implemented a real-time push notification with Azure SignalR providing instant updates and notifications.
 * Integrated with Grafana, Prometheus, Alert Manager, Jeager for effective measurement and monitoring of metrics.
 * Conducted comprehensive unit tests and integration tests, maintaining a minimum code coverage of 80%.
