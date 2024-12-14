@@ -16,6 +16,7 @@ module.exports = {
   },
   skills: [
     [".NET Core"],
+    ["Golang"],
     ["gRPC"],
     ["ELK Stack"],
     ["AWS"],
@@ -27,7 +28,6 @@ module.exports = {
   ],
   summary: `
     <div>Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications.</div>
-    <div>Proficient in leveraging Microsoft technologies, particularly .NET Core, to develop robust RESTful APIs and gRPC services.</div>
     <div>Knowledge of micro-services architecture and demonstrates expertise in CI/CD practices, GitOps and Kubernetes.</div>
     `,
   positions: [
@@ -68,14 +68,7 @@ Key Responsibilities and Achievements:
       location: "",
       title: "Software Engineer",
       period: "Jan 2021 - Sep 2021",
-      skills: [
-        ".NET Core",
-        "EF Core",
-        "MS SQL",
-        "React.js",
-        "CI/CD",
-        "Azure"
-      ],
+      skills: [".NET Core", "EF Core", "MS SQL", "React.js", "CI/CD", "Azure"],
       contents: `
 Played a pivotal role in the development of a state-of-the-art web portal designed to aid internal users in efficiently managing personal injury claims.
 
