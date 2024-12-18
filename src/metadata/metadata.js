@@ -28,7 +28,7 @@ module.exports = {
   ],
   summary: `
     <div>Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications.</div>
-    <div>Knowledge of micro-services architecture and demonstrates expertise in CI/CD practices, GitOps and Kubernetes.</div>
+    <div>Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.</div>
     `,
   positions: [
     {
@@ -49,16 +49,18 @@ module.exports = {
         "AWS",
         "Terraform",
         "FluxCD",
+        "Odoo",
       ],
       contents: `
-Played a crucial role in automating and optimizing the live selling process for merchants on Facebook and Instagram through an innovative e-commerce platform.
+Upmesh is transforming online shopping by allowing people to buy products directly through live-stream videos, making e-commerce more interactive and engaging.
 
 Key Responsibilities and Achievements:
 
-* Designing and building scalable APIs using .NET Core and Golang, integrating Stripe and 3rd-party logistics services to align architecture with business needs and future growth.
-* Implementing full-text search using Elasticsearch for millions of records, improving search query performance significantly.
-* Sharing expertise with team members, conducted technical talks on relevant topics, improving the team's understanding of new technologies.
-* Maintaining GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
+* Designed and building scalable APIs using .NET Core and Golang, integrating Stripe and 3rd-party logistics services to align architecture with business needs and future growth.
+* Implemented full-text search using Elasticsearch for millions of records, improving search query performance significantly.
+* Pioneered the adoption of gRPC for efficient inter-service communication, resulting in improved performance and scalability across systems.
+* Maintained GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
+* Implemented Testcontainers to streamline unit testing and integration testing, reducing test setup time and enhancing reliability in CI/CD pipelines.
 * Optimized CI/CD pipeline, successfully reducing deployment time by 75%, significantly improved time-to-market for new features and updates.
 `,
     },
