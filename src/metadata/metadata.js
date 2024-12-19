@@ -60,7 +60,7 @@ Key Responsibilities and Achievements:
 * Implemented full-text search using Elasticsearch for millions of records, improving search query performance significantly.
 * Pioneered the adoption of gRPC for efficient inter-service communication, resulting in improved performance and scalability across systems.
 * Maintained GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
-* Implemented Testcontainers to streamline unit testing and integration testing, reducing test setup time and enhancing reliability in CI/CD pipelines.
+* Pioneered the use of Testcontainers to streamline unit and integration testing, significantly reducing test setup time and enhancing reliability.
 * Optimized CI/CD pipeline, successfully reducing deployment time by 75%, significantly improved time-to-market for new features and updates.
 `,
     },
