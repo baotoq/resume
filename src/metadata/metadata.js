@@ -56,7 +56,7 @@ Upmesh is transforming online shopping by allowing people to buy products direct
 
 Key Responsibilities and Achievements:
 
-* Designed and building scalable APIs using .NET Core and Golang, integrating Stripe and 3rd-party logistics services to align architecture with business needs and future growth.
+* Designed and built scalable APIs using .NET Core and Golang, integrating Stripe and 3rd-party logistics services to align architecture with business needs and future growth.
 * Implemented full-text search using Elasticsearch for millions of records, improving search query performance significantly.
 * Pioneered the adoption of gRPC for efficient inter-service communication, resulting in improved performance and scalability across systems.
 * Maintained GitOps workflow, Kubernetes clusters, CI/CD pipelines, and other essential components, ensuring the stability and performance of the system.
