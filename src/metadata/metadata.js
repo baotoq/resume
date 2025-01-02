@@ -68,7 +68,7 @@ Key Responsibilities and Achievements:
       company: "AS White Global",
       link: "#",
       location: "",
-      title: "Software Engineer",
+      title: "Fullstack Software Engineer",
       period: "Jan 2021 - Sep 2021",
       skills: [".NET Core", "EF Core", "MS SQL", "React.js", "CI/CD", "Azure"],
       contents: `
@@ -86,7 +86,7 @@ Key Responsibilities and Achievements:
       company: "NashTech Limited",
       link: "#",
       location: "",
-      title: "Software Engineer",
+      title: "Fullstack Software Engineer",
       period: "Dec 2018 - Dec 2020",
       skills: [
         ".NET Core",
@@ -94,7 +94,6 @@ Key Responsibilities and Achievements:
         "gRPC",
         "PostgreSQL",
         "Vue.js",
-        "Angular",
         "OpenTelemetry",
         "Kubernetes",
         "Azure",
