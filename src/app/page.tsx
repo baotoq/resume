@@ -21,11 +21,6 @@ import {
   projects,
 } from "@/data/resume";
 
-export const metadata = {
-  title: "John Developer - Senior Software Engineer Resume",
-  description: "Professional resume of John Developer, a Senior Software Engineer with 10+ years of experience in building scalable distributed systems.",
-};
-
 export default function Home() {
   return (
     <div className="max-w-4xl mx-auto p-8 bg-resume-background-primary dark:bg-resume-dark-background-primary">
