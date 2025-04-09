@@ -2,6 +2,12 @@ import { render, screen } from '@testing-library/react';
 import { Projects } from '../Projects';
 import { Project } from '@/types/resume';
 
+// Mock next/image
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: (props: React.ComponentProps<'img'>) => <img {...props} />,
+}));
+
 describe('Projects', () => {
   const mockProjects: Project[] = [
     {
@@ -11,6 +17,8 @@ describe('Projects', () => {
         'Implemented secure payment processing',
         'Reduced load time by 50%',
       ],
+      image: '/images/ecommerce.jpg',
+      link: 'https://github.com/user/ecommerce',
     },
     {
       name: 'Analytics Dashboard',
@@ -45,9 +53,26 @@ describe('Projects', () => {
     });
   });
 
-  it('renders correct number of projects', () => {
+  it('renders project links when provided', () => {
     render(<Projects projects={mockProjects} />);
-    const projectElements = screen.getAllByRole('heading', { level: 3 });
-    expect(projectElements).toHaveLength(mockProjects.length);
+    const projectWithLink = mockProjects[0];
+    const link = screen.getByRole('link', { name: projectWithLink.name });
+    expect(link).toHaveAttribute('href', projectWithLink.link);
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('renders project images when provided', () => {
+    render(<Projects projects={mockProjects} />);
+    const projectWithImage = mockProjects[0];
+    const image = screen.getByAltText(`${projectWithImage.name} screenshot`);
+    expect(image).toHaveAttribute('src', projectWithImage.image);
+  });
+
+  it('renders projects without images or links correctly', () => {
+    render(<Projects projects={mockProjects} />);
+    const projectWithoutImageAndLink = mockProjects[1];
+    expect(screen.getByText(projectWithoutImageAndLink.name)).toBeInTheDocument();
+    expect(screen.queryByAltText(`${projectWithoutImageAndLink.name} screenshot`)).not.toBeInTheDocument();
   });
 });
