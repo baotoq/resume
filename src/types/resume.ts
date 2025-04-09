@@ -18,6 +18,7 @@ export interface Project {
   achievements: string[];
   image?: string;
   link?: string;
+  demo?: string;
 }
 
 export interface SkillCategory {
