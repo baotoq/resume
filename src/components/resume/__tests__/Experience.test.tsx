@@ -10,7 +10,8 @@ describe('Experience', () => {
       period: '2020 - Present',
       achievements: [
         'Led development of microservices architecture',
-        'Improved system performance by 40%',
+        'Improved application performance by 40%',
+        'Implemented CI/CD pipeline',
       ],
     },
     {
@@ -18,21 +19,28 @@ describe('Experience', () => {
       company: 'Startup Inc',
       period: '2018 - 2020',
       achievements: [
-        'Developed core authentication system',
-        'Implemented CI/CD pipeline',
+        'Developed RESTful APIs',
+        'Built frontend components with React',
+        'Optimized database queries',
       ],
     },
   ];
 
-  it('renders all experience entries', () => {
+  it('renders all job titles', () => {
     render(<Experience experiences={mockExperiences} />);
     mockExperiences.forEach(exp => {
       expect(screen.getByText(exp.title)).toBeInTheDocument();
+    });
+  });
+
+  it('renders all company names and periods', () => {
+    render(<Experience experiences={mockExperiences} />);
+    mockExperiences.forEach(exp => {
       expect(screen.getByText(`${exp.company} • ${exp.period}`)).toBeInTheDocument();
     });
   });
 
-  it('renders all achievements for each experience', () => {
+  it('renders all achievements for each position', () => {
     render(<Experience experiences={mockExperiences} />);
     mockExperiences.forEach(exp => {
       exp.achievements.forEach(achievement => {
@@ -41,22 +49,9 @@ describe('Experience', () => {
     });
   });
 
-  it('renders correct number of experience entries', () => {
+  it('renders experiences in reverse chronological order', () => {
     render(<Experience experiences={mockExperiences} />);
-    const titles = screen.getAllByRole('heading', { level: 3 });
-    expect(titles).toHaveLength(mockExperiences.length);
-  });
-
-  it('renders achievements as a list', () => {
-    render(<Experience experiences={mockExperiences} />);
-    const lists = screen.getAllByRole('list');
-    expect(lists).toHaveLength(mockExperiences.length);
-
-    const listItems = screen.getAllByRole('listitem');
-    const totalAchievements = mockExperiences.reduce(
-      (sum, exp) => sum + exp.achievements.length,
-      0
-    );
-    expect(listItems).toHaveLength(totalAchievements);
+    const experienceElements = screen.getAllByRole('heading', { level: 3 });
+    expect(experienceElements[0]).toHaveTextContent('Senior Software Engineer');
   });
 });

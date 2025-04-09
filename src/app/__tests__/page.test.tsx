@@ -45,26 +45,26 @@ jest.mock('@/data/resume', () => ({
 describe('Home Page', () => {
   it('renders the header with name and title', () => {
     render(<Home />);
-    expect(screen.getByText('John Developer')).toBeInTheDocument();
-    expect(screen.getByText('Senior Software Engineer & Tech Lead')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'John Developer' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Senior Software Engineer & Tech Lead' })).toBeInTheDocument();
   });
 
   it('renders contact information', () => {
     render(<Home />);
-    expect(screen.getByText(contactInfo.email)).toBeInTheDocument();
-    expect(screen.getByText(contactInfo.phone)).toBeInTheDocument();
-    expect(screen.getByText(contactInfo.location)).toBeInTheDocument();
+    expect(screen.getByText('john@example.com')).toBeInTheDocument();
+    expect(screen.getByText('+1 (555) 123-4567')).toBeInTheDocument();
+    expect(screen.getByText('San Francisco, CA')).toBeInTheDocument();
   });
 
   it('renders the summary section', () => {
     render(<Home />);
-    expect(screen.getByText('Summary')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Summary' })).toBeInTheDocument();
     expect(screen.getByText(/Senior Software Engineer with 10\+ years of experience/)).toBeInTheDocument();
   });
 
   it('renders the experience section with correct content', () => {
     render(<Home />);
-    expect(screen.getByText('Experience')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Experience' })).toBeInTheDocument();
     expect(screen.getByText('Senior Software Engineer')).toBeInTheDocument();
     expect(screen.getByText(/Tech Corp/)).toBeInTheDocument();
     expect(screen.getByText('Led development of microservices architecture')).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('Home Page', () => {
 
   it('renders the education section with correct content', () => {
     render(<Home />);
-    expect(screen.getByText('Education')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Education' })).toBeInTheDocument();
     expect(screen.getByText('Master of Science in Computer Science')).toBeInTheDocument();
     expect(screen.getByText(/Stanford University/)).toBeInTheDocument();
     expect(screen.getByText('Focus on Machine Learning')).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe('Home Page', () => {
 
   it('renders the skills section with correct content', () => {
     render(<Home />);
-    expect(screen.getByText('Skills')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Skills' })).toBeInTheDocument();
     expect(screen.getByText('Languages')).toBeInTheDocument();
     expect(screen.getByText('TypeScript')).toBeInTheDocument();
     expect(screen.getByText('JavaScript')).toBeInTheDocument();
@@ -88,15 +88,23 @@ describe('Home Page', () => {
 
   it('renders the projects section with correct content', () => {
     render(<Home />);
-    expect(screen.getByText('Notable Projects')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Notable Projects' })).toBeInTheDocument();
     expect(screen.getByText('E-commerce Platform')).toBeInTheDocument();
     expect(screen.getByText(/React, Node\.js/)).toBeInTheDocument();
     expect(screen.getByText('Implemented secure payment processing')).toBeInTheDocument();
   });
 
-  it('renders all section icons', () => {
+  it('renders all sections in the correct order', () => {
     render(<Home />);
-    const svgs = document.querySelectorAll('svg');
-    expect(svgs.length).toBeGreaterThanOrEqual(5); // Summary, Experience, Education, Skills, Projects
+    const sections = screen.getAllByRole('heading', { level: 2 });
+    expect(sections.map(section => section.textContent)).toEqual([
+      'Senior Software Engineer & Tech Lead',
+      'Contact',
+      'Summary',
+      'Experience',
+      'Education',
+      'Skills',
+      'Notable Projects',
+    ]);
   });
 });
