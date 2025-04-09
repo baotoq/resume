@@ -7,11 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage",
-    "test:update": "jest -u"
+    "test": "cross-env NODE_NO_WARNINGS=1 jest",
+    "test:watch": "cross-env NODE_NO_WARNINGS=1 jest --watch",
+    "test:coverage": "cross-env NODE_NO_WARNINGS=1 jest --coverage",
+    "test:ci": "cross-env NODE_NO_WARNINGS=1 jest --ci --coverage",
+    "test:update": "cross-env NODE_NO_WARNINGS=1 jest -u"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
@@ -30,6 +30,7 @@
     "@types/node": "^20.17.30",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
+    "cross-env": "^7.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "jest": "^29.7.0",

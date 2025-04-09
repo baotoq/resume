@@ -90,8 +90,9 @@ describe('Home Page', () => {
     render(<Home />);
     expect(screen.getByRole('heading', { level: 2, name: 'Notable Projects' })).toBeInTheDocument();
     expect(screen.getByText('E-commerce Platform')).toBeInTheDocument();
-    expect(screen.getByText(/React, Node\.js/)).toBeInTheDocument();
-    expect(screen.getByText('Implemented secure payment processing')).toBeInTheDocument();
+    expect(screen.getByText('React')).toBeInTheDocument();
+    expect(screen.getByText('Node.js')).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Implemented secure payment processing'))).toBeInTheDocument();
   });
 
   it('renders all sections in the correct order', () => {
@@ -106,5 +107,14 @@ describe('Home Page', () => {
       'Skills',
       'Notable Projects',
     ]);
+  });
+
+  it('renders the project achievements correctly', () => {
+    render(<Home />);
+    const projectAchievements = screen.getAllByText((content, element) => {
+      return (element?.tagName.toLowerCase() === 'p' &&
+             element?.textContent?.includes('Implemented secure payment processing')) ?? false;
+    });
+    expect(projectAchievements.length).toBeGreaterThan(0);
   });
 });

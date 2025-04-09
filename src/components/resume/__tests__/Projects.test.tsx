@@ -5,7 +5,22 @@ import { Project } from '@/types/resume';
 // Mock next/image
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props: React.ComponentProps<'img'>) => <img {...props} />,
+  default: ({ src, alt, className, fill, ...props }: {
+    src: string;
+    alt: string;
+    className?: string;
+    fill?: boolean;
+    [key: string]: string | boolean | undefined;
+  }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      data-fill={fill ? "true" : undefined}
+      {...props}
+    />
+  ),
 }));
 
 describe('Projects', () => {
@@ -19,6 +34,7 @@ describe('Projects', () => {
       ],
       image: '/images/ecommerce.jpg',
       link: 'https://github.com/user/ecommerce',
+      demo: 'https://ecommerce-demo.com',
     },
     {
       name: 'Analytics Dashboard',
@@ -37,10 +53,12 @@ describe('Projects', () => {
     });
   });
 
-  it('renders technologies used for each project', () => {
+  it('renders technologies as tags', () => {
     render(<Projects projects={mockProjects} />);
     mockProjects.forEach(project => {
-      expect(screen.getByText(`Technologies: ${project.technologies}`)).toBeInTheDocument();
+      project.technologies.split(',').forEach(tech => {
+        expect(screen.getByText(tech.trim())).toBeInTheDocument();
+      });
     });
   });
 
@@ -48,7 +66,10 @@ describe('Projects', () => {
     render(<Projects projects={mockProjects} />);
     mockProjects.forEach(project => {
       project.achievements.forEach(achievement => {
-        expect(screen.getByText(achievement)).toBeInTheDocument();
+        const elements = screen.getAllByText((content, element) => {
+          return element?.textContent?.includes(achievement) ?? false;
+        });
+        expect(elements.length).toBeGreaterThan(0);
       });
     });
   });
@@ -56,10 +77,19 @@ describe('Projects', () => {
   it('renders project links when provided', () => {
     render(<Projects projects={mockProjects} />);
     const projectWithLink = mockProjects[0];
-    const link = screen.getByRole('link', { name: projectWithLink.name });
+    const link = screen.getByRole('link', { name: /view project/i });
     expect(link).toHaveAttribute('href', projectWithLink.link);
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('renders demo links when provided', () => {
+    render(<Projects projects={mockProjects} />);
+    const projectWithDemo = mockProjects[0];
+    const demoLink = screen.getByRole('link', { name: /live demo/i });
+    expect(demoLink).toHaveAttribute('href', projectWithDemo.demo);
+    expect(demoLink).toHaveAttribute('target', '_blank');
+    expect(demoLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   it('renders project images when provided', () => {
@@ -70,9 +100,11 @@ describe('Projects', () => {
   });
 
   it('renders projects without images or links correctly', () => {
-    render(<Projects projects={mockProjects} />);
+    render(<Projects projects={[mockProjects[1]]} />);
     const projectWithoutImageAndLink = mockProjects[1];
     expect(screen.getByText(projectWithoutImageAndLink.name)).toBeInTheDocument();
     expect(screen.queryByAltText(`${projectWithoutImageAndLink.name} screenshot`)).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /view project/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /live demo/i })).not.toBeInTheDocument();
   });
 });
