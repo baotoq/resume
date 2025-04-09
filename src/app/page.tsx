@@ -12,6 +12,7 @@ import { Experience } from "@/components/resume/Experience";
 import { Education } from "@/components/resume/Education";
 import { Skills } from "@/components/resume/Skills";
 import { Projects } from "@/components/resume/Projects";
+import { Contact } from '@/components/resume/Contact';
 
 import {
   contactInfo,
@@ -23,36 +24,48 @@ import {
 
 export default function Home() {
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-resume-background-primary dark:bg-resume-dark-background-primary">
-      <Header
-        name="John Developer"
-        title="Senior Software Engineer & Tech Lead"
-        contact={contactInfo}
-      />
+    <main className="container mx-auto px-4 py-8 space-y-12">
+      <header className="text-center">
+        <h1 className="text-4xl font-bold text-resume-text-primary dark:text-resume-dark-text-primary mb-2">
+          John Developer
+        </h1>
+        <h2 className="text-2xl text-resume-text-secondary dark:text-resume-dark-text-secondary">
+          Senior Software Engineer & Tech Lead
+        </h2>
+      </header>
 
-      <Section title="Summary" icon={<DocumentTextIcon className="h-6 w-6" />}>
+      <section>
+        <Contact contactInfo={contactInfo} />
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-resume-text-primary dark:text-resume-dark-text-primary mb-4">
+          Summary
+        </h2>
         <p className="text-resume-text-secondary dark:text-resume-dark-text-secondary">
-          Senior Software Engineer with 10+ years of experience in building scalable distributed systems and leading engineering teams.
-          Expertise in cloud architecture, microservices, and modern JavaScript/TypeScript ecosystems.
-          Proven track record of delivering high-impact projects and mentoring junior developers.
+          Senior Software Engineer with 10+ years of experience in full-stack development, specializing in
+          building scalable web applications and leading development teams.
         </p>
-      </Section>
+      </section>
 
-      <Section title="Experience" icon={<BriefcaseIcon className="h-6 w-6" />}>
+      <section>
         <Experience experiences={experiences} />
-      </Section>
+      </section>
 
-      <Section title="Education" icon={<AcademicCapIcon className="h-6 w-6" />}>
+      <section>
         <Education education={education} />
-      </Section>
+      </section>
 
-      <Section title="Skills" icon={<WrenchScrewdriverIcon className="h-6 w-6" />}>
-        <Skills categories={skillCategories} />
-      </Section>
+      <section>
+        <Skills skillCategories={skillCategories} />
+      </section>
 
-      <Section title="Notable Projects" icon={<RocketLaunchIcon className="h-6 w-6" />}>
+      <section>
+        <h2 className="text-2xl font-bold text-resume-text-primary dark:text-resume-dark-text-primary mb-4">
+          Notable Projects
+        </h2>
         <Projects projects={projects} />
-      </Section>
-    </div>
+      </section>
+    </main>
   );
 }

@@ -16,6 +16,8 @@ export interface Project {
   name: string;
   technologies: string;
   achievements: string[];
+  image?: string;
+  link?: string;
 }
 
 export interface SkillCategory {
@@ -29,4 +31,13 @@ export interface ContactInfo {
   location: string;
   linkedin: string;
   github: string;
+}
+
+export interface ResumeData {
+  contactInfo: ContactInfo;
+  summary: string;
+  experiences: Experience[];
+  education: Education[];
+  skillCategories: SkillCategory[];
+  projects: Project[];
 }

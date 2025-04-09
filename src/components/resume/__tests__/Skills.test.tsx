@@ -10,19 +10,23 @@ describe('Skills', () => {
     },
     {
       title: 'Frameworks',
-      skills: ['React', 'Next.js', 'Express'],
+      skills: ['React', 'Next.js', 'Node.js'],
+    },
+    {
+      title: 'Tools',
+      skills: ['Git', 'Docker', 'AWS'],
     },
   ];
 
-  it('renders all skill categories', () => {
-    render(<Skills categories={mockSkillCategories} />);
+  it('renders all skill category titles', () => {
+    render(<Skills skillCategories={mockSkillCategories} />);
     mockSkillCategories.forEach(category => {
       expect(screen.getByText(category.title)).toBeInTheDocument();
     });
   });
 
   it('renders all skills within each category', () => {
-    render(<Skills categories={mockSkillCategories} />);
+    render(<Skills skillCategories={mockSkillCategories} />);
     mockSkillCategories.forEach(category => {
       category.skills.forEach(skill => {
         expect(screen.getByText(skill)).toBeInTheDocument();
@@ -31,8 +35,14 @@ describe('Skills', () => {
   });
 
   it('renders correct number of skill categories', () => {
-    render(<Skills categories={mockSkillCategories} />);
-    const categoryTitles = screen.getAllByRole('heading', { level: 3 });
-    expect(categoryTitles).toHaveLength(mockSkillCategories.length);
+    render(<Skills skillCategories={mockSkillCategories} />);
+    const categoryElements = screen.getAllByRole('heading', { level: 3 });
+    expect(categoryElements).toHaveLength(mockSkillCategories.length);
+  });
+
+  it('renders skills in a visually organized manner', () => {
+    render(<Skills skillCategories={mockSkillCategories} />);
+    const skillElements = screen.getAllByRole('listitem');
+    expect(skillElements.length).toBeGreaterThan(0);
   });
 });
