@@ -1,4 +1,9 @@
+'use client';
+
 import { Experience as ExperienceType } from "@/types/resume";
+import { Typography, Space, List } from 'antd';
+
+const { Title, Text } = Typography;
 
 interface ExperienceProps {
   experiences: ExperienceType[];
@@ -12,27 +17,26 @@ export const Experience = ({ experiences }: ExperienceProps) => {
   });
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-resume-text-primary dark:text-resume-dark-text-primary">
-        Experience
-      </h2>
-      <div className="space-y-6">
+    <Space direction="vertical" size="large" className="w-full">
+      <Title level={2}>Experience</Title>
+      <Space direction="vertical" size="large" className="w-full">
         {sortedExperiences.map((exp, index) => (
-          <div key={index} className="space-y-2">
-            <h3 className="text-xl font-medium text-resume-text-primary dark:text-resume-dark-text-primary">
-              {exp.title}
-            </h3>
-            <p className="text-resume-text-muted dark:text-resume-dark-text-muted">
+          <Space key={index} direction="vertical" size="small" className="w-full">
+            <Title level={3}>{exp.title}</Title>
+            <Text type="secondary">
               {exp.company} • {exp.period}
-            </p>
-            <ul className="list-disc list-inside space-y-1 text-resume-text-secondary dark:text-resume-dark-text-secondary">
-              {exp.achievements.map((achievement, achievementIndex) => (
-                <li key={achievementIndex}>{achievement}</li>
-              ))}
-            </ul>
-          </div>
+            </Text>
+            <List
+              dataSource={exp.achievements}
+              renderItem={(achievement) => (
+                <List.Item>
+                  <Text>{achievement}</Text>
+                </List.Item>
+              )}
+            />
+          </Space>
         ))}
-      </div>
-    </div>
+      </Space>
+    </Space>
   );
 };

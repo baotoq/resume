@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { APP_CONFIG } from "@/constants";
 import { TEST_IDS } from "@/constants";
+import { ConfigProvider } from 'antd';
+import { antdTheme } from '@/styles/antd-theme';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,11 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-testid={TEST_IDS.layout.root}>
-      <body
-        className="min-h-screen bg-background text-text antialiased"
-        data-testid={TEST_IDS.layout.main}
-      >
-        {children}
+      <body className="min-h-screen bg-background text-text antialiased" data-testid={TEST_IDS.layout.main}>
+        <ConfigProvider theme={antdTheme}>
+          {children}
+        </ConfigProvider>
       </body>
     </html>
   );
