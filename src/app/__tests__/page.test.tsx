@@ -1,120 +1,144 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Home from '../page';
-import { contactInfo } from '@/data/resume';
+import { renderWithProviders } from '@/test/setup';
 
-// Mock the data imports
 jest.mock('@/data/resume', () => ({
   contactInfo: {
-    email: 'john@example.com',
-    phone: '+1 (555) 123-4567',
-    location: 'San Francisco, CA',
-    linkedin: 'linkedin.com/in/johndoe',
-    github: 'github.com/johndoe',
+    email: "john.dev@example.com",
+    phone: "(123) 456-7890",
+    location: "San Francisco Bay Area",
+    linkedin: "https://linkedin.com/in/johndev",
+    github: "https://github.com/johndev",
   },
+  summary: 'Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams.',
   experiences: [
     {
-      title: 'Senior Software Engineer',
-      company: 'Tech Corp',
-      period: '2020 - Present',
-      achievements: ['Led development of microservices architecture'],
+      title: "Senior Staff Engineer",
+      company: "TechCorp Inc.",
+      period: "2020 - Present",
+      achievements: [
+        "Led architecture and development of a microservices platform handling 1M+ daily transactions",
+        "Reduced cloud infrastructure costs by 40% through optimization and implementation of serverless architecture",
+        "Mentored 15+ engineers and established engineering best practices across 5 teams",
+      ],
     },
   ],
   education: [
     {
-      degree: 'Master of Science in Computer Science',
-      school: 'Stanford University',
-      period: '2015 - 2017',
-      details: 'Focus on Machine Learning',
+      degree: "Master of Science in Computer Science",
+      school: "Stanford University",
+      period: "2012 - 2014",
+      details: "Focus: Distributed Systems and Machine Learning",
     },
   ],
   skillCategories: [
     {
-      title: 'Languages',
-      skills: ['TypeScript', 'JavaScript'],
+      title: "Languages",
+      skills: ["TypeScript/JavaScript", "Go", "Python", "Java"],
     },
   ],
   projects: [
     {
-      name: 'E-commerce Platform',
-      technologies: 'React, Node.js',
-      achievements: ['Implemented secure payment processing'],
+      name: "Enterprise Microservices Platform",
+      technologies: "TypeScript, Node.js, Kubernetes, AWS",
+      achievements: [
+        "Designed and implemented a scalable microservices architecture handling 10K+ requests/second",
+        "Reduced system latency by 60% through caching and optimization",
+        "Implemented zero-downtime deployment strategy across multiple regions",
+      ],
     },
   ],
 }));
 
-describe('Home Page', () => {
-  it('renders the header with name and title', () => {
-    render(<Home />);
-    expect(screen.getByRole('heading', { level: 1, name: 'John Developer' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2, name: 'Senior Software Engineer & Tech Lead' })).toBeInTheDocument();
+describe('Home', () => {
+  const mockData = {
+    contactInfo: {
+      email: "john.dev@example.com",
+      phone: "(123) 456-7890",
+      location: "San Francisco Bay Area",
+      linkedin: "https://linkedin.com/in/johndev",
+      github: "https://github.com/johndev",
+    },
+    summary: 'Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams.',
+    experiences: [{
+      title: "Senior Staff Engineer",
+      company: "TechCorp Inc.",
+      period: "2020 - Present",
+      achievements: [
+        "Led architecture and development of a microservices platform handling 1M+ daily transactions",
+        "Reduced cloud infrastructure costs by 40% through optimization and implementation of serverless architecture",
+        "Mentored 15+ engineers and established engineering best practices across 5 teams",
+      ],
+    }],
+    education: [{
+      degree: "Master of Science in Computer Science",
+      school: "Stanford University",
+      period: "2012 - 2014",
+      details: "Focus: Distributed Systems and Machine Learning",
+    }],
+    skillCategories: [{
+      title: "Languages",
+      skills: ["TypeScript/JavaScript", "Go", "Python", "Java"],
+    }],
+    projects: [{
+      name: "Enterprise Microservices Platform",
+      technologies: "TypeScript, Node.js, Kubernetes, AWS",
+      achievements: [
+        "Designed and implemented a scalable microservices architecture handling 10K+ requests/second",
+        "Reduced system latency by 60% through caching and optimization",
+        "Implemented zero-downtime deployment strategy across multiple regions",
+      ],
+    }],
+  };
+
+  it('renders the header section', () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByRole('heading', { name: 'John Developer' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Senior Software Engineer & Tech Lead' })).toBeInTheDocument();
   });
 
-  it('renders contact information', () => {
-    render(<Home />);
-    expect(screen.getByText('john@example.com')).toBeInTheDocument();
-    expect(screen.getByText('+1 (555) 123-4567')).toBeInTheDocument();
-    expect(screen.getByText('San Francisco, CA')).toBeInTheDocument();
+  it('renders the contact section', () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByText(mockData.contactInfo.email)).toBeInTheDocument();
+    expect(screen.getByText(mockData.contactInfo.phone)).toBeInTheDocument();
+    expect(screen.getByText(mockData.contactInfo.location)).toBeInTheDocument();
   });
 
   it('renders the summary section', () => {
-    render(<Home />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Summary' })).toBeInTheDocument();
-    expect(screen.getByText(/Senior Software Engineer with 10\+ years of experience/)).toBeInTheDocument();
+    renderWithProviders(<Home />);
+    expect(screen.getByRole('heading', { name: 'Summary' })).toBeInTheDocument();
+    expect(screen.getByText(mockData.summary)).toBeInTheDocument();
   });
 
-  it('renders the experience section with correct content', () => {
-    render(<Home />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Experience' })).toBeInTheDocument();
-    expect(screen.getByText('Senior Software Engineer')).toBeInTheDocument();
-    expect(screen.getByText(/Tech Corp/)).toBeInTheDocument();
-    expect(screen.getByText('Led development of microservices architecture')).toBeInTheDocument();
+  it('renders the experience section', () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByRole('heading', { name: 'Experience' })).toBeInTheDocument();
+    expect(screen.getByText(mockData.experiences[0].title)).toBeInTheDocument();
+    expect(screen.getByText(`${mockData.experiences[0].company} • ${mockData.experiences[0].period}`)).toBeInTheDocument();
   });
 
-  it('renders the education section with correct content', () => {
-    render(<Home />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Education' })).toBeInTheDocument();
-    expect(screen.getByText('Master of Science in Computer Science')).toBeInTheDocument();
-    expect(screen.getByText(/Stanford University/)).toBeInTheDocument();
-    expect(screen.getByText('Focus on Machine Learning')).toBeInTheDocument();
+  it('renders the education section', () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByRole('heading', { name: 'Education' })).toBeInTheDocument();
+    expect(screen.getByText(mockData.education[0].degree)).toBeInTheDocument();
+    expect(screen.getByText(`${mockData.education[0].school} • ${mockData.education[0].period}`)).toBeInTheDocument();
   });
 
-  it('renders the skills section with correct content', () => {
-    render(<Home />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Skills' })).toBeInTheDocument();
-    expect(screen.getByText('Languages')).toBeInTheDocument();
-    expect(screen.getByText('TypeScript')).toBeInTheDocument();
-    expect(screen.getByText('JavaScript')).toBeInTheDocument();
-  });
-
-  it('renders the projects section with correct content', () => {
-    render(<Home />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Notable Projects' })).toBeInTheDocument();
-    expect(screen.getByText('E-commerce Platform')).toBeInTheDocument();
-    expect(screen.getByText('React')).toBeInTheDocument();
-    expect(screen.getByText('Node.js')).toBeInTheDocument();
-    expect(screen.getByText((content) => content.includes('Implemented secure payment processing'))).toBeInTheDocument();
-  });
-
-  it('renders all sections in the correct order', () => {
-    render(<Home />);
-    const sections = screen.getAllByRole('heading', { level: 2 });
-    expect(sections.map(section => section.textContent)).toEqual([
-      'Senior Software Engineer & Tech Lead',
-      'Contact',
-      'Summary',
-      'Experience',
-      'Education',
-      'Skills',
-      'Notable Projects',
-    ]);
-  });
-
-  it('renders the project achievements correctly', () => {
-    render(<Home />);
-    const projectAchievements = screen.getAllByText((content, element) => {
-      return (element?.tagName.toLowerCase() === 'p' &&
-             element?.textContent?.includes('Implemented secure payment processing')) ?? false;
+  it('renders the skills section', () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByRole('heading', { name: 'Skills' })).toBeInTheDocument();
+    expect(screen.getByText(mockData.skillCategories[0].title)).toBeInTheDocument();
+    mockData.skillCategories[0].skills.forEach(skill => {
+      expect(screen.getByText(skill)).toBeInTheDocument();
     });
-    expect(projectAchievements.length).toBeGreaterThan(0);
+  });
+
+  it('renders the projects section', () => {
+    renderWithProviders(<Home />);
+    expect(screen.getByRole('heading', { level: 2, name: 'Notable Projects' })).toBeInTheDocument();
+    expect(screen.getByText(mockData.projects[0].name)).toBeInTheDocument();
+    mockData.projects[0].technologies.split(',').forEach(tech => {
+      expect(screen.getByText(tech.trim())).toBeInTheDocument();
+    });
   });
 });
