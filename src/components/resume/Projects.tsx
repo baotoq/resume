@@ -14,7 +14,8 @@ interface ProjectsProps {
 
 export const Projects = ({ projects }: ProjectsProps) => {
   return (
-    <Space direction="vertical" size="large" className="w-full">
+    <div className="space-y-6">
+      <Title level={2}>Projects</Title>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project, index) => (
           <Card
@@ -81,6 +82,6 @@ export const Projects = ({ projects }: ProjectsProps) => {
           </Card>
         ))}
       </div>
-    </Space>
+    </div>
   );
 };

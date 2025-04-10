@@ -8,6 +8,8 @@ export const contactInfo: ContactInfo = {
   github: "https://github.com/johndev",
 };
 
+export const summary = "Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams.";
+
 export const experiences: Experience[] = [
   {
     title: "Senior Staff Engineer",
