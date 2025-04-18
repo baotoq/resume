@@ -8,19 +8,22 @@ export const mainInfo = {
 export const contactInfo: ContactInfo = {
   email: "baotoq@outlook.com",
   phone: "+84 909 273 966",
-  location: "Ho Chi Minh City, Vietnam",
   linkedin: "LinkedIn",
   github: "GitHub",
 };
 
 export const summary =
-  "Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams.";
+  "Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications. Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.";
 
 export const experiences: Experience[] = [
   {
     title: "Senior Staff Engineer",
     company: "TechCorp Inc.",
-    period: "2020 - Present",
+    period: {
+      start: new Date("2020-01-01"),
+      end: new Date(),
+      current: true,
+    },
     achievements: [
       "Led architecture and development of a microservices platform handling 1M+ daily transactions",
       "Reduced cloud infrastructure costs by 40% through optimization and implementation of serverless architecture",
@@ -30,7 +33,10 @@ export const experiences: Experience[] = [
   {
     title: "Lead Software Engineer",
     company: "Innovation Labs",
-    period: "2017 - 2020",
+    period: {
+      start: new Date("2017-01-01"),
+      end: new Date("2020-01-01"),
+    },
     achievements: [
       "Architected and led development of a real-time analytics platform processing 5TB+ data daily",
       "Improved system reliability from 99.5% to 99.95% through comprehensive monitoring and auto-scaling",
@@ -40,7 +46,10 @@ export const experiences: Experience[] = [
   {
     title: "Senior Software Engineer",
     company: "StartupTech",
-    period: "2014 - 2017",
+    period: {
+      start: new Date("2014-01-01"),
+      end: new Date("2017-01-01"),
+    },
     achievements: [
       "Developed core payment processing system handling $500M+ in annual transactions",
       "Implemented CI/CD pipeline reducing deployment time by 70%",

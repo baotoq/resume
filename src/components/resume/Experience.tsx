@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
 import { Experience as ExperienceType } from "@/types/resume";
-import { Typography, Space, List } from 'antd';
+import { Typography, List } from "antd";
+import { HistoryOutlined } from "@ant-design/icons";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 interface ExperienceProps {
   experiences: ExperienceType[];
@@ -11,32 +12,37 @@ interface ExperienceProps {
 
 export const Experience = ({ experiences }: ExperienceProps) => {
   const sortedExperiences = [...experiences].sort((a, b) => {
-    const aYear = parseInt(a.period.split(' - ')[0]);
-    const bYear = parseInt(b.period.split(' - ')[0]);
+    const aYear = a.period.start.getTime();
+    const bYear = b.period.start.getTime();
     return bYear - aYear;
   });
 
   return (
-    <Space direction="vertical" size="large" className="w-full">
-      <Title level={2}>Experience</Title>
-      <Space direction="vertical" size="large" className="w-full">
+    <div className="flex flex-col">
+      <Title level={2}>
+        <HistoryOutlined className="mr-1" />
+        Experience
+      </Title>
+      <div className="flex flex-col gap-3">
         {sortedExperiences.map((exp, index) => (
-          <Space key={index} direction="vertical" size="small" className="w-full">
-            <Title level={3}>{exp.title}</Title>
-            <Text type="secondary">
-              {exp.company} • {exp.period}
-            </Text>
-            <List
-              dataSource={exp.achievements}
-              renderItem={(achievement) => (
-                <List.Item>
-                  <Text>{achievement}</Text>
-                </List.Item>
-              )}
-            />
-          </Space>
+          <div key={index} className="flex flex-col gap-1">
+            <a href={"/"} className="text-2xl font-medium text-blue-600 hover:underline">
+              {exp.company}
+            </a>
+            <div className="text-lg font-bold">{exp.title}</div>
+            <div className="text-sm text-gray-500">
+              {exp.period.start.toLocaleDateString()} -{" "}
+              {exp.period.current ? "Present" : exp.period.end.toLocaleDateString()}
+            </div>
+            <div className="pl-2">
+              <List
+                dataSource={exp.achievements}
+                renderItem={(achievement) => <List.Item>{achievement}</List.Item>}
+              />
+            </div>
+          </div>
         ))}
-      </Space>
-    </Space>
+      </div>
+    </div>
   );
 };

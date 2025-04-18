@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const APP_CONFIG = {
+export const APP_CONFIG = {
   title: "Bao To Resume",
-  description: "A modern, responsive resume built with Next.js and Tailwind CSS",
-} as const;
+  description: "Professional resume of Bao To",
+  author: "Bao To",
+};
 
 export const metadata: Metadata = {
   title: APP_CONFIG.title,
   description: APP_CONFIG.description,
+  authors: [{ name: APP_CONFIG.author }],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -5,11 +5,18 @@ export interface Education {
   details: string;
 }
 
+export interface Period {
+  start: Date;
+  end: Date;
+  current?: boolean;
+}
+
 export interface Experience {
   title: string;
   company: string;
-  period: string;
+  period: Period;
   achievements: string[];
+  companyUrl?: string;
 }
 
 export interface Project {
@@ -29,7 +36,6 @@ export interface SkillCategory {
 export interface ContactInfo {
   email: string;
   phone: string;
-  location: string;
   linkedin: string;
   github: string;
 }
