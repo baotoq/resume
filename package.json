@@ -11,21 +11,18 @@
     "test:watch": "cross-env NODE_NO_WARNINGS=1 jest --watch",
     "test:coverage": "cross-env NODE_NO_WARNINGS=1 jest --coverage",
     "test:ci": "cross-env NODE_NO_WARNINGS=1 jest --ci --coverage",
-    "test:update": "cross-env NODE_NO_WARNINGS=1 jest -u",
-    "coverage": "cross-env NODE_NO_WARNINGS=1 jest --coverage"
+    "test:update": "cross-env NODE_NO_WARNINGS=1 jest -u"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
-    "@heroicons/react": "^2.2.0",
     "antd": "^5.24.6",
     "next": "15.2.4",
-    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.1.4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^29.5.14",
@@ -37,7 +34,8 @@
     "eslint-config-next": "15.2.4",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "tailwindcss": "^4",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4",
     "ts-jest": "^29.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"

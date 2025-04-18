@@ -2,8 +2,9 @@ import { Experience } from "@/components/resume/Experience";
 import { Education } from "@/components/resume/Education";
 import { Skills } from "@/components/resume/Skills";
 import { Projects } from "@/components/resume/Projects";
-import { Contact } from '@/components/resume/Contact';
-import { Summary } from '@/components/resume/Summary';
+import { Contact } from "@/components/resume/Contact";
+import { Summary } from "@/components/resume/Summary";
+import { Header } from "@/components/resume/Header";
 
 import {
   contactInfo,
@@ -12,15 +13,19 @@ import {
   skillCategories,
   projects,
   summary,
+  mainInfo,
 } from "@/data/resume";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-resume-background dark:bg-resume-dark-background text-resume-text-primary dark:text-resume-dark-text-primary">
+    <main className="">
       <div className="container mx-auto px-4 py-8">
-        <section>
-          <Contact contactInfo={contactInfo} />
-        </section>
+        <div className="flex flex-row gap-4">
+          <Header name={mainInfo.name} title={mainInfo.title} />
+          <div className="ml-auto">
+            <Contact contactInfo={contactInfo} />
+          </div>
+        </div>
 
         <Summary summary={summary} />
 
