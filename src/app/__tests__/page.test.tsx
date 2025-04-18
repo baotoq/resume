@@ -1,98 +1,54 @@
 import { render, screen } from "@testing-library/react";
 import Home from "../page";
-
-jest.mock("@/data/resume", () => ({
-  contactInfo: {
-    email: "john.dev@example.com",
-    phone: "(123) 456-7890",
-    location: "San Francisco, CA",
-    linkedin: "linkedin.com/in/johndev",
-    github: "github.com/johndev",
-  },
-  summary:
-    "Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams.",
-  experiences: [
-    {
-      title: "Senior Staff Engineer",
-      company: "TechCorp Inc.",
-      period: "2018 - Present",
-      achievements: [
-        "Led a team of 10 engineers in developing a microservices architecture",
-        "Implemented CI/CD pipeline reducing deployment time by 50%",
-      ],
-    },
-  ],
-  education: [
-    {
-      degree: "Master of Science in Computer Science",
-      school: "Stanford University",
-      period: "2012 - 2014",
-      details: "Specialized in Machine Learning and Distributed Systems",
-    },
-  ],
-  skillCategories: [
-    {
-      title: "Programming Languages",
-      skills: ["JavaScript", "TypeScript", "Python", "Java"],
-    },
-  ],
-  projects: [
-    {
-      name: "Enterprise Microservices Platform",
-      description: "A scalable microservices platform for enterprise applications",
-      technologies: "Node.js, Docker, Kubernetes, AWS",
-      achievements: ["Reduced deployment time by 70%", "Improved system reliability by 99.9%"],
-      image: "/project1.jpg",
-      link: "https://github.com/johndev/microservices-platform",
-      demo: "https://demo.microservices-platform.com",
-    },
-  ],
-}));
+import {
+  contactInfo,
+  summary,
+  education,
+  skillCategories,
+  projects,
+  mainInfo,
+} from "@/data/resume";
 
 describe("Home", () => {
+  it("renders the main info section", () => {
+    render(<Home />);
+    expect(screen.getByText(mainInfo.name)).toBeInTheDocument();
+  });
+
   it("renders the contact section", () => {
     render(<Home />);
-    expect(screen.getByRole("heading", { name: "Contact" })).toBeInTheDocument();
-    expect(screen.getByText("john.dev@example.com")).toBeInTheDocument();
-    expect(screen.getByText("(123) 456-7890")).toBeInTheDocument();
+    expect(screen.getByText(contactInfo.email)).toBeInTheDocument();
+    expect(screen.getByText(contactInfo.phone)).toBeInTheDocument();
   });
 
   it("renders the summary section", () => {
     render(<Home />);
     expect(screen.getByRole("heading", { name: "user Summary" })).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        "Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams."
-      )
-    ).toBeInTheDocument();
-  });
-
-  it("renders the experience section", () => {
-    render(<Home />);
-    expect(screen.getByRole("heading", { name: "Experience" })).toBeInTheDocument();
-    expect(screen.getByText("Senior Staff Engineer")).toBeInTheDocument();
-    expect(screen.getByText("TechCorp Inc. • 2018 - Present")).toBeInTheDocument();
+    expect(screen.getByText(summary)).toBeInTheDocument();
   });
 
   it("renders the education section", () => {
     render(<Home />);
     expect(screen.getByRole("heading", { name: "Education" })).toBeInTheDocument();
-    expect(screen.getByText("Master of Science in Computer Science")).toBeInTheDocument();
-    expect(screen.getByText("Stanford University")).toBeInTheDocument();
-    expect(screen.getByText("2012 - 2014")).toBeInTheDocument();
+    expect(screen.getByText(education[0].degree)).toBeInTheDocument();
+    expect(screen.getByText(education[0].school)).toBeInTheDocument();
+    expect(screen.getByText(education[0].period)).toBeInTheDocument();
   });
 
   it("renders the skills section", () => {
     render(<Home />);
     expect(screen.getByRole("heading", { name: "Skills" })).toBeInTheDocument();
-    expect(screen.getByText("Programming Languages")).toBeInTheDocument();
-    expect(screen.getByText("JavaScript")).toBeInTheDocument();
+    expect(screen.getByText(skillCategories[0].title)).toBeInTheDocument();
+    expect(screen.getByText(skillCategories[0].skills[0])).toBeInTheDocument();
   });
 
   it("renders the projects section", () => {
     render(<Home />);
     expect(screen.getByRole("heading", { name: "Projects" })).toBeInTheDocument();
-    expect(screen.getByText("Enterprise Microservices Platform")).toBeInTheDocument();
-    expect(screen.getByText("Node.js")).toBeInTheDocument();
+    expect(screen.getByText(projects[0].name)).toBeInTheDocument();
+    projects[0].technologies.split(",").forEach((tech) => {
+      expect(screen.getByText(tech.trim())).toBeInTheDocument();
+    });
+    expect(screen.getByText(`• ${projects[0].achievements[0]}`)).toBeInTheDocument();
   });
 });

@@ -1,27 +1,27 @@
-import { render, screen } from '@testing-library/react';
-import { Section } from '../Section';
-import { AcademicCapIcon } from '@heroicons/react/24/outline';
+import { render, screen } from "@testing-library/react";
+import { Section } from "../Section";
+import { BookOutlined } from "@ant-design/icons";
 
-describe('Section', () => {
+describe("Section", () => {
   const mockProps = {
-    title: 'Education',
-    icon: <AcademicCapIcon className="h-6 w-6" />,
+    title: "Education",
+    icon: <BookOutlined className="h-6 w-6" />,
     children: <div>Test Content</div>,
   };
 
-  it('renders the section title', () => {
+  it("renders the section title", () => {
     render(<Section {...mockProps} />);
-    expect(screen.getByText('Education')).toBeInTheDocument();
+    expect(screen.getByText("Education")).toBeInTheDocument();
   });
 
-  it('renders the icon', () => {
+  it("renders the icon", () => {
     const { container } = render(<Section {...mockProps} />);
-    const svg = container.querySelector('svg');
+    const svg = container.querySelector("svg");
     expect(svg).toBeInTheDocument();
   });
 
-  it('renders children content', () => {
+  it("renders children content", () => {
     render(<Section {...mockProps} />);
-    expect(screen.getByText('Test Content')).toBeInTheDocument();
+    expect(screen.getByText("Test Content")).toBeInTheDocument();
   });
 });

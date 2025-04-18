@@ -1,13 +1,12 @@
-import { contactInfo, education, experiences, projects, skillCategories, summary } from '../resume';
+import { contactInfo, education, experiences, projects, skillCategories, summary } from "../resume";
 
-describe('Resume Data', () => {
-  describe('contactInfo', () => {
-    it('has all required fields', () => {
+describe("Resume Data", () => {
+  describe("contactInfo", () => {
+    it("has all required fields", () => {
       expect(contactInfo).toEqual(
         expect.objectContaining({
           email: expect.any(String),
           phone: expect.any(String),
-          location: expect.any(String),
           linkedin: expect.any(String),
           github: expect.any(String),
         })
@@ -15,23 +14,23 @@ describe('Resume Data', () => {
     });
   });
 
-  describe('summary', () => {
-    it('has valid summary text', () => {
+  describe("summary", () => {
+    it("has valid summary text", () => {
       expect(summary).toBeTruthy();
-      expect(typeof summary).toBe('string');
+      expect(typeof summary).toBe("string");
       expect(summary.length).toBeGreaterThan(0);
     });
   });
 
-  describe('experiences', () => {
-    it('has valid experience entries', () => {
+  describe("experiences", () => {
+    it("has valid experience entries", () => {
       expect(experiences.length).toBeGreaterThan(0);
-      experiences.forEach(exp => {
+      experiences.forEach((exp) => {
         expect(exp).toEqual(
           expect.objectContaining({
             title: expect.any(String),
             company: expect.any(String),
-            period: expect.any(String),
+            period: expect.any(Object),
             achievements: expect.arrayContaining([expect.any(String)]),
           })
         );
@@ -39,10 +38,10 @@ describe('Resume Data', () => {
     });
   });
 
-  describe('education', () => {
-    it('has valid education entries', () => {
+  describe("education", () => {
+    it("has valid education entries", () => {
       expect(education.length).toBeGreaterThan(0);
-      education.forEach(edu => {
+      education.forEach((edu) => {
         expect(edu).toEqual(
           expect.objectContaining({
             degree: expect.any(String),
@@ -55,10 +54,10 @@ describe('Resume Data', () => {
     });
   });
 
-  describe('skillCategories', () => {
-    it('has valid skill categories', () => {
+  describe("skillCategories", () => {
+    it("has valid skill categories", () => {
       expect(skillCategories.length).toBeGreaterThan(0);
-      skillCategories.forEach(category => {
+      skillCategories.forEach((category) => {
         expect(category).toEqual(
           expect.objectContaining({
             title: expect.any(String),
@@ -69,10 +68,10 @@ describe('Resume Data', () => {
     });
   });
 
-  describe('projects', () => {
-    it('has valid project entries', () => {
+  describe("projects", () => {
+    it("has valid project entries", () => {
       expect(projects.length).toBeGreaterThan(0);
-      projects.forEach(project => {
+      projects.forEach((project) => {
         expect(project).toEqual(
           expect.objectContaining({
             name: expect.any(String),

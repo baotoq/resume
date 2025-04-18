@@ -1,4 +1,7 @@
 import "@testing-library/jest-dom";
+import { render } from "@testing-library/react";
+import { ConfigProvider } from "antd";
+import { ReactElement } from "react";
 
 // Mock window.matchMedia
 Object.defineProperty(window, "matchMedia", {
@@ -14,3 +17,7 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: jest.fn(),
   })),
 });
+
+export function renderWithProviders(ui: ReactElement) {
+  return render(<ConfigProvider>{ui}</ConfigProvider>);
+}
