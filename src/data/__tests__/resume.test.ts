@@ -1,4 +1,4 @@
-import { contactInfo, education, experiences, projects, skillCategories } from '../resume';
+import { contactInfo, education, experiences, projects, skillCategories, summary } from '../resume';
 
 describe('Resume Data', () => {
   describe('contactInfo', () => {
@@ -12,6 +12,14 @@ describe('Resume Data', () => {
           github: expect.any(String),
         })
       );
+    });
+  });
+
+  describe('summary', () => {
+    it('has valid summary text', () => {
+      expect(summary).toBeTruthy();
+      expect(typeof summary).toBe('string');
+      expect(summary.length).toBeGreaterThan(0);
     });
   });
 
@@ -40,6 +48,7 @@ describe('Resume Data', () => {
             degree: expect.any(String),
             school: expect.any(String),
             period: expect.any(String),
+            details: expect.any(String),
           })
         );
       });

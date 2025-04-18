@@ -1,14 +1,20 @@
 import { ContactInfo, Education, Experience, Project, SkillCategory } from "@/types/resume";
 
-export const contactInfo: ContactInfo = {
-  email: "john.dev@example.com",
-  phone: "(123) 456-7890",
-  location: "San Francisco Bay Area",
-  linkedin: "https://linkedin.com/in/johndev",
-  github: "https://github.com/johndev",
+export const mainInfo = {
+  name: "To Quoc Bao",
+  title: "Senior Software Engineer",
 };
 
-export const summary = "Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams.";
+export const contactInfo: ContactInfo = {
+  email: "baotoq@outlook.com",
+  phone: "+84 909 273 966",
+  location: "Ho Chi Minh City, Vietnam",
+  linkedin: "LinkedIn",
+  github: "GitHub",
+};
+
+export const summary =
+  "Senior Software Engineer with 10+ years of experience in full-stack development, specializing in building scalable web applications and leading development teams.";
 
 export const experiences: Experience[] = [
   {
