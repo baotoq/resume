@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
-export const APP_CONFIG = {
-  title: "Bao To Resume",
-  description: "Professional resume of Bao To",
-  author: "Bao To",
-};
+import { APP_CONFIG } from "./config";
 
 export const metadata: Metadata = {
   title: APP_CONFIG.title,
