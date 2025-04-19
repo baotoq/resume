@@ -1,7 +1,6 @@
 import { screen, render } from "@testing-library/react";
 import { Experience } from "../Experience";
 import { Experience as ExperienceType } from "@/types/resume";
-import { renderWithProviders } from "@/test/setup";
 
 // Mock window.matchMedia
 Object.defineProperty(window, "matchMedia", {
