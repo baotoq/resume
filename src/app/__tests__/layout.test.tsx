@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import RootLayout, { APP_CONFIG, metadata as actualMetadata } from "../layout";
+import RootLayout, { metadata as actualMetadata } from "../layout";
+import { APP_CONFIG } from "../config";
 
 describe("RootLayout", () => {
   it("exports the correct metadata", () => {
