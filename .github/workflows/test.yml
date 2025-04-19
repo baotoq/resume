@@ -1,0 +1,12 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: ./.github/workflows/test-job.yml
