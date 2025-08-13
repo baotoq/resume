@@ -12,13 +12,13 @@ interface EducationProps {
 
 export const Education = ({ education }: EducationProps) => {
   const sortedEducation = [...education].sort((a, b) => {
-    const aYear = parseInt(a.period.split(' - ')[0]);
-    const bYear = parseInt(b.period.split(' - ')[0]);
+    const aYear = parseInt(a.period.split(" - ")[0]);
+    const bYear = parseInt(b.period.split(" - ")[0]);
     return bYear - aYear;
   });
 
   return (
-    <div className="space-y-6">
+    <div>
       <Title level={2}>Education</Title>
       <List
         dataSource={sortedEducation}
@@ -37,9 +37,7 @@ export const Education = ({ education }: EducationProps) => {
                 <CalendarOutlined />
                 <Text type="secondary">{edu.period}</Text>
               </Space>
-              <Text className="text-resume-text-secondary dark:text-resume-dark-text-secondary">
-                {edu.details}
-              </Text>
+              <Text className="text-resume-text-secondary dark:text-resume-dark-text-secondary">{edu.details}</Text>
             </Space>
           </List.Item>
         )}
