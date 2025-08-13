@@ -19,13 +19,33 @@ export const experiences: Experience[] = [
   {
     title: "Senior Software Engineer",
     company: {
+      name: "CoverGo",
+      url: "https://covergo.com",
+      icon: "covergo_favicon.ico",
+    },
+    period: {
+      start: new Date("2025-02-01"),
+      end: new Date(),
+      current: true,
+    },
+    skills: [".NET Core", "DDD", "GraphQL", "Vue.js", "Dapr", "MongoDB", "Redis", "Kubernetes", "FluxCD"],
+    summary:
+      "CoverGo is a leading provider of insurance solutions, offering a comprehensive suite of products and services to businesses and individuals.",
+    achievements: [
+      "Developed a comprehensive insurance platform using .NET Core, DDD, GraphQL, Vue.js, Dapr, MongoDB, Redis, Kubernetes, and FluxCD.",
+      "Implemented a scalable and efficient microservices architecture, ensuring high availability and performance.",
+    ],
+  },
+  {
+    title: "Senior Software Engineer",
+    company: {
       name: "Upmesh",
       url: "https://upmesh.io",
+      icon: "upmeshlive_logo.jpeg",
     },
     period: {
       start: new Date("2021-10-01"),
-      end: new Date(),
-      current: true,
+      end: new Date("2024-01-01"),
     },
     skills: [
       ".NET Core",
@@ -57,6 +77,7 @@ export const experiences: Experience[] = [
     company: {
       name: "AS White Global",
       url: "#",
+      icon: "aswhite_favicon.png",
     },
     period: {
       start: new Date("2021-01-01"),
@@ -77,6 +98,7 @@ export const experiences: Experience[] = [
     company: {
       name: "NashTech Limited",
       url: "https://nashtech.com",
+      icon: "nashtech_global_logo.jpeg",
     },
     period: {
       start: new Date("2020-01-01"),
