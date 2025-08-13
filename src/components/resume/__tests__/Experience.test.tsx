@@ -30,6 +30,8 @@ describe("Experience", () => {
         end: new Date(),
         current: true,
       },
+      skills: ["React", "Node.js", "TypeScript", "AWS"],
+      summary: "Leading development of enterprise applications",
       achievements: [
         "Led development of microservices architecture",
         "Improved application performance by 40%",
@@ -46,6 +48,8 @@ describe("Experience", () => {
         start: new Date("2018-01-01"),
         end: new Date("2020-01-01"),
       },
+      skills: ["JavaScript", "React", "PostgreSQL"],
+      summary: "Building scalable web applications",
       achievements: ["Developed RESTful APIs", "Built frontend components with React", "Optimized database queries"],
     },
   ];

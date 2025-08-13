@@ -1,13 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Home from "../page";
-import {
-  contactInfo,
-  summary,
-  education,
-  skillCategories,
-  projects,
-  mainInfo,
-} from "@/data/resume";
+import { contactInfo, summary, education, skillCategories, projects, mainInfo } from "@/data/resume";
 
 describe("Home", () => {
   it("renders the main info section", () => {

@@ -13,10 +13,14 @@ export interface Period {
 
 export interface Experience {
   title: string;
-  company: string;
+  company: {
+    name: string;
+    url: string;
+  };
   period: Period;
   achievements: string[];
-  companyUrl?: string;
+  skills: string[];
+  summary: string;
 }
 
 export interface Project {

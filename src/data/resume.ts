@@ -12,10 +12,8 @@ export const contactInfo: ContactInfo = {
   github: "GitHub",
 };
 
-export const summary = `
-  <div>Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications.</div>
-  <div>Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.</div>
-`;
+export const summary =
+  "Experienced Software Engineer with 6+ years of proven expertise in designing and building scalable, high-performance web applications. Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.";
 
 export const experiences: Experience[] = [
   {
@@ -84,16 +82,7 @@ export const experiences: Experience[] = [
       start: new Date("2020-01-01"),
       end: new Date("2021-01-01"),
     },
-    skills: [
-      ".NET Core",
-      "Dapper",
-      "gRPC",
-      "PostgreSQL",
-      "Vue.js",
-      "OpenTelemetry",
-      "Kubernetes",
-      "Azure",
-    ],
+    skills: [".NET Core", "Dapper", "gRPC", "PostgreSQL", "Vue.js", "OpenTelemetry", "Kubernetes", "Azure"],
     summary:
       "Contributed significantly to the development of a cutting-edge portal facilitating seamless document management and interaction with Courts for internal users.",
     achievements: [
@@ -111,6 +100,7 @@ export const education: Education[] = [
     degree: "Bachelor of Computer Science",
     school: "Ton Duc Thang University",
     period: "2014 - 2018",
+    details: "Computer Science fundamentals, Software Engineering, Data Structures and Algorithms",
   },
 ];
 
@@ -126,5 +116,26 @@ export const skillCategories: SkillCategory[] = [
   {
     title: "Cloud & Tools",
     skills: ["AWS/GCP", "Terraform/CloudFormation", "CI/CD (GitHub Actions)", "MongoDB/PostgreSQL"],
+  },
+];
+
+export const projects: Project[] = [
+  {
+    name: "E-commerce Platform",
+    technologies: "React, Node.js, PostgreSQL, AWS",
+    achievements: [
+      "Built a scalable e-commerce platform serving 10,000+ users",
+      "Implemented secure payment processing with Stripe integration",
+      "Achieved 99.9% uptime with AWS infrastructure",
+    ],
+  },
+  {
+    name: "Task Management System",
+    technologies: "Vue.js, .NET Core, MySQL, Docker",
+    achievements: [
+      "Developed real-time task management system for teams",
+      "Implemented WebSocket for live updates and notifications",
+      "Reduced project completion time by 30% through optimized workflows",
+    ],
   },
 ];
