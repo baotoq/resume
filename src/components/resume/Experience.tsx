@@ -32,9 +32,12 @@ export const Experience = ({ experiences }: ExperienceProps) => {
       <div className="flex flex-col gap-3">
         {sortedExperiences.map((exp, index) => (
           <div key={index} className="flex flex-col gap-1">
-            <a href={exp.company.url} target="_blank" className="text-2xl font-medium text-blue-600 hover:underline">
-              {exp.company.name}
-            </a>
+            <div className="flex items-center gap-2">
+              <img src={exp.company.icon} alt={exp.company.name} className="w-10 h-10" />
+              <a href={exp.company.url} target="_blank" className="text-2xl font-medium text-blue-600 hover:underline">
+                {exp.company.name}
+              </a>
+            </div>
             <div className="text-sm text-gray-500">
               {`${exp.period.start.toLocaleDateString("en-US", {
                 year: "numeric",
