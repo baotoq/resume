@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import { ReactNode } from "react";
-import { Typography, Space } from 'antd';
+import { Typography, Space } from "antd";
 
 const { Title } = Typography;
 
