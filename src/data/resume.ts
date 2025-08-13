@@ -87,24 +87,3 @@ export const skillCategories: SkillCategory[] = [
     skills: ["AWS/GCP", "Terraform/CloudFormation", "CI/CD (GitHub Actions)", "MongoDB/PostgreSQL"],
   },
 ];
-
-export const projects: Project[] = [
-  {
-    name: "Enterprise Microservices Platform",
-    technologies: "TypeScript, Node.js, Kubernetes, AWS",
-    achievements: [
-      "Designed and implemented a scalable microservices architecture handling 10K+ requests/second",
-      "Reduced system latency by 60% through caching and optimization",
-      "Implemented zero-downtime deployment strategy across multiple regions",
-    ],
-  },
-  {
-    name: "Real-time Analytics Engine",
-    technologies: "Go, Kafka, Elasticsearch, GCP",
-    achievements: [
-      "Built distributed data processing pipeline handling 1TB+ daily data",
-      "Implemented real-time anomaly detection using machine learning",
-      "Reduced processing latency from minutes to seconds",
-    ],
-  },
-];

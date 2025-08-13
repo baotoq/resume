@@ -34,21 +34,4 @@ describe("Home", () => {
     expect(screen.getByText(education[0].school)).toBeInTheDocument();
     expect(screen.getByText(education[0].period)).toBeInTheDocument();
   });
-
-  it("renders the skills section", () => {
-    render(<Home />);
-    expect(screen.getByRole("heading", { name: "Skills" })).toBeInTheDocument();
-    expect(screen.getByText(skillCategories[0].title)).toBeInTheDocument();
-    expect(screen.getByText(skillCategories[0].skills[0])).toBeInTheDocument();
-  });
-
-  it("renders the projects section", () => {
-    render(<Home />);
-    expect(screen.getByRole("heading", { name: "Projects" })).toBeInTheDocument();
-    expect(screen.getByText(projects[0].name)).toBeInTheDocument();
-    projects[0].technologies.split(",").forEach((tech) => {
-      expect(screen.getByText(tech.trim())).toBeInTheDocument();
-    });
-    expect(screen.getByText(`• ${projects[0].achievements[0]}`)).toBeInTheDocument();
-  });
 });
