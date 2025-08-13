@@ -21,7 +21,10 @@ describe("Experience", () => {
   const mockExperiences: ExperienceType[] = [
     {
       title: "Senior Software Engineer",
-      company: "Tech Corp",
+      company: {
+        name: "Tech Corp",
+        url: "https://techcorp.com",
+      },
       period: {
         start: new Date("2020-01-01"),
         end: new Date(),
@@ -35,16 +38,15 @@ describe("Experience", () => {
     },
     {
       title: "Software Engineer",
-      company: "Startup Inc",
+      company: {
+        name: "Startup Inc",
+        url: "https://startupinc.com",
+      },
       period: {
         start: new Date("2018-01-01"),
         end: new Date("2020-01-01"),
       },
-      achievements: [
-        "Developed RESTful APIs",
-        "Built frontend components with React",
-        "Optimized database queries",
-      ],
+      achievements: ["Developed RESTful APIs", "Built frontend components with React", "Optimized database queries"],
     },
   ];
 
@@ -58,7 +60,7 @@ describe("Experience", () => {
   it("renders all company names and periods", () => {
     render(<Experience experiences={mockExperiences} />);
     mockExperiences.forEach((exp) => {
-      expect(screen.getByText(`${exp.company}`)).toBeInTheDocument();
+      expect(screen.getByText(`${exp.company.name}`)).toBeInTheDocument();
     });
   });
 

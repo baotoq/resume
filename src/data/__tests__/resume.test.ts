@@ -29,7 +29,10 @@ describe("Resume Data", () => {
         expect(exp).toEqual(
           expect.objectContaining({
             title: expect.any(String),
-            company: expect.any(String),
+            company: expect.objectContaining({
+              name: expect.any(String),
+              url: expect.any(String),
+            }),
             period: expect.any(Object),
             achievements: expect.arrayContaining([expect.any(String)]),
           })
