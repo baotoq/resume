@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
 import { Education as EducationType } from "@/types/resume";
-import { List, Typography, Space } from 'antd';
-import { ReadOutlined, CalendarOutlined, BankOutlined } from '@ant-design/icons';
+import { List, Typography, Space } from "antd";
+import { ReadOutlined, CalendarOutlined, BankOutlined } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
