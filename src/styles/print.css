@@ -1,0 +1,132 @@
+/* Print Styles for PDF Export */
+@media print {
+  @page {
+    size: A4;
+    margin: 0.5in;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    background: white !important;
+  }
+
+  /* Hide PDF export button when printing */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Allow content to flow naturally - only avoid breaks for experience items */
+  .experience-item {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Remove avoid-break from sections to allow natural flow */
+  section.avoid-break {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  /* Ensure links are visible */
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  /* Remove page background */
+  .min-h-screen {
+    min-height: auto;
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  /* Remove outer container styling for print */
+  #resume-content {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0.5rem !important;
+    max-width: 100% !important;
+  }
+
+  /* Preserve flexbox layouts for print */
+  .md\:flex-row {
+    flex-direction: row !important;
+  }
+
+  .md\:justify-between {
+    justify-content: space-between !important;
+  }
+
+  .md\:items-start {
+    align-items: flex-start !important;
+  }
+
+  .md\:items-end {
+    align-items: flex-end !important;
+  }
+
+  .md\:mt-0 {
+    margin-top: 0 !important;
+  }
+
+  /* Reduce gaps for more compact print */
+  .gap-6 {
+    gap: 1rem !important;
+  }
+
+  .gap-8 {
+    gap: 1.25rem !important;
+  }
+
+  /* Section styling for print */
+  section {
+    border: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Keep section header background */
+  section > div:first-child {
+    background: transparent !important;
+    padding: 0.5rem 0 !important;
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+  }
+
+  /* Section content */
+  section > div:last-child {
+    padding: 1rem !important;
+  }
+
+  /* Keep header styling */
+  header {
+    padding-bottom: 1.5rem !important;
+    border-bottom: 1px solid #e5e7eb !important;
+  }
+
+  /* Keep gradient text visible in print */
+  .bg-clip-text {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  /* Experience cards */
+  .ant-card {
+    border: 1px solid #e5e7eb !important;
+    border-left: 4px solid #3b82f6 !important;
+    border-radius: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Timeline for print */
+  .experience-item .absolute {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+}
