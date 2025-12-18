@@ -1,21 +1,20 @@
-import type { PersonalInfo } from "@/types/resume";
+import type { ContactInfo } from "@/types/resume";
 import type { ReactNode } from "react";
 import {
   MailOutlined,
   PhoneOutlined,
-  EnvironmentOutlined,
   LinkedinOutlined,
   GithubOutlined,
-  GlobalOutlined,
 } from "@ant-design/icons";
 
 interface HeaderProps {
-  personal: PersonalInfo;
+  name: string;
+  title: string;
+  contact: ContactInfo;
   pdfButton?: ReactNode;
 }
 
-export function Header({ personal, pdfButton }: HeaderProps) {
-  const { name, title, contact } = personal;
+export function Header({ name, title, contact, pdfButton }: HeaderProps) {
 
   return (
     <header className="mb-10 text-center relative">
@@ -45,11 +44,6 @@ export function Header({ personal, pdfButton }: HeaderProps) {
           </a>
         )}
 
-        <span className="text-gray-500 flex items-center">
-          <EnvironmentOutlined className="mr-1.5" />
-          {contact.location}
-        </span>
-
         {contact.linkedin && (
           <a
             href={contact.linkedin}
@@ -73,32 +67,6 @@ export function Header({ personal, pdfButton }: HeaderProps) {
           >
             <GithubOutlined className="mr-1.5" />
             GitHub
-          </a>
-        )}
-
-        {contact.portfolio && (
-          <a
-            href={contact.portfolio}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-600 transition-colors flex items-center"
-            aria-label="Portfolio Website"
-          >
-            <GlobalOutlined className="mr-1.5" />
-            Portfolio
-          </a>
-        )}
-
-        {contact.website && (
-          <a
-            href={contact.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-600 transition-colors flex items-center"
-            aria-label="Personal Website"
-          >
-            <GlobalOutlined className="mr-1.5" />
-            Website
           </a>
         )}
       </div>

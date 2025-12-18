@@ -1,19 +1,15 @@
 import { Section } from "./Section";
-import type { Summary as SummaryType } from "@/types/resume";
+import { UserOutlined } from "@ant-design/icons";
 
 interface SummaryProps {
-  summary: SummaryType;
+  summary: string;
 }
 
 export function Summary({ summary }: SummaryProps) {
   return (
-    <Section title="Professional Summary">
-      <div className="text-gray-700 space-y-3">
-        {summary.content.map((paragraph, index) => (
-          <p key={index} className="leading-relaxed">
-            {paragraph}
-          </p>
-        ))}
+    <Section title="Professional Summary" icon={<UserOutlined />}>
+      <div className="text-gray-700 text-base leading-relaxed">
+        <p className="leading-relaxed">{summary}</p>
       </div>
     </Section>
   );
