@@ -3,41 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "test": "cross-env NODE_NO_WARNINGS=1 jest",
-    "test:watch": "cross-env NODE_NO_WARNINGS=1 jest --watch",
-    "test:coverage": "cross-env NODE_NO_WARNINGS=1 jest --coverage",
-    "test:ci": "cross-env NODE_NO_WARNINGS=1 jest --ci --coverage",
-    "test:update": "cross-env NODE_NO_WARNINGS=1 jest -u"
+    "lint": "biome check",
+    "format": "biome format --write"
   },
   "dependencies": {
-    "@ant-design/icons": "^6.0.0",
-    "antd": "^5.24.6",
-    "next": "^15.4.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "next": "16.0.10",
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4.1.4",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^20.17.30",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.1",
-    "cross-env": "^7.0.3",
-    "eslint": "^9",
-    "eslint-config-next": "^15.4.6",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.4",
-    "ts-jest": "^29.3.1",
-    "ts-node": "^10.9.2",
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }
