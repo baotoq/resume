@@ -1,54 +1,45 @@
 export interface ContactInfo {
   email: string;
   phone?: string;
-  location: string;
   linkedin?: string;
   github?: string;
-  portfolio?: string;
-  website?: string;
 }
 
-export interface PersonalInfo {
+export interface Company {
   name: string;
+  url: string;
+  icon?: string;
+}
+
+export interface Period {
+  start: Date;
+  end?: Date;
+  current?: boolean;
+}
+
+export interface Experience {
   title: string;
-  contact: ContactInfo;
+  company: Company;
+  period: Period;
+  skills: string[];
+  summary: string;
+  achievements: string[];
 }
 
-export interface Summary {
-  content: string[];
-}
-
-export interface ExperienceItem {
-  company: string;
-  position: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  responsibilities: string[];
-  techStack?: string[];
-}
-
-export interface EducationItem {
-  institution: string;
+export interface Education {
   degree: string;
-  field: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  gpa?: string;
-  honors?: string[];
-  relevantCoursework?: string[];
+  school: string;
+  period: string;
+  details?: string;
 }
 
 export interface SkillCategory {
-  category: string;
+  title: string;
   skills: string[];
 }
 
-export interface ResumeData {
-  personal: PersonalInfo;
-  summary: Summary;
-  experience: ExperienceItem[];
-  education: EducationItem[];
-  skills: SkillCategory[];
+export interface Project {
+  name: string;
+  technologies: string;
+  achievements: string[];
 }
