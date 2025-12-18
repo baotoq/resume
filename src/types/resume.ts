@@ -25,6 +25,7 @@ export interface ExperienceItem {
   startDate: string;
   endDate: string;
   responsibilities: string[];
+  techStack?: string[];
 }
 
 export interface EducationItem {

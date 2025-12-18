@@ -22,6 +22,18 @@ export function Experience({ experience }: ExperienceProps) {
               <p>{item.location}</p>
             </div>
           </div>
+          {item.techStack && item.techStack.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-1.5">
+              {item.techStack.map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-medium border border-blue-200"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
           <ul className="list-disc list-outside ml-5 space-y-1 text-gray-700">
             {item.responsibilities.map((responsibility, idx) => (
               <li key={idx} className="leading-relaxed">
