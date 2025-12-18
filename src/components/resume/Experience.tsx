@@ -1,5 +1,6 @@
 import { Section } from "./Section";
 import type { ExperienceItem } from "@/types/resume";
+import { Tag } from "antd";
 
 interface ExperienceProps {
   experience: ExperienceItem[];
@@ -24,13 +25,10 @@ export function Experience({ experience }: ExperienceProps) {
           </div>
           {item.techStack && item.techStack.length > 0 && (
             <div className="mb-3 flex flex-wrap gap-1.5">
-              {item.techStack.map((tech, idx) => (
-                <span
-                  key={idx}
-                  className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-medium border border-blue-200"
-                >
+              {item.techStack.map((tech) => (
+                <Tag key={tech} color="blue">
                   {tech}
-                </span>
+                </Tag>
               ))}
             </div>
           )}

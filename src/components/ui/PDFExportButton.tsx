@@ -2,6 +2,8 @@
 
 import { useReactToPrint } from "react-to-print";
 import type { RefObject } from "react";
+import { Button } from "antd";
+import { DownloadOutlined } from "@ant-design/icons";
 
 interface PDFExportButtonProps {
   contentRef: RefObject<HTMLDivElement | null>;
@@ -14,12 +16,13 @@ export function PDFExportButton({ contentRef }: PDFExportButtonProps) {
   });
 
   return (
-    <button
+    <Button
+      type="primary"
+      icon={<DownloadOutlined />}
       onClick={() => handlePrint()}
-      className="no-print bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors shadow-sm text-sm"
-      type="button"
+      className="no-print"
     >
       Download PDF
-    </button>
+    </Button>
   );
 }
