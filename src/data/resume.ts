@@ -47,7 +47,7 @@ export const experiences: Experience[] = [
     },
     period: {
       start: new Date("2021-10-01"),
-      end: new Date("2024-01-01"),
+      end: new Date("2025-01-01"),
     },
     skills: [
       ".NET Core",
