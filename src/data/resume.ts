@@ -32,8 +32,10 @@ export const experiences: Experience[] = [
     summary:
       "@@CoverGo@@ is a **leading provider** of @@insurance solutions@@, offering a comprehensive suite of products and services to businesses and individuals.",
     achievements: [
-      "**Developed** a comprehensive **insurance platform** using @@.NET Core@@, @@DDD@@, @@GraphQL@@, @@Vue.js@@, @@Dapr@@, @@MongoDB@@, @@Redis@@, @@Kubernetes@@, and @@FluxCD@@.",
-      "**Implemented** a **scalable** and efficient **microservices architecture**, ensuring **high availability** and performance.",
+      "**Developed** @@quotation engine@@ and **offer proposal workflow**, streamlining the end-to-end insurance product configuration process.",
+      "**Designed** event-driven architecture using @@Dapr@@ for seamless communication between quotation and policy services.",
+      "**Implemented** caching layer with @@Redis@@ to optimize quote retrieval, **reducing response times**.",
+      "**Built** @@GraphQL@@ APIs for flexible quotation data querying, improving frontend development efficiency.",
     ],
   },
   {
@@ -64,7 +66,7 @@ export const experiences: Experience[] = [
     summary:
       "@@Upmesh@@ empowers **live selling** and @@social commerce@@ on @@Facebook@@ and @@Instagram@@ by automating sales, payments, marketing and fulfillment with an **all-in-one solution**.",
     achievements: [
-      "**Implemented** an automated @@Facebook@@ comment capture system handling **2,000 messages/second** at peak time, enabling **real-time order processing** during live streams.",
+      "**Implemented** an automated @@Facebook@@ comment capture system handling **5,000 comments/second** at peak time, enabling **real-time order processing** during live streams.",
       "**Designed and built** scalable APIs, **integrating** @@Stripe@@ and @@3rd-party logistics@@ services to align architecture with business needs and future growth.",
       "**Implemented full-text search** using @@Elasticsearch@@ for **millions of records**, improving search query performance significantly.",
       "**Maintained** @@GitOps@@ workflow, @@Kubernetes@@ clusters, **CI/CD pipelines**, and other essential components, ensuring the **stability and performance** of the system.",
