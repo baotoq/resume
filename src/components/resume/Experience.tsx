@@ -2,6 +2,31 @@ import { Section } from "./Section";
 import type { Experience as ExperienceType } from "@/types/resume";
 import { ContainerOutlined } from "@ant-design/icons";
 
+// Parse text with **bold** and @@tech@@ markers and return React elements
+function parseTextWithHighlights(text: string): React.ReactNode {
+  // Split by both **bold** and @@tech@@ patterns
+  const parts = text.split(/(\*\*[^*]+\*\*|@@[^@]+@@)/g);
+  return parts.map((part) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      const content = part.slice(2, -2);
+      return (
+        <strong key={`bold-${content}`} className="font-semibold text-gray-900">
+          {content}
+        </strong>
+      );
+    }
+    if (part.startsWith("@@") && part.endsWith("@@")) {
+      const content = part.slice(2, -2);
+      return (
+        <span key={`tech-${content}`} className="font-semibold text-blue-600">
+          {content}
+        </span>
+      );
+    }
+    return part;
+  });
+}
+
 interface ExperienceProps {
   experiences: ExperienceType[];
 }
@@ -82,7 +107,7 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
                 </div>
 
                 {/* Summary */}
-                <p className="text-gray-600 text-sm mb-4 leading-relaxed">{item.summary}</p>
+                <p className="text-gray-600 text-sm mb-4 leading-relaxed">{parseTextWithHighlights(item.summary)}</p>
 
                 {/* Skills */}
                 <div className="mb-4 flex flex-wrap gap-2">
@@ -101,7 +126,7 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
                   {item.achievements.map((achievement) => (
                     <li key={achievement} className="flex gap-3 text-gray-700 text-sm leading-relaxed">
                       <span className="text-blue-500 mt-1.5">•</span>
-                      <span>{achievement}</span>
+                      <span>{parseTextWithHighlights(achievement)}</span>
                     </li>
                   ))}
                 </ul>
