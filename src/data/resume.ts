@@ -73,7 +73,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    title: "Fullstack Software Engineer",
+    title: "Software Engineer",
     company: {
       name: "AS White Global",
       url: "#",
@@ -94,7 +94,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    title: "Fullstack Software Engineer",
+    title: "Software Engineer",
     company: {
       name: "NashTech Limited",
       url: "https://nashtech.com",

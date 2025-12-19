@@ -14,10 +14,16 @@ export default function ResumePage() {
   const resumeRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-blue-50 py-10 px-4 sm:px-6 lg:px-8">
+      {/* Decorative background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" />
+      </div>
+
       <div
         ref={resumeRef}
-        className="max-w-4xl mx-auto bg-white shadow-2xl rounded-lg px-8 py-10 sm:px-12 sm:py-12 border border-gray-100 flex flex-col gap-6"
+        className="relative max-w-4xl mx-auto bg-white/90 backdrop-blur-sm shadow-2xl rounded-2xl px-8 py-10 sm:px-12 sm:py-12 border border-white/50 flex flex-col gap-8"
         id="resume-content"
       >
         <Header
