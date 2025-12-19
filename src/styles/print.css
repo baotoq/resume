@@ -118,10 +118,19 @@
 
   /* Experience cards */
   .ant-card {
-    border: 1px solid #e5e7eb !important;
-    border-left: 4px solid #3b82f6 !important;
-    border-radius: 0.5rem !important;
+    border: none !important;
+    border-radius: 0 !important;
     margin-bottom: 0.5rem !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  .ant-card.border-l-4 {
+    border-left: none !important;
+  }
+
+  .ant-card-body {
+    padding: 1rem !important;
   }
 
   /* Timeline for print */
