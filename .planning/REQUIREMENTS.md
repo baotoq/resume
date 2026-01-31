@@ -10,10 +10,10 @@
 - [x] **THEME-02**: Theme preference persists across browser sessions (localStorage)
 - [x] **THEME-03**: Theme transitions smoothly without flash on page load
 - [x] **THEME-04**: Site respects system color scheme preference on first visit
-- [ ] **THEME-05**: Fresh color palette applied (not blue/purple gradient)
-- [ ] **THEME-06**: Updated typography that feels modern and distinctive
-- [ ] **THEME-07**: Subtle animations on page load and hover interactions
-- [ ] **THEME-08**: Both light and dark themes meet WCAG contrast requirements
+- [x] **THEME-05**: Fresh color palette applied (not blue/purple gradient)
+- [x] **THEME-06**: Updated typography that feels modern and distinctive
+- [x] **THEME-07**: Subtle animations on page load and hover interactions
+- [x] **THEME-08**: Both light and dark themes meet WCAG contrast requirements
 
 ### GitHub Projects (PROJ)
 
@@ -101,10 +101,10 @@
 | THEME-02 | Phase 1 | Complete |
 | THEME-03 | Phase 1 | Complete |
 | THEME-04 | Phase 1 | Complete |
-| THEME-05 | Phase 2 | Pending |
-| THEME-06 | Phase 2 | Pending |
-| THEME-07 | Phase 2 | Pending |
-| THEME-08 | Phase 2 | Pending |
+| THEME-05 | Phase 2 | Complete |
+| THEME-06 | Phase 2 | Complete |
+| THEME-07 | Phase 2 | Complete |
+| THEME-08 | Phase 2 | Complete |
 | PROJ-01 | Phase 4 | Pending |
 | PROJ-02 | Phase 4 | Pending |
 | PROJ-03 | Phase 4 | Pending |
