@@ -12,9 +12,10 @@ interface HeaderProps {
   title: string;
   contact: ContactInfo;
   pdfButton?: ReactNode;
+  themeToggle?: ReactNode;
 }
 
-export function Header({ name, title, contact, pdfButton }: HeaderProps) {
+export function Header({ name, title, contact, pdfButton, themeToggle }: HeaderProps) {
   return (
     <header className="relative pb-8">
       {/* Decorative gradient line */}
@@ -31,9 +32,10 @@ export function Header({ name, title, contact, pdfButton }: HeaderProps) {
               {title}
             </p>
           </div>
-          {/* PDF Button */}
-          <div className="no-print flex justify-center md:justify-end">
+          {/* PDF Button and Theme Toggle */}
+          <div className="no-print flex justify-center md:justify-end items-center gap-3">
             {pdfButton}
+            {themeToggle}
           </div>
         </div>
 
