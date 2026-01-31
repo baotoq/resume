@@ -6,10 +6,10 @@
 
 ### Theme & Visual (THEME)
 
-- [ ] **THEME-01**: User can toggle between light and dark mode via button in header
-- [ ] **THEME-02**: Theme preference persists across browser sessions (localStorage)
-- [ ] **THEME-03**: Theme transitions smoothly without flash on page load
-- [ ] **THEME-04**: Site respects system color scheme preference on first visit
+- [x] **THEME-01**: User can toggle between light and dark mode via button in header
+- [x] **THEME-02**: Theme preference persists across browser sessions (localStorage)
+- [x] **THEME-03**: Theme transitions smoothly without flash on page load
+- [x] **THEME-04**: Site respects system color scheme preference on first visit
 - [ ] **THEME-05**: Fresh color palette applied (not blue/purple gradient)
 - [ ] **THEME-06**: Updated typography that feels modern and distinctive
 - [ ] **THEME-07**: Subtle animations on page load and hover interactions
@@ -97,10 +97,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| THEME-01 | Phase 1 | Pending |
-| THEME-02 | Phase 1 | Pending |
-| THEME-03 | Phase 1 | Pending |
-| THEME-04 | Phase 1 | Pending |
+| THEME-01 | Phase 1 | Complete |
+| THEME-02 | Phase 1 | Complete |
+| THEME-03 | Phase 1 | Complete |
+| THEME-04 | Phase 1 | Complete |
 | THEME-05 | Phase 2 | Pending |
 | THEME-06 | Phase 2 | Pending |
 | THEME-07 | Phase 2 | Pending |
