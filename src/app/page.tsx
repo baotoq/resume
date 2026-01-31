@@ -9,6 +9,7 @@ import { ExperienceSection } from "@/components/resume/Experience";
 import { EducationSection } from "@/components/resume/Education";
 import { SkillsSection } from "@/components/resume/Skills";
 import { PDFExportButton } from "@/components/ui/PDFExportButton";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function ResumePage() {
   const resumeRef = useRef<HTMLDivElement>(null);
@@ -31,6 +32,7 @@ export default function ResumePage() {
           title={mainInfo.title}
           contact={contactInfo}
           pdfButton={<PDFExportButton contentRef={resumeRef} />}
+          themeToggle={<ThemeToggle />}
         />
         <Summary summary={summary} />
         <ExperienceSection experiences={experiences} />
