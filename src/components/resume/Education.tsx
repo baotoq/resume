@@ -1,6 +1,6 @@
-import { Section } from "./Section";
-import type { Education as EducationType } from "@/types/resume";
 import { BookOutlined } from "@ant-design/icons";
+import type { Education as EducationType } from "@/types/resume";
+import { Section } from "./Section";
 
 interface EducationProps {
   education: EducationType[];

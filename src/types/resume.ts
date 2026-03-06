@@ -37,19 +37,3 @@ export interface SkillCategory {
   title: string;
   skills: string[];
 }
-
-export interface Project {
-  name: string;
-  technologies: string;
-  achievements: string[];
-}
-
-export interface GitHubRepo {
-  name: string;
-  url: string;
-  description: string;
-  language: string | null;
-  stars: number;
-  forks: number;
-  updatedAt: string; // ISO date string
-}

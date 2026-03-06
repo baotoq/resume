@@ -1,4 +1,4 @@
-import type { ContactInfo, Education, Experience, Project, SkillCategory } from "@/types/resume";
+import type { ContactInfo, Education, Experience, SkillCategory } from "@/types/resume";
 
 export const mainInfo = {
   name: "To Quoc Bao",
@@ -146,5 +146,3 @@ export const skillCategories: SkillCategory[] = [
     skills: ["GitHub Actions", "CI/CD", "FluxCD", "GitOps"],
   },
 ];
-
-export const projects: Project[] = [];
