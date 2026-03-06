@@ -10,4 +10,5 @@ export const languageColors: Record<string, string> = {
   Dockerfile: "#384d54",
   Vue: "#41b883",
   HCL: "#844FBA",
+  Solidity: "#AA6746",
 };
