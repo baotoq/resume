@@ -78,7 +78,7 @@
 **Plans:** 1 plan
 
 Plans:
-- [ ] 03-01-PLAN.md — Source logos, add CompanyLogo component with letter-avatar fallback
+- [x] 03-01-PLAN.md -- Source logos, add CompanyLogo component with letter-avatar fallback
 
 **Success Criteria:**
 1. Each experience entry shows company logo
