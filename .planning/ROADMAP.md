@@ -141,6 +141,12 @@ Plans:
 - SEO-05: Custom OG image
 - SEO-06: Canonical URL
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 05-01-PLAN.md -- Metadata (OG, Twitter, canonical) and JSON-LD structured data (Person + ProfilePage)
+- [ ] 05-02-PLAN.md -- Custom OG image generation and placement
+
 **Success Criteria:**
 1. Google Rich Results Test shows valid structured data
 2. Sharing on LinkedIn/Twitter shows custom image and description
