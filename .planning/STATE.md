@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-last_updated: "2026-03-06T09:45:07.000Z"
+last_updated: "2026-03-06T09:55:42.674Z"
 progress:
-  total_phases: 8
+  total_phases: 9
   completed_phases: 5
-  total_plans: 14
-  completed_plans: 14
+  total_plans: 16
+  completed_plans: 16
 ---
 
 # Project State: Resume Website Enhancement
@@ -18,7 +18,7 @@ progress:
 ## Current Phase
 
 **Phase:** 5 - SEO & Social (Plan 2 of 2 complete)
-**Status:** Complete
+**Status:** Ready to plan
 
 ## Progress
 
@@ -80,13 +80,20 @@ Transform existing resume website into a polished, feature-rich portfolio with:
 | JSON-LD types | schema-dts for type-safe structured data | 2026-03-06 |
 | Scripts tsconfig | Excluded scripts/ from type-checking | 2026-03-06 |
 
+## Accumulated Context
+
+### Roadmap Evolution
+
+- Phase 05.1 inserted after Phase 5: Contact info privacy — hide phone/email from web, keep in PDF only (URGENT)
+
 ## Blockers
 
 None currently.
 
 ## Next Actions
 
-1. Execute Phase 6 (Analytics) or Phase 7 (Accessibility)
+1. Plan and execute Phase 5.1 (Contact info privacy)
+2. Execute Phase 6 (Analytics) or Phase 7 (Accessibility)
 
 ---
 
