@@ -206,7 +206,7 @@ Plans:
 
 ## Phase 7: Accessibility
 
-**Goal:** Ensure site is usable by everyone.
+**Goal:** Ensure site is usable by everyone with keyboard navigation, screen readers, and WCAG AA compliance.
 
 **Requirements:**
 - A11Y-01: Skip navigation link
@@ -215,6 +215,12 @@ Plans:
 - A11Y-04: WCAG 2.1 AA contrast
 - A11Y-05: Keyboard navigation
 - A11Y-06: Accessible theme toggle
+
+**Plans:** 2 plans
+
+Plans:
+- [ ] 07-01-PLAN.md -- Skip link, focus styles, aria-labels, semantic landmarks, contrast fix, decorative hiding
+- [ ] 07-02-PLAN.md -- Human verification: keyboard testing and Lighthouse audit
 
 **Success Criteria:**
 1. Can navigate entire site with keyboard only
