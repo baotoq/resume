@@ -12,7 +12,7 @@
 | 4 | GitHub Projects | Complete    | 2026-03-06 |
 | 5 | 2/2 | Complete   | 2026-03-06 |
 | 6 | Analytics | Track engagement | ANA-01, ANA-02, ANA-03 |
-| 7 | Accessibility | Inclusive design | A11Y-01 through A11Y-06 |
+| 7 | 1/2 | In Progress|  |
 | 8 | Cleanup | Polish & ship | CLEAN-01 through CLEAN-04 |
 
 **Total:** 37 requirements across 8 phases
@@ -216,7 +216,7 @@ Plans:
 - A11Y-05: Keyboard navigation
 - A11Y-06: Accessible theme toggle
 
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] 07-01-PLAN.md -- Skip link, focus styles, aria-labels, semantic landmarks, contrast fix, decorative hiding

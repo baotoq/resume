@@ -52,12 +52,12 @@
 
 ### Accessibility (A11Y)
 
-- [ ] **A11Y-01**: Skip navigation link at top of page
-- [ ] **A11Y-02**: All interactive elements have visible focus indicators
-- [ ] **A11Y-03**: All icon-only buttons have aria-labels
-- [ ] **A11Y-04**: Color contrast meets WCAG 2.1 AA (4.5:1 for text)
-- [ ] **A11Y-05**: Keyboard navigation works for all interactive elements
-- [ ] **A11Y-06**: Theme toggle is keyboard accessible
+- [x] **A11Y-01**: Skip navigation link at top of page
+- [x] **A11Y-02**: All interactive elements have visible focus indicators
+- [x] **A11Y-03**: All icon-only buttons have aria-labels
+- [x] **A11Y-04**: Color contrast meets WCAG 2.1 AA (4.5:1 for text)
+- [x] **A11Y-05**: Keyboard navigation works for all interactive elements
+- [x] **A11Y-06**: Theme toggle is keyboard accessible
 
 ### Cleanup (CLEAN)
 
@@ -128,12 +128,12 @@
 | ANA-01 | Phase 6 | Complete |
 | ANA-02 | Phase 6 | Complete |
 | ANA-03 | Phase 6 | Complete |
-| A11Y-01 | Phase 7 | Pending |
-| A11Y-02 | Phase 7 | Pending |
-| A11Y-03 | Phase 7 | Pending |
-| A11Y-04 | Phase 7 | Pending |
-| A11Y-05 | Phase 7 | Pending |
-| A11Y-06 | Phase 7 | Pending |
+| A11Y-01 | Phase 7 | Complete |
+| A11Y-02 | Phase 7 | Complete |
+| A11Y-03 | Phase 7 | Complete |
+| A11Y-04 | Phase 7 | Complete |
+| A11Y-05 | Phase 7 | Complete |
+| A11Y-06 | Phase 7 | Complete |
 | CLEAN-01 | Phase 8 | Pending |
 | CLEAN-02 | Phase 8 | Pending |
 | CLEAN-03 | Phase 8 | Pending |
