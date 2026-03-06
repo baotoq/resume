@@ -21,7 +21,7 @@ export const experiences: Experience[] = [
     company: {
       name: "CoverGo",
       url: "https://covergo.com",
-      icon: "covergo_favicon.ico",
+      icon: "covergo.png",
     },
     period: {
       start: new Date("2025-02-01"),
@@ -43,7 +43,7 @@ export const experiences: Experience[] = [
     company: {
       name: "Upmesh",
       url: "https://upmesh.io",
-      icon: "upmeshlive_logo.jpeg",
+      icon: "upmesh.png",
     },
     period: {
       start: new Date("2021-10-01"),
@@ -79,7 +79,7 @@ export const experiences: Experience[] = [
     company: {
       name: "AS White Global",
       url: "#",
-      icon: "aswhite_favicon.png",
+      icon: "aswhite.png",
     },
     period: {
       start: new Date("2021-01-01"),
@@ -100,7 +100,7 @@ export const experiences: Experience[] = [
     company: {
       name: "NashTech Limited",
       url: "https://nashtech.com",
-      icon: "nashtech_global_logo.jpeg",
+      icon: "nashtech.png",
     },
     period: {
       start: new Date("2018-12-01"),
