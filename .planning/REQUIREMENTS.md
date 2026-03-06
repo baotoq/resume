@@ -41,7 +41,7 @@
 - [ ] **SEO-02**: JSON-LD structured data for ProfilePage schema
 - [ ] **SEO-03**: Open Graph meta tags (title, description, image, type)
 - [ ] **SEO-04**: Twitter Card meta tags
-- [ ] **SEO-05**: Custom OG image generated for social sharing
+- [x] **SEO-05**: Custom OG image generated for social sharing
 - [ ] **SEO-06**: Canonical URL specified
 
 ### Analytics (ANA)
@@ -123,7 +123,7 @@
 | SEO-02 | Phase 5 | Pending |
 | SEO-03 | Phase 5 | Pending |
 | SEO-04 | Phase 5 | Pending |
-| SEO-05 | Phase 5 | Pending |
+| SEO-05 | Phase 5 | Complete |
 | SEO-06 | Phase 5 | Pending |
 | ANA-01 | Phase 6 | Pending |
 | ANA-02 | Phase 6 | Pending |

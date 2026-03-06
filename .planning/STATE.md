@@ -17,8 +17,8 @@ progress:
 
 ## Current Phase
 
-**Phase:** 4 - GitHub Projects (Plan 2 of 2 complete)
-**Status:** Ready to plan
+**Phase:** 5 - SEO & Social (Plan 2 of 2 complete)
+**Status:** In progress
 
 ## Progress
 
@@ -75,6 +75,8 @@ Transform existing resume website into a polished, feature-rich portfolio with:
 | Prebuild script runner | tsx for TypeScript execution | 2026-03-06 |
 | API failure strategy | Exit 0, keep fallback data | 2026-03-06 |
 | Project card UX | Entire card clickable anchor | 2026-03-06 |
+| OG image tooling | satori + resvg (not @vercel/og) | 2026-03-06 |
+| OG image generation | One-time script, not build step | 2026-03-06 |
 
 ## Blockers
 
@@ -82,7 +84,7 @@ None currently.
 
 ## Next Actions
 
-1. Execute Phase 5 (SEO & Social) or Phase 6 (Analytics)
+1. Continue Phase 5 (05-01 may still be pending) or start Phase 6 (Analytics)
 
 ---
 
@@ -101,4 +103,4 @@ None currently.
 
 ---
 
-*Last updated: 2026-03-06 after Phase 4 Plan 02 completion*
+*Last updated: 2026-03-06 after Phase 5 Plan 02 completion*
