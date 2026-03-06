@@ -46,9 +46,9 @@
 
 ### Analytics (ANA)
 
-- [ ] **ANA-01**: Plausible analytics script integrated
-- [ ] **ANA-02**: Analytics respects user privacy (no cookies)
-- [ ] **ANA-03**: Page views tracked on site
+- [x] **ANA-01**: Plausible analytics script integrated
+- [x] **ANA-02**: Analytics respects user privacy (no cookies)
+- [x] **ANA-03**: Page views tracked on site
 
 ### Accessibility (A11Y)
 
@@ -125,9 +125,9 @@
 | SEO-04 | Phase 5 | Complete |
 | SEO-05 | Phase 5 | Complete |
 | SEO-06 | Phase 5 | Complete |
-| ANA-01 | Phase 6 | Pending |
-| ANA-02 | Phase 6 | Pending |
-| ANA-03 | Phase 6 | Pending |
+| ANA-01 | Phase 6 | Complete |
+| ANA-02 | Phase 6 | Complete |
+| ANA-03 | Phase 6 | Complete |
 | A11Y-01 | Phase 7 | Pending |
 | A11Y-02 | Phase 7 | Pending |
 | A11Y-03 | Phase 7 | Pending |
