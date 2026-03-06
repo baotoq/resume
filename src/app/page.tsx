@@ -33,8 +33,6 @@ export default function ResumePage() {
 			name: mainInfo.name,
 			jobTitle: mainInfo.title,
 			description: summary,
-			email: contactInfo.email,
-			telephone: contactInfo.phone,
 			url: "https://baotoq.github.io/resume",
 			image: "https://baotoq.github.io/resume/opengraph-image.png",
 			sameAs: [contactInfo.linkedin, contactInfo.github].filter(
