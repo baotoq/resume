@@ -162,13 +162,20 @@ Plans:
 
 ### Phase 05.1: Contact info privacy — hide phone/email from web, keep in PDF only (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
+**Goal:** Hide personal contact info (email, phone) from the public web page and structured data while preserving them in PDF/print export for privacy.
+**Requirements:** PRIVACY-01
 **Depends on:** Phase 5
-**Plans:** 2/2 plans complete
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 05.1 to break down)
+- [ ] 05.1-01-PLAN.md -- Add print-only CSS class, hide email/phone on web, remove from JSON-LD
+
+**Success Criteria:**
+1. Email and phone are NOT visible on the web page
+2. Email and phone ARE visible in print/PDF output
+3. Email and phone are NOT in JSON-LD structured data
+4. LinkedIn and GitHub links remain visible on the web
+5. Build and lint pass without errors
 
 ## Phase 6: Analytics
 
