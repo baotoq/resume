@@ -10,7 +10,7 @@
 | 2 | Visual Refresh | Fresh, distinctive design | THEME-05, THEME-06, THEME-07, THEME-08 |
 | 3 | Company Logos | Visual credibility | LOGO-01, LOGO-02, LOGO-03, LOGO-04 |
 | 4 | GitHub Projects | Complete    | 2026-03-06 |
-| 5 | SEO & Social | Discoverability | SEO-01 through SEO-06 |
+| 5 | 2/2 | Complete   | 2026-03-06 |
 | 6 | Analytics | Track engagement | ANA-01, ANA-02, ANA-03 |
 | 7 | Accessibility | Inclusive design | A11Y-01 through A11Y-06 |
 | 8 | Cleanup | Polish & ship | CLEAN-01 through CLEAN-04 |
@@ -141,7 +141,7 @@ Plans:
 - SEO-05: Custom OG image
 - SEO-06: Canonical URL
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 05-01-PLAN.md -- Metadata (OG, Twitter, canonical) and JSON-LD structured data (Person + ProfilePage)
