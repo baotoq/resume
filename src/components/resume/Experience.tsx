@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Section } from "./Section";
-import type { Experience as ExperienceType, Company } from "@/types/resume";
 import { ContainerOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import type { Company, Experience as ExperienceType } from "@/types/resume";
+import { Section } from "./Section";
 
 const basePath = process.env.NODE_ENV === "production" ? "/resume" : "";
 
@@ -108,7 +108,10 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
           {experiences.map((item) => (
             <div key={item.company.name} className="experience-item relative pl-8">
               {/* Timeline dot */}
-              <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-[var(--accent)] border-2 border-[var(--background)] shadow-md ring-4 ring-[var(--accent)]/10" aria-hidden="true" />
+              <div
+                className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-[var(--accent)] border-2 border-[var(--background)] shadow-md ring-4 ring-[var(--accent)]/10"
+                aria-hidden="true"
+              />
 
               {/* Card */}
               <div className="group p-6 bg-[var(--card)] rounded-2xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
@@ -161,7 +164,9 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
                 <ul className="space-y-2">
                   {item.achievements.map((achievement) => (
                     <li key={achievement} className="flex gap-3 text-[var(--muted-foreground)] text-sm leading-relaxed">
-                      <span className="text-[var(--accent)] mt-1.5" aria-hidden="true">•</span>
+                      <span className="text-[var(--accent)] mt-1.5" aria-hidden="true">
+                        •
+                      </span>
                       <span>{parseTextWithHighlights(achievement)}</span>
                     </li>
                   ))}

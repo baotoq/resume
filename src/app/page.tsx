@@ -6,17 +6,13 @@ import "@/styles/print.css";
 import { EducationSection } from "@/components/resume/Education";
 import { ExperienceSection } from "@/components/resume/Experience";
 import { Header } from "@/components/resume/Header";
-import { ProjectsSection } from "@/components/resume/Projects";
 import { SkillsSection } from "@/components/resume/Skills";
 import { Summary } from "@/components/resume/Summary";
 import { PDFExportButton } from "@/components/ui/PDFExportButton";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { githubRepos } from "@/data/github";
 import { contactInfo, education, experiences, mainInfo, skillCategories, summary } from "@/data/resume";
 
 export default function ResumePage() {
-  const showProjects = false;
-
   const resumeRef = useRef<HTMLElement>(null);
 
   const jsonLd: WithContext<ProfilePage> = {
@@ -69,7 +65,6 @@ export default function ResumePage() {
         <ExperienceSection experiences={experiences} />
         <EducationSection education={education} />
         <SkillsSection skills={skillCategories} />
-        {showProjects && <ProjectsSection repos={githubRepos} />}
       </main>
     </div>
   );

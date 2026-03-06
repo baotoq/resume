@@ -1,6 +1,6 @@
-import type { ContactInfo } from "@/types/resume";
+import { GithubOutlined, LinkedinOutlined, MailOutlined, PhoneOutlined } from "@ant-design/icons";
 import type { ReactNode } from "react";
-import { MailOutlined, PhoneOutlined, LinkedinOutlined, GithubOutlined } from "@ant-design/icons";
+import type { ContactInfo } from "@/types/resume";
 
 interface HeaderProps {
   name: string;

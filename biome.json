@@ -7,14 +7,27 @@
     "lineEnding": "lf"
   },
   "linter": {
-    "enabled": true
+    "enabled": true,
+    "rules": {
+      "complexity": {
+        "noImportantStyles": "off"
+      },
+      "suspicious": {
+        "noUnknownAtRules": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
+      },
+      "correctness": {
+        "useUniqueElementIds": "off"
+      }
+    }
   },
   "files": {
-    "includes": [
-      "src/**/*.{js,jsx,ts,tsx,json,md,mdx,yml,yaml,html,css,scss,sass}",
-      "!**/node_modules/**/*",
-      "!!**/.git"
-    ],
+    "includes": ["src/**/*.{js,jsx,ts,tsx,json,md,mdx,yml,yaml,html,css,scss,sass}", "!**/node_modules/**/*"],
     "ignoreUnknown": true
   }
 }

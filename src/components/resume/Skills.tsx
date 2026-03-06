@@ -1,6 +1,6 @@
-import { Section } from "./Section";
-import type { SkillCategory } from "@/types/resume";
 import { ToolOutlined } from "@ant-design/icons";
+import type { SkillCategory } from "@/types/resume";
+import { Section } from "./Section";
 
 interface SkillsProps {
   skills: SkillCategory[];
