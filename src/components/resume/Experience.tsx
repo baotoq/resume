@@ -102,13 +102,13 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
     <Section title="Work Experience" icon={<ContainerOutlined />}>
       <div className="relative">
         {/* Timeline line */}
-        <div className="absolute left-[7px] top-3 bottom-3 w-0.5 bg-[var(--accent)] rounded-full" />
+        <div className="absolute left-[7px] top-3 bottom-3 w-0.5 bg-[var(--accent)] rounded-full" aria-hidden="true" />
 
         <div className="flex flex-col gap-8">
           {experiences.map((item) => (
             <div key={item.company.name} className="experience-item relative pl-8">
               {/* Timeline dot */}
-              <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-[var(--accent)] border-2 border-[var(--background)] shadow-md ring-4 ring-[var(--accent)]/10" />
+              <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-[var(--accent)] border-2 border-[var(--background)] shadow-md ring-4 ring-[var(--accent)]/10" aria-hidden="true" />
 
               {/* Card */}
               <div className="group p-6 bg-[var(--card)] rounded-2xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
@@ -161,7 +161,7 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
                 <ul className="space-y-2">
                   {item.achievements.map((achievement) => (
                     <li key={achievement} className="flex gap-3 text-[var(--muted-foreground)] text-sm leading-relaxed">
-                      <span className="text-[var(--accent)] mt-1.5">•</span>
+                      <span className="text-[var(--accent)] mt-1.5" aria-hidden="true">•</span>
                       <span>{parseTextWithHighlights(achievement)}</span>
                     </li>
                   ))}

@@ -40,7 +40,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         relative inline-flex h-8 w-20 items-center rounded-full cursor-pointer
         bg-gray-200 dark:bg-gray-700
         transition-colors duration-200
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2
         ${className ?? ""}
       `}
     >
