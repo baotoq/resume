@@ -245,6 +245,11 @@ Plans:
 - CLEAN-03: Clean up old CSS variables
 - CLEAN-04: No console errors
 
+**Plans:** 1 plan
+
+Plans:
+- [ ] 08-01-PLAN.md -- Remove unused SVGs, dead Projects feature chain, stale print CSS, fix Biome config
+
 **Success Criteria:**
 1. No unused files in public/
 2. No unused exports in codebase
