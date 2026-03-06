@@ -1,10 +1,10 @@
 # Project: Resume Website Enhancement
 
-> Transform existing resume into a polished, feature-rich portfolio
+> A polished, feature-rich portfolio site for To Quoc Bao
 
 ## What This Is
 
-A comprehensive enhancement of an existing Next.js resume website to add new features, improve visual design, and implement modern best practices. The site showcases professional experience for To Quoc Bao, a Senior Software Engineer.
+A professional resume/portfolio website built with Next.js 16, featuring dark/light theme, company logos, privacy-friendly analytics, full accessibility, and SEO optimization. Static export deployed to GitHub Pages.
 
 ## Core Value
 
@@ -12,39 +12,34 @@ A comprehensive enhancement of an existing Next.js resume website to add new fea
 
 ## Context
 
-### Current State
+### Current State (v1.0 shipped)
 - Static Next.js 16 site deployed to GitHub Pages (`/resume` base path)
-- React 19, Tailwind v4, Ant Design v6
-- Sections: Header, Summary, Experience, Education, Skills
-- PDF export via browser print API
-- Clean component architecture with TypeScript
+- React 19, TypeScript 5, Tailwind CSS v4, Biome 2.x
+- 1,092 lines of code, 1.1M build output
+- Sections: Header, Summary, Experience (with company logos), Education, Skills
+- Dark/light theme with system preference detection and persistence
+- PDF export via browser print API with contact info privacy
+- Plausible analytics (cookie-free)
+- Skip navigation, focus indicators, aria-labels, WCAG AA contrast
+- JSON-LD structured data, OG/Twitter meta tags, custom OG image
 
-### What's Missing
-- Projects section (type exists but unused)
-- Company logos (data fields exist but not displayed)
-- Dark mode (CSS variables defined but unused)
-- SEO structured data
-- Analytics
-- Visual distinctiveness
-
-## Target Outcome
-
-A resume/portfolio site that:
-1. Dynamically showcases GitHub projects with stats
-2. Displays company logos alongside work experience
-3. Supports light/dark mode with user preference persistence
-4. Has a fresh, distinctive visual aesthetic
-5. Is SEO-optimized with structured data and OG images
-6. Tracks visits with privacy-friendly analytics
-7. Meets accessibility standards
-8. Has no dead code or unused assets
+### What Was Built (v1.0)
+1. Theme system with smooth transitions and persistence
+2. Visual refresh — Plus Jakarta Sans, warm earth tones, teal accents, animations
+3. Company logos with letter avatar fallbacks
+4. GitHub Projects section (built then removed — disabled feature)
+5. SEO & social sharing optimization
+6. Contact info privacy (web hidden, PDF visible)
+7. Plausible analytics integration
+8. Full accessibility improvements
+9. Dead code cleanup and Biome config fix
 
 ## Constraints
 
 - **Deployment**: Must remain static export compatible (GitHub Pages)
-- **GitHub API**: Public endpoints only (no auth tokens in client)
 - **Performance**: Fast initial load, no heavy dependencies
-- **Accessibility**: WCAG 2.1 AA compliance target
+- **Accessibility**: WCAG 2.1 AA compliance
+- **Privacy**: No cookies, no tracking without consent
 
 ## Users
 
@@ -55,35 +50,25 @@ A resume/portfolio site that:
 
 ### Validated
 
-- ✓ Display professional experience with company, title, period, achievements — existing
-- ✓ Display education history — existing
-- ✓ Display skills by category — existing
-- ✓ Display contact information with links — existing
-- ✓ Export resume as PDF — existing
-- ✓ Responsive design (mobile/desktop) — existing
-- ✓ Static deployment to GitHub Pages — existing
+- ✓ Display professional experience with company, title, period, achievements — v1.0
+- ✓ Display education history — v1.0
+- ✓ Display skills by category — v1.0
+- ✓ Display contact information with links — v1.0
+- ✓ Export resume as PDF — v1.0
+- ✓ Responsive design (mobile/desktop) — v1.0
+- ✓ Static deployment to GitHub Pages — v1.0
+- ✓ Dark/light theme with toggle and persistence (THEME-01 to THEME-04) — v1.0
+- ✓ Fresh visual aesthetic with distinctive typography and colors (THEME-05 to THEME-08) — v1.0
+- ✓ Company logos alongside experience entries (LOGO-01 to LOGO-04) — v1.0
+- ✓ JSON-LD structured data, OG tags, Twitter cards, OG image (SEO-01 to SEO-06) — v1.0
+- ✓ Privacy-friendly analytics via Plausible (ANA-01 to ANA-03) — v1.0
+- ✓ Skip nav, focus indicators, aria-labels, WCAG AA contrast, keyboard nav (A11Y-01 to A11Y-06) — v1.0
+- ✓ Removed unused assets, dead code, stale CSS (CLEAN-01 to CLEAN-04) — v1.0
+- ✓ Contact info privacy — web hidden, PDF visible — v1.0
 
 ### Active
 
-- [ ] **PROJ-01**: Display GitHub projects with filtering and stats
-- [ ] **PROJ-02**: Configure which repos to show (pinned, stars threshold, manual list)
-- [ ] **LOGO-01**: Display company logos alongside experience entries
-- [ ] **LOGO-02**: Source and optimize company logo images
-- [ ] **DARK-01**: Implement dark mode with CSS variables
-- [ ] **DARK-02**: Add theme toggle UI component
-- [ ] **DARK-03**: Persist theme preference in localStorage
-- [ ] **VIS-01**: Design fresh color palette and typography
-- [ ] **VIS-02**: Redesign layout and component styling
-- [ ] **VIS-03**: Add subtle animations and micro-interactions
-- [ ] **SEO-01**: Add JSON-LD structured data (Person, Resume)
-- [ ] **SEO-02**: Generate OG image for social sharing
-- [ ] **SEO-03**: Optimize meta tags
-- [ ] **ANA-01**: Integrate privacy-friendly analytics (Plausible/Umami)
-- [ ] **A11Y-01**: Add skip navigation link
-- [ ] **A11Y-02**: Fix color contrast issues
-- [ ] **A11Y-03**: Add aria-labels to interactive elements
-- [ ] **CLEAN-01**: Remove unused public assets
-- [ ] **CLEAN-02**: Remove dead code and unused types
+(None — start next milestone to define new requirements)
 
 ### Out of Scope
 
@@ -93,23 +78,29 @@ A resume/portfolio site that:
 - Contact form — external links only
 - Blog section — pure portfolio focus
 - Authentication — public site
+- GitHub Projects display — built and removed (feature disabled)
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| GitHub API (public) | No auth tokens needed, sufficient for public repos | — Pending |
-| Plausible vs Umami | Both privacy-friendly, need to evaluate | — Pending |
-| Fresh aesthetic direction | User requested distinctive design, not polish | — Pending |
+| next-themes for dark mode | Proven solution, handles flash prevention | ✓ Good |
+| Plausible over Umami | Hosted service, no self-hosting needed, next-plausible package | ✓ Good |
+| Plus Jakarta Sans typography | Modern, distinctive, good readability | ✓ Good |
+| Warm earth tone palette | Professional, distinctive, not generic blue | ✓ Good |
+| Public/ for OG image | Avoids Next.js file convention + basePath double-prefix bug | ✓ Good |
+| GitHub Projects removed | Feature was hardcoded disabled, dead code removed in cleanup | ✓ Good |
+| Contact info print-only | Privacy protection without losing PDF functionality | ✓ Good |
+| No test runner | QA via lint + build + manual check, appropriate for static resume site | ⚠️ Revisit |
 
 ## Risks
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| GitHub API rate limits | Low | Medium | Cache responses, show fallback |
-| Company logo sourcing | Medium | Low | Use placeholders if unavailable |
-| Dark mode color contrast | Medium | Medium | Test both themes for accessibility |
+| Risk | Likelihood | Impact | Mitigation | Status |
+|------|------------|--------|------------|--------|
+| GitHub API rate limits | N/A | N/A | Feature removed | Closed |
+| Company logo sourcing | Low | Low | Letter avatar fallback implemented | Mitigated |
+| Dark mode color contrast | Low | Medium | Muted foreground darkened for WCAG AA | Mitigated |
+| OG image URL path issues | Low | Medium | Explicit absolute URLs in metadata | Mitigated |
 
 ---
-*Last updated: 2026-01-31 after initialization*
-
+*Last updated: 2026-03-06 after v1.0 milestone*
