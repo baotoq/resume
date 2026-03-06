@@ -75,6 +75,11 @@
 - LOGO-03: WebP format, optimized size
 - LOGO-04: Fallback for missing logos
 
+**Plans:** 1 plan
+
+Plans:
+- [ ] 03-01-PLAN.md — Source logos, add CompanyLogo component with letter-avatar fallback
+
 **Success Criteria:**
 1. Each experience entry shows company logo
 2. Logos are crisp at display size
@@ -181,7 +186,7 @@
 1. Can navigate entire site with keyboard only
 2. Focus is always visible when tabbing
 3. Screen reader announces all interactive elements
-4. Lighthouse accessibility score ≥ 95
+4. Lighthouse accessibility score >= 95
 5. axe DevTools shows no critical issues
 
 **Dependencies:** Phase 2 (all visual elements must exist)
@@ -271,5 +276,4 @@ Each phase is complete when:
 
 ---
 
-*Last updated: 2026-01-31*
-
+*Last updated: 2026-03-06*
