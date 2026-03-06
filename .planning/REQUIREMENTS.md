@@ -32,7 +32,7 @@
 
 - [x] **LOGO-01**: Display company logo next to each experience entry
 - [x] **LOGO-02**: Logos sourced from company websites and optimized
-- [x] **LOGO-03**: Logos in WebP format, max 64px display size
+- [x] **LOGO-03**: Logos in optimized format (WebP or PNG), max 64px display size
 - [x] **LOGO-04**: Fallback to letter avatar if logo unavailable
 
 ### SEO & Social (SEO)
