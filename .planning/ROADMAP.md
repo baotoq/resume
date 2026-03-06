@@ -112,8 +112,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md -- Data pipeline: types, prebuild script, language colors, fallback data
-- [ ] 04-02-PLAN.md -- UI component: ProjectsSection card grid, page wiring, visual verification
+- [x] 04-01-PLAN.md -- Data pipeline: types, prebuild script, language colors, fallback data
+- [x] 04-02-PLAN.md -- UI component: ProjectsSection card grid, page wiring, visual verification
 
 **Success Criteria:**
 1. Projects section displays repos
