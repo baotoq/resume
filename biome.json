@@ -10,6 +10,11 @@
     "enabled": true
   },
   "files": {
-    "includes": ["src/**", "scripts/**"]
+    "includes": [
+      "src/**/*.{js,jsx,ts,tsx,json,md,mdx,yml,yaml,html,css,scss,sass}",
+      "!**/node_modules/**/*",
+      "!!**/.git"
+    ],
+    "ignoreUnknown": true
   }
 }
