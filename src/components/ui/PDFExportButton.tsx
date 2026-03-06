@@ -5,7 +5,7 @@ import type { RefObject } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
 
 interface PDFExportButtonProps {
-  contentRef: RefObject<HTMLDivElement | null>;
+  contentRef: RefObject<HTMLElement | null>;
 }
 
 export function PDFExportButton({ contentRef }: PDFExportButtonProps) {

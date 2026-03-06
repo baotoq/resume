@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import PlausibleProvider from "next-plausible";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SkipToContent } from "@/components/ui/SkipToContent";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -70,6 +71,7 @@ export default function RootLayout({
         <PlausibleProvider domain="baotoq.github.io/resume" />
       </head>
       <body className={`${plusJakartaSans.variable} antialiased`}>
+        <SkipToContent />
         <ThemeProvider>
           <AntdRegistry>{children}</AntdRegistry>
         </ThemeProvider>
