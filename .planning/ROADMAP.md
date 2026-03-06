@@ -109,6 +109,12 @@ Plans:
 - PROJ-09: Build-time fetch
 - PROJ-10: Graceful fallback
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md -- Data pipeline: types, prebuild script, language colors, fallback data
+- [ ] 04-02-PLAN.md -- UI component: ProjectsSection card grid, page wiring, visual verification
+
 **Success Criteria:**
 1. Projects section displays repos
 2. Clicking repo opens GitHub in new tab
