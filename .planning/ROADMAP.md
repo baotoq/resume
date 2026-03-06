@@ -9,7 +9,7 @@
 | 1 | Theme Infrastructure | Enable dark mode switching | THEME-01, THEME-02, THEME-03, THEME-04 |
 | 2 | Visual Refresh | Fresh, distinctive design | THEME-05, THEME-06, THEME-07, THEME-08 |
 | 3 | Company Logos | Visual credibility | LOGO-01, LOGO-02, LOGO-03, LOGO-04 |
-| 4 | GitHub Projects | Showcase work | PROJ-01 through PROJ-10 |
+| 4 | GitHub Projects | Complete    | 2026-03-06 |
 | 5 | SEO & Social | Discoverability | SEO-01 through SEO-06 |
 | 6 | Analytics | Track engagement | ANA-01, ANA-02, ANA-03 |
 | 7 | Accessibility | Inclusive design | A11Y-01 through A11Y-06 |
@@ -109,7 +109,7 @@ Plans:
 - PROJ-09: Build-time fetch
 - PROJ-10: Graceful fallback
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 04-01-PLAN.md -- Data pipeline: types, prebuild script, language colors, fallback data
