@@ -1,6 +1,38 @@
+"use client";
+
+import { useState } from "react";
 import { Section } from "./Section";
-import type { Experience as ExperienceType } from "@/types/resume";
+import type { Experience as ExperienceType, Company } from "@/types/resume";
 import { ContainerOutlined } from "@ant-design/icons";
+
+const basePath = process.env.NODE_ENV === "production" ? "/resume" : "";
+
+function CompanyLogo({ company }: { company: Company }) {
+  const [imgError, setImgError] = useState(false);
+  const initial = company.name.charAt(0).toUpperCase();
+
+  if (!company.icon || imgError) {
+    return (
+      <div
+        className="w-12 h-12 rounded-xl bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center text-lg font-bold shrink-0"
+        aria-hidden="true"
+      >
+        {initial}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={`${basePath}/logos/${company.icon}`}
+      alt={`${company.name} logo`}
+      width={48}
+      height={48}
+      className="w-12 h-12 rounded-xl object-contain shrink-0 bg-[var(--muted)]"
+      onError={() => setImgError(true)}
+    />
+  );
+}
 
 // Parse text with **bold** and @@tech@@ markers and return React elements
 function parseTextWithHighlights(text: string): React.ReactNode {
@@ -82,7 +114,9 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
               {/* Card */}
               <div className="group p-6 bg-[var(--card)] rounded-2xl border border-[var(--border)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                 {/* Header Row */}
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+                <div className="flex gap-4 mb-3">
+                  <CompanyLogo company={item.company} />
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 flex-1 min-w-0">
                   <div>
                     <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
                       {item.title}
@@ -103,6 +137,7 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
                     <span className="text-xs text-[var(--muted-foreground)] mt-1 px-3">
                       {calculateDuration(item.period)}
                     </span>
+                  </div>
                   </div>
                 </div>
 
