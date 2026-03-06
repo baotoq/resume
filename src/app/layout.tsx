@@ -1,6 +1,7 @@
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
+import PlausibleProvider from "next-plausible";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
 
@@ -65,6 +66,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <PlausibleProvider domain="baotoq.github.io/resume" />
+      </head>
       <body className={`${plusJakartaSans.variable} antialiased`}>
         <ThemeProvider>
           <AntdRegistry>{children}</AntdRegistry>
