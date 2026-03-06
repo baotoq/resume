@@ -83,8 +83,7 @@ const calculateDuration = (period: { start: Date; end?: Date; current?: boolean 
   const endDate = period.current || !period.end ? new Date() : new Date(period.end);
 
   const totalMonths =
-    (endDate.getFullYear() - startDate.getFullYear()) * 12 +
-    (endDate.getMonth() - startDate.getMonth());
+    (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
 
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;
@@ -117,32 +116,34 @@ export function ExperienceSection({ experiences }: ExperienceProps) {
                 <div className="flex gap-4 mb-3">
                   <CompanyLogo company={item.company} />
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 flex-1 min-w-0">
-                  <div>
-                    <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
-                      {item.title}
-                    </h3>
-                    <a
-                      href={item.company.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[var(--accent)] hover:underline font-semibold"
-                    >
-                      {item.company.name}
-                    </a>
-                  </div>
-                  <div className="flex flex-col items-start md:items-end">
-                    <span className="inline-flex items-center px-3 py-1 bg-[var(--accent)]/10 text-[var(--accent)] text-sm font-medium rounded-full">
-                      {formatPeriod(item.period)}
-                    </span>
-                    <span className="text-xs text-[var(--muted-foreground)] mt-1 px-3">
-                      {calculateDuration(item.period)}
-                    </span>
-                  </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors">
+                        {item.title}
+                      </h3>
+                      <a
+                        href={item.company.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[var(--accent)] hover:underline font-semibold"
+                      >
+                        {item.company.name}
+                      </a>
+                    </div>
+                    <div className="flex flex-col items-start md:items-end">
+                      <span className="inline-flex items-center px-3 py-1 bg-[var(--accent)]/10 text-[var(--accent)] text-sm font-medium rounded-full">
+                        {formatPeriod(item.period)}
+                      </span>
+                      <span className="text-xs text-[var(--muted-foreground)] mt-1 px-3">
+                        {calculateDuration(item.period)}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Summary */}
-                <p className="text-[var(--muted-foreground)] text-sm mb-4 leading-relaxed">{parseTextWithHighlights(item.summary)}</p>
+                <p className="text-[var(--muted-foreground)] text-sm mb-4 leading-relaxed">
+                  {parseTextWithHighlights(item.summary)}
+                </p>
 
                 {/* Skills */}
                 <div className="mb-4 flex flex-wrap gap-2">

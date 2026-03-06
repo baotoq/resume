@@ -11,10 +11,7 @@ export function SkillsSection({ skills }: SkillsProps) {
     <Section title="Skills & Technologies" icon={<ToolOutlined />}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {skills.map((category) => (
-          <div
-            key={category.title}
-            className="p-5 rounded-2xl bg-[var(--muted)] border border-[var(--border)]"
-          >
+          <div key={category.title} className="p-5 rounded-2xl bg-[var(--muted)] border border-[var(--border)]">
             <h3 className="text-sm font-semibold text-[var(--foreground)] mb-3 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
               {category.title}

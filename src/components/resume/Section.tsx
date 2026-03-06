@@ -16,9 +16,7 @@ export function Section({ title, children, icon }: SectionProps) {
           </span>
         )}
         <div className="flex-1">
-          <h2 className="text-xl font-bold text-[var(--foreground)] tracking-tight">
-            {title}
-          </h2>
+          <h2 className="text-xl font-bold text-[var(--foreground)] tracking-tight">{title}</h2>
           <div className="h-1 w-16 bg-[var(--accent)] rounded-full mt-1" />
         </div>
       </div>

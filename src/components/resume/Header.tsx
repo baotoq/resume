@@ -1,11 +1,6 @@
 import type { ContactInfo } from "@/types/resume";
 import type { ReactNode } from "react";
-import {
-  MailOutlined,
-  PhoneOutlined,
-  LinkedinOutlined,
-  GithubOutlined,
-} from "@ant-design/icons";
+import { MailOutlined, PhoneOutlined, LinkedinOutlined, GithubOutlined } from "@ant-design/icons";
 
 interface HeaderProps {
   name: string;
@@ -25,12 +20,8 @@ export function Header({ name, title, contact, pdfButton, themeToggle }: HeaderP
         {/* Name, Title and PDF Button Row */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-[var(--foreground)] tracking-tight">
-              {name}
-            </h1>
-            <p className="text-xl md:text-2xl font-semibold text-[var(--accent)] mt-2">
-              {title}
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold text-[var(--foreground)] tracking-tight">{name}</h1>
+            <p className="text-xl md:text-2xl font-semibold text-[var(--accent)] mt-2">{title}</p>
           </div>
           {/* PDF Button and Theme Toggle */}
           <div className="no-print flex justify-center md:justify-end items-center gap-3">

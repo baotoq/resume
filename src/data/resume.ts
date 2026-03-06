@@ -13,7 +13,7 @@ export const contactInfo: ContactInfo = {
 };
 
 export const summary =
-  "Experienced Software Engineer with 7+ years of proven expertise in designing and building scalable, high-performance web applications. Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.";
+  "Experienced Software Engineer with 8+ years of proven expertise in designing and building scalable, high-performance web applications. Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.";
 
 export const experiences: Experience[] = [
   {
