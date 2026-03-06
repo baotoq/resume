@@ -186,6 +186,11 @@ Plans:
 - ANA-02: Privacy-respecting (no cookies)
 - ANA-03: Page view tracking
 
+**Plans:** 1 plan
+
+Plans:
+- [ ] 06-01-PLAN.md -- Install next-plausible, add PlausibleProvider to root layout
+
 **Success Criteria:**
 1. Plausible dashboard shows page views
 2. No cookie consent banner needed
