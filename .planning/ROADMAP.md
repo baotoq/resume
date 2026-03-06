@@ -144,7 +144,7 @@ Plans:
 **Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 05-01-PLAN.md -- Metadata (OG, Twitter, canonical) and JSON-LD structured data (Person + ProfilePage)
+- [x] 05-01-PLAN.md -- Metadata (OG, Twitter, canonical) and JSON-LD structured data (Person + ProfilePage)
 - [x] 05-02-PLAN.md -- Custom OG image generation and placement
 
 **Success Criteria:**
@@ -168,7 +168,7 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 05.1-01-PLAN.md -- Add print-only CSS class, hide email/phone on web, remove from JSON-LD
+- [x] 05.1-01-PLAN.md -- Add print-only CSS class, hide email/phone on web, remove from JSON-LD
 
 **Success Criteria:**
 1. Email and phone are NOT visible on the web page
