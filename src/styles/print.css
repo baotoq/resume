@@ -32,12 +32,6 @@
     break-inside: avoid;
   }
 
-  /* Remove avoid-break from sections to allow natural flow */
-  section.avoid-break {
-    page-break-inside: auto;
-    break-inside: auto;
-  }
-
   /* Ensure links are visible */
   a {
     color: inherit;
@@ -115,32 +109,6 @@
   header {
     padding-bottom: 1.5rem !important;
     border-bottom: 1px solid #e5e7eb !important;
-  }
-
-  /* Keep gradient text visible in print */
-  .bg-clip-text {
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    color: transparent !important;
-    print-color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-
-  /* Experience cards */
-  .ant-card {
-    border: none !important;
-    border-radius: 0 !important;
-    margin-bottom: 0.5rem !important;
-    box-shadow: none !important;
-    background: #ffffff !important;
-  }
-
-  .ant-card.border-l-4 {
-    border-left: none !important;
-  }
-
-  .ant-card-body {
-    padding: 1rem !important;
   }
 
   /* Timeline for print */
