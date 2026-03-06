@@ -17,7 +17,7 @@ import { contactInfo, education, experiences, mainInfo, skillCategories, summary
 export default function ResumePage() {
   const showProjects = false;
 
-  const resumeRef = useRef<HTMLDivElement>(null);
+  const resumeRef = useRef<HTMLElement>(null);
 
   const jsonLd: WithContext<ProfilePage> = {
     "@context": "https://schema.org",
@@ -52,10 +52,11 @@ export default function ResumePage() {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <div
+      <main
         ref={resumeRef}
         className="relative max-w-4xl mx-auto bg-[var(--card)] shadow-xl rounded-2xl px-8 py-10 sm:px-12 sm:py-12 border border-[var(--border)] flex flex-col gap-12 animate-fade-in"
         id="resume-content"
+        tabIndex={-1}
       >
         <Header
           name={mainInfo.name}
@@ -69,7 +70,7 @@ export default function ResumePage() {
         <EducationSection education={education} />
         <SkillsSection skills={skillCategories} />
         {showProjects && <ProjectsSection repos={githubRepos} />}
-      </div>
+      </main>
     </div>
   );
 }
