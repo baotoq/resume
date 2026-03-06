@@ -1,25 +1,18 @@
 ---
 phase: 05-seo-social
 verified: 2026-03-06T10:00:00Z
-status: gaps_found
-score: 7/8 must-haves verified
-gaps:
-  - truth: "OG image URL in built HTML is correct and resolves to the actual image"
-    status: failed
-    reason: "Next.js file convention + basePath causes double /resume/resume/ prefix in og:image URL"
-    artifacts:
-      - path: "out/index.html"
-        issue: "og:image content is https://baotoq.github.io/resume/resume/opengraph-image.png but image deploys to /resume/opengraph-image.png"
-    missing:
-      - "Fix og:image URL so it resolves to the correct path on GitHub Pages (single /resume/ prefix)"
-      - "Options: use openGraph.images in metadata export with explicit URL, or configure metadataBase differently"
+status: passed
+score: 8/8 must-haves verified
+gaps: []
+re_verified: 2026-03-06T16:30:00Z
+re_verification_note: "OG image double-prefix bug fixed — image moved to public/ with explicit absolute URL in metadata. Built output confirmed correct: https://baotoq.github.io/resume/opengraph-image.png"
 ---
 
 # Phase 5: SEO & Social Verification Report
 
 **Phase Goal:** Improve discoverability and social sharing appearance.
 **Verified:** 2026-03-06T10:00:00Z
-**Status:** gaps_found
+**Status:** passed (re-verified)
 **Re-verification:** No -- initial verification
 
 ## Goal Achievement
@@ -35,9 +28,9 @@ gaps:
 | 5 | JSON-LD Person entity has name, jobTitle, email, sameAs, worksFor, alumniOf, knowsAbout from resume data | VERIFIED | All fields populated from resume.ts: name="To Quoc Bao", jobTitle="Senior Software Engineer", email, sameAs=[linkedin,github], worksFor=CoverGo, alumniOf=Ton Duc Thang University, knowsAbout=22 skills |
 | 6 | A 1200x630 PNG OG image exists at src/app/opengraph-image.png | VERIFIED | File exists, 1200x630 RGBA PNG, 78KB, professional design with name/title/skills |
 | 7 | OG image displays name, title, and key skills with site theme colors | VERIFIED | Visual inspection confirms name, title, 6 skill pills, teal accent, warm beige background |
-| 8 | Built output contains og:image meta tag pointing to the image | FAILED | og:image URL is https://baotoq.github.io/resume/resume/opengraph-image.png (double /resume/ prefix). Image deploys to /resume/opengraph-image.png. The URL will 404. |
+| 8 | Built output contains og:image meta tag pointing to the image | VERIFIED | og:image URL is https://baotoq.github.io/resume/opengraph-image.png (correct single prefix). Fixed by moving image to public/ with explicit absolute URL in metadata. |
 
-**Score:** 7/8 truths verified
+**Score:** 8/8 truths verified
 
 ### Required Artifacts
 
