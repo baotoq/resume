@@ -1,3 +1,8 @@
+/* Hide print-only elements on screen */
+.print-only {
+  display: none !important;
+}
+
 /* Print Styles for PDF Export */
 @media print {
   @page {
@@ -14,6 +19,11 @@
   /* Hide PDF export button when printing */
   .no-print {
     display: none !important;
+  }
+
+  /* Show print-only elements when printing */
+  .print-only {
+    display: flex !important;
   }
 
   /* Allow content to flow naturally - only avoid breaks for experience items */

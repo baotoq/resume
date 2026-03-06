@@ -43,19 +43,19 @@ export function Header({ name, title, contact, pdfButton, themeToggle }: HeaderP
         <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
           <a
             href={`mailto:${contact.email}`}
-            className="group flex items-center gap-2 px-4 py-2 bg-[var(--muted)] hover:bg-[var(--accent)]/10 rounded-full border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all duration-200"
+            className="print-only flex items-center gap-2 px-4 py-2 bg-[var(--muted)] rounded-full border border-[var(--border)]"
           >
             <MailOutlined className="text-[var(--accent)]" />
-            <span className="text-sm text-[var(--foreground)] group-hover:text-[var(--accent)]">{contact.email}</span>
+            <span className="text-sm text-[var(--foreground)]">{contact.email}</span>
           </a>
 
           {contact.phone && (
             <a
               href={`tel:${contact.phone}`}
-              className="group flex items-center gap-2 px-4 py-2 bg-[var(--muted)] hover:bg-[var(--accent)]/10 rounded-full border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all duration-200"
+              className="print-only flex items-center gap-2 px-4 py-2 bg-[var(--muted)] rounded-full border border-[var(--border)]"
             >
               <PhoneOutlined className="text-[var(--accent)]" />
-              <span className="text-sm text-[var(--foreground)] group-hover:text-[var(--accent)]">{contact.phone}</span>
+              <span className="text-sm text-[var(--foreground)]">{contact.phone}</span>
             </a>
           )}
 
