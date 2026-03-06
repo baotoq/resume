@@ -19,10 +19,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   // Show placeholder during SSR/hydration
   if (!mounted) {
     return (
-      <div
-        className={`w-20 h-8 rounded-full bg-gray-200 dark:bg-gray-700 ${className ?? ""}`}
-        aria-hidden="true"
-      />
+      <div className={`w-20 h-8 rounded-full bg-gray-200 dark:bg-gray-700 ${className ?? ""}`} aria-hidden="true" />
     );
   }
 
@@ -80,4 +77,3 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     </button>
   );
 }
-
