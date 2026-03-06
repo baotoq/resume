@@ -160,6 +160,16 @@ Plans:
 
 ---
 
+### Phase 05.1: Contact info privacy — hide phone/email from web, keep in PDF only (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 5
+**Plans:** 2/2 plans complete
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 05.1 to break down)
+
 ## Phase 6: Analytics
 
 **Goal:** Track visitor engagement with privacy-friendly analytics.
