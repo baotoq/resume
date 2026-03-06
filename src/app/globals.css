@@ -90,3 +90,10 @@ body {
 .animate-fade-in {
   animation: fadeIn 300ms ease-out;
 }
+
+@media print {
+  img {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
