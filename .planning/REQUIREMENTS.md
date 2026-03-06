@@ -20,13 +20,13 @@
 - [ ] **PROJ-01**: Display GitHub repositories in a dedicated Projects section
 - [ ] **PROJ-02**: Show repo name with link to GitHub
 - [ ] **PROJ-03**: Show repo description
-- [ ] **PROJ-04**: Show primary programming language with color indicator
+- [x] **PROJ-04**: Show primary programming language with color indicator
 - [ ] **PROJ-05**: Show star count
 - [ ] **PROJ-06**: Show fork count
 - [ ] **PROJ-07**: Show last updated date
-- [ ] **PROJ-08**: Filter repos by configurable criteria (min stars, exclude forks, topics)
-- [ ] **PROJ-09**: Repos fetched at build time (no runtime API calls)
-- [ ] **PROJ-10**: Graceful fallback if GitHub API unavailable
+- [x] **PROJ-08**: Filter repos by configurable criteria (min stars, exclude forks, topics)
+- [x] **PROJ-09**: Repos fetched at build time (no runtime API calls)
+- [x] **PROJ-10**: Graceful fallback if GitHub API unavailable
 
 ### Company Branding (LOGO)
 
@@ -108,13 +108,13 @@
 | PROJ-01 | Phase 4 | Pending |
 | PROJ-02 | Phase 4 | Pending |
 | PROJ-03 | Phase 4 | Pending |
-| PROJ-04 | Phase 4 | Pending |
+| PROJ-04 | Phase 4 | Complete |
 | PROJ-05 | Phase 4 | Pending |
 | PROJ-06 | Phase 4 | Pending |
 | PROJ-07 | Phase 4 | Pending |
-| PROJ-08 | Phase 4 | Pending |
-| PROJ-09 | Phase 4 | Pending |
-| PROJ-10 | Phase 4 | Pending |
+| PROJ-08 | Phase 4 | Complete |
+| PROJ-09 | Phase 4 | Complete |
+| PROJ-10 | Phase 4 | Complete |
 | LOGO-01 | Phase 3 | Complete |
 | LOGO-02 | Phase 3 | Complete |
 | LOGO-03 | Phase 3 | Complete |
