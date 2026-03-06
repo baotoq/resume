@@ -43,3 +43,13 @@ export interface Project {
   technologies: string;
   achievements: string[];
 }
+
+export interface GitHubRepo {
+  name: string;
+  url: string;
+  description: string;
+  language: string | null;
+  stars: number;
+  forks: number;
+  updatedAt: string; // ISO date string
+}
