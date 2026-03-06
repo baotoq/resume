@@ -61,10 +61,10 @@
 
 ### Cleanup (CLEAN)
 
-- [ ] **CLEAN-01**: Remove unused SVG files from public/ directory
-- [ ] **CLEAN-02**: Remove unused Project type if not used
-- [ ] **CLEAN-03**: Remove dark mode CSS variables if replaced
-- [ ] **CLEAN-04**: Ensure no console errors or warnings
+- [x] **CLEAN-01**: Remove unused SVG files from public/ directory
+- [x] **CLEAN-02**: Remove unused Project type if not used
+- [x] **CLEAN-03**: Remove dark mode CSS variables if replaced
+- [x] **CLEAN-04**: Ensure no console errors or warnings
 
 ---
 
@@ -134,10 +134,10 @@
 | A11Y-04 | Phase 7 | Complete |
 | A11Y-05 | Phase 7 | Complete |
 | A11Y-06 | Phase 7 | Complete |
-| CLEAN-01 | Phase 8 | Pending |
-| CLEAN-02 | Phase 8 | Pending |
-| CLEAN-03 | Phase 8 | Pending |
-| CLEAN-04 | Phase 8 | Pending |
+| CLEAN-01 | Phase 8 | Complete |
+| CLEAN-02 | Phase 8 | Complete |
+| CLEAN-03 | Phase 8 | Complete |
+| CLEAN-04 | Phase 8 | Complete |
 
 ---
 
