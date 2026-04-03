@@ -30,12 +30,11 @@ export const experiences: Experience[] = [
     },
     skills: [".NET Core", "DDD", "GraphQL", "Vue.js", "Dapr", "MongoDB", "Redis", "Kubernetes", "FluxCD"],
     summary:
-      "@@CoverGo@@ is a **leading provider** of @@insurance solutions@@, offering a comprehensive suite of products and services to businesses and individuals.",
+      "@@CoverGo@@ is a leading provider of @@insurance solutions@@, offering a comprehensive suite of products and services to businesses and individuals.",
     achievements: [
-      "**Developed** @@quotation engine@@ and @@offer proposal workflow@@, streamlining the **end-to-end insurance product configuration** process.",
-      "**Designed** event-driven architecture using @@Dapr@@ for **seamless communication** between quotation and policy services.",
-      "**Implemented** caching layer with @@Redis@@ to optimize quote retrieval, **reducing response times**.",
-      "**Built** @@GraphQL@@ APIs for flexible quotation data querying, **improving frontend development efficiency**.",
+      "**Developed** multi-tenancy insurance administration quotation features, streamlining the end-to-end insurance product configuration process.",
+      "**Adopted** @@cloud native@@ service-to-service communication between services using @@Dapr@@.",
+      "**Built** @@GraphQL@@ APIs for flexible quotation data querying, improving frontend development efficiency.",
       "**Adopted** @@Claude Code@@ for daily development, exploring features like agent skills and custom workflows, and shared practical tips with the team to **improve collective productivity**.",
     ],
   },
@@ -65,10 +64,10 @@ export const experiences: Experience[] = [
       "Odoo",
     ],
     summary:
-      "@@Upmesh@@ empowers **live selling** and @@social commerce@@ on @@Facebook@@ and @@Instagram@@ by automating sales, payments, marketing and fulfillment with an **all-in-one solution**.",
+      "@@Upmesh@@ empowers **live selling** and **e-commerce** on @@Facebook@@ and @@Instagram@@ by automating sales, payments, marketing and fulfillment with an **all-in-one solution**.",
     achievements: [
-      "**Implemented** an automated @@Facebook@@ comment capture system handling **5,000 comments/second** at peak time, enabling **real-time order processing** during live streams.",
-      "**Designed and built** scalable APIs, integrating @@Stripe@@ and @@3rd-party logistics@@ services to align architecture with **business needs and future growth**.",
+      "**Implemented** an automated Facebook comments capture system handling @@5,000 comments/second@@ at peak time, enabling **real-time order processing** during live streams.",
+      "**Designed and built** scalable APIs, integrating @@Stripe@@ and @@3rd-party logistics@@ services.",
       "**Implemented** full-text search using @@Elasticsearch@@ for **millions of records**, improving search query performance significantly.",
       "**Maintained** @@GitOps@@ workflow, @@Kubernetes@@ clusters, @@CI/CD pipelines@@, and other essential components, ensuring the **stability and performance** of the system.",
       "**Pioneered** the use of @@Testcontainers@@ to streamline **unit and integration testing**, significantly **reducing test setup time** and enhancing reliability.",
