@@ -7,7 +7,7 @@ export const mainInfo = {
 
 export const contactInfo: ContactInfo = {
   email: "baotoq@outlook.com",
-  phone: "+84 708 270 396",
+  phone: "693 072 8070",
   linkedin: "https://www.linkedin.com/in/baotoq",
   github: "https://github.com/baotoq",
 };
