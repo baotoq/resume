@@ -13,7 +13,7 @@ export const contactInfo: ContactInfo = {
 };
 
 export const summary =
-  "Experienced Software Engineer with 8+ years of proven expertise in designing and building scalable, high-performance web applications. Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.";
+  "Experienced Software Engineer with 7+ years of proven expertise in designing and building scalable, high-performance web applications. Hands-on experience in microservices architecture, CI/CD pipelines, GitOps workflows, and Kubernetes orchestration for reliable, scalable deployments.";
 
 export const experiences: Experience[] = [
   {
@@ -32,9 +32,10 @@ export const experiences: Experience[] = [
     summary:
       "@@CoverGo@@ is a leading provider of @@insurance solutions@@, offering a comprehensive suite of products and services to businesses and individuals.",
     achievements: [
-      "**Developed** multi-tenancy insurance administration quotation features, streamlining the end-to-end insurance product configuration process.",
-      "**Adopted** @@cloud native@@ service-to-service communication between services using @@Dapr@@.",
-      "**Built** @@GraphQL@@ APIs for flexible quotation data querying, improving frontend development efficiency.",
+      "**Developed** @@quotation features@@ for **multi-tenancy** insurance administration.",
+      "**Adopted** @@cloud-native@@ service-to-service communication between services using @@Dapr@@.",
+      "**Built** @@GraphQL@@ APIs and modern frontends with @@Vue.js@@ to enhance user experience",
+      "**Deployed** and **Operated** cloud-native workloads using @@Containers & Kubernetes@@",
       "**Adopted** @@Claude Code@@ for daily development, exploring features like agent skills and custom workflows, and shared practical tips with the team to **improve collective productivity**.",
     ],
   },
@@ -66,10 +67,10 @@ export const experiences: Experience[] = [
     summary:
       "@@Upmesh@@ empowers **live selling** and **e-commerce** on @@Facebook@@ and @@Instagram@@ by automating sales, payments, marketing and fulfillment with an **all-in-one solution**.",
     achievements: [
-      "**Implemented** an automated Facebook comments capture system handling @@5,000 comments/second@@ at peak time, enabling **real-time order processing** during live streams.",
+      "**Implemented** an automated @@Facebook@@ comments capture system handling **5,000 comments/second** at peak time, enabling **real-time order processing** during live streams.",
       "**Designed and built** scalable APIs, integrating @@Stripe@@ and @@3rd-party logistics@@ services.",
       "**Implemented** full-text search using @@Elasticsearch@@ for **millions of records**, improving search query performance significantly.",
-      "**Maintained** @@GitOps@@ workflow, @@Kubernetes@@ clusters, @@CI/CD pipelines@@, and other essential components, ensuring the **stability and performance** of the system.",
+      "**Operated** @@GitOps@@ workflow, @@Kubernetes@@ clusters, @@CI/CD pipelines@@, and other essential components, ensuring the **stability and performance** of the system.",
       "**Pioneered** the use of @@Testcontainers@@ to streamline **unit and integration testing**, significantly **reducing test setup time** and enhancing reliability.",
       "**Optimized** @@CI/CD pipeline@@, successfully **reducing deployment time by 75%**, significantly improved **time-to-market** for new features and updates.",
     ],
@@ -112,7 +113,7 @@ export const experiences: Experience[] = [
     achievements: [
       "**Implemented** a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring **smooth integration** with internal systems.",
       "**Implemented** a feature-rich portal, **designed** @@RESTful APIs@@, @@gRPC@@ services and other backend solutions.",
-      "**Implemented** @@real-time push notification@@ with @@Azure SignalR@@ providing **instant updates** and notifications.",
+      "**Implemented** @@real-time@@ push notification with @@Azure SignalR@@ providing **instant updates** and notifications.",
       "**Integrated** with @@Grafana@@, @@Prometheus@@, @@Alert Manager@@, @@Jaeger@@ for effective **measurement and monitoring** of metrics.",
       "**Conducted** comprehensive unit tests and integration tests, maintaining a minimum **code coverage of 80%**.",
     ],
