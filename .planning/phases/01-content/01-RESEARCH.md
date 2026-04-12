@@ -365,17 +365,19 @@ contacts.map((item, i) => (
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `NEXT_PUBLIC_PHONE` render in the header?**
    - What we know: D-04 defines both `NEXT_PUBLIC_EMAIL` and `NEXT_PUBLIC_PHONE`; CONT-01 requires only email, GitHub, and LinkedIn in the header.
    - What's unclear: Whether phone number should appear alongside email in the header contact row.
    - Recommendation: Include phone in contact row if env var is set; omit if not set (filter(Boolean) pattern). Safe to decide at implementation time.
+   - RESOLVED: Plan 01-02 Task 1 uses filter(Boolean) pattern — phone renders only if env var is set.
 
 2. **`src/data/` vs `data/` (project root) location**
    - What we know: CONTEXT.md D-03 specifies `src/data/resume.md`; `@/*` alias maps to `./src/*`.
    - What's unclear: Nothing — `src/data/resume.md` is locked.
    - Recommendation: No action needed; location is decided.
+   - RESOLVED: `src/data/resume.md` locked by D-03. Implemented in Plan 01-01 Task 2.
 
 ---
 
