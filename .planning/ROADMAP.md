@@ -2,7 +2,7 @@
 
 ## Overview
 
-Build a professional resume page from the existing Next.js 16 scaffold. Phase 1 delivers all resume content rendered on the page. Phase 2 makes that content responsive and adds scroll animations. Phase 3 ships the finished page to a public Vercel URL.
+Build a professional resume page from the existing Next.js 16 scaffold. Phase 1 delivers all resume content rendered on the page. Phase 2 makes that content responsive and adds scroll animations. Phase 3 ships the finished page to a public GitHub Pages URL.
 
 ## Phases
 
@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Content** - Render header, work experience, and skills on the page
 - [ ] **Phase 2: Layout & Polish** - Responsive layout and scroll-entry animations
-- [ ] **Phase 3: Deploy** - Ship the finished page to a public Vercel URL
+- [ ] **Phase 3: Deploy** - Ship the finished page to a public GitHub Pages URL
 
 ## Phase Details
 
@@ -45,7 +45,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Depends on**: Phase 2
 **Requirements**: DEPLOY-01
 **Success Criteria** (what must be TRUE):
-  1. Visiting the Vercel URL in a browser loads the complete resume page
+  1. Visiting the GitHub Pages URL in a browser loads the complete resume page
   2. The URL can be shared with a recruiter who opens it without authentication or friction
 **Plans**: TBD
 

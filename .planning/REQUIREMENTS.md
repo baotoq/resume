@@ -18,7 +18,7 @@
 
 ### Deploy
 
-- [ ] **DEPLOY-01**: Page is live at a public Vercel URL that can be shared with recruiters
+- [ ] **DEPLOY-01**: Page is live at a public GitHub Pages URL that can be shared with recruiters
 
 ## v2 Requirements
 

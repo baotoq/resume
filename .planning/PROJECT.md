@@ -16,7 +16,7 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - ✓ TypeScript strict mode configured — existing
 - ✓ Tailwind CSS v4 configured — existing
 - ✓ Biome linting/formatting configured — existing
-- ✓ Vercel deployment ready — existing
+- ✓ GitHub Pages deployment ready — existing
 
 ### Active
 
@@ -24,7 +24,7 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - [ ] Skills section — tech stack, languages, tools
 - [ ] PDF download button — generates clean PDF from the page
 - [ ] Responsive layout — readable on mobile and desktop
-- [ ] Public deployment on Vercel — shareable URL for recruiters
+- [ ] Public deployment on GitHub Pages — shareable URL for recruiters
 
 ### Out of Scope
 
@@ -40,7 +40,7 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - Target audience: software engineering recruiters and engineering hiring managers
 - Goal balance: professional enough for recruiter scan, polished enough to impress engineers reviewing it
 - PDF export must match the web design — not a separate layout
-- Deployment target: Vercel (already implied by project setup)
+- Deployment target: GitHub Pages (already implied by project setup)
 
 ## Constraints
 
@@ -49,12 +49,13 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - **Next.js**: v16 has breaking changes from training data — read `node_modules/next/dist/docs/` before touching framework APIs
 - **No backend**: Static content only — no database, no API routes needed for resume data
 - **PDF**: Must work without a headless browser server — use client-side or build-time PDF generation
+- **GitHub Pages**: Requires Next.js `output: 'export'` in `next.config.ts` for static HTML export — no server-side rendering or API routes at runtime
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Keep existing Next.js stack | Already configured, Vercel-ready | — Pending |
+| Keep existing Next.js stack | Already configured, GitHub Pages-ready | — Pending |
 | PDF via client-side generation | No server infra needed for static resume | — Pending |
 | Single page layout | Recruiters expect a scrollable resume, not multi-page nav | — Pending |
 
