@@ -40,7 +40,9 @@ Plans:
   1. Visitor on a mobile viewport can read all sections without horizontal scrolling or clipped content
   2. Visitor on a desktop viewport sees a well-proportioned layout with no cramped or broken sections
   3. Visitor scrolling down the page sees sections fade in subtly as they enter the viewport
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 02-01-PLAN.md — Install framer-motion, create AnimateIn wrapper, stagger-wrap sections in page.tsx
 **UI hint**: yes
 
 ### Phase 3: Deploy
@@ -60,5 +62,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Content | 0/2 | Planning complete | - |
-| 2. Layout & Polish | 0/TBD | Not started | - |
+| 2. Layout & Polish | 0/1 | Planning complete | - |
 | 3. Deploy | 0/TBD | Not started | - |
