@@ -26,7 +26,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Visitor can see name, job title, email, GitHub link, and LinkedIn link in the header
   2. Visitor can read work experience entries in reverse-chronological order with company, role, date range, and bullet points per entry
   3. Visitor can read skills organized into labeled categories (Languages, Frameworks, Databases, Tools/Cloud)
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 01-01-PLAN.md — Data layer: install gray-matter, create types, resume data, fix CSS, wire page.tsx
+- [ ] 01-02-PLAN.md — Section components: Header, WorkExperience, Skills + visual verification
 **UI hint**: yes
 
 ### Phase 2: Layout & Polish
@@ -56,6 +59,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Content | 0/TBD | Not started | - |
+| 1. Content | 0/2 | Planning complete | - |
 | 2. Layout & Polish | 0/TBD | Not started | - |
 | 3. Deploy | 0/TBD | Not started | - |
