@@ -28,8 +28,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Visitor can read skills organized into labeled categories (Languages, Frameworks, Databases, Tools/Cloud)
 **Plans**: 2 plans
 Plans:
-- [ ] 01-01-PLAN.md — Data layer: install gray-matter, create types, resume data, fix CSS, wire page.tsx
-- [ ] 01-02-PLAN.md — Section components: Header, WorkExperience, Skills + visual verification
+- [x] 01-01-PLAN.md — Data layer: install gray-matter, create types, resume data, fix CSS, wire page.tsx
+- [x] 01-02-PLAN.md — Section components: Header, WorkExperience, Skills + visual verification
 **UI hint**: yes
 
 ### Phase 2: Layout & Polish
