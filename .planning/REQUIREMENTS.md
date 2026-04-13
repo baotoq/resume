@@ -1,0 +1,56 @@
+# Requirements: Resume / CV Page — v1.1
+
+**Defined:** 2026-04-13
+**Core Value:** A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
+
+## v1.1 Requirements
+
+### Logo
+
+- [ ] **LOGO-01**: Visitor sees company logo image next to each work entry when `logo_url` is set in resume.md
+- [ ] **LOGO-02**: Visitor sees a briefcase icon when no `logo_url` is provided or the image fails to load
+- [ ] **LOGO-03**: `ExperienceEntry` type in `src/types/resume.ts` accepts optional `logo_url` field
+
+### Timeline
+
+- [ ] **TIMELINE-01**: Visitor sees a vertical line on the left side connecting all work experience entries
+- [ ] **TIMELINE-02**: Visitor sees a dot at the start of each job entry on the timeline line
+- [ ] **TIMELINE-03**: Current role (no `endDate`) shows a filled indigo dot; past roles show a hollow/outlined dot
+- [ ] **TIMELINE-04**: The vertical line does not extend past the last entry
+
+## Future Requirements
+
+- Duration labels computed from date ranges (e.g. "2 yr 4 mo")
+- PDF download button
+- Dark/light mode toggle
+- About/bio intro paragraph
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Clearbit / external API for logos | No server at runtime — static export only |
+| next/image for logos | Unsupported with external URLs in static export — silently 404s |
+| Animated timeline line draw | Over-engineered for a resume page |
+| Icon library (lucide, heroicons) | One icon doesn't justify the bundle cost — inline SVG only |
+
+## Traceability
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| LOGO-01 | Phase 4 | Pending |
+| LOGO-02 | Phase 4 | Pending |
+| LOGO-03 | Phase 4 | Pending |
+| TIMELINE-01 | Phase 4 | Pending |
+| TIMELINE-02 | Phase 4 | Pending |
+| TIMELINE-03 | Phase 4 | Pending |
+| TIMELINE-04 | Phase 4 | Pending |
+
+**Coverage:**
+- v1.1 requirements: 7 total
+- Mapped to phases: 7
+- Unmapped: 0 ✓
+
+---
+*Requirements defined: 2026-04-13*
+*Last updated: 2026-04-13 after milestone v1.1 start*
