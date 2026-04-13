@@ -41,6 +41,42 @@
 
 ---
 
+## Milestone: v1.1 — Visual Polish
+
+**Shipped:** 2026-04-13
+**Phases:** 1 | **Plans:** 2 | **Sessions:** 1
+
+### What Was Built
+- `LogoImage` client component — 40×40 company logo with inline-SVG briefcase fallback, `onError` error tracking
+- Vertical timeline rail — single continuous line through all work entries, filled indigo dot (current) / hollow dot (past)
+- Human visual QA checkpoint with fix loop before phase sign-off
+
+### What Worked
+- Client/server component split held cleanly: `LogoImage` gets `'use client'` for `onError`+`useState`; `WorkExperience` stays a Server Component
+- Inline SVG for the one fallback icon — no bundle cost, no routing issues from basePath
+- Human QA checkpoint (plan 04-02) caught real visual bugs before milestone close
+
+### What Was Inefficient
+- Per-entry `!isLast` line segments was the wrong approach from the start — last card had no line, and centering was off; a single rail-container element is simpler and correct
+- SUMMARY.md one-liner YAML format still not picked up by gsd-tools — required manual fix in MILESTONES.md again (same issue as v1.0)
+- REQUIREMENTS.md traceability stayed "Pending" throughout — same pattern as v1.0, still not updating during execution
+
+### Patterns Established
+- Single continuous absolute timeline line in the rail container > per-entry segments: avoids `!isLast` edge cases and centering math per entry
+- Always include a human QA checkpoint plan for visual features — catches pixel-level issues automated checks miss
+
+### Key Lessons
+1. For timeline/rail UIs: position one continuous element in the parent container rather than segments in each child — cleaner, no edge-case gaps
+2. Plain `<img>` over `next/image` for external URLs in static export — next/image silently 404s with no console error
+3. REQUIREMENTS.md traceability still being left as "Pending" at milestone close — need to update during plan execution
+
+### Cost Observations
+- Model mix: ~100% sonnet
+- Sessions: 1
+- Notable: 1 phase, 2 plans — small milestone executed in a single session with one visual fix loop
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -48,7 +84,9 @@
 | Milestone | Sessions | Phases | Key Change |
 |-----------|----------|--------|------------|
 | v1.0 | 2 | 3 | Baseline established |
+| v1.1 | 1 | 1 | Human QA checkpoint added for visual features |
 
 ### Top Lessons (Verified Across Milestones)
 
-1. Keep REQUIREMENTS.md traceability updated during execution, not just at milestone close
+1. Keep REQUIREMENTS.md traceability updated during execution, not just at milestone close — happened in both v1.0 and v1.1
+2. SUMMARY.md one-liner YAML field not parsed by gsd-tools — manually fix MILESTONES.md accomplishments after each milestone

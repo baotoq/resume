@@ -1,15 +1,5 @@
 # Resume / CV Page
 
-## Current Milestone: v1.1 Visual Polish
-
-**Goal:** Work experience section shows company logos and a vertical timeline connecting entries.
-
-**Target features:**
-- Company logo per entry (manual `logo_url` in resume.md), generic briefcase fallback when absent
-- Vertical timeline — left-side line + dot per job connecting all work experience cards
-
----
-
 ## What This Is
 
 A personal resume website for a software engineer to share with recruiters and hiring teams. The page presents work experience and skills in a clean, professional format with scroll animations that reflects engineering craft. Live on GitHub Pages at a shareable URL.
@@ -32,11 +22,11 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - ✓ Responsive layout — readable on mobile and desktop — v1.0
 - ✓ Public deployment on GitHub Pages — shareable URL for recruiters — v1.0
 - ✓ Scroll animations — sections fade in on scroll entry — v1.0
+- ✓ Company logo per work entry (manual logo_url, briefcase fallback) — v1.1
+- ✓ Vertical timeline — continuous left-side line + dot per job entry, filled/hollow dot distinction — v1.1
 
 ### Active
 
-- [ ] Company logo per work entry (manual logo_url, briefcase fallback) — v1.1
-- [ ] Vertical timeline — left-side line + dot per job entry — v1.1
 - [ ] PDF download button — generates clean PDF from the page
 - [ ] About/bio intro paragraph — CONT-V2-01
 - [ ] Duration labels computed from date ranges — CONT-V2-02
@@ -53,11 +43,12 @@ A recruiter or engineer can open the link, immediately understand who you are an
 
 ## Context
 
-- Shipped v1.0 with ~210 LOC TypeScript/TSX
+- Shipped v1.1 with ~270 LOC TypeScript/TSX (added LogoImage component + timeline rail)
 - Tech stack: Next.js 16.2.3 + React 19 + TypeScript + Tailwind v4 + framer-motion 12
 - Content: gray-matter YAML frontmatter in `src/data/resume.md` — user fills in real data
 - Deployment: GitHub Pages via `output: 'export'` static export + GitHub Actions OIDC workflow
 - Note: `src/data/resume.md` still has placeholder experience entries — user must populate with real data before sharing
+- Note: `logo_url` fields in resume.md point to placeholder (Wikimedia CDN Google logo) — user must add real logo URLs
 
 ## Constraints
 
@@ -82,6 +73,9 @@ A recruiter or engineer can open the link, immediately understand who you are an
 | OIDC auth for GitHub Pages deploy | No stored secrets in repo | ✓ Good |
 | PDF via client-side generation | No server infra needed for static resume | — Deferred to v2 |
 | Single page layout | Recruiters expect a scrollable resume, not multi-page nav | ✓ Good |
+| Plain `<img>` over next/image for logos | next/image silently 404s with external URLs on static export | ✓ Good — avoids silent failures |
+| Inline SVG briefcase fallback | Avoids basePath routing issues and icon library bundle cost | ✓ Good |
+| Single continuous timeline line vs per-entry segments | Per-entry `!isLast` approach left last card with no visible line; single rail-container element fixes this cleanly | ✓ Good — simpler and correct |
 
 ## Evolution
 
@@ -101,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-13 after v1.1 milestone start*
+*Last updated: 2026-04-13 after v1.1 milestone*
