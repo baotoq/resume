@@ -8,6 +8,7 @@ experience:
     role: "Senior Software Engineer"
     startDate: "2022-01"
     endDate: null
+    logo_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/200px-Google_2015_logo.svg.png"
     bullets:
       - "Led migration of monolithic API to microservices, reducing deployment time by 60%"
       - "Designed and implemented real-time event pipeline processing 50K events/sec"
