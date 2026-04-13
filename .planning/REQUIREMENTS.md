@@ -46,11 +46,11 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| TECH-01 | — | Pending |
-| TECH-02 | — | Pending |
-| TECH-03 | — | Pending |
-| TECH-04 | — | Pending |
-| TECH-05 | — | Pending |
-| KW-01 | — | Pending |
-| KW-02 | — | Pending |
-| KW-03 | — | Pending |
+| TECH-01 | Phase 5 | Pending |
+| TECH-02 | Phase 5 | Pending |
+| TECH-03 | Phase 5 | Pending |
+| TECH-04 | Phase 5 | Pending |
+| TECH-05 | Phase 5 | Pending |
+| KW-01 | Phase 6 | Pending |
+| KW-02 | Phase 6 | Pending |
+| KW-03 | Phase 6 | Pending |
