@@ -1,5 +1,15 @@
 # Resume / CV Page
 
+## Current Milestone: v1.1 Visual Polish
+
+**Goal:** Work experience section shows company logos and a vertical timeline connecting entries.
+
+**Target features:**
+- Company logo per entry (manual `logo_url` in resume.md), generic briefcase fallback when absent
+- Vertical timeline — left-side line + dot per job connecting all work experience cards
+
+---
+
 ## What This Is
 
 A personal resume website for a software engineer to share with recruiters and hiring teams. The page presents work experience and skills in a clean, professional format with scroll animations that reflects engineering craft. Live on GitHub Pages at a shareable URL.
@@ -25,6 +35,8 @@ A recruiter or engineer can open the link, immediately understand who you are an
 
 ### Active
 
+- [ ] Company logo per work entry (manual logo_url, briefcase fallback) — v1.1
+- [ ] Vertical timeline — left-side line + dot per job entry — v1.1
 - [ ] PDF download button — generates clean PDF from the page
 - [ ] About/bio intro paragraph — CONT-V2-01
 - [ ] Duration labels computed from date ranges — CONT-V2-02
@@ -89,4 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-13 after v1.0 milestone*
+*Last updated: 2026-04-13 after v1.1 milestone start*
