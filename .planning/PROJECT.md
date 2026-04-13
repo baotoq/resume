@@ -8,6 +8,15 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
+## Current Milestone: v1.2 Tech Stack Icons + Keyword Highlights
+
+**Goal:** Make each experience card more scannable with colored Devicon tech stack icons and accent-colored keywords in bullet points.
+
+**Target features:**
+- `tech_stack` array field per experience entry in resume.md
+- Devicons via CDN, rendered below role/date header, above bullets
+- `**bold**` keywords in bullet text render in indigo-600 accent color
+
 ## Requirements
 
 ### Validated
@@ -27,6 +36,8 @@ A recruiter or engineer can open the link, immediately understand who you are an
 
 ### Active
 
+- [ ] Tech stack icons per experience entry (Devicons CDN) — TECH-01
+- [ ] Keyword highlighting in bullet points (**bold** → accent color) — TECH-02
 - [ ] PDF download button — generates clean PDF from the page
 - [ ] About/bio intro paragraph — CONT-V2-01
 - [ ] Duration labels computed from date ranges — CONT-V2-02
@@ -95,4 +106,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-13 after v1.1 milestone*
+*Last updated: 2026-04-13 — Milestone v1.2 started*
