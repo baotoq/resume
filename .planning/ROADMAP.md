@@ -42,7 +42,7 @@ Plans:
   3. Visitor scrolling down the page sees sections fade in subtly as they enter the viewport
 **Plans**: 1 plan
 Plans:
-- [ ] 02-01-PLAN.md — Install framer-motion, create AnimateIn wrapper, stagger-wrap sections in page.tsx
+- [x] 02-01-PLAN.md — Install framer-motion, create AnimateIn wrapper, stagger-wrap sections in page.tsx
 **UI hint**: yes
 
 ### Phase 3: Deploy
