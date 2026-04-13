@@ -30,7 +30,12 @@
   3. The current role (no `endDate`) shows a filled indigo dot; all past roles show a hollow outlined dot
   4. The vertical line ends at the last entry and does not extend into empty space below
   5. The layout remains readable on mobile at 375px with no horizontal scroll
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Type extension, LogoImage component, timeline rail in WorkExperience, data fixture
+- [ ] 04-02-PLAN.md — Build verification and visual QA checkpoint
+
 **UI hint**: yes
 
 ## Progress
@@ -40,4 +45,4 @@
 | 1. Content | v1.0 | 2/2 | Complete | 2026-04-12 |
 | 2. Layout & Polish | v1.0 | 1/1 | Complete | 2026-04-13 |
 | 3. Deploy | v1.0 | 1/1 | Complete | 2026-04-13 |
-| 4. Visual Polish | v1.1 | 0/? | Not started | - |
+| 4. Visual Polish | v1.1 | 0/2 | Not started | - |
