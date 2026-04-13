@@ -4,6 +4,7 @@ export interface ExperienceEntry {
   startDate: string        // "YYYY-MM" format
   endDate: string | null   // null renders as "Present"
   bullets: string[]
+  logo_url?: string        // optional company logo URL (external absolute URL)
 }
 
 export interface ResumeData {
