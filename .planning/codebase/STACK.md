@@ -1,77 +1,80 @@
 # Technology Stack
 
-**Analysis Date:** 2026-04-12
+**Analysis Date:** 2026-04-13
 
 ## Languages
 
 **Primary:**
-- TypeScript 5.x - All source files in `src/` and configuration files
-- CSS - `src/app/globals.css` using Tailwind v4 `@import "tailwindcss"` syntax
+- TypeScript 5.x - All source files under `src/`, all config files (`next.config.ts`, `postcss.config.mjs`)
 
 **Secondary:**
-- JavaScript (allowJs: true in tsconfig) - permitted but not currently used
+- CSS (Tailwind v4 syntax) - `src/app/globals.css`
+- YAML frontmatter (in Markdown) - `src/data/resume.md`
 
 ## Runtime
 
 **Environment:**
-- Node.js v25.9.0
+- Node.js 22 (pinned in `.github/workflows/deploy.yml`)
 
 **Package Manager:**
-- npm 11.12.1
+- npm
 - Lockfile: `package-lock.json` present
 
 ## Frameworks
 
 **Core:**
-- Next.js 16.2.3 - Full-stack React framework using App Router. Config at `next.config.ts`
+- Next.js 16.2.3 - App Router, configured for static export (`output: "export"`)
 - React 19.2.4 - UI rendering
-- React DOM 19.2.4 - DOM bindings
+- React DOM 19.2.4 - DOM binding
+
+**Animation:**
+- Framer Motion 12.38.0 - Entrance animations; used only in `src/components/AnimateIn.tsx`
 
 **Build/Dev:**
-- Biome 2.2.0 - Linting and formatting (replaces ESLint + Prettier). Config at `biome.json`
-- Tailwind CSS 4.x - Utility-first CSS via PostCSS. Config at `postcss.config.mjs`
-- `@tailwindcss/postcss` ^4 - PostCSS integration for Tailwind v4
-- TypeScript 5.x - Static typing. Config at `tsconfig.json`
-- `babel-plugin-react-compiler` 1.0.0 - React Compiler Babel plugin (enabled via `reactCompiler: true` in `next.config.ts`)
+- Tailwind CSS v4 - Utility-first styling configured entirely via `src/app/globals.css` and `postcss.config.mjs`; no `tailwind.config.*` file
+- `@tailwindcss/postcss` v4 - PostCSS plugin for Tailwind v4
+- Biome 2.2.0 - Linting and formatting (replaces ESLint + Prettier); config at `biome.json`
+- TypeScript 5.x - Strict type checking; config at `tsconfig.json`
+
+**Compiler:**
+- React Compiler (babel-plugin-react-compiler 1.0.0) - Enabled via `reactCompiler: true` in `next.config.ts`; automatic memoization, no manual `useMemo`/`useCallback` needed
 
 ## Key Dependencies
 
 **Critical:**
-- `next` 16.2.3 - Framework; note this is a breaking-change version beyond typical training data. Read `node_modules/next/dist/docs/` before touching framework APIs.
-- `react` 19.2.4 - Concurrent features and React Compiler compatibility required
-- `react-dom` 19.2.4 - Must match React version
-
-**Infrastructure:**
-- `next/font/google` - Used in `src/app/layout.tsx` to load Geist and Geist Mono fonts via Google Fonts CDN at build time
-- `next/image` - Used in `src/app/page.tsx` for optimized image rendering
+- `gray-matter` 4.0.3 - Parses YAML frontmatter from `src/data/resume.md` into structured `ResumeData` at build time in `src/app/page.tsx`
+- `next/font/google` (built into Next.js) - Self-hosted Geist Sans and Geist Mono fonts, loaded in `src/app/layout.tsx`
+- `framer-motion` 12.38.0 - Required for animated section entrances; note this is a Client Component boundary
 
 ## Configuration
 
-**TypeScript:**
-- Strict mode enabled
-- Path alias `@/*` maps to `./src/*`
-- `moduleResolution: "bundler"` — use bundler-style imports
-- `jsx: "react-jsx"` — no need to import React in every file
-- Next.js plugin included under `plugins`
+**Environment:**
+- No `.env` file committed to repository
+- Two optional `NEXT_PUBLIC_*` vars read in `src/app/page.tsx`:
+  - `NEXT_PUBLIC_EMAIL` - Rendered as `mailto:` link in Header; defaults to `""`
+  - `NEXT_PUBLIC_PHONE` - Rendered as `tel:` link in Header; defaults to `""`
+- Both are conditionally rendered — omitting them produces a valid build with no contact links shown
 
 **Build:**
-- `next.config.ts` — React Compiler enabled (`reactCompiler: true`)
-- `postcss.config.mjs` — Tailwind v4 PostCSS plugin only, no other PostCSS plugins
-- `biome.json` — 2-space indent, recommended rules, Next.js and React domain rules enabled, auto import organization on
+- `next.config.ts` - `output: "export"`, `basePath: "/resume"`, `reactCompiler: true`
+- `tsconfig.json` - Strict mode, path alias `@/*` → `./src/*`, `moduleResolution: "bundler"`
+- `biome.json` - 2-space indent, recommended rules, Next.js and React domain rules, auto import organization
+- `postcss.config.mjs` - Single plugin: `@tailwindcss/postcss`
 
 **Tailwind:**
-- v4 syntax: configured entirely via CSS `@import "tailwindcss"` and `@theme inline` blocks in `src/app/globals.css`; no `tailwind.config.*` file
+- v4 syntax: configured via `@import "tailwindcss"` and `@theme inline` in `src/app/globals.css`; CSS custom property tokens (`--font-sans`, `--font-mono`, `--color-background`, `--color-foreground`) defined there
 
 ## Platform Requirements
 
 **Development:**
-- Node.js 25.x
-- `npm run dev` — starts Next.js dev server
+- Node.js 22
+- `npm install` then `npm run dev`
 
 **Production:**
-- `npm run build` then `npm run start`
-- Intended for Vercel deployment (Vercel branding in default page, Vercel template links present)
+- Static export to `out/` directory via `npm run build`
+- Deployed to GitHub Pages at `/<username>/resume` path
+- No server runtime required — fully static HTML/CSS/JS bundle
 
 ---
 
-*Stack analysis: 2026-04-12*
+*Stack analysis: 2026-04-13*

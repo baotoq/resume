@@ -1,34 +1,40 @@
 # External Integrations
 
-**Analysis Date:** 2026-04-12
+**Analysis Date:** 2026-04-13
 
 ## APIs & External Services
 
 **Font CDN:**
-- Google Fonts (via `next/font/google`) - Serves Geist and Geist Mono typefaces at build/request time
+- Google Fonts (via `next/font/google`) - Serves Geist Sans and Geist Mono typefaces; self-hosted at build time
   - SDK/Client: `next/font/google` (built into Next.js)
   - Auth: None required
-  - Usage: `src/app/layout.tsx` lines 2-11
+  - Usage: `src/app/layout.tsx`
 
-No other external APIs or third-party service SDKs are present in the codebase.
+**External Image Sources:**
+- Arbitrary external URLs - Company logos loaded via `<img>` tags in `src/components/LogoImage.tsx`
+  - Source URLs come from `logo_url` field in `src/data/resume.md` YAML frontmatter
+  - No domain allowlist enforced (static export means `next/image` remote patterns are not applicable)
+  - Error state handled: `LogoImage` falls back to an inline SVG icon when image load fails
+
+No other third-party service SDKs are present.
 
 ## Data Storage
 
 **Databases:**
-- None - No database client, ORM, or connection string detected
+- None — no database client, ORM, or connection string detected
 
 **File Storage:**
-- Local filesystem only - Static assets served from `public/` directory (SVG files)
+- Local filesystem only — resume content read from `src/data/resume.md` at build time in `src/app/page.tsx` using Node.js `fs.readFileSync`
+- Static assets served from `public/` (SVG files: `file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg`)
 
 **Caching:**
-- Next.js built-in caching only (`"use cache"` directive support via `types/cache-life.d.ts`)
-- Cache profiles available: `seconds`, `minutes`, `hours`, `days`, `weeks`, `max`, `default`
-- No external cache store (Redis, Memcached, etc.) configured
+- Next.js static export caching only — the entire site is pre-rendered; no runtime cache store
+- `types/cache-life.d.ts` is auto-generated but the `"use cache"` directive is not used in any source file
 
 ## Authentication & Identity
 
 **Auth Provider:**
-- None - No authentication library or provider detected
+- None — no authentication library or provider configured
 
 ## Monitoring & Observability
 
@@ -36,24 +42,31 @@ No other external APIs or third-party service SDKs are present in the codebase.
 - None
 
 **Logs:**
-- None configured beyond Next.js default server logging
+- None configured beyond Next.js default build/dev output
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- Vercel (strongly implied by template branding in `src/app/page.tsx` and `public/vercel.svg`)
-- No `vercel.json` configuration file present
+- GitHub Pages — deployed under `/resume` base path (set via `basePath: "/resume"` in `next.config.ts`)
+- Workflow file: `.github/workflows/deploy.yml`
 
 **CI Pipeline:**
-- None configured (no `.github/workflows/`, no CI config files detected)
+- GitHub Actions — triggers on push to `master` branch and manual `workflow_dispatch`
+- Build job: checkout → setup Node.js 22 (npm cache) → `npm ci` → `npm run build` → upload `out/` as Pages artifact
+- Deploy job: depends on build job; deploys artifact to GitHub Pages environment
+- No test or lint step in CI pipeline
 
 ## Environment Configuration
 
 **Required env vars:**
-- None currently required - project has no `.env` files and no `process.env` references in source
+- None required — site builds and renders correctly without any env vars
+
+**Optional env vars:**
+- `NEXT_PUBLIC_EMAIL` - Contact email shown in header; set as GitHub Actions secret/variable if desired
+- `NEXT_PUBLIC_PHONE` - Contact phone shown in header; set as GitHub Actions secret/variable if desired
 
 **Secrets location:**
-- Not applicable - no secrets needed at this stage
+- No secrets committed; optional contact details injected via CI environment variables
 
 ## Webhooks & Callbacks
 
@@ -65,4 +78,4 @@ No other external APIs or third-party service SDKs are present in the codebase.
 
 ---
 
-*Integration audit: 2026-04-12*
+*Integration audit: 2026-04-13*
