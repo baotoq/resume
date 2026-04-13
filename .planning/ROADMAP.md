@@ -52,7 +52,9 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. Visiting the GitHub Pages URL in a browser loads the complete resume page
   2. The URL can be shared with a recruiter who opens it without authentication or friction
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 03-01-PLAN.md — Static export config + GitHub Actions deploy workflow
 
 ## Progress
 
@@ -63,4 +65,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Content | 0/2 | Planning complete | - |
 | 2. Layout & Polish | 0/1 | Planning complete | - |
-| 3. Deploy | 0/TBD | Not started | - |
+| 3. Deploy | 0/1 | Planning complete | - |
