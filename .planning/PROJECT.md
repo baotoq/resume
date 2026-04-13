@@ -2,11 +2,11 @@
 
 ## What This Is
 
-A personal resume website for a software engineer to share with recruiters and hiring teams. The page presents work experience and skills in a clean, professional format that also reflects engineering craft. It supports both online browsing and PDF download so recruiters can engage however they prefer.
+A personal resume website for a software engineer to share with recruiters and hiring teams. The page presents work experience and skills in a clean, professional format with scroll animations that reflects engineering craft. Live on GitHub Pages at a shareable URL.
 
 ## Core Value
 
-A recruiter or engineer can open the link, immediately understand who you are and what you've built, and download a clean PDF — all without friction.
+A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
 ## Requirements
 
@@ -17,30 +17,35 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - ✓ Tailwind CSS v4 configured — existing
 - ✓ Biome linting/formatting configured — existing
 - ✓ GitHub Pages deployment ready — existing
+- ✓ Work experience section — companies, roles, dates, bullets — v1.0
+- ✓ Skills section — tech stack, languages, tools — v1.0
+- ✓ Responsive layout — readable on mobile and desktop — v1.0
+- ✓ Public deployment on GitHub Pages — shareable URL for recruiters — v1.0
+- ✓ Scroll animations — sections fade in on scroll entry — v1.0
 
 ### Active
 
-- [ ] Work experience section — companies, roles, dates, key responsibilities
-- [ ] Skills section — tech stack, languages, tools
 - [ ] PDF download button — generates clean PDF from the page
-- [ ] Responsive layout — readable on mobile and desktop
-- [ ] Public deployment on GitHub Pages — shareable URL for recruiters
+- [ ] About/bio intro paragraph — CONT-V2-01
+- [ ] Duration labels computed from date ranges — CONT-V2-02
+- [ ] Dark/light mode toggle — THEME-V2-01
 
 ### Out of Scope
 
-- Projects section — not requested by user, can be added later
+- Projects section — not requested by user, can be added to v2
 - Education section — not requested by user
-- About me / bio section — not requested by user
 - Contact form — static page, no backend needed
 - CMS / admin panel — content managed in code
+- Parallax / typing animations — distracting, signals student project
+- Skill progress bars / ratings — meaningless to recruiters and engineers
 
 ## Context
 
-- Brownfield: Next.js 16.2.3 app exists with default scaffolding (default landing page, Geist fonts, globals.css). All resume content needs to be built.
-- Target audience: software engineering recruiters and engineering hiring managers
-- Goal balance: professional enough for recruiter scan, polished enough to impress engineers reviewing it
-- PDF export must match the web design — not a separate layout
-- Deployment target: GitHub Pages (already implied by project setup)
+- Shipped v1.0 with ~210 LOC TypeScript/TSX
+- Tech stack: Next.js 16.2.3 + React 19 + TypeScript + Tailwind v4 + framer-motion 12
+- Content: gray-matter YAML frontmatter in `src/data/resume.md` — user fills in real data
+- Deployment: GitHub Pages via `output: 'export'` static export + GitHub Actions OIDC workflow
+- Note: `src/data/resume.md` still has placeholder experience entries — user must populate with real data before sharing
 
 ## Constraints
 
@@ -55,9 +60,16 @@ A recruiter or engineer can open the link, immediately understand who you are an
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Keep existing Next.js stack | Already configured, GitHub Pages-ready | — Pending |
-| PDF via client-side generation | No server infra needed for static resume | — Pending |
-| Single page layout | Recruiters expect a scrollable resume, not multi-page nav | — Pending |
+| Keep existing Next.js stack | Already configured, GitHub Pages-ready | ✓ Good — no friction |
+| gray-matter for data layer | YAML frontmatter in .md file — simple, no DB | ✓ Good — worked cleanly |
+| Email/phone from env vars | Keeps secrets out of git | ✓ Good |
+| Synchronous readFileSync in page.tsx | No async needed for static file read | ✓ Good |
+| AnimateIn client wrapper pattern | Keeps page.tsx + section components as Server Components | ✓ Good — clean boundary |
+| framer-motion whileInView + once:true | Sections animate in once, stay visible on scroll back | ✓ Good |
+| Two-job GitHub Actions workflow | Separates build from deploy, allows environment protection | ✓ Good |
+| OIDC auth for GitHub Pages deploy | No stored secrets in repo | ✓ Good |
+| PDF via client-side generation | No server infra needed for static resume | — Deferred to v2 |
+| Single page layout | Recruiters expect a scrollable resume, not multi-page nav | ✓ Good |
 
 ## Evolution
 
@@ -77,4 +89,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-12 after initialization*
+*Last updated: 2026-04-13 after v1.0 milestone*
