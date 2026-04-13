@@ -22,23 +22,20 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
       {/* Rail wrapper — relative context for line + dots */}
       <div className="relative pl-5 sm:pl-7 flex flex-col gap-6">
 
+        {/* Single continuous timeline line — starts at first dot centre, ends at last card bottom */}
+        <div
+          className="absolute left-[3px] sm:left-[7px] top-[28px] bottom-0 w-0.5 bg-zinc-200"
+          aria-hidden="true"
+        />
+
         {experience.map((entry, index) => {
           const isCurrent = entry.endDate === null
-          const isLast = index === experience.length - 1
 
           return (
             <div key={index} className="relative">
-              {/* Vertical line segment — extends from dot to next entry; omit on last entry */}
-              {!isLast && (
-                <div
-                  className="absolute -left-[19px] sm:-left-[23px] top-[28px] bottom-[-24px] w-0.5 bg-zinc-200"
-                  aria-hidden="true"
-                />
-              )}
-
-              {/* Timeline dot */}
+              {/* Timeline dot — z-10 so it sits above the continuous line */}
               <div
-                className={`absolute -left-[22px] sm:-left-[26px] top-[22px] w-3 h-3 rounded-full ${
+                className={`absolute z-10 -left-[22px] sm:-left-[26px] top-[22px] w-3 h-3 rounded-full ${
                   isCurrent
                     ? "bg-indigo-600"
                     : "border-2 border-zinc-300 bg-white"
