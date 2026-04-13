@@ -20,6 +20,126 @@ Tailwind v4 constraint: configuration is CSS-only (`@import "tailwindcss"`, no `
 
 ---
 
+## v1.1 Stack Additions — Company Logos + Vertical Timeline
+
+**Researched:** 2026-04-13
+**Confidence:** HIGH (verified against Next.js 16 docs in `node_modules/next/dist/docs/` and existing source files)
+
+### Verdict: Zero New Dependencies
+
+Both v1.1 features (company logos with fallback, vertical timeline) are achievable with the existing stack. No packages should be added.
+
+---
+
+### Feature 1: Company Logo Display with Fallback
+
+**Decision: Plain `<img>` tag. Do not use `next/image`.**
+
+`next/image` with remote URLs is **unsupported** under `output: 'export'` with the default loader. This is explicitly listed as an unsupported feature in the Next.js 16 static export docs (`node_modules/next/dist/docs/01-app/02-guides/static-exports.md`, line 289). Company logo URLs come from `resume.md` at build time — they are remote URLs served from CDNs (Clearbit, company sites). The default image optimizer does not run on GitHub Pages. Using `next/image` here would break silently in production.
+
+Workarounds (`unoptimized: true` globally, custom Cloudinary loader) add configuration complexity with zero benefit for small logo images.
+
+**Use `<img>` with `onError` for fallback:**
+
+```tsx
+const [imgError, setImgError] = React.useState(false)
+
+{entry.logo_url && !imgError ? (
+  <img
+    src={entry.logo_url}
+    alt={`${entry.company} logo`}
+    width={32}
+    height={32}
+    loading="lazy"
+    onError={() => setImgError(true)}
+    className="rounded object-contain"
+  />
+) : (
+  <BriefcaseIcon className="w-8 h-8 text-zinc-400" />
+)}
+```
+
+**Fallback icon: Inline SVG component, no icon library.**
+
+Pulling in `lucide-react` or `@heroicons/react` for a single briefcase icon adds ~20–40KB to the bundle. Use a small `<BriefcaseIcon>` component with the SVG path inlined directly — approximately 15 lines of TSX.
+
+**Client component requirement:**
+
+`onError` and `useState` require a Client Component. The current `WorkExperience.tsx` is a Server Component. The correct pattern (consistent with the existing `AnimateIn` approach) is to extract a `CompanyLogo` Client Component (`'use client'`). The list and cards remain server-rendered; only the logo element is a client island.
+
+**Type change required:**
+
+Add `logo_url?: string` to `ExperienceEntry` in `src/types/resume.ts`. The field is optional — entries without it render the briefcase fallback.
+
+| Layer | Change |
+|-------|--------|
+| Rendering | `<img>` tag (no change to build config) |
+| Fallback icon | New `BriefcaseIcon` inline SVG component (~15 lines) |
+| Client interactivity | New `CompanyLogo.tsx` client component |
+| Type system | `logo_url?: string` added to `ExperienceEntry` |
+| Build / deploy | No change — static export compatible |
+
+---
+
+### Feature 2: Vertical Timeline Layout
+
+**Decision: Pure Tailwind v4 CSS. No new packages.**
+
+Tailwind CSS 4.2.2 (confirmed installed) fully supports all utilities needed:
+
+- `relative` / `absolute` positioning
+- Arbitrary values: `w-[2px]`, `left-[15px]`, `h-[calc(100%-2rem)]`
+- Pseudo-elements: `before:content-['']`, `before:absolute`, `before:rounded-full`
+- `z-index` utilities for layering dot above line
+
+The existing `WorkExperience.tsx` already uses the `before:` pseudo-element pattern for bullet dots (lines 39–41). The timeline dot is the same pattern applied to the entry wrapper; the line is an absolutely-positioned `<div>` or `before:` on the list container.
+
+Implementation approach: wrap the entry list in a `relative` container; add the line as a child `<div className="absolute left-4 top-0 bottom-0 w-[2px] bg-zinc-200">` (or similar); each `<article>` gets a dot via a positioned element at `left-0`.
+
+| Layer | Change |
+|-------|--------|
+| Timeline line | `<div>` with `absolute` + `w-[2px]` inside `relative` wrapper |
+| Entry dot | Positioned element or `before:` pseudo on each entry |
+| CSS config | No change to `globals.css` or any config file |
+
+---
+
+### Full Stack Delta for v1.1
+
+| Area | Change |
+|------|--------|
+| `package.json` dependencies | **None** |
+| `next.config.ts` | **None** |
+| `globals.css` | **None** |
+| `src/types/resume.ts` | Add `logo_url?: string` to `ExperienceEntry` |
+| New files | `src/components/CompanyLogo.tsx` (client component) |
+| Modified files | `src/components/WorkExperience.tsx` (timeline layout + logo slot) |
+
+---
+
+### Alternatives Rejected for v1.1
+
+| Option | Reason Rejected |
+|--------|----------------|
+| `next/image` for logos | Unsupported with `output: 'export'` default loader — breaks on GitHub Pages. Confirmed in Next.js 16 docs. |
+| `next/image` + `unoptimized: true` globally | Disables optimization project-wide; adds config for zero benefit on small logo images |
+| `lucide-react` for briefcase icon | ~40KB bundle cost for one icon; inline SVG is 15 lines and zero cost |
+| `@heroicons/react` | Same as lucide-react |
+| Third-party timeline library | A left border + dot is 5 Tailwind classes; a library is unjustified |
+
+---
+
+### Sources (v1.1)
+
+- Next.js 16 static export unsupported features: `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` line 289
+- Next.js 16 `<Image>` unoptimized prop: `node_modules/next/dist/docs/01-app/03-api-reference/02-components/image.md` lines 391–415
+- Tailwind CSS version: `node_modules/tailwindcss/package.json` — 4.2.2
+- Existing pseudo-element pattern: `src/components/WorkExperience.tsx` lines 39–41
+- Client component pattern reference: `src/components/AnimateIn.tsx`
+- `next.config.ts`: `output: 'export'`, `basePath: '/resume'` confirmed active
+
+---
+
 ## PDF Generation
 
 ### Recommendation: `jspdf` + `html2canvas-pro`
@@ -225,3 +345,6 @@ No additional dependencies are needed. Fonts are loaded via the existing `next/f
 - [Next.js font optimization](https://nextjs.org/docs/app/getting-started/fonts) — next/font/google self-hosting (HIGH confidence)
 - [JS PDF library comparison 2025](https://dmitriiboikov.com/posts/2025/01/pdf-generation-comarison/) — ecosystem overview (MEDIUM confidence)
 - [Print CSS MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Media_queries/Printing) — @media print patterns (HIGH confidence)
+- Next.js 16 static export unsupported features: `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` line 289 (HIGH confidence)
+- Next.js 16 `<Image>` unoptimized prop: `node_modules/next/dist/docs/01-app/03-api-reference/02-components/image.md` lines 391–415 (HIGH confidence)
+- Tailwind CSS installed version 4.2.2: `node_modules/tailwindcss/package.json` (HIGH confidence)

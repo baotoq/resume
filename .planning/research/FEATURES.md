@@ -1,251 +1,268 @@
-# Feature Landscape
+# Feature Landscape — v1.1 Visual Polish
 
 **Domain:** Software engineer resume / CV personal page
-**Researched:** 2026-04-12
-**Scope:** Work experience section, skills section, PDF download, Vercel deployment
+**Researched:** 2026-04-13
+**Scope:** Company logos per work entry + vertical timeline UI
+**Milestone:** v1.1 — adding to existing Header, WorkExperience, Skills + framer-motion + GitHub Pages stack
 
 ---
 
-## Table Stakes
+## Existing Component Inventory
 
-Features recruiters and hiring managers expect. Missing = product feels incomplete or unprofessional.
+Before detailing new features, what's already built and what must change:
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Name + title header | First thing scanned; must be immediately legible | Low | Large name, current title, location optional |
-| Contact bar | Email, GitHub, LinkedIn — recruiters need to reach you | Low | Inline row under name; icon + text links |
-| Work experience section | Core of the resume; chronological, reverse order | Medium | Companies, titles, date ranges, bullet points |
-| Skills section | Recruiters keyword-match this against job descriptions | Low | Categorized, not a flat tag cloud |
-| PDF download button | Recruiters share and store PDFs; non-negotiable | Medium | Must match web design; not a separate layout |
-| Responsive layout | Mobile and desktop readable; recruiters open on both | Low | Single-column on mobile, wider margins on desktop |
-| Clean visual hierarchy | Recruiter scans in 6-10 seconds; must direct the eye | Medium | Name > company > role > bullets; not decoration |
-| Fast load time | Delays kill first impressions | Low | Static page; no backend; fast by default on Vercel |
+| File | Current Role | Change Required for v1.1 |
+|------|-------------|--------------------------|
+| `src/types/resume.ts` — `ExperienceEntry` | Defines `company`, `role`, `startDate`, `endDate`, `bullets` | Add `logo_url?: string` |
+| `src/data/resume.md` | YAML frontmatter; no logo fields | Add optional `logo_url` per entry |
+| `src/components/WorkExperience.tsx` | Server Component; renders cards via `flex flex-col gap-6` | Restructure layout for timeline + logo |
+| `src/components/AnimateIn.tsx` | Wraps `WorkExperience` in a single `motion.div` | No change needed |
+| `src/app/page.tsx` | Passes `resume.experience` to `WorkExperience` | No change needed |
+| `next.config.ts` | `output: "export"`, `basePath: "/resume"` | May need `images: { unoptimized: true }` — see Feature 1 |
 
 ---
 
-## Differentiators
+## Feature 1: Company Logos
 
-Features that make the page memorable without being gimmicky. Not expected, but valued by engineering reviewers.
+### What It Is
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Light / dark mode toggle | Engineering craft signal; comfortable in any context | Low-Med | System preference as default; manual toggle optional |
-| Subtle accent color | Makes the page feel designed rather than templated | Low | One color — muted green, blue, or amber — used sparingly on links, section labels |
-| Sticky / fixed header with name | Keeps identity visible while scrolling | Low | Optional; avoid if it takes vertical space on mobile |
-| "Copy email" click-to-copy | Frictionless contact; small craft detail | Low | Tiny JS; shows a transient tooltip |
-| Skill category grouping | Instantly scannable for both ATS and humans | Low | Categories: Languages, Frameworks, Databases, Tools/Cloud — not a proficiency bar chart |
-| Print-optimized CSS that matches web layout | PDF looks exactly like the website; no jarring switch | Medium | `@media print` rules; no separate PDF template needed |
-| Duration labels on roles | Engineers appreciate precision ("2 yr 4 mo") | Low | Computed from date range; not just "2020–2022" |
+Each `ExperienceEntry` gains an optional `logo_url` field (absolute URL to a company logo image). When present, the logo renders as a small image in the job card header. When absent or when the image fails to load, a generic briefcase icon renders instead.
 
----
+### Table Stakes
 
-## Anti-Features
+Behaviors expected if this feature exists at all. Missing any of these makes it feel broken.
 
-Features to explicitly NOT build — they either hurt credibility or waste effort.
+| Behavior | Why Expected | Complexity | Notes |
+|----------|--------------|------------|-------|
+| Logo visible next to company name | The whole point of the feature; must be the first thing visible per card | Low | Positioned in the card header row |
+| Briefcase fallback when `logo_url` absent | Most entries won't have a logo initially; naked gap is unprofessional | Low | SVG icon, no external dependency |
+| Briefcase fallback when image load fails | External URLs break (company CDN moves, CORS, typos); silent failure looks worse than a fallback | Medium | Requires `onError` handling with React state |
+| Fixed, consistent logo size | Different source images (square, wide, tall) must not break card layout | Low | Hard constrain with CSS: `h-8 w-8 object-contain` or similar |
+| Logo does not affect card height | Text content drives height; logo is decorative | Low | `flex-shrink-0`, fixed dimensions, `object-contain` |
+| Alt text set to company name | Accessibility and screen readers; also shows on broken load in some browsers | Low | `alt={entry.company}` |
+
+### Differentiators
+
+| Behavior | Value Proposition | Complexity | Notes |
+|----------|-------------------|------------|-------|
+| Rounded corners on logo (`rounded-md`) | Logos look designed rather than raw; matches card's `rounded-xl` visual language | Trivial | One Tailwind class |
+| Subtle border or light background behind logo | White logos on white background disappear; a `bg-zinc-100 border border-zinc-200` container prevents invisible logos | Low | Wrap logo in a container div |
+| Logo links to company website (optional `href`) | Recruiter can click to verify the company; minimal effort | Low | Only if `logo_url` already implies a company URL; otherwise skip |
+
+### Anti-Features
 
 | Anti-Feature | Why Avoid | What to Do Instead |
 |--------------|-----------|-------------------|
-| Animated typing effect on name/title | Gimmicky; delays information delivery; annoys returning visitors | Static name in large type; typography does the work |
-| Skill progress bars / percentage ratings | Meaningless (what does "JavaScript: 90%" mean?); recruiters ignore them; engineers distrust them | Categorized plain text list; add "(primary)" annotation if needed |
-| Parallax scrolling / scroll animations on content | Distracting; hurts ATS parsability if JS-gated; slows perceived load | Use whitespace and typography for rhythm instead |
-| Project carousel or heavy gallery | Out of scope per PROJECT.md; adds complexity with no recruiter ROI for this phase | Link to GitHub in header; add projects section later if needed |
-| Particle / canvas background | No signal value; increases load; pattern-matches to student projects | Plain background with subtle texture or solid color |
-| Chat widget / contact form | Backend needed; breaks static constraint; recruiters use email | Email link with mailto: href |
-| Multi-page navigation (About, Work, Skills as separate routes) | Recruiters expect a scrollable single page; breaks PDF flow | One scrollable page; anchor links only if page is very long |
-| Testimonials / endorsements section | Uncommon in SWE resumes; looks off-genre | Skip entirely |
-| "Currently open to work" badge | Reduces perceived leverage | Omit; implied by sharing the resume |
+| Fetching logos automatically from a third-party service (Clearbit, Brandfetch) | Adds external runtime dependency on a paid/rate-limited API; breaks offline; logos may be wrong or outdated | Manual `logo_url` in YAML — user controls quality and updates |
+| `next/image` component for external logo URLs | Requires `images: { unoptimized: true }` in `next.config.ts` for static export, AND the fallback state pattern is more complex than a plain `<img>` for what is a small decorative image | Plain `<img>` tag with `onError` state; simpler and sufficient |
+| Animated logo entrance (separate from card animation) | The card already animates in via `AnimateIn`; logo-specific animation is noise | No per-logo animation; the existing `AnimateIn` wrapper covers the card |
+| Logo size larger than ~40px height | Dominates the card header; company name should be the primary identifier, not the logo | Keep logo to `h-8`–`h-10` (32–40px); company name text remains the anchor |
 
----
+### Edge Cases
 
-## Recruiter vs. Engineer Priorities
+| Edge Case | What Happens Without Handling | Correct Behavior |
+|-----------|------------------------------|-----------------|
+| `logo_url` is absent (field not in YAML) | Undefined renders nothing; gap in layout | Show briefcase icon in same fixed container |
+| `logo_url` is present but image 404s or times out | Browser shows broken-image placeholder; looks broken | `onError` sets state → re-renders with briefcase icon |
+| Logo is a very wide wordmark (2:1 or 3:1 ratio) | Overflows its container, breaks alignment | `object-contain` + fixed container dimensions; wordmark shrinks to fit |
+| Logo has a transparent background | Fine on white cards; looks good | No handling needed — works by default |
+| Logo has a white background on a white card | Logo appears to float with no boundary | Light container background (`bg-zinc-50` or `bg-zinc-100`) + border |
+| Logo is an SVG URL | `<img>` handles SVGs fine; `onError` fires if SVG is malformed | No special handling needed |
+| Entry has no company name AND no logo | Unlikely but possible with bad YAML | Fallback icon still renders; card header is not empty |
 
-Understanding the two audiences determines content and design decisions.
+### Implementation Constraint: `next/image` vs `<img>`
 
-### What Recruiters (non-technical) actually scan for
+`next.config.ts` uses `output: "export"`. Next.js's `<Image>` component with external `src` URLs requires `images: { unoptimized: true }` set in config for static exports — without it, the build throws an error. The `unoptimized` flag disables all image optimization globally, not just for logos.
 
-1. **Company names** — recognizable brands catch the eye first
-2. **Job titles** — seniority signal; must match the role they're filling
-3. **Years of experience** — total tenure at a glance
-4. **Keywords in skills** — ATS and manual match against job description
-5. **Contact info** — email must be immediately clickable
+**Recommendation:** Use a plain `<img>` tag for logos. Rationale:
+- Logo images are small (32–40px rendered), so optimization provides no meaningful benefit
+- Avoids needing to modify `next.config.ts`
+- `onError` fallback is simpler on `<img>` (no React state required for the src swap; state is still needed to toggle the icon, but one `useState` in a small client component is acceptable)
+- The logo component will need `"use client"` because `onError` with state requires client-side React
 
-Recruiters spend 6-10 seconds on initial scan. They do not read bullet points in full — they pattern-match verbs and numbers.
+**Confidence: HIGH** — verified via Next.js docs and community discussions; static export + external image URL behavior is well-documented.
 
-**Implication for design:** Company name and role title must be visually dominant in experience entries. Date ranges must be readable without squinting. Skills section must use exact technology names (not abbreviations or invented groupings).
+### Component Boundary Impact
 
-### What Hiring engineers and managers look for
+`WorkExperience.tsx` is currently a Server Component. Adding a logo with `onError` state requires a Client Component. Options:
 
-1. **Scope of impact** — team size, system scale, user count
-2. **Technical depth** — specific technologies mentioned in bullets
-3. **Progression** — growing scope and responsibility over time
-4. **Measurable outcomes** — latency reduced, uptime improved, throughput increased
-5. **Code or project evidence** — GitHub link in header
+1. Extract a `CompanyLogo` client component; keep `WorkExperience` as a Server Component. (Recommended — minimal surface area for `"use client"`.)
+2. Add `"use client"` to `WorkExperience` itself. (Simpler but makes the whole section a client component, breaking the Server Component pattern established in v1.0.)
 
-**Implication for design:** Bullet points must lead with action verbs and quantify outcomes. The GitHub link must be prominent. The skills list should match what appears in the experience bullets.
+Option 1 is preferred. `CompanyLogo` is a leaf component — it has no children that need to be Server Components.
 
----
+### Data Layer Changes
 
-## Work Experience Section: What Works
-
-### Entry structure
-
-```
-[Company Name]                          [Start – End date]
-[Job Title]
-- Action verb + what you built + measurable result
-- Action verb + what you built + measurable result
+```yaml
+# resume.md — logo_url is optional; omit the field to use briefcase fallback
+experience:
+  - company: "Stripe"
+    logo_url: "https://stripe.com/img/v3/home/twitter.png"
+    role: "Senior Software Engineer"
+    ...
 ```
 
-### Bullet point formula (STAR-compressed)
-
-"[Strong verb] [what was built/changed] [tech stack if relevant], [metric outcome]."
-
-Good examples:
-- "Reduced API latency 71% by rewriting Redis cache layer, improving throughput for 10K+ daily requests."
-- "Led migration from REST to GraphQL for mobile API, cutting over-fetching by 60% across 500K active users."
-- "Architected event-driven pipeline processing 1TB of logs daily; eliminated manual intervention for 3 oncall tiers."
-
-Bad examples:
-- "Responsible for backend development" (no action, no outcome)
-- "Helped the team with feature work" (passive, unmeasurable)
-- "Worked on improving performance" (vague verb, no metric)
-
-### Date range display
-
-Show month + year for start and end. "Present" for current role. Avoid year-only ranges — they hide tenure gaps and look imprecise.
-
-### How many bullets per role
-
-2-4 per role. More than 4 loses recruiter attention. Fewer than 2 looks thin. Prioritize scope and impact over completeness.
-
----
-
-## Skills Section: What Works
-
-### Categorized format (recommended)
-
-```
-Languages     TypeScript, Python, Go, SQL
-Frameworks    React, Next.js, Node.js, FastAPI
-Databases     PostgreSQL, Redis, MongoDB
-Tools / Cloud AWS (ECS, S3, Lambda), Docker, Kubernetes, GitHub Actions
-```
-
-### What not to do
-
-- Do not use a flat alphabetical tag cloud — hard to scan, no context
-- Do not rate skills with bars or stars — meaningless and discouraged
-- Do not list soft skills ("communication", "teamwork") in a technical skills section
-- Do not list every technology ever touched — only what you'd be comfortable being interviewed on
-
-### Category naming
-
-Use plain English category names. Recruiters scan for "Languages", "Frameworks", "Cloud" — not invented names like "Tech Arsenal" or "Toolbox".
-
----
-
-## PDF Export: What Makes It Look Professional
-
-The constraint from PROJECT.md is that the PDF must match the web design — no separate layout.
-
-### Font choices that survive print
-
-Safe options (system or web-safe): Inter, Roboto, Source Sans Pro, Calibri.
-Avoid: highly decorative serifs, icon fonts rendering as squares, variable fonts that browser-print collapses.
-
-Use standard weights: 400 (body), 600 (company/role), 700 (name).
-
-### Sizing for PDF output
-
-| Element | Web size | Print target |
-|---------|----------|-------------|
-| Name | 2rem–2.5rem | ~24–28pt |
-| Section headings | 1.1rem–1.25rem | ~13–14pt |
-| Body / bullets | 0.875rem–1rem | ~10–11pt |
-| Line height | 1.5–1.6 | 1.2–1.4 (tighter in print) |
-
-### Margins and page setup
-
-```css
-@media print {
-  @page {
-    size: letter;          /* or A4 for international */
-    margin: 0.75in 1in;    /* top/bottom, left/right */
-  }
-  body {
-    font-size: 10.5pt;
-    color: #000;
-    background: #fff;
-  }
+```typescript
+// types/resume.ts
+export interface ExperienceEntry {
+  company: string
+  role: string
+  startDate: string
+  endDate: string | null
+  bullets: string[]
+  logo_url?: string   // ADD THIS — optional, absent = briefcase fallback
 }
 ```
 
-### Page break rules
-
-```css
-.experience-entry {
-  break-inside: avoid;         /* keep role header + bullets together */
-  page-break-inside: avoid;    /* fallback for older engines */
-}
-.section-heading {
-  break-after: avoid;          /* heading never stranded at page bottom */
-}
-```
-
-### Print-specific overrides
-
-- Force background to white — dark mode must not print dark
-- Force text to black — colored accent text fades on home printers
-- Hide: nav, dark mode toggle, PDF download button, footer
-- Remove box shadows and backdrop filters — they don't print
-
-### Single-page target
-
-A one-page PDF is the professional norm for engineers with under 10 years of experience. The layout must be designed to fit, not overflow to page 2 with a half-empty section.
-
 ---
 
-## MVP Recommendation
+## Feature 2: Vertical Timeline
 
-The four requested features map cleanly to this priority order:
+### What It Is
 
-1. **Header** (name, title, contact links) — fastest recruiter identification
-2. **Work experience section** — core resume content; impact-focused bullets
-3. **Skills section** — keyword surface for ATS and recruiter scan
-4. **PDF download** — closes the loop; recruiters need a file to share
+A visual left-side connector that links all work experience entries: a continuous vertical line runs down the left of the `WorkExperience` section, with a filled circle (dot) positioned at each job entry. This replaces the current `flex flex-col gap-6` layout with a timeline layout container.
 
-All four are required; none can be deferred for the page to be usable.
+### Table Stakes
 
-**Defer:**
-- Dark/light mode toggle — nice but not blocking; can be Phase 2
-- Copy-email interaction — small detail; add after core layout is solid
-- Duration computation — polish; hardcode dates initially
-- Skill proficiency annotation — omit; keep the list clean
+| Behavior | Why Expected | Complexity | Notes |
+|----------|--------------|------------|-------|
+| Vertical line connects all entries | The defining visual of a timeline; without it, dots float disconnectedly | Low | CSS `::before` on the container or per-item left border |
+| Dot at each entry's header level | Anchors each job to the timeline visually | Low | Absolute-positioned circle at card top-left |
+| Line does not extend past the last entry | Trailing line into empty space looks unfinished | Low | Per-item line approach: `group-last:before:hidden` on the last item's line segment |
+| Dot and line align vertically | Misalignment looks like a bug | Low | Both use the same `left` offset; dot is centered on the line |
+| Mobile layout reads correctly | Timeline must not break narrow viewports | Low | Left-side timeline is already column-oriented; mobile just reduces horizontal padding |
+| Cards remain visually separate | Timeline should not make entries look merged | Low | Preserve `gap-6` or equivalent spacing between entries |
+
+### Differentiators
+
+| Behavior | Value Proposition | Complexity | Notes |
+|----------|-------------------|------------|-------|
+| Dot color matches accent scheme | Subtle polish; dot could be `zinc-400` default or a muted accent color | Trivial | One color decision |
+| Dot is hollow ring vs solid fill | Hollow ring (border only) looks more refined than solid fill for a professional resume | Trivial | `ring` + `bg-white` vs `bg-zinc-400` |
+| Dot animates in with the card | Since cards already use `AnimateIn`, the dot enters with its card — no extra work needed | None | The dot is inside the card's `AnimateIn` wrapper by construction |
+| "Present" entry dot is a different color | Visually marks the current role | Low | Only applies if current role (endDate === null); conditionally apply a different dot color |
+
+### Anti-Features
+
+| Anti-Feature | Why Avoid | What to Do Instead |
+|--------------|-----------|-------------------|
+| Animated line that "draws itself" on scroll | Requires JavaScript scroll tracking; adds complexity and delays content visibility | Static CSS line; the cards animate in via existing `AnimateIn`, which is sufficient |
+| Year labels on the timeline line (like a Gantt chart) | Clutters the left margin; date ranges already appear in the card header | Keep dates in the card header only |
+| Branching or parallel timelines | Unnecessarily complex for a resume with linear career history | Single vertical line, one entry per row |
+| Right-side or alternating timeline (entries on left and right alternating) | Breaks the current card-based layout significantly; bad on mobile | Left-only: line on the far left, cards to the right of the line and dot |
+
+### Edge Cases
+
+| Edge Case | What Happens Without Handling | Correct Behavior |
+|-----------|------------------------------|-----------------|
+| Single entry (1 job) | Line connects from the dot to... nothing. Looks like a dangling pipe | With per-item line approach: single item is both first and last, so `group-last:before:hidden` suppresses the line entirely. Dot only. Looks intentional. |
+| Two entries | Line connects two dots — minimal but correct | No special handling needed |
+| Many entries (6+) | Long vertical line; page becomes very long | Expected behavior for a long career; no handling needed |
+| Entries with different bullet counts | Cards have different heights; line must span full card height regardless | Per-item line with `h-full` ensures the segment spans the gap below each card |
+| Last entry is "Present" (current job) | Line extends past last card if not suppressed | `group-last:before:hidden` on last item's line segment handles this |
+| Mobile narrow viewport (320px) | Dot and line must not overlap card text | Left padding on cards (`pl-6` or `pl-8`) keeps text clear of the timeline column |
+
+### Layout Architecture
+
+Current `WorkExperience` layout:
+```
+<section>                            ← section wrapper
+  <h2>Work Experience</h2>
+  <div class="flex flex-col gap-6">  ← entry container
+    <article>…</article>             ← one card per entry
+  </div>
+</section>
+```
+
+Proposed timeline layout:
+```
+<section>
+  <h2>Work Experience</h2>
+  <div class="relative flex flex-col gap-6">   ← position: relative for absolute children
+    <div class="group relative pl-8">           ← per-item wrapper; pl-8 = space for dot+line
+      <!-- line segment (::before or explicit div) -->
+      <div class="absolute left-3 top-4 bottom-0 w-px bg-zinc-200 group-last:hidden" />
+      <!-- dot -->
+      <div class="absolute left-[10px] top-4 h-2.5 w-2.5 rounded-full border-2 border-zinc-300 bg-white" />
+      <!-- card -->
+      <article class="rounded-xl border border-zinc-200 bg-white px-6 py-6 shadow-sm">…</article>
+    </div>
+  </div>
+</section>
+```
+
+This uses explicit `<div>` elements rather than pseudo-elements because Tailwind v4's arbitrary pseudo-element utilities (`before:` / `after:`) work in v4 the same as v3 — but explicit divs are easier to read, debug, and adjust without arbitrary value syntax.
+
+**Left column measurements (suggested, adjust to taste):**
+- Timeline column width: `pl-8` (32px) on the item wrapper
+- Line: `left-3` (12px), `w-px` (1px)
+- Dot: `left-[10px]`, `h-2.5 w-2.5` (10px circle), centered on the line (`left-3` line center = 12px; dot left edge at 10px, width 10px → dot center at 15px — adjust to `left-[11px]` for exact centering)
+
+Exact pixel values are implementation detail; the pattern is what matters here.
+
+### Mobile Behavior
+
+The left-side timeline is inherently mobile-friendly for this layout:
+- Cards are already full-width in a column
+- The timeline line + dot occupy the leftmost 32px; cards get `pl-8` to clear them
+- At 320px viewport, `max-w-3xl` container still leaves enough room; no responsive breakpoint changes needed for the timeline itself
+- The existing `sm:flex-row sm:items-baseline sm:justify-between` inside the card (company/date row) is unaffected by the timeline wrapper
+
+### Interaction with `AnimateIn`
+
+`AnimateIn` wraps the entire `WorkExperience` section, not individual cards. The timeline layout change is internal to `WorkExperience` — `AnimateIn` continues to wrap the section and animate the whole block in on scroll. No change to animation setup.
+
+If per-card stagger is desired later (each card fades in independently), `AnimateIn` would need to wrap individual items inside `WorkExperience`, and `WorkExperience` would need `"use client"`. That is out of scope for v1.1.
 
 ---
 
 ## Feature Dependencies
 
 ```
-Header (name/contact) → exists before any section (anchors, PDF identity)
-Skills section → no dependency on experience
-Work experience → no dependency on skills
-PDF export → depends on final web layout being stable
-Responsive layout → must be validated before PDF is finalized (different breakpoints)
-Print CSS → must be applied last (after responsive layout confirmed)
+logo_url field in ExperienceEntry type  →  logo_url optional in resume.md YAML
+CompanyLogo client component  →  ExperienceEntry.logo_url type field
+WorkExperience layout restructure (timeline)  →  none (independent)
+CompanyLogo placement  →  WorkExperience layout restructure (logo goes in card header)
 ```
+
+The two features (logos and timeline) are independent in implementation but ship together in one WorkExperience component update.
+
+---
+
+## MVP for v1.1
+
+**Build:**
+1. Add `logo_url?: string` to `ExperienceEntry` type
+2. Document optional `logo_url` in `resume.md` with an example
+3. Create `CompanyLogo` client component with `onError` fallback to briefcase SVG
+4. Restructure `WorkExperience` to timeline layout (left line + dot per entry, `group-last:hidden` on line)
+5. Place `CompanyLogo` in card header alongside company name
+
+**Do not build:**
+- Auto-logo fetching from any API
+- Per-card scroll animations (existing section-level `AnimateIn` is sufficient)
+- Year labels on the timeline
+- Animated line drawing
+
+---
+
+## Confidence Assessment
+
+| Claim | Confidence | Source |
+|-------|------------|--------|
+| `next/image` requires `unoptimized: true` for `output: export` with external URLs | HIGH | Next.js official docs + GitHub discussions |
+| `onError` on `<img>` works client-side; state-based fallback pattern | HIGH | React docs pattern; multiple sources agree |
+| `"use client"` required for `onError` state in Next.js App Router | HIGH | App Router server/client boundary documentation |
+| Per-item line with `group-last:hidden` suppresses trailing line on last entry | HIGH | Verified via Cruip Tailwind timeline implementation |
+| Single-entry timeline: dot renders, line suppressed — looks intentional | MEDIUM | Inferred from `group-last:hidden` behavior; not tested against visual design |
+| Mobile left-side timeline works at 320px without breakpoint changes | MEDIUM | Based on existing layout being column-oriented; should be verified in browser |
 
 ---
 
 ## Sources
 
-- https://profy.dev/article/portfolio-websites-survey — Survey of 60+ hiring managers on portfolio websites
-- https://www.techinterviewhandbook.org/resume/ — FAANG-ready resume guide
-- https://brittanychiang.com/ — Reference for SWE portfolio design craft
-- https://www.resumly.ai/blog/optimizing-resume-design-for-software-engineers-in-2025 — Design best practices 2025
-- https://www.tealhq.com/post/quantify-your-resume — Quantifying resume experience bullets
-- https://dev.to/resumemind/htmlcss-to-pdf-how-i-solved-the-page-break-nightmare-mdg — Print CSS / PDF page break patterns
-- https://atsresumeai.com/blog/ats-resume-formatting-guide/ — ATS formatting constraints
-- https://formation.dev/blog/software-engineer-resume-guide-examples/ — Ex-Meta recruiter perspective on SWE resumes
-- https://dev.to/_d7eb1c1703182e3ce1782/software-engineer-resume-50-bullet-points-with-star-format-12 — STAR bullet point examples
-- https://smallpdf.com/blog/best-fonts-sizes-for-resume — Font and size guidance for professional PDFs
+- [Next.js Image Component — static export + unoptimized](https://nextjs.org/docs/app/api-reference/components/image) — official docs
+- [Next.js static export image discussion](https://github.com/vercel/next.js/discussions/60977) — confirms `unoptimized: true` requirement
+- [Fallback image in Next.js — DEV Community](https://dev.to/frontenddeveli/configure-fallback-images-in-react-and-nextjs-54ej) — `onError` state pattern
+- [Vertical timelines with Tailwind CSS — Cruip](https://cruip.com/3-examples-of-brilliant-vertical-timelines-with-tailwind-css/) — `group-last:before:hidden` pattern for line termination
+- [Tailwind CSS Timeline — Flowbite](https://flowbite.com/docs/components/timeline/) — component reference

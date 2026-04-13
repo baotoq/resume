@@ -1,286 +1,182 @@
-# Architecture Patterns: Resume/CV Page
+# Architecture Patterns
 
-**Domain:** Personal software engineer resume/CV page
-**Researched:** 2026-04-12
-**Stack context:** Next.js 16.2.3 + React 19 + TypeScript strict + Tailwind v4 + Vercel
-
----
-
-## Recommended Architecture
-
-A statically rendered single-page resume, with resume content stored as typed TypeScript data objects co-located in `src/data/`, UI components organized by section in `src/components/resume/`, and PDF export handled client-side via `@react-pdf/renderer` loaded with `ssr: false` dynamic import.
-
-### Why This Specific Shape
-
-- The page renders the same content to every visitor. This makes it a perfect static export candidate.
-- Resume data changes infrequently and is authored by the engineer, not a CMS user. TypeScript data objects give compile-time type safety with zero runtime overhead and no external dependency.
-- PDF output must match the web design. The shared data layer achieves this — one source of truth, two rendering targets (browser DOM and `@react-pdf/renderer`'s PDF primitives).
-- No headless browser server is viable on Vercel's free tier or in a static site context. `@react-pdf/renderer` generates PDF entirely in the browser using its own layout engine, no server required.
+**Domain:** Company logos + vertical timeline — v1.1 milestone integration into existing resume page
+**Researched:** 2026-04-13
 
 ---
 
-## Component Boundaries
+## Integration Question
 
-| Component | Responsibility | Type | Communicates With |
-|-----------|---------------|------|-------------------|
-| `src/app/page.tsx` | Route entry point, assembles section components | React Server Component | Section components |
-| `src/app/layout.tsx` | HTML shell, fonts, global meta | React Server Component | `page.tsx` |
-| `src/components/resume/Header.tsx` | Name, title, contact links | Server Component | `resumeData` |
-| `src/components/resume/Experience.tsx` | Job list, roles, dates, bullets | Server Component | `resumeData` |
-| `src/components/resume/Skills.tsx` | Tech stack, tools | Server Component | `resumeData` |
-| `src/components/pdf/PdfDownloadButton.tsx` | Download trigger, PDF document definition | Client Component (`"use client"`) | `resumeData` |
-| `src/data/resume.ts` | Typed data object — single source of truth | Pure data module | Imported by both web and PDF components |
-| `src/types/resume.ts` | TypeScript interface definitions | Type module | Imported everywhere |
+Two new features are being added to the existing Server Component architecture:
 
-### Separation Principle
+1. `logo_url` optional field on `ExperienceEntry` — an `<img>` in the card header, briefcase icon fallback when absent.
+2. Vertical timeline — left-side continuous line with a dot per job entry, connecting all `WorkExperience` cards.
 
-Web components use Tailwind CSS classes and standard HTML elements. PDF components use `@react-pdf/renderer` primitives (`View`, `Text`, `StyleSheet`). They share nothing from their rendering layer — they share only the typed data. This means the PDF layout can be styled and tuned independently of the web layout without coupling concerns.
+Both features integrate without any new files. The existing `WorkExperience.tsx` Server Component absorbs both changes. The type definition file changes by one field. Nothing else needs to touch.
 
 ---
 
-## Data Layer
+## Existing Architecture (as shipped v1.0)
 
-### Decision: TypeScript Data Objects (not JSON, not MDX, not CMS)
+```
+resume.md (YAML frontmatter)
+  → gray-matter in page.tsx (Server Component, synchronous readFileSync at build time)
+    → ResumeData typed object
+      → Header({ resume }) [Server Component]
+      → WorkExperience({ experience }) [Server Component]
+      → Skills({ skills }) [Server Component]
+        each wrapped in AnimateIn [Client Component, framer-motion boundary]
+```
 
-Use a single file at `src/data/resume.ts` that exports a typed constant:
+`page.tsx` is the only file that reads data. It casts `data as ResumeData` from gray-matter and passes typed props down. All section components are pure Server Components. `AnimateIn` is the only `'use client'` boundary in the tree.
+
+---
+
+## File-Level Change Map
+
+| File | Status | What Changes |
+|------|--------|--------------|
+| `src/types/resume.ts` | **MODIFIED** | Add `logo_url?: string` to `ExperienceEntry` |
+| `src/components/WorkExperience.tsx` | **MODIFIED** | Timeline wrapper layout + logo/fallback rendering per card |
+| `src/data/resume.md` | **MODIFIED** | Optionally add `logo_url` keys to experience entries |
+| `src/app/page.tsx` | **UNCHANGED** | Already passes `resume.experience` to WorkExperience |
+| `src/app/globals.css` | **UNCHANGED** | Tailwind v4 utility classes handle all new styling |
+| `src/components/AnimateIn.tsx` | **UNCHANGED** | Still wraps the WorkExperience section as before |
+| `src/components/Header.tsx` | **UNCHANGED** | Unrelated |
+| `src/components/Skills.tsx` | **UNCHANGED** | Unrelated |
+| `src/app/layout.tsx` | **UNCHANGED** | Unrelated |
+
+**New files: none.**
+
+---
+
+## Component Boundaries — No New Boundaries Needed
+
+`WorkExperience` is a Server Component (no `'use client'`, no hooks). Both new features — a CSS timeline layout and a conditional `<img>` — are pure markup decisions. They do not introduce browser APIs, event handlers, or state. The component stays a Server Component.
+
+A `<CompanyLogo>` sub-component could be extracted within `WorkExperience.tsx` as a local function if the logo/fallback block grows beyond ~8–10 lines, but it must not be a separate file. There is no reason to create a `src/components/CompanyLogo.tsx` — it would be an abstraction for a single use case with no reuse elsewhere.
+
+---
+
+## Architecture for Each Feature
+
+### Feature 1: logo_url + briefcase fallback
+
+**Type change** in `src/types/resume.ts`:
+
+The `ExperienceEntry` interface gains one optional field:
 
 ```typescript
-// src/types/resume.ts
-export interface ResumeData {
-  name: string
-  title: string
-  contact: {
-    email: string
-    github: string
-    linkedin: string
-    location: string
-  }
-  experience: ExperienceItem[]
-  skills: SkillGroup[]
-}
-
-export interface ExperienceItem {
-  company: string
-  role: string
-  startDate: string  // ISO "YYYY-MM"
-  endDate: string | "present"
-  responsibilities: string[]
-}
-
-export interface SkillGroup {
-  category: string
-  items: string[]
-}
+logo_url?: string
 ```
 
-```typescript
-// src/data/resume.ts
-import type { ResumeData } from "@/types/resume"
+gray-matter already passes unknown YAML keys through as-is. Adding a real typed field lets TypeScript narrow the conditional render without a type assertion.
 
-export const resumeData: ResumeData = {
-  name: "...",
-  // ...
-}
+**Rendering** inside `WorkExperience.tsx`:
+
+The card header `<div>` currently holds company name and role in a flex row. The logo or fallback icon sits to the left of that text block. Conditional:
+
+- `entry.logo_url` present → `<img src={entry.logo_url} alt={entry.company} className="h-8 w-8 rounded object-contain" />`
+- absent → a briefcase SVG or a `<span>` containing a Unicode briefcase character as fallback
+
+**Static export note:** Use standard `<img>`, not Next.js `<Image>`. `<Image>` with external `src` requires `remotePatterns` in `next.config.ts` listing every logo domain. At static export time, the Next.js image optimisation pipeline does not run anyway — images are served as-is. Plain `<img>` is correct and avoids config churn.
+
+### Feature 2: Vertical timeline
+
+**Approach:** CSS layout change inside `WorkExperience.tsx`. No new component, no JavaScript.
+
+The list container `<div>` (currently `className="flex flex-col gap-6"`) becomes a relative-positioned column with left padding. A continuous vertical line and per-entry dots are added using Tailwind pseudo-element utilities.
+
+Structural sketch:
+
+```
+<div className="relative flex flex-col gap-6 pl-8">
+  {/* vertical line — spans the full column height */}
+  <div className="absolute left-3 top-2 bottom-2 w-px bg-zinc-200" aria-hidden="true" />
+
+  {experience.map((entry, index) => (
+    <div key={index} className="relative">
+      {/* timeline dot — aligned to the line */}
+      <span className="absolute -left-5 top-6 h-2.5 w-2.5 rounded-full bg-white border-2 border-zinc-300" aria-hidden="true" />
+
+      {/* existing article card — internals unchanged */}
+      <article className="rounded-xl border border-zinc-200 bg-white px-6 py-6 shadow-sm">
+        {/* ... */}
+      </article>
+    </div>
+  ))}
+</div>
 ```
 
-**Why not JSON?** TypeScript data objects get compile-time type checking. JSON imports require type assertions or a Zod schema. For content only the engineer edits, type assertion adds no real safety — just ceremony.
+The `pl-8` on the container pushes all cards right, creating space for the line and dot on the left. The dot's `border-2 border-white` gives a "ring" effect that visually separates it from the line. The exact pixel values (left offset, dot size, top alignment) are tuning details — the structural pattern is correct.
 
-**Why not MDX?** MDX is appropriate when content authors need rich text authoring and the content structure varies. Resume sections are structured data (arrays of jobs, arrays of skills), not prose. MDX would fight the structured rendering both web and PDF require.
-
-**Why not a CMS?** No backend is needed and the project explicitly excludes one. A CMS adds a dependency, a build-time fetch, and a login to maintain.
+**No JavaScript. No new component. Static export compatible.**
 
 ---
 
-## Rendering Strategy
+## Suggested Build Order
 
-### Decision: Static Prerendering (not SSR, not ISR)
+Dependencies run in this order:
 
-The resume page has no dynamic inputs — no user-specific data, no request-time dependencies, no content that changes between builds. Next.js 16 App Router will automatically prerender the page at build time because the page component is a Server Component with no dynamic functions (`cookies()`, `headers()`, etc.) and no uncached `fetch()` calls.
+**Step 1 — `src/types/resume.ts`**
+Add `logo_url?: string` to `ExperienceEntry`. Do this first. TypeScript will immediately enforce the field downstream when it is referenced in the component.
 
-This means:
-- Vercel serves the page from its CDN edge with no origin server round-trip
-- No `output: 'export'` config change needed — standard App Router static prerendering works correctly on Vercel
-- To update the resume content: edit `src/data/resume.ts`, push to git, Vercel redeploys (takes ~30 seconds)
+**Step 2 — `src/components/WorkExperience.tsx`**
+Implement both features in a single edit pass:
+- Add relative container + left padding + vertical line `<div>` around the experience list.
+- Add per-entry wrapper `<div>` with positioned dot `<span>`.
+- Add logo `<img>` / briefcase fallback in the card header.
 
-**Verify static rendering** by running `next build` and confirming the `/` route is marked `○ (Static)` in the build output.
+These two sub-tasks are independent of each other within the component (the timeline is the outer structure, the logo is the card interior), but doing them in one edit avoids a second round-trip through the same file.
 
-### What This Means for Components
+**Step 3 — `src/data/resume.md`**
+Add `logo_url` to one or more entries. This is a content change, not code. It requires Step 1 (typed field) and Step 2 (render logic) to already exist. Can be a placeholder URL for development verification.
 
-All section components (`Header`, `Experience`, `Skills`) are React Server Components by default. They import directly from `src/data/resume.ts` and render pure HTML with Tailwind classes. No `"use client"` needed unless interactivity is added.
+**Step 4 — Visual verification**
+Run `npm run dev`. Confirm:
+- Timeline line appears down the left side of all experience cards.
+- Dot appears at the top-left of each card, aligned with the line.
+- Logo renders when `logo_url` is set.
+- Briefcase fallback renders when `logo_url` is absent.
+- Mobile layout (narrow viewport): line and dots still align, logo does not overflow card.
+- Existing card layout (company, role, date range, bullets) is undisturbed.
 
-The only client component is `PdfDownloadButton`. It is a leaf node — it does not wrap other components and does not affect the static rendering of the rest of the page.
-
----
-
-## Page Layout: Single Page
-
-### Decision: Single scrollable page at `/`
-
-Recruiters scan a resume from top to bottom. A multi-route structure (e.g., `/experience`, `/skills`) would fragment that flow and add navigation overhead with no benefit. All sections live on one page, assembled in `src/app/page.tsx`.
-
-Section order recommendation: Header (name/title/contact) → Experience → Skills. Experience is the primary signal for both recruiters and engineers; lead with it after identification.
-
----
-
-## PDF Generation
-
-### Decision: `@react-pdf/renderer` with Client-Side Dynamic Import
-
-**Constraint from project:** No headless browser server. This eliminates Puppeteer/Playwright approaches that require a Node.js process to screenshot the page.
-
-**Options evaluated:**
-
-| Approach | Works without server? | PDF matches web design? | Complexity |
-|----------|----------------------|------------------------|------------|
-| `@react-pdf/renderer` client-side | Yes | Requires parallel PDF layout | Medium |
-| `window.print()` / print CSS | Yes | Yes (it IS the web layout) | Low |
-| Puppeteer via API route | No (Node.js required) | Yes | High |
-| jsPDF / html2canvas | Yes | Approximate (canvas-based, poor text quality) | Medium |
-
-**Recommended: `@react-pdf/renderer` client-side.**
-
-Reason: `window.print()` produces browser-dependent output. Chrome's print dialog exposes margin controls, headers, footers, and scale that the user must configure manually — the PDF is not deterministic. jsPDF's html2canvas approach rasterises text, producing poor quality at standard resume reading sizes. `@react-pdf/renderer` generates a true vector PDF with precise layout control, deterministic output, and a one-click download.
-
-The tradeoff is that PDF components must be written with `@react-pdf/renderer` primitives (`View`, `Text`, `StyleSheet`) rather than HTML + Tailwind. This is not avoidable with any client-side PDF approach that produces high-quality output.
-
-### Integration Pattern
-
-`@react-pdf/renderer` depends on browser APIs not available on the server. In Next.js App Router, this requires two things:
-
-1. `"use client"` on the PDF component file
-2. `dynamic()` import with `ssr: false` at the call site, OR keep all PDF code inside a `"use client"` component that is never imported by a Server Component at the module level
-
-Recommended pattern — a single client component wraps everything:
-
-```typescript
-// src/components/pdf/PdfDownloadButton.tsx
-"use client"
-
-import { PDFDownloadLink, Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer"
-import { resumeData } from "@/data/resume"
-
-const styles = StyleSheet.create({ /* ... */ })
-
-function ResumePdfDocument() {
-  return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        {/* PDF layout using View/Text primitives */}
-      </Page>
-    </Document>
-  )
-}
-
-export function PdfDownloadButton() {
-  return (
-    <PDFDownloadLink document={<ResumePdfDocument />} fileName="resume.pdf">
-      {({ loading }) => loading ? "Preparing PDF..." : "Download PDF"}
-    </PDFDownloadLink>
-  )
-}
-```
-
-Then in `page.tsx` (or `Header.tsx`), import it via `next/dynamic`:
-
-```typescript
-// src/app/page.tsx
-import dynamic from "next/dynamic"
-
-const PdfDownloadButton = dynamic(
-  () => import("@/components/pdf/PdfDownloadButton").then(m => m.PdfDownloadButton),
-  { ssr: false, loading: () => <span>Loading...</span> }
-)
-```
-
-This pattern keeps the static page prerenderable. The download button hydrates client-side after the static HTML is delivered.
-
-**Next.js config: no changes needed.** Next.js 16 automatically opts `@react-pdf/renderer` out of server-side bundling — it is on the built-in `serverExternalPackages` allowlist in `node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/serverExternalPackages.md`. Do not add it manually; the existing `next.config.ts` is sufficient.
+**Step 5 — `npm run build`**
+Confirm static export succeeds (`next build`). TypeScript strict mode must pass with no errors. The build output should still show the page as statically rendered.
 
 ---
 
-## Directory Structure After Implementation
+## Static Export Compatibility
 
-```
-src/
-├── app/
-│   ├── layout.tsx          # Root shell (unchanged from scaffold)
-│   ├── page.tsx            # Assembles: Header, Experience, Skills, PdfDownloadButton
-│   └── globals.css         # Tailwind v4 base (unchanged)
-├── components/
-│   ├── resume/
-│   │   ├── Header.tsx      # Name, title, contact — Server Component
-│   │   ├── Experience.tsx  # Job list — Server Component
-│   │   └── Skills.tsx      # Tech skills — Server Component
-│   └── pdf/
-│       └── PdfDownloadButton.tsx  # "use client", contains full PDF document
-├── data/
-│   └── resume.ts           # Single source of truth — typed data object
-└── types/
-    └── resume.ts           # TypeScript interfaces for resume shape
-```
-
-Note: `src/types/` here is under `src/` and is application code — distinct from the auto-generated `types/` at the project root (Next.js route types, do not edit).
-
----
-
-## Data Flow
-
-```
-src/data/resume.ts (typed constant)
-    |
-    +---> src/components/resume/Header.tsx     (Server Component → HTML + Tailwind)
-    |
-    +---> src/components/resume/Experience.tsx (Server Component → HTML + Tailwind)
-    |
-    +---> src/components/resume/Skills.tsx     (Server Component → HTML + Tailwind)
-    |
-    +---> src/components/pdf/PdfDownloadButton.tsx
-              (Client Component → @react-pdf/renderer → PDF blob → download)
-```
-
-One data source. Two rendering paths. No synchronisation problem.
-
----
-
-## Scalability Considerations
-
-| Concern | Now (single engineer, static) | If adding sections later |
-|---------|-------------------------------|--------------------------|
-| New section | Add type to `ResumeData`, add component, add to `page.tsx` | Same pattern, no architectural change |
-| PDF section parity | Add corresponding `View`/`Text` block in `PdfDownloadButton.tsx` | Manual but isolated |
-| Multiple resumes (e.g., frontend-focused vs backend-focused) | Not needed now | Export multiple typed constants from `resume.ts`, add a route parameter |
-| CMS migration | `src/data/resume.ts` → fetch from API, same types | Data layer is the only thing that changes |
+| Concern | Assessment |
+|---------|------------|
+| `<img>` with external `src` | Compatible — static export does not restrict `<img>` |
+| Next.js `<Image>` with external URLs | Avoid — requires `remotePatterns` config and optimisation does not apply at export time |
+| Timeline as pure Tailwind CSS | Compatible — zero runtime JavaScript, no server features used |
+| `WorkExperience` stays a Server Component | Compatible — no hooks or browser APIs introduced |
+| gray-matter passes `logo_url` through | Compatible — unknown YAML keys are passed through as strings already; adding the typed field makes it explicit |
 
 ---
 
 ## Anti-Patterns to Avoid
 
-### Anti-Pattern 1: Putting Resume Data in Component Files
-**What goes wrong:** Data and presentation are coupled. Making the same data available to the PDF component requires prop-drilling or duplication.
-**Instead:** `src/data/resume.ts` is the single import point. Components receive the whole `resumeData` object or specific sub-objects.
+**Do not use Next.js `<Image>` for logos.** The image optimiser does not run during `output: 'export'` static builds. External URLs require `remotePatterns` configuration. Plain `<img>` is the right call for this use case.
 
-### Anti-Pattern 2: Server-Side PDF Generation via API Route
-**What goes wrong:** Puppeteer-based approaches require a full Node.js server process, incompatible with static Vercel deployments. `@react-pdf/renderer` in a Route Handler works technically but adds unnecessary server invocation when the browser can do the same work.
-**Instead:** Client-side PDF generation via `dynamic` import with `ssr: false`. The resume page is publicly cacheable static HTML; the PDF is generated in the user's browser on demand.
+**Do not create a separate `Timeline` component** that wraps `WorkExperience` as children. The timeline is a layout property of the work experience list, not a general-purpose layout primitive. Extracting it into a wrapper component adds indirection and file overhead for a feature used exactly once.
 
-### Anti-Pattern 3: Using `window.print()` for the Download Button
-**What goes wrong:** The browser print dialog exposes settings (margins, headers, scale) the user can change. The resulting PDF may omit background colours, clip content, or add browser chrome headers/footers. Output is non-deterministic across browsers.
-**Instead:** `@react-pdf/renderer`'s `PDFDownloadLink` produces a deterministic, styled PDF blob delivered directly as a file download with no dialog interaction required.
+**Do not add `'use client'` to `WorkExperience`.** The logo and timeline are entirely static markup. Adding a client boundary would unnecessarily hydrate the entire work experience section in the browser.
 
-### Anti-Pattern 4: Importing `@react-pdf/renderer` in a Server Component
-**What goes wrong:** The library uses browser globals (`canvas`, `Blob`) that do not exist in the Node.js rendering environment. Even though Next.js 16 opts the package out of server bundling automatically, importing it directly in a Server Component will still cause a runtime failure.
-**Instead:** Isolate all `@react-pdf/renderer` imports behind `"use client"` + `dynamic({ ssr: false })` as described above.
-
-### Anti-Pattern 5: Separate Web and PDF Data Schemas
-**What goes wrong:** When the resume content changes, two schemas and two data files must be kept in sync. Divergence is inevitable.
-**Instead:** One `ResumeData` interface, one `resumeData` constant, two rendering components that consume the same data.
+**Do not use a CSS `background-image` or `border-left` trick for the vertical line.** A real positioned `<div>` is easier to reason about in Tailwind v4, inherits color tokens correctly, and is trivially adjustable.
 
 ---
 
 ## Sources
 
-- Next.js 16 static exports docs: `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` (HIGH confidence — official local docs)
-- Next.js 16 rendering philosophy: `node_modules/next/dist/docs/01-app/02-guides/rendering-philosophy.md` (HIGH confidence — official local docs)
-- `@react-pdf/renderer` on Next.js 16 built-in `serverExternalPackages` allowlist: `node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/serverExternalPackages.md` line 35 (HIGH confidence — official local docs, verified directly)
-- `@react-pdf/renderer` Next.js App Router SSR issues: https://github.com/diegomura/react-pdf/discussions/2402 and https://github.com/diegomura/react-pdf/issues/2460 (MEDIUM confidence — GitHub issue threads, confirmed by multiple reporters across Next.js 13-14; pattern applies to 16)
-- `@react-pdf/renderer` v4.4.1 React 19 compatibility: https://www.npmjs.com/package/@react-pdf/renderer (MEDIUM confidence — npm registry listing; no official changelog cross-check performed)
+- Direct codebase inspection — all findings are from reading the live files:
+  - `src/types/resume.ts` (lines 1–16)
+  - `src/components/WorkExperience.tsx` (lines 1–50)
+  - `src/app/page.tsx` (lines 1–34)
+  - `src/app/globals.css` (lines 1–20)
+  - `src/data/resume.md` (lines 1–36)
+  - `src/components/AnimateIn.tsx` (lines 1–22)
+- Confidence: HIGH — all findings from direct inspection of the live codebase; no external sources needed for this integration-scoped analysis.
