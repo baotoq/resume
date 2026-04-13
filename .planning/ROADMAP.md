@@ -54,7 +54,7 @@ Plans:
   2. The URL can be shared with a recruiter who opens it without authentication or friction
 **Plans**: 1 plan
 Plans:
-- [ ] 03-01-PLAN.md — Static export config + GitHub Actions deploy workflow
+- [x] 03-01-PLAN.md — Static export config + GitHub Actions deploy workflow
 
 ## Progress
 
