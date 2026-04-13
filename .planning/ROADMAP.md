@@ -33,8 +33,8 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Type extension, LogoImage component, timeline rail in WorkExperience, data fixture
-- [ ] 04-02-PLAN.md — Build verification and visual QA checkpoint
+- [x] 04-01-PLAN.md — Type extension, LogoImage component, timeline rail in WorkExperience, data fixture
+- [x] 04-02-PLAN.md — Build verification and visual QA checkpoint
 
 **UI hint**: yes
 
