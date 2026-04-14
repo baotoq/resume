@@ -41,11 +41,7 @@
   3. Experience entries with no tech_stack field render normally with no empty space or broken layout
   4. An unrecognized tech name (one with no Devicon match) renders as a legible text pill rather than a broken icon
   5. No npm package is added — icons load from the Devicons CDN stylesheet/sprite
-**Plans:** 1 plan
-
-Plans:
-- [ ] 05-01-PLAN.md — Tech stack icons: type extension, CDN link, TechStackIcons component, WorkExperience wiring, sample data
-
+**Plans**: TBD
 **UI hint**: yes
 
 ### Phase 6: Keyword Highlights
@@ -67,5 +63,5 @@ Plans:
 | 2. Layout & Polish | v1.0 | 1/1 | Complete | 2026-04-13 |
 | 3. Deploy | v1.0 | 1/1 | Complete | 2026-04-13 |
 | 4. Visual Polish | v1.1 | 2/2 | Complete | 2026-04-13 |
-| 5. Tech Stack Icons | v1.2 | 0/1 | Planning complete | - |
+| 5. Tech Stack Icons | v1.2 | 0/? | Not started | - |
 | 6. Keyword Highlights | v1.2 | 0/? | Not started | - |

@@ -9,6 +9,7 @@ experience:
     startDate: "2022-01"
     endDate: null
     logo_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/200px-Google_2015_logo.svg.png"
+    tech_stack: [Go, TypeScript, Docker, Kubernetes, AWS, Microservices]
     bullets:
       - "Led migration of monolithic API to microservices, reducing deployment time by 60%"
       - "Designed and implemented real-time event pipeline processing 50K events/sec"
@@ -17,6 +18,7 @@ experience:
     role: "Software Engineer"
     startDate: "2019-06"
     endDate: "2021-12"
+    tech_stack: [React, TypeScript, PostgreSQL, Redis]
     bullets:
       - "Built customer-facing dashboard serving 10K daily active users with React and TypeScript"
       - "Reduced API response times by 45% through query optimization and caching strategies"
@@ -25,6 +27,7 @@ experience:
     role: "Junior Software Engineer"
     startDate: "2017-08"
     endDate: "2019-05"
+    tech_stack: [Go, PostgreSQL]
     bullets:
       - "Developed RESTful APIs in Go serving 5M requests/day with 99.9% uptime"
       - "Created automated testing suite increasing code coverage from 40% to 85%"
