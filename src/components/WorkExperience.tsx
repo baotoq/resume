@@ -1,5 +1,6 @@
 import type { ExperienceEntry } from "@/types/resume"
 import { LogoImage } from "@/components/LogoImage"
+import { TechStackIcons } from "@/components/TechStackIcons"
 
 interface WorkExperienceProps {
   experience: ExperienceEntry[]
@@ -58,6 +59,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                     </span>
                   </div>
                 </div>
+                <TechStackIcons stack={entry.tech_stack} />
                 {/* Bullets */}
                 <ul className="mt-4 flex flex-col gap-2">
                   {entry.bullets.map((bullet, i) => (
