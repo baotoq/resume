@@ -54,7 +54,7 @@
   3. Bullets with no bold markup render as plain text — identical to current behavior
 **Plans:** 1 plan
 Plans:
-- [ ] 06-01-PLAN.md — Create HighlightedBullet component, integrate into WorkExperience, add sample markup data
+- [x] 06-01-PLAN.md — Create HighlightedBullet component, integrate into WorkExperience, add sample markup data
 **UI hint**: yes
 
 ## Progress
