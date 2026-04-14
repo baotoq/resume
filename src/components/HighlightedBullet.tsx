@@ -1,3 +1,5 @@
+import type { ReactNode } from "react"
+
 interface HighlightedBulletProps {
   children: string;
 }
@@ -5,7 +7,7 @@ interface HighlightedBulletProps {
 export function HighlightedBullet({ children }: HighlightedBulletProps) {
   const boldSegments = children.split(/\*\*([^*]+)\*\*/g);
 
-  const elements: React.ReactNode[] = [];
+  const elements: ReactNode[] = [];
 
   boldSegments.forEach((segment, boldIndex) => {
     if (boldIndex % 2 === 1) {
