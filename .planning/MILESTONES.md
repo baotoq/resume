@@ -1,5 +1,16 @@
 # Milestones
 
+## v1.2 Tech Stack Icons + Keyword Highlights (Shipped: 2026-04-14)
+
+**Phases completed:** 2 phases, 2 plans, 0 tasks
+
+**Key accomplishments:**
+
+- Devicons CDN icon row on experience cards with 30-entry SLUG_MAP allowlist and zinc pill fallback for unknown techs
+- Inline regex parser renders `**bold**` as indigo-600 spans and `*italic*` as italic spans inside WorkExperience bullet `<li>` elements
+
+---
+
 ## v1.1 Visual Polish (Shipped: 2026-04-13)
 
 **Phases completed:** 1 phase, 2 plans, 4 tasks

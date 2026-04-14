@@ -77,6 +77,43 @@
 
 ---
 
+## Milestone: v1.2 — Tech Stack Icons + Keyword Highlights
+
+**Shipped:** 2026-04-14
+**Phases:** 2 | **Plans:** 2 | **Sessions:** 1
+
+### What Was Built
+- `TechStackIcons` Server Component — 30-entry SLUG_MAP allowlist, Devicons CDN, zinc pill fallback for unknown techs
+- `HighlightedBullet` Server Component — two-pass regex split rendering `**bold**` as indigo-600 spans, `*italic*` as italic spans
+- Both features wired into `WorkExperience.tsx` without conflict; render order matches spec (icons → bullets)
+
+### What Worked
+- Security-first SLUG_MAP allowlist for CSS class construction — caught potential injection risk before it landed
+- Pure regex split with capturing group — no npm package needed, clean alternating segment array
+- Both phases are truly independent — no integration friction at wiring time
+- Parallel phase execution (worktree) worked cleanly for independent features
+
+### What Was Inefficient
+- REQUIREMENTS.md traceability stayed "Pending" again — third milestone in a row with same tracking gap
+- SUMMARY.md one-liner YAML field still not parsed by gsd-tools — manually fixed MILESTONES.md accomplishments again
+- Phase 5 required `npm install` fix during execution (missing node_modules in worktree) — environment setup gap
+
+### Patterns Established
+- Security: user-authored strings to CSS class names → always use allowlist, never interpolate directly
+- For inline markup rendering: regex split with capturing group produces clean alternating text/token arrays; no parser library needed
+
+### Key Lessons
+1. REQUIREMENTS.md traceability "Pending" at milestone close is now a confirmed persistent pattern — accept it, verify via VERIFICATION.md instead
+2. SUMMARY.md one-liner field not parsed by gsd-tools — always manually update MILESTONES.md accomplishments post-archive
+3. Worktree setup needs `npm install` or node_modules symlink — add to phase setup checklist for future parallel execution
+
+### Cost Observations
+- Model mix: ~100% sonnet
+- Sessions: 1
+- Notable: 2 plans in 1 session, ~45 minutes total execution time — tight independent features execute fastest
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -85,8 +122,10 @@
 |-----------|----------|--------|------------|
 | v1.0 | 2 | 3 | Baseline established |
 | v1.1 | 1 | 1 | Human QA checkpoint added for visual features |
+| v1.2 | 1 | 2 | Parallel worktree execution for independent features |
 
 ### Top Lessons (Verified Across Milestones)
 
-1. Keep REQUIREMENTS.md traceability updated during execution, not just at milestone close — happened in both v1.0 and v1.1
-2. SUMMARY.md one-liner YAML field not parsed by gsd-tools — manually fix MILESTONES.md accomplishments after each milestone
+1. REQUIREMENTS.md traceability stays "Pending" at milestone close — confirmed pattern across all 3 milestones; use VERIFICATION.md as ground truth instead
+2. SUMMARY.md one-liner YAML field not parsed by gsd-tools — manually fix MILESTONES.md accomplishments after each milestone (every time)
+3. Worktree parallel execution needs node_modules setup — add to checklist

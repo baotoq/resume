@@ -8,14 +8,9 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
-## Current Milestone: v1.2 Tech Stack Icons + Keyword Highlights
+## Current State: v1.2 Shipped
 
-**Goal:** Make each experience card more scannable with colored Devicon tech stack icons and accent-colored keywords in bullet points.
-
-**Target features:**
-- `tech_stack` array field per experience entry in resume.md
-- Devicons via CDN, rendered below role/date header, above bullets
-- `**bold**` keywords in bullet text render in indigo-600 accent color
+All three milestones complete. Site is live on GitHub Pages with experience cards showing tech stack icons and highlighted keywords. Ready for v2.0 or real content population.
 
 ## Requirements
 
@@ -33,11 +28,11 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - ✓ Scroll animations — sections fade in on scroll entry — v1.0
 - ✓ Company logo per work entry (manual logo_url, briefcase fallback) — v1.1
 - ✓ Vertical timeline — continuous left-side line + dot per job entry, filled/hollow dot distinction — v1.1
+- ✓ Tech stack icons per experience entry (Devicons CDN, SLUG_MAP allowlist, zinc pill fallback) — v1.2
+- ✓ Keyword highlighting in bullet points (`**bold**` → indigo-600 accent color) — v1.2
 
 ### Active
 
-- [ ] Tech stack icons per experience entry (Devicons CDN) — TECH-01
-- [ ] Keyword highlighting in bullet points (**bold** → accent color) — TECH-02
 - [ ] PDF download button — generates clean PDF from the page
 - [ ] About/bio intro paragraph — CONT-V2-01
 - [ ] Duration labels computed from date ranges — CONT-V2-02
@@ -54,12 +49,12 @@ A recruiter or engineer can open the link, immediately understand who you are an
 
 ## Context
 
-- Shipped v1.1 with ~270 LOC TypeScript/TSX (added LogoImage component + timeline rail)
+- Shipped v1.2 with ~411 LOC TypeScript/TSX (added TechStackIcons + HighlightedBullet components)
 - Tech stack: Next.js 16.2.3 + React 19 + TypeScript + Tailwind v4 + framer-motion 12
 - Content: gray-matter YAML frontmatter in `src/data/resume.md` — user fills in real data
 - Deployment: GitHub Pages via `output: 'export'` static export + GitHub Actions OIDC workflow
 - Note: `src/data/resume.md` still has placeholder experience entries — user must populate with real data before sharing
-- Note: `logo_url` fields in resume.md point to placeholder (Wikimedia CDN Google logo) — user must add real logo URLs
+- Note: `logo_url` fields in resume.md point to placeholder — user must add real logo URLs
 
 ## Constraints
 
@@ -87,6 +82,11 @@ A recruiter or engineer can open the link, immediately understand who you are an
 | Plain `<img>` over next/image for logos | next/image silently 404s with external URLs on static export | ✓ Good — avoids silent failures |
 | Inline SVG briefcase fallback | Avoids basePath routing issues and icon library bundle cost | ✓ Good |
 | Single continuous timeline line vs per-entry segments | Per-entry `!isLast` approach left last card with no visible line; single rail-container element fixes this cleanly | ✓ Good — simpler and correct |
+| Devicons via CDN (no npm) | No package to maintain; CDN covers all common tech slugs | ✓ Good — zero bundle cost |
+| SLUG_MAP allowlist (30 entries) | Prevents user-authored strings from being injected into CSS class names | ✓ Good — security + control |
+| Unknown techs → zinc pill | Never inject arbitrary strings into class attrs; legible fallback | ✓ Good |
+| Bold parsed before italic | Safely handles `***triple***` edge case; stray `*` chars pass through as literal text | ✓ Good |
+| span-only output in HighlightedBullet | Color and italic are decorative, not semantic — no strong/em/b/i | ✓ Good — accessibility |
 
 ## Evolution
 
@@ -106,4 +106,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-13 — Milestone v1.2 started*
+*Last updated: 2026-04-14 after v1.2 milestone*
