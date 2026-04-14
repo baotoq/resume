@@ -11,8 +11,8 @@ experience:
     logo_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/200px-Google_2015_logo.svg.png"
     tech_stack: [Go, TypeScript, Docker, Kubernetes, AWS, Microservices]
     bullets:
-      - "Led migration of monolithic API to microservices, reducing deployment time by 60%"
-      - "Designed and implemented real-time event pipeline processing 50K events/sec"
+      - "Led migration of monolithic API to **microservices**, reducing deployment time by 60%"
+      - "Designed and implemented **real-time event pipeline** processing 50K events/sec"
       - "Mentored 3 junior engineers through code reviews and pair programming sessions"
   - company: "Company B"
     role: "Software Engineer"
@@ -20,7 +20,7 @@ experience:
     endDate: "2021-12"
     tech_stack: [React, TypeScript, PostgreSQL, Redis]
     bullets:
-      - "Built customer-facing dashboard serving 10K daily active users with React and TypeScript"
+      - "Built customer-facing dashboard serving 10K daily active users with *React* and *TypeScript*"
       - "Reduced API response times by 45% through query optimization and caching strategies"
       - "Implemented CI/CD pipeline cutting release cycle from 2 weeks to 2 days"
   - company: "Company C"
@@ -29,7 +29,7 @@ experience:
     endDate: "2019-05"
     tech_stack: [Go, PostgreSQL]
     bullets:
-      - "Developed RESTful APIs in Go serving 5M requests/day with 99.9% uptime"
+      - "Developed **RESTful APIs** in *Go* serving 5M requests/day with 99.9% uptime"
       - "Created automated testing suite increasing code coverage from 40% to 85%"
       - "Collaborated with product team to ship 4 major features ahead of schedule"
 skills:

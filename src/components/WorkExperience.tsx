@@ -1,4 +1,5 @@
 import type { ExperienceEntry } from "@/types/resume"
+import { HighlightedBullet } from "@/components/HighlightedBullet"
 import { LogoImage } from "@/components/LogoImage"
 import { TechStackIcons } from "@/components/TechStackIcons"
 
@@ -67,7 +68,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                       key={i}
                       className="text-base leading-relaxed text-zinc-700 pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-zinc-300"
                     >
-                      {bullet}
+                      <HighlightedBullet>{bullet}</HighlightedBullet>
                     </li>
                   ))}
                 </ul>
