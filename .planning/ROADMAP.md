@@ -52,7 +52,9 @@
   1. User can wrap a word or phrase in `**bold**` within a bullet in resume.md and it renders in indigo-600 accent color without any code change
   2. Highlighted keywords match the existing indigo-600 accent used elsewhere on the page (consistent visual language)
   3. Bullets with no bold markup render as plain text — identical to current behavior
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 06-01-PLAN.md — Create HighlightedBullet component, integrate into WorkExperience, add sample markup data
 **UI hint**: yes
 
 ## Progress
@@ -64,4 +66,4 @@
 | 3. Deploy | v1.0 | 1/1 | Complete | 2026-04-13 |
 | 4. Visual Polish | v1.1 | 2/2 | Complete | 2026-04-13 |
 | 5. Tech Stack Icons | v1.2 | 0/? | Not started | - |
-| 6. Keyword Highlights | v1.2 | 0/? | Not started | - |
+| 6. Keyword Highlights | v1.2 | 0/1 | Planned | - |
