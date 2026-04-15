@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "/resume",
+  basePath: isProd ? "/resume" : "",
+  assetPrefix: isProd ? "/resume" : "",
   reactCompiler: true,
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
