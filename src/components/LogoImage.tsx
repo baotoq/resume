@@ -1,21 +1,23 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
+import Image from "next/image";
 
-interface LogoImageProps {
-  src: string | undefined
-  alt: string
+interface LogoImageProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
+  src: string | undefined;
+  alt: string;
 }
 
-export function LogoImage({ src, alt }: LogoImageProps) {
-  const [hasError, setHasError] = useState(false)
+export function LogoImage({ src, alt, ...props }: LogoImageProps) {
+  const [hasError, setHasError] = useState(false);
 
   if (!src || hasError) {
     return (
       <div
-        className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center flex-shrink-0"
+        className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center shrink-0"
         role="img"
         aria-label="Company logo unavailable"
+        {...props}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -34,17 +36,18 @@ export function LogoImage({ src, alt }: LogoImageProps) {
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
         </svg>
       </div>
-    )
+    );
   }
 
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
       width={40}
       height={40}
-      className="w-10 h-10 rounded-lg object-contain flex-shrink-0"
+      className="w-10 h-10 rounded-lg object-contain shrink-0"
       onError={() => setHasError(true)}
+      {...props}
     />
-  )
+  );
 }
