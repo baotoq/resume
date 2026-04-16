@@ -14,10 +14,11 @@ import Redis from "react-devicons/redis/original-wordmark";
 import Tailwindcss from "react-devicons/tailwindcss/original";
 import Terraform from "react-devicons/terraform/original-wordmark";
 import Github from "react-devicons/github/original-wordmark";
-import Azure from "react-devicons/azure/original-wordmark";
+import Azure from "react-devicons/azure/original";
 import Facebook from "react-devicons/facebook/original";
 import Neo4j from "react-devicons/neo4j/original-wordmark";
 import Grafana from "react-devicons/grafana/original-wordmark";
+import Microsoftsqlserver from "react-devicons/microsoftsqlserver/plain-wordmark";
 
 interface TechStackIconsProps {
   stack?: string[];
@@ -44,6 +45,7 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   neo4j: Neo4j,
   redis: Redis,
   mysql: Mysql,
+  mssql: Microsoftsqlserver,
   react: ({ size }) => <ReactIcon size={size} color="#0C9FC9" />,
   vue: Vuejs,
   tailwindcss: Tailwindcss,
