@@ -19,6 +19,9 @@ import Facebook from "react-devicons/facebook/original";
 import Neo4j from "react-devicons/neo4j/original-wordmark";
 import Grafana from "react-devicons/grafana/original-wordmark";
 import Microsoftsqlserver from "react-devicons/microsoftsqlserver/plain-wordmark";
+import { DaprIcon } from "./icons/DaprIcon";
+import { FluxCDIcon } from "./icons/FluxCDIcon";
+import { GrpcIcon } from "./icons/GrpcIcon";
 
 interface TechStackIconsProps {
   stack?: string[];
@@ -50,6 +53,9 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   vue: Vuejs,
   tailwindcss: Tailwindcss,
   facebook: Facebook,
+  dapr: ({ size }) => <DaprIcon size={size} />,
+  fluxcd: ({ size }) => <FluxCDIcon size={size} />,
+  grpc: ({ size }) => <GrpcIcon size={size} />,
 };
 
 function normalizeTech(tech: string) {
