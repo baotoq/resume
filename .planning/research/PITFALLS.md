@@ -525,3 +525,191 @@ This is already done correctly in the existing codebase for bullet point dots in
 - [Tailwind issue #18178 — `content` property doubled with `before:`/`after:` variants](https://github.com/tailwindlabs/tailwindcss/issues/18178) — MEDIUM confidence
 - [next/image basePath discussion](https://github.com/vercel/next.js/discussions/34173) — MEDIUM confidence
 - CSS vertical timeline per-item line approach — multiple sources, MEDIUM confidence
+
+---
+
+---
+
+# v2.0 Addendum: Static Export to Vercel Migration Pitfalls
+
+**Scope:** Migrating from `output: 'export'` + GitHub Pages to Vercel deployment.
+**Researched:** 2026-04-22
+**Confidence:** HIGH (verified against actual codebase: `next.config.ts`, `page.tsx`, `TechStackIcons.tsx`, `AnimateIn.tsx`, `.github/workflows/deploy.yml`, `node_modules/react-devicons`)
+
+---
+
+## Critical Pitfalls (v2.0)
+
+---
+
+### Pitfall M1: basePath and assetPrefix Still Active on Vercel — Site Silently Serves at Wrong URL
+
+**What goes wrong:**
+`next.config.ts` uses `const isProd = process.env.NODE_ENV === "production"` to conditionally set `basePath: "/resume"` and `assetPrefix: "/resume"`. On Vercel, `NODE_ENV` is `"production"` during both build and runtime. After deploying, the site is only accessible at `yourdomain.vercel.app/resume/` — not at root. Vercel's default routing has no knowledge of the subpath. The deployment appears to succeed (green checkmark) while the root URL returns 404.
+
+**Why it happens:**
+The `isProd` conditional was introduced specifically for GitHub Pages, which hosts project repos at `github.com/user/resume` requiring a `/resume` subpath. Developers assume "remove `output: 'export'`" is the entire migration and miss the conditional guarding `basePath`.
+
+**How to avoid:**
+Remove the entire `basePath`, `assetPrefix`, and `images.unoptimized` block. On Vercel the site deploys at root. The conditional and all three options become unnecessary:
+
+```ts
+// next.config.ts after migration
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  reactCompiler: true,
+};
+
+export default nextConfig;
+```
+
+**Warning signs:**
+- Vercel deployment shows green but production URL 404s at root
+- Preview deployments at `*.vercel.app` return 404 at root but work at `*.vercel.app/resume/`
+- Browser DevTools shows 404 on `/_next/static/...` assets
+
+**Phase to address:**
+Phase 1 — VERCEL-01 (remove `output: 'export'`). Must be done atomically with removing `basePath`/`assetPrefix`, not as a separate step.
+
+---
+
+### Pitfall M2: Contact Info Silently Blank in Production
+
+**What goes wrong:**
+`page.tsx` reads `process.env.NEXT_PUBLIC_EMAIL ?? ""` and `process.env.NEXT_PUBLIC_PHONE ?? ""`. If these environment variables are not configured in the Vercel dashboard, the build succeeds, deployment succeeds, and the live resume shows blank contact fields. Zero errors are surfaced — the fallback empty string is completely valid from Next.js's perspective. For a resume site this is a critical silent failure.
+
+**Why it happens:**
+`.env.local` is gitignored and never uploaded. Developers set the vars locally, confirm dev works, and forget that Vercel runs its own build with only variables explicitly configured in the dashboard. `NEXT_PUBLIC_` vars are inlined at build time — if they are absent at Vercel build time, the inlined value is `""`.
+
+**How to avoid:**
+Before the first Vercel production deployment, add `NEXT_PUBLIC_EMAIL` and `NEXT_PUBLIC_PHONE` in Vercel Project Settings > Environment Variables > Production. After deployment, open the live URL and visually verify the header shows real values.
+
+**Warning signs:**
+- Header shows blank email and phone on the Vercel URL
+- No build error, no deploy error — CI is fully green
+- Local dev works because `.env.local` is loaded automatically by Next.js
+
+**Phase to address:**
+Phase 2 — VERCEL-02 (configure Vercel deployment). Add env vars to dashboard before triggering first production deploy.
+
+---
+
+### Pitfall M3: GitHub Actions Double-Deploy Creates Conflicting CI Failures
+
+**What goes wrong:**
+Once the project is linked to Vercel's GitHub integration, every push to master triggers a Vercel deployment automatically. The existing `deploy.yml` workflow also runs on push to master and attempts to build with `output: 'export'` and deploy to GitHub Pages. After `output: 'export'` is removed from `next.config.ts`, the Pages workflow fails at `next build` (because GitHub Pages requires `output: 'export'` and `next build` no longer produces an `out/` directory). Every push creates a failing CI run alongside a successful Vercel deployment.
+
+**Why it happens:**
+Vercel's onboarding adds the GitHub integration but does not touch existing workflow files. Most migration tutorials say "link your project" without saying "delete the old workflow." Two systems targeting the same push event is the default state until explicitly cleaned up.
+
+**How to avoid:**
+Delete `.github/workflows/deploy.yml` in the same commit that removes `output: 'export'`. Do not leave both systems active for even one push to master.
+
+If a custom GitHub Actions workflow is wanted for Vercel (e.g., run Biome lint as a required check before Vercel deploys), use `vercel deploy --prebuilt` with a `VERCEL_TOKEN` repository secret. Note: Vercel does not support OIDC token-less deployments from GitHub Actions as of 2025 — the OIDC pattern used by the current Pages workflow cannot be reused for Vercel.
+
+**Warning signs:**
+- GitHub Actions tab shows failing runs after Vercel integration is added
+- Two concurrent deployment events visible in GitHub Deployments tab
+- `next build` fails in CI with no change to application code
+
+**Phase to address:**
+Phase 3 — VERCEL-03 (replace GitHub Actions workflow). Delete the old workflow before or atomically with removing `output: 'export'`.
+
+---
+
+### Pitfall M4: GitHub Pages Still Live After Vercel Migration
+
+**What goes wrong:**
+GitHub Pages continues serving the old static export from the `gh-pages` environment even after Vercel is live and confirmed working. The old `github.com/user/resume` URL keeps serving a frozen copy of the v1.x site. Anyone who has that URL bookmarked sees stale content. If a custom domain pointed to GitHub Pages, it continues resolving there.
+
+**Why it happens:**
+Vercel deployment succeeding does not automatically disable GitHub Pages. The GitHub Pages environment remains active until explicitly disabled in repository Settings.
+
+**How to avoid:**
+After confirming the Vercel URL serves correctly: go to repository Settings > Pages > Source and set it to "None" (disabled). If GitHub Pages had a custom domain configured, remove the CNAME from Pages settings before re-adding the domain to Vercel to avoid DNS conflicts and verification errors.
+
+**Warning signs:**
+- Two live URLs serving different content simultaneously
+- Old resume visible at `https://username.github.io/resume/` after migration is declared complete
+- DNS records still point to GitHub Pages servers alongside a new Vercel deployment
+
+**Phase to address:**
+Phase 4 — VERCEL-04 (decommission GitHub Pages). Explicit final step after Vercel is confirmed.
+
+---
+
+## Technical Debt Patterns (v2.0)
+
+| Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
+|----------|-------------------|----------------|-----------------|
+| Keep `images.unoptimized: true` on Vercel | No config changes | Misses Vercel Image Optimization (auto WebP, CDN caching, size negotiation) | Acceptable now — logos use plain `<img>`, no `next/image` in codebase |
+| Skip custom domain, use `*.vercel.app` | Zero DNS work | Non-professional URL on a resume shared with recruiters | Never — configure a real domain before sharing URL publicly |
+| Leave `out/` directory in repo | Zero cleanup work | Dead build artifact; `next build` without `output: 'export'` no longer writes to `out/`; confuses future devs | Never — delete `out/` post-migration |
+| Use Vercel auto-integration instead of custom Actions workflow | Zero workflow setup | Cannot enforce Biome lint as a required gate before deployment | Acceptable for solo dev personal resume |
+
+---
+
+## Integration Gotchas (v2.0)
+
+| Integration | Common Mistake | Correct Approach |
+|-------------|----------------|------------------|
+| Vercel + `basePath: "/resume"` | Removing `output: 'export'` without removing `basePath` | Remove both in the same commit; they were paired for GitHub Pages and are both unnecessary on Vercel |
+| Vercel env vars (`NEXT_PUBLIC_EMAIL`, `NEXT_PUBLIC_PHONE`) | Setting only in `.env.local` | Must be added in Vercel dashboard Project Settings > Environment Variables before first production build |
+| GitHub Actions `deploy.yml` + Vercel integration | Leaving old workflow active after linking Vercel | Delete `deploy.yml` atomically with removing `output: 'export'` |
+| `react-devicons` npm package in `TechStackIcons.tsx` | Assuming SVG icon components need `'use client'` | `react-devicons` v2.16.2 are pure `React.createElement` CJS with no hooks or browser APIs — they render fine in Server Components. The memory file claiming "Devicons via CDN" is stale; current code uses npm. Do not add `'use client'` unless a Server Component boundary error appears at build time |
+| `framer-motion` in `AnimateIn.tsx` | Assuming `whileInView` causes SSR errors | `AnimateIn` already has `'use client'` and wraps Server Component children. `whileInView` requires `IntersectionObserver` (browser-only) but is correctly isolated. No change needed |
+| `gray-matter` + `readFileSync` in `page.tsx` | Worrying about Vercel serverless file system restrictions | `page.tsx` has no dynamic APIs (`cookies()`, `headers()`, `searchParams`), so Next.js statically generates it at build time. `readFileSync` runs during build, not request time. No `outputFileTracingIncludes` config is needed |
+| `next/font/google` (Geist, Geist_Mono) | Worrying about external font requests on Vercel | `next/font` self-hosts font files at build time. No external Google requests. Works identically to static export. No change needed |
+| `reactCompiler: true` in `next.config.ts` | Assuming React Compiler causes Vercel build failures | React Compiler is stable in Next.js 16 and fully supported on Vercel. Slightly longer build times due to Babel usage, but no failures |
+| Vercel GitHub OIDC | Trying to reuse the existing OIDC pattern from the Pages workflow | Vercel does not support OIDC token-less deploys from GitHub Actions as of 2025. Custom CI workflows require a `VERCEL_TOKEN` secret stored in GitHub repository secrets |
+
+---
+
+## "Looks Done But Isn't" Checklist (v2.0)
+
+- [ ] **Root URL works:** Open the Vercel preview URL — page loads at `/`, not at `/resume/`. Confirm in browser address bar.
+- [ ] **Contact info visible:** Live Vercel URL shows real email and phone in the header, not blank fields.
+- [ ] **Old workflow deleted:** `.github/workflows/deploy.yml` does not exist in the repository after migration.
+- [ ] **GitHub Pages disabled:** Repository Settings > Pages > Source shows "None". GitHub Deployments tab shows no active Pages environment.
+- [ ] **`out/` directory deleted:** Stale static export artifact removed from repo — `next build` no longer writes to `out/`.
+- [ ] **Animations work on Vercel:** Scroll through the live URL — `whileInView` animations trigger on scroll entry. Confirms SSR + hydration working correctly.
+- [ ] **Tech icons render:** All `TechStackIcons` render on the live URL — confirms `react-devicons` Server Component compatibility on Vercel runtime.
+- [ ] **No double-deploy:** Push a commit and check GitHub Actions tab — only Vercel's integration deployment runs, no failing Pages workflow.
+
+---
+
+## Recovery Strategies (v2.0)
+
+| Pitfall | Recovery Cost | Recovery Steps |
+|---------|---------------|----------------|
+| basePath still set — root URL 404s | LOW | Remove `basePath`/`assetPrefix` from `next.config.ts`, push. Vercel auto-redeploys in ~1 min |
+| Env vars missing — blank contact info | LOW | Add vars in Vercel dashboard > Environment Variables, click "Redeploy" |
+| Double-deploy conflict — CI failing | LOW | Delete `.github/workflows/deploy.yml`, push. Vercel integration continues independently |
+| GitHub Pages still live | LOW | Repository Settings > Pages > Source > None. Takes effect immediately |
+| Custom domain pointing to old Pages | MEDIUM | Remove CNAME from Pages settings, add domain in Vercel dashboard, update DNS records; propagation takes up to 48h |
+
+---
+
+## Pitfall-to-Phase Mapping (v2.0)
+
+| Pitfall | Prevention Phase | Verification |
+|---------|------------------|--------------|
+| basePath/assetPrefix still active (M1) | Phase 1 — VERCEL-01 | Vercel preview URL loads page at `/` not `/resume/` |
+| Env vars missing in Vercel dashboard (M2) | Phase 2 — VERCEL-02 | Live URL header shows real email and phone |
+| Double-deploy from old workflow (M3) | Phase 3 — VERCEL-03 | GitHub Actions tab shows zero failing runs after push |
+| GitHub Pages still serving old build (M4) | Phase 4 — VERCEL-04 | `github.com/user/resume` Pages URL returns 404 or is disabled |
+
+---
+
+## Sources (v2.0)
+
+- [next.config.js: basePath | Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js/basePath) — HIGH confidence
+- [next.config.js: assetPrefix | Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js/assetPrefix) — HIGH confidence
+- [Common mistakes with the Next.js App Router | Vercel Blog](https://vercel.com/blog/common-mistakes-with-the-next-js-app-router-and-how-to-fix-them) — HIGH confidence
+- [How can I use GitHub Actions with Vercel? | Vercel KB](https://vercel.com/kb/guide/how-can-i-use-github-actions-with-vercel) — HIGH confidence
+- [Feature Request: Token-less OIDC deployments | Vercel Community](https://community.vercel.com/t/feature-request-token-less-github-actions-deployments-via-oidc/15908) — confirms no OIDC support — MEDIUM confidence
+- [NEXT_PUBLIC_ vars inlined at build time | vercel/next.js discussion](https://github.com/vercel/next.js/discussions/44628) — HIGH confidence
+- [How can I use files in Vercel Functions? | Vercel KB](https://vercel.com/kb/guide/how-can-i-use-files-in-serverless-functions) — supports readFileSync-at-build-time analysis — MEDIUM confidence
+- [next.config.js: reactCompiler | Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js/reactCompiler) — HIGH confidence
+- Codebase direct inspection: `next.config.ts`, `src/app/page.tsx`, `src/components/TechStackIcons.tsx`, `src/components/AnimateIn.tsx`, `.github/workflows/deploy.yml`, `node_modules/react-devicons/go/original/index.js`, `package.json` — HIGH confidence

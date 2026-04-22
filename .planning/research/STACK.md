@@ -16,7 +16,7 @@
 | Tailwind CSS | 4.x | Styling |
 | Biome | 2.2.0 | Lint + format |
 
-Tailwind v4 constraint: configuration is CSS-only (`@import "tailwindcss"`, no `tailwind.config.*`). The default palette uses `oklch` color space — this matters for PDF generation library choice (see below).
+Tailwind v4 constraint: configuration is CSS-only (`@import "tailwindcss"` in CSS, no `tailwind.config.*`). The default palette uses `oklch` color space — this matters for PDF generation library choice (see below).
 
 ---
 
@@ -348,3 +348,148 @@ No additional dependencies are needed. Fonts are loaded via the existing `next/f
 - Next.js 16 static export unsupported features: `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` line 289 (HIGH confidence)
 - Next.js 16 `<Image>` unoptimized prop: `node_modules/next/dist/docs/01-app/03-api-reference/02-components/image.md` lines 391–415 (HIGH confidence)
 - Tailwind CSS installed version 4.2.2: `node_modules/tailwindcss/package.json` (HIGH confidence)
+
+---
+
+## v2.0 Stack — Vercel Migration
+
+**Researched:** 2026-04-22
+**Confidence:** HIGH (verified via Context7 Vercel docs; Vercel CLI version confirmed via npm registry)
+
+### What Changes vs What Stays
+
+This is a deployment infrastructure migration, not a new product stack. All application code (Next.js 16.2.3, React 19, TypeScript, Tailwind v4, framer-motion 12, gray-matter, Biome) stays untouched. The change is entirely in deployment config.
+
+### No New npm Packages
+
+Zero packages added to `package.json`. Vercel CLI is invoked via `npx vercel` in CI — no global install, no devDependency.
+
+### Config Changes Required
+
+#### 1. `next.config.ts` — Remove GitHub Pages workarounds
+
+Current state has three GitHub Pages-specific constraints that must be removed:
+
+| Setting | Remove | Why |
+|---------|--------|-----|
+| `output: 'export'` | Yes | Forces static HTML — disables Vercel runtime, ISR, image optimization, middleware |
+| `basePath: isProd ? '/resume' : ''` | Yes | GitHub Pages served from `/resume` subpath; Vercel serves from domain root |
+| `assetPrefix: isProd ? '/resume' : ''` | Yes | Same reason as basePath |
+| `images: { unoptimized: true }` | Yes | Was required for static export; Vercel Image Optimization works natively |
+| `const isProd = ...` | Yes | Only existed to toggle basePath/assetPrefix |
+
+After migration `next.config.ts` becomes:
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  reactCompiler: true,
+};
+
+export default nextConfig;
+```
+
+#### 2. `.github/workflows/deploy.yml` — Replace entirely
+
+Current workflow is GitHub Pages-specific (uses `actions/configure-pages`, `actions/upload-pages-artifact`, `actions/deploy-pages`). Replace with Vercel CLI pattern.
+
+Recommended replacement workflow:
+
+```yaml
+name: deploy
+
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+```
+
+Three secrets required in GitHub repo Settings > Secrets:
+- `VERCEL_TOKEN` — create at vercel.com/account/tokens
+- `VERCEL_ORG_ID` — obtained from `.vercel/project.json` after running `npx vercel link`
+- `VERCEL_PROJECT_ID` — obtained from `.vercel/project.json` after running `npx vercel link`
+
+Note: `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` are automatically picked up from `.vercel/project.json` when it's committed; `VERCEL_TOKEN` must always be a secret.
+
+#### 3. `.vercel/project.json` — Created by `npx vercel link`
+
+Run once locally to link the project:
+
+```bash
+npx vercel login
+npx vercel link
+```
+
+This creates `.vercel/project.json` with `orgId` and `projectId`. Commit this file — it is not a secret. It tells the CLI which Vercel project to target without needing VERCEL_ORG_ID/VERCEL_PROJECT_ID env vars explicitly.
+
+#### 4. `vercel.json` — Optional, recommended
+
+Not required for a basic Next.js deploy (Vercel auto-detects Next.js). Useful for locking framework detection and enabling clean URLs:
+
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "cleanUrls": true
+}
+```
+
+Skip if you want zero config — Vercel's auto-detection handles Next.js correctly.
+
+### GitHub Pages Decommission
+
+After Vercel is live:
+1. Disable GitHub Pages in repo Settings > Pages (set source to "None")
+2. Remove `pages: write` and `id-token: write` permissions from workflow (already gone in replacement workflow above)
+3. The GitHub Pages environment in repo settings can be deleted
+
+### Deployment Approaches: CLI vs Dashboard Git Integration
+
+| Approach | How it works | Pros | Cons |
+|----------|-------------|------|------|
+| **Vercel CLI in GitHub Actions** (recommended) | Workflow calls `vercel pull`, `vercel build`, `vercel deploy` | Full control, existing CI pattern preserved, can add pre-deploy steps | 3 secrets to configure, slightly more setup |
+| **Vercel Git Integration** (simpler alternative) | Connect repo in Vercel dashboard; push = auto-deploy | Zero workflow file needed, zero secrets | Less control, can't add pre-deploy checks, deploys on every push including WIP |
+
+**Recommendation: Vercel CLI in GitHub Actions.** The existing project already has a workflow file and the user is comfortable with the two-job pattern. The CLI approach is also what Vercel officially recommends for projects that need pre-deploy control.
+
+### Version Compatibility
+
+| Package | Version | Compatible With | Notes |
+|---------|---------|-----------------|-------|
+| Vercel CLI | 52.0.0 (current) | Next.js 16.x | Vercel CLI tracks Next.js releases; first-party support |
+| Vercel CLI | 52.0.0 | Node 20 | Matches existing workflow `node-version: "20"` |
+| next | 16.2.3 | Vercel platform | Next.js is Vercel's own framework — full native support |
+
+### What NOT to Add
+
+| Avoid | Why | Note |
+|-------|-----|------|
+| `vercel` in `package.json` devDependencies | Wastes install time on every `npm ci`; `npx vercel` in CI fetches exact version without polluting the project | Use `npx vercel` in workflow steps |
+| `@vercel/analytics` | Performance monitoring — out of scope for this migration | Add later if wanted |
+| `@vercel/speed-insights` | Same | Add later if wanted |
+| `@vercel/og` | Dynamic OG image generation — no use case on a static resume | Skip |
+| Both Git Integration AND GitHub Actions | Causes double deployments on every push | Pick one; CLI pattern is recommended |
+| `images: { unoptimized: true }` after migration | Was required for `output: 'export'`; removing it on Vercel enables native Image Optimization | Remove it |
+
+### Sources (v2.0)
+
+- `/vercel/vercel` (Context7, HIGH confidence) — `vercel pull --yes`, `vercel build --prod`, `vercel deploy --prebuilt --prod` pattern; `vercel link`
+- `/websites/vercel` (Context7, HIGH confidence) — VERCEL_TOKEN env var for CI/CD, GitHub Actions integration, vercel.json schema
+- `npm show vercel version` (HIGH confidence) — Vercel CLI 52.0.0 current as of 2026-04-22
+- Existing `next.config.ts` — confirmed `output: 'export'`, `basePath`, `assetPrefix`, `images.unoptimized` all present and all GitHub Pages-specific
+- Existing `.github/workflows/deploy.yml` — confirmed uses `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v5` (all GitHub Pages tooling, all to be replaced)
