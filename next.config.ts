@@ -1,14 +1,23 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === "production";
-
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: isProd ? "/resume" : "",
-  assetPrefix: isProd ? "/resume" : "",
   reactCompiler: true,
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "origin-when-cross-origin" },
+        ],
+      },
+    ];
+  },
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      { protocol: "https", hostname: "logo.clearbit.com" },
+    ],
   },
 };
 

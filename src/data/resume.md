@@ -8,7 +8,7 @@ experience:
     role: "Senior Software Engineer"
     startDate: "2025-02"
     endDate: null
-    logo_url: "https://covergo.com"
+    logo_url: "https://logo.clearbit.com/covergo.com"
     tech_stack: ["dotnet", "DDD", "GraphQL", "Vue", "Dapr", "MongoDB", "Redis", "Kubernetes", "GitHub", "FluxCD"]
     bullets:
       - "**Developed** @@quotation features@@ for **multi-tenancy** insurance administration."
@@ -20,7 +20,7 @@ experience:
     role: "Senior Software Engineer"
     startDate: "2021-10"
     endDate: "2025-01"
-    logo_url: "https://upmesh.io"
+    logo_url: "https://logo.clearbit.com/upmesh.io"
     tech_stack: ["dotnet", "Go", "gRPC", "ELK Stack", "MySQL", "Redis", "GitHub", "Kubernetes", "AWS", "Terraform", "FluxCD", "Odoo"]
     bullets:
       - "**Implemented** an automated @@Facebook@@ comments capture system handling **5,000 comments/second** at peak time, enabling **real-time order processing** during live streams."
@@ -45,7 +45,7 @@ experience:
     role: "Software Engineer"
     startDate: "2018-12"
     endDate: "2020-12"
-    logo_url: "https://nashtech.com"
+    logo_url: "https://logo.clearbit.com/nashtech.com"
     tech_stack: ["dotnet", "Dapper", "gRPC", "PostgreSQL", "Vue", "Grafana", "Kubernetes", "Azure"]
     bullets:
       - "**Implemented** a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring **smooth integration** with internal systems."

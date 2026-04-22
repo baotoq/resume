@@ -13,8 +13,8 @@ export default function Page() {
   const { data } = matter(raw);
   const resume = data as ResumeData;
 
-  const email = process.env.NEXT_PUBLIC_EMAIL ?? "";
-  const phone = process.env.NEXT_PUBLIC_PHONE ?? "";
+  const email = process.env.EMAIL ?? "";
+  const phone = process.env.PHONE ?? "";
 
   return (
     <main className="min-h-screen bg-zinc-50 py-12 px-4 sm:px-8">
