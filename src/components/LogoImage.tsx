@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-interface LogoImageProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
+interface LogoImageProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string | undefined;
   alt: string;
 }
