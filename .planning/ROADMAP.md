@@ -90,5 +90,5 @@ Phases execute in numeric order: 7 → 8
 | 4. Logos & Timeline | v1.1 | - | Complete | 2026-04-13 |
 | 5. Tech Stack Icons | v1.2 | - | Complete | 2026-04-14 |
 | 6. Keyword Highlights | v1.2 | - | Complete | 2026-04-14 |
-| 7. Vercel Setup & Config Migration | v2.0 | 0/? | Not started | - |
+| 7. Vercel Setup & Config Migration | v2.0 | 2/2 | Complete    | 2026-04-22 |
 | 8. Decommission GitHub Pages | v2.0 | 0/? | Not started | - |
