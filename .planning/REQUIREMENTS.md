@@ -7,19 +7,19 @@
 
 ### Deployment Migration
 
-- [ ] **VERCEL-01**: Site builds successfully without `output: 'export'` — next.config.ts stripped of all GitHub Pages settings (`output`, `basePath`, `assetPrefix`, `images.unoptimized`, `isProd`)
-- [ ] **VERCEL-02**: Site is live on Vercel with contact env vars (`EMAIL`, `PHONE`) configured in Vercel dashboard
-- [ ] **VERCEL-03**: Push to main branch triggers automatic Vercel deployment via GitHub Actions CI/CD (old Pages workflow removed)
+- [x] **VERCEL-01**: Site builds successfully without `output: 'export'` — next.config.ts stripped of all GitHub Pages settings (`output`, `basePath`, `assetPrefix`, `images.unoptimized`, `isProd`)
+- [x] **VERCEL-02**: Site is live on Vercel with contact env vars (`EMAIL`, `PHONE`) configured in Vercel dashboard
+- [x] **VERCEL-03**: Push to main branch triggers automatic Vercel deployment via GitHub Actions CI/CD (old Pages workflow removed)
 - [ ] **VERCEL-04**: GitHub Pages decommissioned — Pages source set to None in repo Settings
 
 ### Image Optimization
 
-- [ ] **IMG-01**: Company logos rendered via `next/image` with `remotePatterns` configuration — replaces plain `<img>` tag in LogoImage.tsx
+- [x] **IMG-01**: Company logos rendered via `next/image` with `remotePatterns` configuration — replaces plain `<img>` tag in LogoImage.tsx
 
 ### Security & Config
 
-- [ ] **SEC-01**: HTTP security headers configured in `next.config.ts` via `headers()` — X-Frame-Options, X-Content-Type-Options, Referrer-Policy
-- [ ] **CFG-01**: Email and phone env vars use no `NEXT_PUBLIC_` prefix — read in Server Component only, kept out of client bundle
+- [x] **SEC-01**: HTTP security headers configured in `next.config.ts` via `headers()` — X-Frame-Options, X-Content-Type-Options, Referrer-Policy
+- [x] **CFG-01**: Email and phone env vars use no `NEXT_PUBLIC_` prefix — read in Server Component only, kept out of client bundle
 
 ## Future Requirements
 
@@ -51,13 +51,13 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| VERCEL-01 | Phase 7 | Pending |
-| VERCEL-02 | Phase 7 | Pending |
-| VERCEL-03 | Phase 7 | Pending |
+| VERCEL-01 | Phase 7 | Complete |
+| VERCEL-02 | Phase 7 | Complete |
+| VERCEL-03 | Phase 7 | Complete |
 | VERCEL-04 | Phase 8 | Pending |
-| IMG-01 | Phase 7 | Pending |
-| SEC-01 | Phase 7 | Pending |
-| CFG-01 | Phase 7 | Pending |
+| IMG-01 | Phase 7 | Complete |
+| SEC-01 | Phase 7 | Complete |
+| CFG-01 | Phase 7 | Complete |
 
 **Coverage:**
 - v2.0 requirements: 7 total
