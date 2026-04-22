@@ -8,9 +8,15 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
-## Current State: v1.2 Shipped
+## Current Milestone: v2.0 Vercel Migration
 
-All three milestones complete. Site is live on GitHub Pages with experience cards showing tech stack icons and highlighted keywords. Ready for v2.0 or real content population.
+**Goal:** Migrate deployment from GitHub Pages static export to Vercel, unlocking full Next.js 16 capabilities.
+
+**Target features:**
+- Remove `output: 'export'` static constraint from next.config.ts
+- Configure Vercel deployment (vercel.json + dashboard/CLI)
+- Update/replace GitHub Actions workflow for Vercel CI/CD
+- Decommission GitHub Pages deployment
 
 ## Requirements
 
@@ -33,10 +39,17 @@ All three milestones complete. Site is live on GitHub Pages with experience card
 
 ### Active
 
+- [ ] Remove `output: 'export'` from next.config.ts — VERCEL-01
+- [ ] Configure Vercel deployment (vercel.json + project linked) — VERCEL-02
+- [ ] Replace GitHub Actions Pages workflow with Vercel CI/CD — VERCEL-03
+- [ ] Decommission GitHub Pages — VERCEL-04
+
+### Future
+
 - [ ] PDF download button — generates clean PDF from the page
-- [ ] About/bio intro paragraph — CONT-V2-01
-- [ ] Duration labels computed from date ranges — CONT-V2-02
-- [ ] Dark/light mode toggle — THEME-V2-01
+- [ ] About/bio intro paragraph
+- [ ] Duration labels computed from date ranges
+- [ ] Dark/light mode toggle
 
 ### Out of Scope
 
@@ -62,8 +75,7 @@ All three milestones complete. Site is live on GitHub Pages with experience card
 - **Tailwind**: v4 syntax only (`@import "tailwindcss"` in CSS, no `tailwind.config.*`) — breaking change from v3
 - **Next.js**: v16 has breaking changes from training data — read `node_modules/next/dist/docs/` before touching framework APIs
 - **No backend**: Static content only — no database, no API routes needed for resume data
-- **PDF**: Must work without a headless browser server — use client-side or build-time PDF generation
-- **GitHub Pages**: Requires Next.js `output: 'export'` in `next.config.ts` for static HTML export — no server-side rendering or API routes at runtime
+- **Vercel**: Deploying to Vercel — `output: 'export'` removed, full Next.js runtime available
 
 ## Key Decisions
 
@@ -106,4 +118,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-14 after v1.2 milestone*
+*Last updated: 2026-04-22 — v2.0 milestone started*
