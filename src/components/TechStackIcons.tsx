@@ -14,14 +14,18 @@ import Redis from "react-devicons/redis/original-wordmark";
 import Tailwindcss from "react-devicons/tailwindcss/original";
 import Terraform from "react-devicons/terraform/original-wordmark";
 import Github from "react-devicons/github/original-wordmark";
-import Azure from "react-devicons/azure/original";
 import Facebook from "react-devicons/facebook/original";
 import Neo4j from "react-devicons/neo4j/original-wordmark";
 import Grafana from "react-devicons/grafana/original-wordmark";
 import Microsoftsqlserver from "react-devicons/microsoftsqlserver/plain-wordmark";
+import { ELKIcon } from "./icons/ELKIcon";
+import { AzureIcon } from "./icons/AzureIcon";
 import { DaprIcon } from "./icons/DaprIcon";
+import { DapperIcon } from "./icons/DapperIcon";
+import { EFCoreIcon } from "./icons/EFCoreIcon";
 import { FluxCDIcon } from "./icons/FluxCDIcon";
 import { GrpcIcon } from "./icons/GrpcIcon";
+import { OdooIcon } from "./icons/OdooIcon";
 
 interface TechStackIconsProps {
   stack?: string[];
@@ -40,7 +44,7 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   grafana: Grafana,
   github: Github,
   aws: Amazonwebservice,
-  azure: Azure,
+  azure: ({ size }) => <AzureIcon size={size} />,
   typescript: Typescript,
   graphql: Graphql,
   postgresql: Postgresql,
@@ -54,8 +58,12 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   tailwindcss: Tailwindcss,
   facebook: Facebook,
   dapr: ({ size }) => <DaprIcon size={size} />,
+  dapper: ({ size }) => <DapperIcon size={size} />,
+  "ef core": ({ size }) => <EFCoreIcon size={size} />,
+  "elk stack": ({ size }) => <ELKIcon size={size} />,
   fluxcd: ({ size }) => <FluxCDIcon size={size} />,
   grpc: ({ size }) => <GrpcIcon size={size} />,
+  odoo: ({ size }) => <OdooIcon size={size} />,
 };
 
 function normalizeTech(tech: string) {
@@ -67,7 +75,14 @@ function TechIcon({ tech }: { tech: string }) {
   const Icon = TECH_ICON_MAP[key];
 
   if (Icon) {
-    return <Icon size={40} />;
+    return (
+      <div className="relative group">
+        <Icon size={40} />
+        <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap pointer-events-none z-10">
+          {tech}
+        </span>
+      </div>
+    );
   }
 
   return (
