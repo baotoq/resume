@@ -75,7 +75,10 @@
   1. GitHub Pages source is set to None in repo Settings — the old GitHub Pages URL returns 404
   2. No active GitHub Actions workflows reference the Pages deployment job
   3. The Vercel URL is the only live deployment of the site
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 08-01-PLAN.md — Code review fixes (WR-01: readFileSync try/catch, WR-02: LogoImage HTMLAttributes)
+- [ ] 08-02-PLAN.md — GitHub Pages decommission (disable Pages, verify 404)
 
 ## Progress
 
@@ -91,4 +94,4 @@ Phases execute in numeric order: 7 → 8
 | 5. Tech Stack Icons | v1.2 | - | Complete | 2026-04-14 |
 | 6. Keyword Highlights | v1.2 | - | Complete | 2026-04-14 |
 | 7. Vercel Setup & Config Migration | v2.0 | 2/2 | Complete    | 2026-04-22 |
-| 8. Decommission GitHub Pages | v2.0 | 0/? | Not started | - |
+| 8. Decommission GitHub Pages | v2.0 | 0/2 | Not started | - |
