@@ -51,19 +51,19 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| VERCEL-01 | — | Pending |
-| VERCEL-02 | — | Pending |
-| VERCEL-03 | — | Pending |
-| VERCEL-04 | — | Pending |
-| IMG-01 | — | Pending |
-| SEC-01 | — | Pending |
-| CFG-01 | — | Pending |
+| VERCEL-01 | Phase 7 | Pending |
+| VERCEL-02 | Phase 7 | Pending |
+| VERCEL-03 | Phase 7 | Pending |
+| VERCEL-04 | Phase 8 | Pending |
+| IMG-01 | Phase 7 | Pending |
+| SEC-01 | Phase 7 | Pending |
+| CFG-01 | Phase 7 | Pending |
 
 **Coverage:**
 - v2.0 requirements: 7 total
-- Mapped to phases: 0 (roadmap pending)
-- Unmapped: 7 ⚠
+- Mapped to phases: 7/7 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-22*
-*Last updated: 2026-04-22 after initial definition*
+*Last updated: 2026-04-22 after roadmap creation*
