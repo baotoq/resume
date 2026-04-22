@@ -9,7 +9,13 @@ import { AnimateIn } from "@/components/AnimateIn";
 
 export default function Page() {
   const filePath = path.join(process.cwd(), "src/data/resume.md");
-  const raw = fs.readFileSync(filePath, "utf-8");
+  let raw: string;
+  try {
+    raw = fs.readFileSync(filePath, "utf-8");
+  } catch (err) {
+    console.error("Failed to read resume.md:", err);
+    throw new Error("Resume data unavailable");
+  }
   const { data } = matter(raw);
   const resume = data as ResumeData;
 
