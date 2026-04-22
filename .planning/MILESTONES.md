@@ -1,5 +1,20 @@
 # Milestones
 
+## v2.0 Vercel Migration (Shipped: 2026-04-22)
+
+**Phases completed:** 2 phases, 4 plans, 4 tasks
+
+**Key accomplishments:**
+
+- Stripped GitHub Pages static export config; added Vercel-compatible security headers and Clearbit remotePatterns; replaced GitHub Actions workflow; renamed env vars to server-only
+- Verified live Vercel deployment at https://resume-ruddy-one-23.vercel.app/ — all Phase 7 requirements confirmed via native Git integration (deviation: native integration chosen over Vercel CLI, same outcome)
+- Guarded readFileSync with try/catch in page.tsx; corrected LogoImage props from ButtonHTMLAttributes to HTMLAttributes<HTMLDivElement>
+- GitHub Pages disabled — baotoq.github.io/resume/ returns 404; Vercel confirmed sole live deployment (VERCEL-04)
+
+Known deferred items at close: 1 (see STATE.md Deferred Items)
+
+---
+
 ## v1.2 Tech Stack Icons + Keyword Highlights (Shipped: 2026-04-14)
 
 **Phases completed:** 2 phases, 2 plans, 0 tasks

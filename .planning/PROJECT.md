@@ -8,11 +8,11 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
-## Current Milestone: v2.0 Vercel Migration — COMPLETE 2026-04-22
+## Current State — v2.0 SHIPPED 2026-04-22
 
-**Goal:** Migrate deployment from GitHub Pages static export to Vercel, unlocking full Next.js 16 capabilities.
+Vercel is the sole deployment target. Full Next.js 16 runtime available. All static-export constraints removed. Site live at https://resume-ruddy-one-23.vercel.app/
 
-All phases complete. Vercel is the sole deployment target.
+**Next milestone goals:** Content enhancements (duration labels, bio paragraph), dark/light mode toggle, PDF export.
 
 ## Requirements
 
@@ -22,7 +22,6 @@ All phases complete. Vercel is the sole deployment target.
 - ✓ TypeScript strict mode configured — existing
 - ✓ Tailwind CSS v4 configured — existing
 - ✓ Biome linting/formatting configured — existing
-- ✓ GitHub Pages deployment ready — existing
 - ✓ Work experience section — companies, roles, dates, bullets — v1.0
 - ✓ Skills section — tech stack, languages, tools — v1.0
 - ✓ Responsive layout — readable on mobile and desktop — v1.0
@@ -32,19 +31,13 @@ All phases complete. Vercel is the sole deployment target.
 - ✓ Vertical timeline — continuous left-side line + dot per job entry, filled/hollow dot distinction — v1.1
 - ✓ Tech stack icons per experience entry (Devicons CDN, SLUG_MAP allowlist, zinc pill fallback) — v1.2
 - ✓ Keyword highlighting in bullet points (`**bold**` → indigo-600 accent color) — v1.2
-
-### Validated (Phase 8)
-
-- ✓ Decommission GitHub Pages — VERCEL-04 (baotoq.github.io/resume/ returns 404)
-
-### Validated (Phase 7)
-
-- ✓ Remove `output: 'export'` from next.config.ts — VERCEL-01
-- ✓ Configure Vercel deployment (native Git integration, live at https://resume-ruddy-one-23.vercel.app/) — VERCEL-02
-- ✓ Deploy via Vercel native Git integration (push to master triggers deployment) — VERCEL-03
-- ✓ Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) — SEC-01
-- ✓ Server-only EMAIL/PHONE env vars (no NEXT_PUBLIC_ prefix) — CFG-01
-- ✓ Clearbit remotePatterns for company logos — IMG-01
+- ✓ Remove `output: 'export'` from next.config.ts — VERCEL-01 — v2.0
+- ✓ Configure Vercel deployment (native Git integration, live at https://resume-ruddy-one-23.vercel.app/) — VERCEL-02 — v2.0
+- ✓ Deploy via Vercel native Git integration (push to master triggers deployment) — VERCEL-03 — v2.0
+- ✓ Decommission GitHub Pages — VERCEL-04 (baotoq.github.io/resume/ returns 404) — v2.0
+- ✓ Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) — SEC-01 — v2.0
+- ✓ Server-only EMAIL/PHONE env vars (no NEXT_PUBLIC_ prefix) — CFG-01 — v2.0
+- ✓ Clearbit remotePatterns for company logos — IMG-01 — v2.0
 
 ### Future
 
@@ -55,19 +48,23 @@ All phases complete. Vercel is the sole deployment target.
 
 ### Out of Scope
 
-- Projects section — not requested by user, can be added to v2
+- Projects section — not requested by user, can be added to v3
 - Education section — not requested by user
 - Contact form — static page, no backend needed
 - CMS / admin panel — content managed in code
 - Parallax / typing animations — distracting, signals student project
 - Skill progress bars / ratings — meaningless to recruiters and engineers
+- Custom domain — infrastructure concern, not blocking recruiter use
+- ISR / on-demand revalidation — resume data is static YAML
+- Server Actions — no forms or mutations needed
+- Puppeteer / headless PDF — exceeds Vercel Lambda size limit
 
 ## Context
 
-- Shipped v1.2 with ~411 LOC TypeScript/TSX (added TechStackIcons + HighlightedBullet components)
+- Shipped v2.0 with full Next.js 16 runtime on Vercel — static export constraints removed
 - Tech stack: Next.js 16.2.3 + React 19 + TypeScript + Tailwind v4 + framer-motion 12
-- Content: gray-matter YAML frontmatter in `src/data/resume.md` — user fills in real data
 - Deployment: Vercel native Git integration — push to master deploys automatically
+- Content: gray-matter YAML frontmatter in `src/data/resume.md` — user fills in real data
 - Note: `src/data/resume.md` still has placeholder experience entries — user must populate with real data before sharing
 - Note: `logo_url` fields in resume.md point to placeholder — user must add real logo URLs
 
@@ -89,11 +86,11 @@ All phases complete. Vercel is the sole deployment target.
 | Synchronous readFileSync in page.tsx | No async needed for static file read | ✓ Good |
 | AnimateIn client wrapper pattern | Keeps page.tsx + section components as Server Components | ✓ Good — clean boundary |
 | framer-motion whileInView + once:true | Sections animate in once, stay visible on scroll back | ✓ Good |
-| Two-job GitHub Actions workflow | Separates build from deploy, allows environment protection | ✓ Good |
-| OIDC auth for GitHub Pages deploy | No stored secrets in repo | ✓ Good |
-| PDF via client-side generation | No server infra needed for static resume | — Deferred to v2 |
+| Two-job GitHub Actions workflow | Separates build from deploy, allows environment protection | ✓ Good (replaced by Vercel native in v2.0) |
+| OIDC auth for GitHub Pages deploy | No stored secrets in repo | ✓ Good (replaced by Vercel native in v2.0) |
+| PDF via client-side generation | No server infra needed for static resume | — Deferred to v3 |
 | Single page layout | Recruiters expect a scrollable resume, not multi-page nav | ✓ Good |
-| Plain `<img>` over next/image for logos | next/image silently 404s with external URLs on static export | ✓ Good — avoids silent failures |
+| Plain `<img>` over next/image for logos | next/image silently 404s with external URLs on static export | ✓ Good for v1 — replaced by next/image + remotePatterns in v2.0 |
 | Inline SVG briefcase fallback | Avoids basePath routing issues and icon library bundle cost | ✓ Good |
 | Single continuous timeline line vs per-entry segments | Per-entry `!isLast` approach left last card with no visible line; single rail-container element fixes this cleanly | ✓ Good — simpler and correct |
 | Devicons via CDN (no npm) | No package to maintain; CDN covers all common tech slugs | ✓ Good — zero bundle cost |
@@ -101,6 +98,10 @@ All phases complete. Vercel is the sole deployment target.
 | Unknown techs → zinc pill | Never inject arbitrary strings into class attrs; legible fallback | ✓ Good |
 | Bold parsed before italic | Safely handles `***triple***` edge case; stray `*` chars pass through as literal text | ✓ Good |
 | span-only output in HighlightedBullet | Color and italic are decorative, not semantic — no strong/em/b/i | ✓ Good — accessibility |
+| Vercel native Git integration over GitHub Actions + CLI | Fewer moving parts, no secrets management, same functional outcome | ✓ Good — simpler |
+| Security headers via next.config.ts headers() | Vercel respects Next.js headers config natively | ✓ Good |
+| readFileSync guarded with try/catch | App Router error boundary catches thrown Error, renders error page instead of server crash | ✓ Good |
+| LogoImage props: HTMLAttributes not ButtonHTMLAttributes | div wrapper must not carry button-specific props | ✓ Good |
 
 ## Evolution
 
@@ -120,4 +121,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-22 — Phase 7 complete: Vercel migration live*
+*Last updated: 2026-04-22 after v2.0 Vercel Migration milestone*
