@@ -8,15 +8,11 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
-## Current Milestone: v2.0 Vercel Migration
+## Current Milestone: v2.0 Vercel Migration — COMPLETE 2026-04-22
 
 **Goal:** Migrate deployment from GitHub Pages static export to Vercel, unlocking full Next.js 16 capabilities.
 
-**Target features:**
-- Remove `output: 'export'` static constraint from next.config.ts
-- Configure Vercel deployment (vercel.json + dashboard/CLI)
-- Update/replace GitHub Actions workflow for Vercel CI/CD
-- Decommission GitHub Pages deployment
+All phases complete. Vercel is the sole deployment target.
 
 ## Requirements
 
@@ -37,9 +33,9 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - ✓ Tech stack icons per experience entry (Devicons CDN, SLUG_MAP allowlist, zinc pill fallback) — v1.2
 - ✓ Keyword highlighting in bullet points (`**bold**` → indigo-600 accent color) — v1.2
 
-### Active
+### Validated (Phase 8)
 
-- [ ] Decommission GitHub Pages — VERCEL-04
+- ✓ Decommission GitHub Pages — VERCEL-04 (baotoq.github.io/resume/ returns 404)
 
 ### Validated (Phase 7)
 
