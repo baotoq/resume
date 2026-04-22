@@ -2,8 +2,8 @@
 phase: 7
 slug: vercel-setup-config-migration
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-04-22
 ---
 
@@ -41,9 +41,9 @@ created: 2026-04-22
 | 7-01-01 | 01 | 1 | VERCEL-01 | — | No output:'export' in config | build | `npm run build` | ✅ | ⬜ pending |
 | 7-01-02 | 01 | 1 | SEC-01 | — | Headers present in config | grep | `grep -c "X-Frame-Options" next.config.ts` | ✅ | ⬜ pending |
 | 7-01-03 | 01 | 1 | IMG-01 | — | remotePatterns configured | grep | `grep -c "remotePatterns" next.config.ts` | ✅ | ⬜ pending |
-| 7-02-01 | 02 | 1 | VERCEL-03 | — | New CI workflow exists | file | `test -f .github/workflows/vercel-deploy.yml` | ❌ W0 | ⬜ pending |
-| 7-03-01 | 03 | 2 | CFG-01 | — | No NEXT_PUBLIC_EMAIL in codebase | grep | `! grep -r "NEXT_PUBLIC_EMAIL" src/` | ✅ | ⬜ pending |
-| 7-03-02 | 03 | 2 | VERCEL-02 | — | EMAIL/PHONE read server-side | grep | `grep -c "process.env.EMAIL" src/app/page.tsx` | ✅ | ⬜ pending |
+| 7-02-01 | 02 | 1 | VERCEL-03 | — | New CI workflow exists with prebuilt deploy | grep | `grep -c "vercel deploy --prebuilt --prod" .github/workflows/deploy.yml` | ✅ | ⬜ pending |
+| 7-02-02 | 02 | 1 | CFG-01 | — | No NEXT_PUBLIC_EMAIL in codebase | grep | `! grep -r "NEXT_PUBLIC_EMAIL" src/` | ✅ | ⬜ pending |
+| 7-02-03 | 02 | 1 | VERCEL-02 | — | EMAIL/PHONE read server-side | grep | `grep -c "process.env.EMAIL" src/app/page.tsx` | ✅ | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -51,7 +51,7 @@ created: 2026-04-22
 
 ## Wave 0 Requirements
 
-- [ ] `.github/workflows/vercel-deploy.yml` — new CI/CD workflow file for VERCEL-03
+- [x] `.github/workflows/deploy.yml` — new CI/CD workflow file for VERCEL-03 (replaces existing GitHub Pages workflow)
 
 *Existing infrastructure (next.config.ts, package.json, page.tsx) covers all other phase requirements.*
 
@@ -70,11 +70,11 @@ created: 2026-04-22
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 30s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 30s
+- [x] `nyquist_compliant: true` set in frontmatter
 
 **Approval:** pending

@@ -449,14 +449,14 @@ curl -I https://<your-vercel-url>.vercel.app
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **What are the actual logo image URLs?**
+1. **What are the actual logo image URLs?** — RESOLVED (D-01 through D-04: use Clearbit Logo API)
    - What we know: `logo_url: "https://covergo.com"` and `"https://upmesh.io"` in resume.md are website URLs, not image files. `next/image` will fail on these.
    - What's unclear: Does the user want to use Clearbit Logo API (`https://logo.clearbit.com/<domain>`) or provide specific image URLs?
    - Recommendation: The plan should include a task noting that logo_url values must be real image URLs. Clearbit Logo API (`logo.clearbit.com`) is a common choice — add `{ protocol: "https", hostname: "logo.clearbit.com" }` to remotePatterns and update resume.md logo URLs to `https://logo.clearbit.com/covergo.com` format.
 
-2. **Does a Vercel project already exist?**
+2. **Does a Vercel project already exist?** — RESOLVED (D-05: no existing project; manual `vercel link` required)
    - What we know: No `.vercel/project.json` found in repo (`.vercel` is gitignored so this is expected either way)
    - What's unclear: Has the user already created a Vercel project via the dashboard?
    - Recommendation: Plan Wave 0 should include a manual prerequisite: "Run `vercel link` or confirm project exists in Vercel dashboard"
