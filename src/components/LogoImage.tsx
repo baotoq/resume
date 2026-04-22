@@ -8,10 +8,20 @@ interface LogoImageProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   alt: string;
 }
 
+function isValidSrc(src: string): boolean {
+  if (src.startsWith("/") || src.startsWith("data:")) return true;
+  try {
+    new URL(src);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function LogoImage({ src, alt, ...props }: LogoImageProps) {
   const [hasError, setHasError] = useState(false);
 
-  if (!src || hasError) {
+  if (!src || !isValidSrc(src) || hasError) {
     return (
       <div
         className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center shrink-0"
