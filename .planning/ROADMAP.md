@@ -5,7 +5,7 @@
 - ✅ **v1.0 MVP** - Phases 1-3 (shipped 2026-04-13)
 - ✅ **v1.1 Visual Polish** - Phase 4 (shipped 2026-04-13)
 - ✅ **v1.2 Tech Stack Icons + Keyword Highlights** - Phases 5-6 (shipped 2026-04-14)
-- 🚧 **v2.0 Vercel Migration** - Phases 7-8 (in progress)
+- ✅ **v2.0 Vercel Migration** - Phases 7-8 (shipped 2026-04-22)
 
 ## Phases
 
@@ -48,7 +48,7 @@
 
 </details>
 
-### 🚧 v2.0 Vercel Migration (In Progress)
+### ✅ v2.0 Vercel Migration (Shipped 2026-04-22)
 
 **Milestone Goal:** Migrate deployment from GitHub Pages static export to Vercel, unlocking full Next.js 16 capabilities.
 
@@ -77,8 +77,8 @@
   3. The Vercel URL is the only live deployment of the site
 **Plans**: 2 plans
 Plans:
-- [ ] 08-01-PLAN.md — Code review fixes (WR-01: readFileSync try/catch, WR-02: LogoImage HTMLAttributes)
-- [ ] 08-02-PLAN.md — GitHub Pages decommission (disable Pages, verify 404)
+- [x] 08-01-PLAN.md — Code review fixes (WR-01: readFileSync try/catch, WR-02: LogoImage HTMLAttributes)
+- [x] 08-02-PLAN.md — GitHub Pages decommission (disable Pages, verify 404)
 
 ## Progress
 
@@ -94,4 +94,4 @@ Phases execute in numeric order: 7 → 8
 | 5. Tech Stack Icons | v1.2 | - | Complete | 2026-04-14 |
 | 6. Keyword Highlights | v1.2 | - | Complete | 2026-04-14 |
 | 7. Vercel Setup & Config Migration | v2.0 | 2/2 | Complete    | 2026-04-22 |
-| 8. Decommission GitHub Pages | v2.0 | 0/2 | Not started | - |
+| 8. Decommission GitHub Pages | v2.0 | 2/2 | Complete | 2026-04-22 |

@@ -10,7 +10,7 @@
 - [x] **VERCEL-01**: Site builds successfully without `output: 'export'` — next.config.ts stripped of all GitHub Pages settings (`output`, `basePath`, `assetPrefix`, `images.unoptimized`, `isProd`)
 - [x] **VERCEL-02**: Site is live on Vercel with contact env vars (`EMAIL`, `PHONE`) configured in Vercel dashboard
 - [x] **VERCEL-03**: Push to main branch triggers automatic Vercel deployment via GitHub Actions CI/CD (old Pages workflow removed)
-- [ ] **VERCEL-04**: GitHub Pages decommissioned — Pages source set to None in repo Settings
+- [x] **VERCEL-04**: GitHub Pages decommissioned — Pages source set to None in repo Settings
 
 ### Image Optimization
 
@@ -54,7 +54,7 @@
 | VERCEL-01 | Phase 7 | Complete |
 | VERCEL-02 | Phase 7 | Complete |
 | VERCEL-03 | Phase 7 | Complete |
-| VERCEL-04 | Phase 8 | Pending |
+| VERCEL-04 | Phase 8 | Complete |
 | IMG-01 | Phase 7 | Complete |
 | SEC-01 | Phase 7 | Complete |
 | CFG-01 | Phase 7 | Complete |
