@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A personal resume website for a software engineer to share with recruiters and hiring teams. The page presents work experience and skills in a clean, professional format with scroll animations that reflects engineering craft. Live on GitHub Pages at a shareable URL.
+A personal resume website for a software engineer to share with recruiters and hiring teams. The page presents work experience and skills in a clean, professional format with scroll animations that reflects engineering craft. Live on Vercel at https://resume-ruddy-one-23.vercel.app/
 
 ## Core Value
 
@@ -39,10 +39,16 @@ A recruiter or engineer can open the link, immediately understand who you are an
 
 ### Active
 
-- [ ] Remove `output: 'export'` from next.config.ts — VERCEL-01
-- [ ] Configure Vercel deployment (vercel.json + project linked) — VERCEL-02
-- [ ] Replace GitHub Actions Pages workflow with Vercel CI/CD — VERCEL-03
 - [ ] Decommission GitHub Pages — VERCEL-04
+
+### Validated (Phase 7)
+
+- ✓ Remove `output: 'export'` from next.config.ts — VERCEL-01
+- ✓ Configure Vercel deployment (native Git integration, live at https://resume-ruddy-one-23.vercel.app/) — VERCEL-02
+- ✓ Deploy via Vercel native Git integration (push to master triggers deployment) — VERCEL-03
+- ✓ Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) — SEC-01
+- ✓ Server-only EMAIL/PHONE env vars (no NEXT_PUBLIC_ prefix) — CFG-01
+- ✓ Clearbit remotePatterns for company logos — IMG-01
 
 ### Future
 
@@ -65,7 +71,7 @@ A recruiter or engineer can open the link, immediately understand who you are an
 - Shipped v1.2 with ~411 LOC TypeScript/TSX (added TechStackIcons + HighlightedBullet components)
 - Tech stack: Next.js 16.2.3 + React 19 + TypeScript + Tailwind v4 + framer-motion 12
 - Content: gray-matter YAML frontmatter in `src/data/resume.md` — user fills in real data
-- Deployment: GitHub Pages via `output: 'export'` static export + GitHub Actions OIDC workflow
+- Deployment: Vercel native Git integration — push to master deploys automatically
 - Note: `src/data/resume.md` still has placeholder experience entries — user must populate with real data before sharing
 - Note: `logo_url` fields in resume.md point to placeholder — user must add real logo URLs
 
@@ -118,4 +124,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-22 — v2.0 milestone started*
+*Last updated: 2026-04-22 — Phase 7 complete: Vercel migration live*
