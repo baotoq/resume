@@ -37,7 +37,7 @@ type IconComponent = React.FunctionComponent<
 
 const TECH_ICON_MAP: Record<string, IconComponent> = {
   go: Go,
-  dotnet: Dotnet,
+  ".net": Dotnet,
   kubernetes: Kubernetes,
   terraform: Terraform,
   docker: Docker,

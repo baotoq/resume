@@ -4,12 +4,10 @@ interface AzureIconProps {
 
 export function AzureIcon({ size = 40 }: AzureIconProps) {
   const w = typeof size === "number" ? size : parseFloat(size as string);
-  const h = Math.round(w * (52 / 39));
-
   return (
     <svg
       width={w}
-      height={h}
+      height={w}
       viewBox="0 0 39 52"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

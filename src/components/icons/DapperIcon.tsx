@@ -4,12 +4,10 @@ interface DapperIconProps {
 
 export function DapperIcon({ size = 40 }: DapperIconProps) {
   const w = typeof size === "number" ? size : parseFloat(size as string);
-  const h = Math.round(w * (85 / 68));
-
   return (
     <svg
       width={w}
-      height={h}
+      height={w}
       viewBox="0 0 68 85"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

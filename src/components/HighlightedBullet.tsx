@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import type { ReactNode } from "react";
 
 interface HighlightedBulletProps {
   children: string;
@@ -13,9 +13,9 @@ export function HighlightedBullet({ children }: HighlightedBulletProps) {
     if (boldIndex % 2 === 1) {
       // Odd indices are bold matches
       elements.push(
-        <span key={boldIndex} className="text-indigo-600">
+        <span key={boldIndex} className="text-blue-600 font-semibold">
           {segment}
-        </span>
+        </span>,
       );
     } else {
       // Even indices are plain/italic text — parse italic within them
@@ -24,9 +24,9 @@ export function HighlightedBullet({ children }: HighlightedBulletProps) {
         if (italicIndex % 2 === 1) {
           // Odd indices are italic matches
           elements.push(
-            <span key={`${boldIndex}-${italicIndex}`} className="italic">
+            <span key={`${boldIndex}-${italicIndex}`} className="italic font-semibold">
               {italicSegment}
-            </span>
+            </span>,
           );
         } else {
           // Plain text

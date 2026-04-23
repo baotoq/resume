@@ -4,12 +4,10 @@ interface DaprIconProps {
 
 export function DaprIcon({ size = 40 }: DaprIconProps) {
   const w = typeof size === "number" ? size : parseFloat(size as string);
-  const h = Math.round(w * (270 / 367));
-
   return (
     <svg
       width={w}
-      height={h}
+      height={w}
       viewBox="0 0 367 270"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
