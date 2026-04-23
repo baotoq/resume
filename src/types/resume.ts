@@ -9,6 +9,15 @@ export interface ExperienceEntry {
   tech_stack?: string[]; // optional tech stack for Devicon icons
 }
 
+export interface EducationEntry {
+  degree: string;
+  institution: string;
+  startDate: string; // "YYYY-MM" format
+  endDate: string | null; // null renders as "Present"
+  logo_url?: string;
+  link?: string;
+}
+
 export interface ResumeData {
   name: string;
   title: string;
@@ -16,4 +25,6 @@ export interface ResumeData {
   linkedin: string;
   experience: ExperienceEntry[];
   skills: Record<string, string>; // category label -> comma-separated values
+  bio?: string;
+  education?: EducationEntry[];
 }
