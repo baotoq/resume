@@ -18,14 +18,14 @@ import Facebook from "react-devicons/facebook/original";
 import Neo4j from "react-devicons/neo4j/original-wordmark";
 import Grafana from "react-devicons/grafana/original-wordmark";
 import Microsoftsqlserver from "react-devicons/microsoftsqlserver/plain-wordmark";
-import { ELKIcon } from "./icons/ELKIcon";
-import { AzureIcon } from "./icons/AzureIcon";
-import { DaprIcon } from "./icons/DaprIcon";
-import { DapperIcon } from "./icons/DapperIcon";
-import { EFCoreIcon } from "./icons/EFCoreIcon";
-import { FluxCDIcon } from "./icons/FluxCDIcon";
-import { GrpcIcon } from "./icons/GrpcIcon";
-import { OdooIcon } from "./icons/OdooIcon";
+import { ELKIcon } from "./ELKIcon";
+import { AzureIcon } from "./AzureIcon";
+import { DaprIcon } from "./DaprIcon";
+import { DapperIcon } from "./DapperIcon";
+import { EFCoreIcon } from "./EFCoreIcon";
+import { FluxCDIcon } from "./FluxCDIcon";
+import { GrpcIcon } from "./GrpcIcon";
+import { OdooIcon } from "./OdooIcon";
 
 interface TechStackIconsProps {
   stack?: string[];

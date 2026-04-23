@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 import type { ExperienceEntry } from "@/types/resume";
 import { HighlightedBullet } from "@/components/HighlightedBullet";
-import { LogoImage } from "@/components/LogoImage";
-import { TechStackIcons } from "@/components/TechStackIcons";
+import { LogoImage } from "@/components/company-logos/LogoImage";
+import { TechStackIcons } from "@/components/techstack-icons/TechStackIcons";
 
 interface WorkExperienceProps {
   experience: ExperienceEntry[];
@@ -44,7 +44,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               <div
                 className={`absolute z-10 -left-[22px] sm:-left-[26px] top-[22px] w-3 h-3 rounded-full ${
                   isCurrent
-                    ? "bg-indigo-600"
+                    ? "bg-blue-600"
                     : "border-2 border-zinc-300 bg-white"
                 }`}
                 aria-hidden="true"
@@ -54,16 +54,16 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               <article className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3">
-                    <LogoImage
-                      src={entry.logo_url}
-                      alt={`${entry.company} logo`}
-                    />
                     <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                       <div>
                         <h3 className="font-bold text-blue-600 text-lg">
-                          {entry.company}
+                          <LogoImage
+                            company={entry.company}
+                            link={entry.link}
+                            logoUrl={entry.logo_url}
+                          />
                         </h3>
-                        <p className="text-sm font-bold text-zinc-700">
+                        <p className="text-sm font-bold text-zinc-900">
                           {entry.role}
                         </p>
                       </div>

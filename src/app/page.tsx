@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import type { ResumeData } from "@/types/resume";
 import { Header } from "@/components/Header";
 import { WorkExperience } from "@/components/WorkExperience";
-import { AnimateIn } from "@/components/AnimateIn";
+import { AnimateIn } from "@/components/animation/AnimateIn";
 
 export default function Page() {
   const filePath = path.join(process.cwd(), "src/data/resume.md");
