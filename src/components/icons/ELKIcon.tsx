@@ -4,12 +4,10 @@ interface ELKIconProps {
 
 export function ELKIcon({ size = 40 }: ELKIconProps) {
   const w = typeof size === "number" ? size : parseFloat(size as string);
-  const h = Math.round(w * (72 / 100));
-
   return (
     <svg
       width={w}
-      height={h}
+      height={w}
       viewBox="0 0 100 72"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

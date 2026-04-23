@@ -4,13 +4,11 @@ interface OdooIconProps {
 
 export function OdooIcon({ size = 40 }: OdooIconProps) {
   const w = typeof size === "number" ? size : parseFloat(size as string);
-  const h = Math.round(w * (62 / 50));
-
   return (
     <svg
       width={w}
-      height={h}
-      viewBox="0 0 50 62"
+      height={w}
+      viewBox="0 0 48 62"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -24,10 +22,10 @@ export function OdooIcon({ size = 40 }: OdooIconProps) {
       {/* Odoo label */}
       <text
         x="25"
-        y="58"
+        y="61"
         textAnchor="middle"
         fill="#714B67"
-        fontSize="11"
+        fontSize="14"
         fontFamily="Arial, sans-serif"
         fontWeight="600"
       >
