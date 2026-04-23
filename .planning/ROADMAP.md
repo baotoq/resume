@@ -80,7 +80,7 @@
 **Plans**: 1 plan
 
 Plans:
-- [ ] 09-01-PLAN.md — Extend TypeScript types and YAML data for bio + education
+- [x] 09-01-PLAN.md — Extend TypeScript types and YAML data for bio + education
 
 ### Phase 10: Bio Paragraph + Duration Labels
 **Goal**: Recruiters can read a bio intro at the top of the page and see computed durations next to each work experience date range
