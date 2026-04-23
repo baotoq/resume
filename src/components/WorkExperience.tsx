@@ -72,7 +72,6 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                       </span>
                     </div>
                   </div>
-                  <TechStackIcons stack={entry.tech_stack} />
                   <ul className="flex flex-col gap-2">
                     {entry.bullets.map((bullet, i) => (
                       <li
@@ -83,6 +82,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                       </li>
                     ))}
                   </ul>
+                  <TechStackIcons stack={entry.tech_stack} />
                 </div>
               </article>
             </div>
