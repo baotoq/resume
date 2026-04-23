@@ -8,8 +8,9 @@ experience:
     role: "Senior Software Engineer"
     startDate: "2025-02"
     endDate: null
-    logo_url: "https://logo.clearbit.com/covergo.com"
-    tech_stack: [".NET", "GraphQL", "Vue", "Dapr", "MongoDB", "Redis", "Docker", "Kubernetes", "GitHub", "FluxCD"]
+    logo_url: "/covergo_logo.svg"
+    link: "https://covergo.com"
+    tech_stack: [".NET", "GraphQL", "Vue", "Dapr", "MongoDB", "Redis", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
     bullets:
       - "**Developed** *quotation features* for **multi-tenancy** insurance administration."
       - "**Built** *GraphQL* APIs and modern frontends with *Vue.js* to enhance user experiences"
@@ -20,10 +21,11 @@ experience:
     role: "Senior Software Engineer"
     startDate: "2021-10"
     endDate: "2025-01"
-    logo_url: "https://logo.clearbit.com/upmesh.io"
+    logo_url: "/upmesh_logo.svg"
+    link: "https://upmesh.io"
     tech_stack: [".NET", "EF Core","Go", "gRPC", "ELK Stack", "MySQL", "PostgreSQL", "Redis", "GitHub", "Docker", "Kubernetes", "FluxCD", "AWS", "Terraform"]
     bullets:
-      - "**Implemented** an automated *Facebook* comments capture system handling **5,000 comments/second** at peak time, enabling **real-time order processing** during live streams."
+      - "**Implemented** an automated *Facebook* comments capture system handling *5,000 comments/second* at peak time, enabling **nearly real-time order processing** during live streams."
       - "**Designed and built** scalable APIs, integrating *Stripe* and *3rd-party logistics* services."
       - "**Implemented** full-text search using *Elasticsearch* for **millions of records**, improving search query performance significantly."
       - "**Operated** *GitOps* workflow, *Kubernetes* clusters, *CI/CD pipelines*, and other essential components, ensuring the **stability and performance** of the system."
@@ -34,7 +36,8 @@ experience:
     role: "Software Engineer"
     startDate: "2021-01"
     endDate: "2021-09"
-    logo_url: "#"
+    logo_url: "/aswhite-logo.jpg"
+    link: "https://aswhiteglobal.com/"
     tech_stack: [".NET", "EF Core", "MSSQL", "React", "Redis", "Docker", "Azure"]
     bullets:
       - "**Collaborated** closely with the Product Owner and UK colleagues to thoroughly understand and refine project requirements, ensuring **alignment with user needs** and business objectives."
@@ -45,7 +48,8 @@ experience:
     role: "Software Engineer"
     startDate: "2018-12"
     endDate: "2020-12"
-    logo_url: "https://logo.clearbit.com/nashtech.com"
+    logo_url: "/nashtech_global_logo.jpeg"
+    link: "https://www.nashtechglobal.com/"
     tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
     bullets:
       - "**Implemented** a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring **smooth integration** with internal systems."
