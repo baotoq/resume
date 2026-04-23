@@ -31,9 +31,6 @@ export default function Page() {
         <AnimateIn delay={0.1}>
           <WorkExperience experience={resume.experience} />
         </AnimateIn>
-        <AnimateIn delay={0.2}>
-          <Skills skills={resume.skills} />
-        </AnimateIn>
       </div>
     </main>
   );
