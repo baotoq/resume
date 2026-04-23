@@ -26,6 +26,8 @@ created: 2026-04-24
 
 Source: `src/app/globals.css` — `@theme inline { --font-sans: var(--font-geist-sans) }`. Inter migration is Phase 12 (out of scope here).
 
+Primary visual anchor is the Name (28px semibold) in the Header card — all new elements in this phase are subordinate.
+
 ---
 
 ## Spacing Scale
@@ -53,22 +55,32 @@ Exceptions: none.
 
 ## Typography
 
-All roles below are sourced directly from the existing component code (`Header.tsx`, `WorkExperience.tsx`). Phase 10 adds two new roles: Bio Body and Duration Label.
+Phase 10 introduces two new typographic roles: Bio Body and Duration Label. Pre-existing roles are listed below for context only — Phase 10 does not modify them.
+
+### Phase 10 Introduced Roles
 
 | Role | Size | Weight | Line Height | Tailwind | Usage |
 |------|------|--------|-------------|----------|-------|
-| Name / Display | 28px | 600 semibold | 1.1 | `text-[28px] font-semibold leading-[1.1]` | Resume name in Header |
-| Section Heading | 20px (xl) | 600 semibold | 1.2 | `text-xl font-semibold leading-[1.2]` | "Work Experience" heading; Header title line |
-| Role Title | 20px (xl) | 700 bold | — (default) | `text-xl font-bold` | Job role in WorkExperience card |
-| Body | 16px (base) | 400 regular | 1.625 (relaxed) | `text-base leading-relaxed` | Bullet text (zinc-700); Bio paragraph (zinc-600) |
-| Secondary / Label | 14px (sm) | 700 bold | — (default) | `text-sm font-bold` | Date range (`text-zinc-500`) |
 | **Bio Body** (NEW) | 16px (base) | 400 regular | 1.625 (relaxed) | `text-base leading-relaxed text-zinc-600` | Bio paragraph in Header, below contacts row |
 | **Duration Label** (NEW) | 12px (xs) | 400 regular | — (default ~1.5) | `text-xs text-zinc-400` | Duration line stacked below date range in WorkExperience |
-| Contact links | 16px (base) | 400 regular | — | `text-base text-indigo-600` | Email, phone, GitHub, LinkedIn |
+
+**Declared sizes for this phase: 2 (16px, 12px)**
+**Declared weights for this phase: 1 (400 regular)**
 
 Source: Locked decision D-05 — duration uses `text-xs text-zinc-400`. Confirmed in RESEARCH.md Pattern 4. Bio uses `text-base leading-relaxed text-zinc-600` (RESEARCH.md Pattern 3).
 
-Active weights in this phase: **400 regular** (body, bio, duration, contacts) + **600 semibold** (name, headings) + **700 bold** (role title, date range). Typography overhaul to unified 4-level scale deferred to Phase 12.
+### Pre-Existing Roles (unchanged — context only)
+
+| Role | Size | Weight | Tailwind | Notes |
+|------|------|--------|----------|-------|
+| Name / Display | 28px | 600 semibold | `text-[28px] font-semibold leading-[1.1]` | Pre-existing (unchanged) |
+| Section Heading | 20px (xl) | 600 semibold | `text-xl font-semibold leading-[1.2]` | Pre-existing (unchanged) |
+| Role Title | 20px (xl) | 700 bold | `text-xl font-bold` | Pre-existing (unchanged) |
+| Secondary / Label | 14px (sm) | 700 bold | `text-sm font-bold` | Pre-existing (unchanged) |
+| Body | 16px (base) | 400 regular | `text-base leading-relaxed` | Pre-existing (unchanged) |
+| Contact links | 16px (base) | 400 regular | `text-base text-indigo-600` | Pre-existing (unchanged) |
+
+Typography overhaul to unified 4-level scale deferred to Phase 12.
 
 ---
 
