@@ -6,7 +6,7 @@ import Postgresql from "react-devicons/postgresql/original-wordmark";
 import ReactIcon from "react-devicons/react/original-wordmark";
 import Vuejs from "react-devicons/vuejs/original-wordmark";
 import Dotnet from "react-devicons/dotnetcore/original";
-import Mysql from "react-devicons/mysql/original-wordmark";
+import Mysql from "react-devicons/mysql/original";
 import Docker from "react-devicons/docker/original-wordmark";
 import Graphql from "react-devicons/graphql/plain-wordmark";
 import Mongodb from "react-devicons/mongodb/original-wordmark";
