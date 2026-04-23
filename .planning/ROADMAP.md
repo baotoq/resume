@@ -91,8 +91,12 @@ Plans:
   2. The bio section animates in on scroll entry, consistent with other sections
   3. Each work experience card shows a "X yrs Y mos" label alongside its date range
   4. Duration values are correct (computed from `start_date` to `end_date` or present) and require no client-side JavaScript
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 3 plans
+
+Plans:
+- [ ] 10-01-PLAN.md — Create src/lib/duration.ts pure computeDuration utility
+- [ ] 10-02-PLAN.md — Wire duration labels into WorkExperience.tsx (stacked layout)
+- [ ] 10-03-PLAN.md — Add bio paragraph to Header.tsx below contacts row
 
 ### Phase 11: Education Section
 **Goal**: Recruiters can read a complete education section below work experience showing degree, institution, dates, and relevant coursework
@@ -132,6 +136,6 @@ Plans:
 | 7. Vercel Setup & Config Migration | v2.0 | 2/2 | Complete | 2026-04-22 |
 | 8. Decommission GitHub Pages | v2.0 | 2/2 | Complete | 2026-04-22 |
 | 9. Type System & Data Foundation | v3.0 | 0/1 | Not started | — |
-| 10. Bio Paragraph + Duration Labels | v3.0 | 0/? | Not started | — |
+| 10. Bio Paragraph + Duration Labels | v3.0 | 0/3 | Not started | — |
 | 11. Education Section | v3.0 | 0/? | Not started | — |
 | 12. Typography & Spacing Overhaul | v3.0 | 0/? | Not started | — |
