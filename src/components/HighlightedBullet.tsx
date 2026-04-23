@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 import type { ReactNode } from "react";
 
 interface HighlightedBulletProps {
@@ -13,7 +14,7 @@ export function HighlightedBullet({ children }: HighlightedBulletProps) {
     if (boldIndex % 2 === 1) {
       // Odd indices are bold matches
       elements.push(
-        <span key={boldIndex} className="text-blue-600 font-semibold">
+        <span key={boldIndex} className="font-semibold">
           {segment}
         </span>,
       );
@@ -24,7 +25,10 @@ export function HighlightedBullet({ children }: HighlightedBulletProps) {
         if (italicIndex % 2 === 1) {
           // Odd indices are italic matches
           elements.push(
-            <span key={`${boldIndex}-${italicIndex}`} className="italic font-semibold">
+            <span
+              key={`${boldIndex}-${italicIndex}`}
+              className="text-blue-700 italic font-semibold"
+            >
               {italicSegment}
             </span>,
           );
