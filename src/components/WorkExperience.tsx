@@ -31,7 +31,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
       <div className="relative pl-5 sm:pl-7 flex flex-col gap-6">
         {/* Single continuous timeline line — starts at first dot centre, ends at last card bottom */}
         <div
-          className="absolute left-[3px] sm:left-[7px] top-[28px] bottom-0 w-0.5 bg-zinc-200"
+          className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5 bg-zinc-200"
           aria-hidden="true"
         />
 
@@ -63,11 +63,11 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                             logoUrl={entry.logo_url}
                           />
                         </h3>
-                        <p className="text-sm font-bold text-zinc-900">
+                        <p className="text-xl font-bold text-zinc-900">
                           {entry.role}
                         </p>
                       </div>
-                      <span className="text-sm font-normal text-zinc-500">
+                      <span className="text-sm font-bold text-zinc-500">
                         {formatDateRange(entry.startDate, entry.endDate)}
                       </span>
                     </div>
