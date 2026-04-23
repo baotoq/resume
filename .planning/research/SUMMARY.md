@@ -1,112 +1,118 @@
-# Research Summary — v1.1 Visual Polish
-# Company Logos + Vertical Timeline
+# Research Summary: v3.0 Content & Polish
 
-**Milestone:** v1.1
-**Synthesized:** 2026-04-13
-**Confidence:** HIGH (all findings verified against live codebase and local Next.js 16 docs)
+**Synthesized:** 2026-04-23
+**Milestone:** v3.0 — Bio paragraph, Duration labels, Education section, Typography overhaul
+
+---
+
+## Executive Summary
+
+All four v3.0 features are achievable with zero new npm dependencies. The existing stack (Next.js 16 App Router, React 19, TypeScript, Tailwind v4, gray-matter, framer-motion 12) covers every implementation need. Duration labels require a ~20-line vanilla TypeScript utility. Education requires a new type interface, YAML data, and one Server Component. Typography changes are pure Tailwind v4 utility class edits with `@theme` token additions in `globals.css`.
+
+**Build order:** types first → bio/duration (parallel) → education → typography pass last.
+
+The primary risk is silent YAML/type mismatches — gray-matter's `as ResumeData` cast never throws at build time. Every new field must be added to both the TypeScript interface and `resume.md` in the same commit.
 
 ---
 
 ## Stack Additions
 
-**Zero new dependencies for v1.1.**
+**Zero new npm packages required.**
 
-| Area | Decision | Rationale |
-|------|----------|-----------|
-| Logo images | Plain `<img>` tag | `next/image` with external URLs is unsupported under `output: 'export'` — silently 404s on GitHub Pages |
-| Fallback icon | Inline SVG in a new `LogoImage` client component | Avoids icon library (~20–40KB) for one icon |
-| Timeline layout | Pure Tailwind v4 CSS | `relative`/`absolute` + `before:content-['']` pattern already used in codebase |
-| `onError` state | New `LogoImage.tsx` client component (`'use client'`) | Event handlers cannot live in Server Components — build fails if you try |
+| Need | Solution |
+|------|----------|
+| Duration computation | `src/lib/duration.ts` — ~20-line pure TS; explicit `new Date(Number(y), Number(m)-1)` constructor |
+| Typography tokens | `globals.css` `@theme inline` — `--text-*--line-height`, `--tracking-tight`, `--leading-snug` |
+| Education data | Extend `ResumeData` with `bio?: string`, `EducationEntry`, `education?: EducationEntry[]` |
+| New section animation | Reuse existing `AnimateIn` wrapper — mandatory for all new page sections |
 
-Contrast with future phases: PDF (adds `jspdf` + `html2canvas-pro`), animations (existing `framer-motion` → rename import to `motion`).
+**Do NOT add:** `date-fns`, `@tailwindcss/typography` (wrong use case, v4 friction), `Temporal` API (unreliable in Node 20 server-side).
 
 ---
 
 ## Feature Table Stakes
 
-### Company Logos — must-haves
-- Logo renders next to company name in card header
-- Briefcase fallback when `logo_url` is absent from YAML (most entries initially)
-- `onError` fallback to briefcase when image 404s or fails to load
-- Fixed container size (`h-8 w-8`) with `object-contain` — logo never breaks card layout
-- `alt={entry.company}` set for accessibility
+### Bio/Intro Paragraph
+- 2–5 sentence plain-text string in YAML (`bio: |`)
+- Conditional `<p>` added to `Header.tsx` — no new component
+- Existing card styles; `AnimateIn` wrap
+- No photo, no markdown rendering in bio
 
-### Vertical Timeline — must-haves
-- Continuous vertical line down the left of the WorkExperience section
-- Filled circle dot at each entry's header level, aligned with the line
-- Line does not extend past the last entry (`last:before:hidden`)
-- Left padding on cards (`pl-8`) keeps text clear of the timeline channel
-- Mobile works at 375px without horizontal scroll
+### Duration Labels
+- "X yrs Y mos" format (LinkedIn convention — recruiter-standard)
+- Additive `<span>` in WorkExperience card header alongside existing date range
+- No schema change — uses existing `start_date`/`end_date` fields
+- Pure arithmetic, no library
 
-### Do not build
-- Auto-fetching logos from Clearbit/Brandfetch API
-- Animated timeline line draw on scroll
-- Year labels on the timeline
-- Per-card stagger animation (section-level AnimateIn is sufficient)
-- Logo larger than `h-10` (40px)
+### Education Section
+- Degree + institution + date range (irreducible minimum)
+- New `EducationSection.tsx` Server Component
+- Placed **below WorkExperience** in `page.tsx` (senior engineer convention)
+- No timeline rail, no GPA
+- `AnimateIn` wrap
+- Relevant coursework: optional conditional field
 
----
-
-## Architecture Changes
-
-### Files modified
-| File | Change |
-|------|--------|
-| `src/types/resume.ts` | Add `logo_url?: string` to `ExperienceEntry` interface |
-| `src/components/WorkExperience.tsx` | Timeline wrapper layout + logo/fallback slot in card header |
-| `src/data/resume.md` | Add optional `logo_url` keys to experience entries |
-
-### New files
-| File | Purpose |
-|------|---------|
-| `src/components/LogoImage.tsx` | `'use client'` component — owns `onError` + `useState` fallback to briefcase SVG |
-
-### Files unchanged
-`page.tsx`, `globals.css`, `AnimateIn.tsx`, `Header.tsx`, `Skills.tsx`, `layout.tsx`, `next.config.ts`
-
-### Key constraint
-`WorkExperience.tsx` stays a Server Component. Only `LogoImage.tsx` gets `'use client'`. Mirrors the existing `AnimateIn` island pattern.
+### Typography Overhaul
+- 4-level type scale: `text-2xl` (name) → `text-xl` (section heads) → `text-lg` (role titles) → `text-base` (body) → `text-sm` (secondary)
+- Color tokens: zinc-900 / zinc-700 / zinc-500 / indigo-600 accent
+- Section spacing: `gap-10`/`gap-12` between sections; `p-6` on all cards
+- Cross-cutting pass — touches Header, WorkExperience, EducationSection, page.tsx
 
 ---
 
-## Top Pitfalls to Watch
+## Architecture — Build Order
 
-### 1. `next/image` breaks silently in production (CRITICAL)
-Using `next/image` for external logo URLs builds and dev-previews fine, then 404s on every logo after GitHub Pages deploy. No build error. **Fix:** Use `<img>` tag only.
+```
+1. src/types/resume.ts + src/data/resume.md  (same commit — atomicity)
+   └─ Unblocks all component work
 
-### 2. `onError` in a Server Component fails the build (CRITICAL)
-Event handler props cannot cross the Server→Client boundary. Build error: "Event handlers cannot be passed to Client Component props." **Fix:** All `onError`/`useState` logic must live in `LogoImage.tsx` with `'use client'`.
+2a. Header.tsx — bio paragraph          (additive, lowest risk)
+2b. WorkExperience.tsx — duration label (additive, parallel with 2a)
+    └─ src/lib/duration.ts utility
 
-### 3. Timeline line dangles past last entry (MODERATE)
-Container-level line with `height: 100%` extends into empty space below the final card. **Fix:** Per-item line segments using `last:before:hidden` (or `group-last:hidden` on an explicit `<div>`).
+3.  EducationSection.tsx + page.tsx wiring
+    └─ Depends on step 1
 
-### 4. `before:content-['']` is required for pseudo-elements (MODERATE)
-Tailwind v4 does not inject `content: ''` by default. Omitting it makes the pseudo-element invisible with no warning. **Fix:** Always include `before:content-['']` — the existing codebase already does this correctly for bullet dots.
+4.  Typography pass across all components  (must be last — cross-cutting)
+    └─ Verify timeline dot alignment after any spacing change
+```
 
-### 5. `basePath` not applied to string file paths (MODERATE)
-`basePath: '/resume'` in `next.config.ts` means `/briefcase.svg` resolves incorrectly on GitHub Pages. **Fix:** Inline SVG (no path) or module import (resolved at build time).
-
----
-
-## Recommended Build Order
-
-1. `src/types/resume.ts` — add `logo_url?: string` to `ExperienceEntry`. TypeScript enforces downstream immediately.
-2. `src/components/LogoImage.tsx` — new client component with `onError` + briefcase SVG fallback.
-3. `src/components/WorkExperience.tsx` — single edit pass: timeline wrapper + per-entry dot/line + `<LogoImage>` in card header.
-4. `src/data/resume.md` — add `logo_url` to one entry as a smoke-test placeholder.
-5. Visual verification — `npm run dev`: confirm line, dots, logo, fallback, mobile at 375px.
-6. `npm run build` — confirm static export succeeds, TypeScript strict passes, no new lint errors.
+**New files:** `src/lib/duration.ts`, `src/components/EducationSection.tsx`
+**Modified files:** `src/types/resume.ts`, `src/data/resume.md`, `src/components/Header.tsx`, `src/components/WorkExperience.tsx`, `src/app/page.tsx`, `src/app/globals.css`
 
 ---
 
-## Confidence Assessment
+## Critical Pitfalls
 
-| Area | Confidence | Basis |
-|------|------------|-------|
-| No new dependencies needed | HIGH | Verified: Tailwind 4.2.2 supports all needed utilities; `<img>` confirmed correct for static export |
-| `next/image` incompatibility | HIGH | Confirmed in local Next.js 16 docs (`static-exports.md` line 289) |
-| `onError` requires client component | HIGH | Confirmed in local Next.js 16 image docs |
-| Timeline CSS approach | HIGH | Pattern already exists in codebase (`WorkExperience.tsx` lines 39–41) |
-| `last:before:hidden` line termination | HIGH | Verified via Cruip Tailwind timeline implementation |
-| Mobile layout at 375px | MEDIUM | Inferred from column-oriented layout; requires browser verification |
-| Dot alignment cross-browser | MEDIUM | Absolute positioning in flex+gap has minor Safari/Chrome differences; test needed |
+| # | Pitfall | Prevention | Phase |
+|---|---------|------------|-------|
+| N1 | YAML schema atomicity — `as ResumeData` never throws; undefined silently renders blank | Same-commit rule: type + YAML always together; visual verify after deploy | 1 |
+| N2 | Timezone off-by-one — `new Date("YYYY-MM")` parses UTC, shifts in negative-offset zones | Use `new Date(Number(year), Number(month) - 1)` constructor only | 2 |
+| N3 | Stale "Present" — `page.tsx` statically generated at build time; `new Date()` frozen at deploy | Accept limitation + document, OR move duration to `'use client'` hydration component | 2 |
+| N4 | Missing AnimateIn wrap — new section pops in while others animate | Treat as mandatory invariant for every new `page.tsx` section | 3 |
+| N5 | Timeline dot misalignment — `top-5.5`/`-left-5.5` offsets are empirically tuned | Mandatory visual check at 375px + 1280px as final step of typography phase | 4 |
+| N6 | Education YAML different shape — reusing WorkEntry type causes silent gaps | Dedicated `EducationEntry` interface; do not reuse `WorkEntry` type | 1+3 |
+
+---
+
+## Suggested Phase Structure
+
+| Phase | Name | Scope |
+|-------|------|-------|
+| 1 | Type System & Data Foundation | `ResumeData` extensions + `resume.md` YAML data |
+| 2 | Bio Paragraph + Duration Labels | Header bio `<p>` + `lib/duration.ts` + WorkExperience label |
+| 3 | Education Section | `EducationSection.tsx` + `page.tsx` wiring |
+| 4 | Typography & Spacing Overhaul | `@theme` tokens + utility class audit across all components |
+
+**4 phases. No new packages. All independently deployable.**
+
+---
+
+## Open Decisions (resolve at phase start)
+
+- **N3 "Present" staleness:** Accept static limitation (simpler) or client `useEffect` (always fresh)?
+- **Font:** Keep Geist (default Next.js font) or switch to Inter via `next/font/google`?
+- **Coursework display:** Show `details` as paragraph or as bullet list in education card?
+
+---
+*Research complete: 2026-04-23 — 4 parallel researchers + synthesis*

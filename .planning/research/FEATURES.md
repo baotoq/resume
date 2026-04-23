@@ -1,165 +1,258 @@
-# Feature Research — v2.0 Vercel Migration
+# Feature Landscape — v3.0 Content & Polish
 
-**Domain:** Software engineer resume / CV personal page — GitHub Pages static export → Vercel
-**Researched:** 2026-04-22
-**Confidence:** HIGH (based on Next.js official docs + project codebase inspection)
-
----
-
-## What Changes When `output: 'export'` Is Removed
-
-With `output: 'export'` set, Next.js produces a static HTML file bundle. Every Next.js feature that requires a Node.js server — image optimization, route handlers, middleware, server actions, redirects/rewrites in config — is unavailable. Removing it and deploying to Vercel restores the full Next.js runtime.
-
-The current config also has `basePath: isProd ? "/resume" : ""` and `assetPrefix: isProd ? "/resume" : ""`. These exist because GitHub Pages serves the repo under a subpath (`/resume`). On Vercel the site deploys at the domain root — `basePath` and `assetPrefix` must be removed entirely or all assets will 404.
+**Domain:** Software engineer resume / CV personal page — content completeness and design quality
+**Researched:** 2026-04-23
+**Confidence:** HIGH (codebase inspection + official sources + widely-established conventions)
 
 ---
 
-## Table Stakes — Migration Must-Haves
+## Overview
 
-These are not features, they are correctness requirements. If any are skipped, the Vercel deployment is broken.
-
-| Item | Why Required | Complexity | Notes |
-|------|--------------|------------|-------|
-| Remove `output: 'export'` from next.config.ts | Without this, Vercel still builds as static export, defeating the purpose | LOW | One line deletion |
-| Remove `basePath` and `assetPrefix` from next.config.ts | GitHub Pages needed `/resume` subpath; Vercel deploys at root — leaving these makes all routes/assets 404 | LOW | Two lines deleted; also remove the `isProd` const if no longer used |
-| Remove `images: { unoptimized: true }` from next.config.ts | This was required by static export; leaving it permanently disables optimization that Vercel now provides | LOW | One line deletion |
-| Configure Vercel project (link repo, set environment) | Vercel needs to know the repo + build settings | LOW | `vercel link` or dashboard; auto-detected as Next.js |
-| Migrate env vars to Vercel dashboard | `NEXT_PUBLIC_EMAIL` and `NEXT_PUBLIC_PHONE` are currently passed via GitHub Actions environment; must be added to Vercel project settings | LOW | Dashboard UI; no code change |
-| Replace GitHub Actions Pages workflow | Current `deploy.yml` builds static output and pushes to GitHub Pages; must be replaced with Vercel's GitHub integration or a Vercel-aware workflow | LOW | Vercel's native GitHub integration (no Actions needed) or `vercel deploy` in CI |
-| Decommission GitHub Pages | Having two live URLs causes confusion; old URL should either redirect to new Vercel domain or be disabled | MEDIUM | GitHub Pages settings + optionally a redirect from old URL |
-| Redirect old GitHub Pages URL | Recruiters may have `username.github.io/resume` bookmarked; a 301 from old URL to new Vercel domain prevents dead links | MEDIUM | Cannot do this within the repo — GitHub Pages redirection is not configurable; best communicated as a DNS/shareability concern |
-
-**Existing env var improvement (minor, can do in same phase):**
-`NEXT_PUBLIC_EMAIL` and `NEXT_PUBLIC_PHONE` are read in `page.tsx`, which is a Server Component. Post-migration, they can drop the `NEXT_PUBLIC_` prefix and become server-only secrets. This keeps contact info out of the client JavaScript bundle. Low effort, meaningful privacy improvement.
+Four features are being added to the existing site. The site already has: work experience section with timeline, tech stack icons, bullet highlights, skills section, scroll animations (framer-motion), and responsive layout. Features below are assessed against that baseline.
 
 ---
 
-## Quick Wins — Low-Effort Improvements Unlocked
+## Feature 1 — Bio / Intro Paragraph
 
-Features now possible that are trivially enabled post-migration.
+### Table Stakes
 
-| Feature | Value | Complexity | Dependency | Notes |
-|---------|-------|------------|------------|-------|
-| `next/image` for company logos (replace `<img>` in LogoImage.tsx) | Automatic WebP/AVIF conversion, lazy loading, size optimization, blur placeholder — all the things `<img>` can't do | LOW | `basePath` and `images.unoptimized` must be removed first; add `remotePatterns` in config for external logo URLs | The sole reason plain `<img>` was chosen was static export (documented in Key Decisions); this reverts that tradeoff |
-| HTTP security headers via next.config.ts | `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` — industry standard for any web property | LOW | `output: 'export'` removed | `headers()` in next.config.ts; Vercel respects these at CDN level |
-| Dynamic OG image (`opengraph-image.tsx`) | Generates a branded 1200×630 social share card automatically; makes shared links look professional | MEDIUM | No static export constraint; needs `next/og` (`ImageResponse`) | Requires `app/opengraph-image.tsx` with JSX layout; Vercel renders it serverlessly at request time |
-| Proper `metadata` export with canonical URL | `<title>`, `<meta name="description">`, `<link rel="canonical">` — currently may be minimal or missing | LOW | None | App Router `generateMetadata` or static `export const metadata` in `layout.tsx` |
+These are the minimum behaviors that recruiters and engineers expect. Omitting them makes the section feel incomplete.
+
+| Behavior | Why Expected | Complexity | Notes |
+|----------|--------------|------------|-------|
+| Placed at top of page, above work experience | Recruiters expect to understand who you are before reading your history | LOW | Slot it between Header and WorkExperience in `page.tsx` |
+| 2–5 sentence prose summary | A short paragraph (50–150 words) is the universal convention for bio sections | LOW | YAML string field in `resume.md`; rendered as `<p>` |
+| Reflects current role / seniority signal | Engineers want to read a confident professional identity statement, not a generic intro | LOW | Content responsibility, not implementation |
+| Consistent card styling with rest of page | Should use the same `rounded-xl border border-zinc-200 bg-white shadow-sm` card style the other sections use | LOW | CSS only |
+
+### Differentiators
+
+These make the bio stand out above the baseline.
+
+| Behavior | Value | Complexity | Notes |
+|----------|-------|------------|-------|
+| Fade-in scroll animation matching other sections | Visual consistency with framer-motion AnimateIn wrappers already used throughout | LOW | Wrap with existing `AnimateIn` component |
+| One sentence of personal texture at end | "I care about X" or a side interest humanizes the profile — used on high-quality portfolios like Brittany Chiang's | LOW | Content choice only |
+
+### Anti-Features
+
+| Anti-Feature | Why Avoid | What to Do Instead |
+|--------------|-----------|-------------------|
+| Typing / typewriter animation on the bio | Signals student project, distracts from reading the text, explicitly out of scope per PROJECT.md | Static text |
+| Embedded profile photo | Resume sites for engineers do not conventionally include photos; in some regions it creates legal risk for employers | Omit |
+| Multiple bio length variants / tabs | Over-engineering for a personal resume page | Single bio string |
+| HTML markup inside the bio string | Creates XSS surface and complicates data model | Plain string in YAML; no markdown parsing needed in bio |
+
+### Dependencies on Existing Features
+
+- Requires a new `bio` field added to `ResumeData` interface in `src/types/resume.ts`
+- Requires a new `bio` string in `resume.md` YAML frontmatter
+- Uses existing `AnimateIn` wrapper in `src/components/animation/`
+- Placement in `page.tsx` between `<Header>` and `<WorkExperience>` — no structural changes to other sections
 
 ---
 
-## Future Enhancements — Higher-Effort, Now Possible
+## Feature 2 — Duration Labels on Experience Entries
 
-These were impossible under `output: 'export'`. They remain out of scope for the migration milestone but are now viable.
+### Table Stakes
 
-| Feature | Value | Complexity | Why Possible Now | Notes |
-|---------|-------|------------|-----------------|-------|
-| Server-side PDF generation via API Route | Biggest unlock. Currently deferred because "No server infra needed for static resume" (PROJECT.md). An API route running Puppeteer or a PDF library can render the page and stream a clean PDF | HIGH | API routes require Node.js server | Options: Puppeteer (heavyweight, Vercel size limits apply), `@react-pdf/renderer` (React-based, lighter), or redirect to a print stylesheet + browser print. Vercel serverless function max size is a constraint for Puppeteer. |
-| Server Actions for contact form | Could add a contact/email form without a separate backend | MEDIUM | Server Actions unavailable in static export | Out of scope per PROJECT.md ("Contact form — static page, no backend needed") |
-| Middleware for analytics or A/B | Edge middleware intercepts requests before rendering | HIGH | Middleware requires Edge runtime, unavailable in static export | Not relevant to a resume site |
-| ISR (Incremental Static Regeneration) | Revalidates cached pages on a schedule | N/A | Was unavailable in static export | **Not applicable to this project.** Resume data is in a YAML file built at deploy time; there is no external data source to poll. ISR solves a problem this site does not have. |
+| Behavior | Why Expected | Complexity | Notes |
+|----------|--------------|------------|-------|
+| Duration displayed alongside the date range | LinkedIn established this as the dominant convention; recruiters read it to assess tenure quickly | LOW | Pure calculation, no UI library needed |
+| Format: "X yrs Y mos" or "Y mos" | LinkedIn's exact abbreviated format; familiar to all recruiters; "2 yrs 3 mos" for ≥1 year, "8 mos" when < 1 year | LOW | Single utility function |
+| Computed from `startDate` / `endDate` fields that already exist | Data already present in `ExperienceEntry`; no schema change needed | LOW | `endDate: null` means "use today's date" |
+| Current-role duration updates automatically | "Present" entries should calculate against today, not a hardcoded date | LOW | `new Date()` for null endDate |
+
+### Differentiators
+
+| Behavior | Value | Complexity | Notes |
+|----------|-------|------------|-------|
+| Muted/secondary styling distinct from the date range | Duration is secondary information to the "Jan 2021 – Sep 2021" range — styling it smaller or in zinc-400/zinc-500 vs zinc-500 creates hierarchy | LOW | Tailwind class tweak only |
+| Render duration on same line as date range, parenthetical | "Jan 2021 – Sep 2021 · 8 mos" avoids adding a second line | LOW | A `·` separator or wrapping in parentheses both work |
+
+### Anti-Features
+
+| Anti-Feature | Why Avoid | What to Do Instead |
+|--------------|-----------|-------------------|
+| Showing days ("2 yrs 3 mos 14 days") | Noise; no recruiter cares about day precision on job tenure | Cap at months |
+| Computing "total years of experience" across all entries | Not requested; aggregate calculations are ambiguous (overlapping roles, etc.) | Duration per entry only |
+| Server-side date logic that breaks on Vercel edge | None needed — this is pure arithmetic on YYYY-MM strings; no date library required | Vanilla JS `Date` arithmetic |
+
+### Implementation Note
+
+The existing `formatDateRange` function in `WorkExperience.tsx` already formats the display range. A parallel `formatDuration(start, end)` function is the correct pattern — keeps concerns separate and leaves `formatDateRange` unchanged.
+
+Calculation logic:
+- Parse YYYY-MM strings to `Date` objects (set day to 1 for consistent month math)
+- Compute total months: `(endYear - startYear) * 12 + (endMonth - startMonth)`
+- Convert: years = `Math.floor(months / 12)`, remainder months = `months % 12`
+- Format: if years > 0 → `"X yr[s] Y mo[s]"` (drop zero month remainder); if years === 0 → `"Y mo[s]"`
+- Edge: if total months < 1 → `"< 1 mo"`
+
+### Dependencies on Existing Features
+
+- No schema changes — `startDate` and `endDate` already exist on `ExperienceEntry`
+- Modifies `WorkExperience.tsx` only (or extracts a `formatDuration` util)
+- No new packages needed
 
 ---
 
-## Anti-Features
+## Feature 3 — Education Section
 
-Features that seem like natural next steps but create problems.
+### Table Stakes
 
-| Anti-Feature | Why Requested | Why Problematic | Alternative |
-|--------------|---------------|-----------------|-------------|
-| Puppeteer for PDF generation | Full-fidelity PDF from the rendered page | Puppeteer binary is ~170MB; Vercel max Lambda size is 50MB (compressed) — will fail to deploy | Use `@react-pdf/renderer` (no binary) or `html2pdf.js` client-side, or redirect to print stylesheet |
-| ISR on the resume page | Seems like a best practice for hybrid sites | Resume data is static YAML at build time; ISR adds complexity with no benefit; deploy triggers rebuild automatically | Keep as SSR with no caching config; build on push |
-| API route for serving resume data | Separates data from rendering | Unnecessarily complex for a personal resume; gray-matter in page.tsx is sufficient | Keep `readFileSync` in the Server Component |
-| Multiple pages / router navigation | A projects page, blog, contact page | Out of scope per PROJECT.md; fragments the recruiter's attention | Keep single-page scrollable layout |
+| Behavior | Why Expected | Complexity | Notes |
+|----------|--------------|------------|-------|
+| Degree title, institution name, graduation year | The three irreducible fields every recruiter expects | LOW | Three YAML fields |
+| Placed below work experience | Senior engineers (4+ years exp) conventionally place education at the bottom; work experience is the differentiator | LOW | Order in `page.tsx` |
+| Consistent card styling with work experience section | Visual consistency with the rest of the page | LOW | Reuse card CSS pattern |
+| Section heading "Education" matching "Work Experience" heading style | Typographic consistency | LOW | Match `text-xl font-semibold` heading |
+
+### Differentiators
+
+| Behavior | Value | Complexity | Notes |
+|----------|-------|------------|-------|
+| Date range shown in same format as work experience ("Sep 2014 – Jun 2018") | Consistency signal; aligns visual rhythm with the experience section | LOW | Reuse or share `formatDateRange` logic |
+| Relevant coursework as a light secondary line | Optional but adds substance for a CS degree; keeps education from looking sparse | LOW | Optional YAML array field `relevant_coursework`; rendered as a comma-separated line, not a bullet list |
+| Scroll animation consistent with other sections | AnimateIn wrapper | LOW | Same as all other sections |
+
+### Anti-Features
+
+| Anti-Feature | Why Avoid | What to Do Instead |
+|--------------|-----------|-------------------|
+| GPA display | Irrelevant for a 7+ year experienced engineer; can actively signal insecurity | Omit entirely |
+| Vertical timeline applied to education | Over-engineered for a single institution; timeline is meaningful when there are 3+ entries | Simple card without timeline rail |
+| Multiple education entries | Not needed for this user (one degree); over-engineering the data model | Single entry; array can be supported in type but one entry is fine for v3 |
+| Honors, activities, publications list | Out of scope; adds noise for a senior engineering resume; education is intentionally brief | Plain degree/institution/dates card |
+
+### Schema Required
+
+```typescript
+// New type
+export interface EducationEntry {
+  degree: string;          // "Bachelor of Science in Computer Science"
+  institution: string;     // "Ton Duc Thang University"
+  startDate: string;       // "YYYY-MM" or "YYYY"
+  endDate: string;         // "YYYY-MM" or "YYYY"
+  relevant_coursework?: string[]; // optional
+}
+
+// Addition to ResumeData
+education: EducationEntry[];
+```
+
+### Dependencies on Existing Features
+
+- New `EducationEntry` type in `src/types/resume.ts`
+- New `education` array field in `resume.md` YAML
+- New `Education` component (new file `src/components/Education.tsx`)
+- Placed in `page.tsx` after `<WorkExperience>` (before or after Skills — conventional order is Skills then Education for senior engineers, but either works)
+- Can reuse `formatDateRange` from WorkExperience — consider extracting to a shared util
 
 ---
 
-## Feature Dependencies
+## Feature 4 — Typography + Spacing Overhaul
+
+### Table Stakes
+
+| Behavior | Why Expected | Complexity | Notes |
+|----------|--------------|------------|-------|
+| Consistent type scale: name > section-heading > role-title > body > secondary | Without a clear hierarchy the page reads as flat; recruiters need to scan in 6 seconds | MEDIUM | Audit all text classes across Header, WorkExperience, Skills |
+| Adequate vertical rhythm between sections | Cramped sections signal rushed design; each section needs breathing room | LOW | Gap/margin audit in `page.tsx` layout wrapper |
+| Body text legible at default zoom | 16px (Tailwind `text-base`) is the safe floor; do not go below 14px for bullet text | LOW | Check all `text-sm` usages — are any body text? |
+| Consistent font weight usage | Bold for names/roles, medium/regular for secondary info, no weight chaos | LOW | Audit class list across components |
+
+### Differentiators
+
+| Behavior | Value | Complexity | Notes |
+|----------|-------|------------|-------|
+| Inter or similar geometric sans-serif | Professional-grade readability at screen sizes; engineers recognize it as the de facto modern UI font | LOW | Tailwind v4: define `--font-sans: 'Inter', sans-serif` in `@theme` block in CSS; add Google Fonts import |
+| Section spacing 32–48px between major sections | "Breathing room" is the single highest-ROI spacing fix; sections at 24px or less feel packed | LOW | `gap-8` to `gap-12` on the page column wrapper |
+| Card internal padding 24px (p-6) consistent across all cards | WorkExperience already uses `p-6`; ensure Header and future Education use the same | LOW | Audit Header.tsx — it already uses `px-6 py-6` |
+| Secondary text (dates, duration, institution) in zinc-500 consistently | Creates a reliable hierarchy signal: primary=zinc-900, secondary=zinc-500, accent=blue-600 | LOW | Audit and standardize color tokens |
+
+### Anti-Features
+
+| Anti-Feature | Why Avoid | What to Do Instead |
+|--------------|-----------|-------------------|
+| Custom font hosted in repo | Binary asset in git, slow loading, maintenance burden | Google Fonts or system font stack |
+| Fluid/clamp typography scaling | Resume is a single-column document, not a marketing site; fluid type adds complexity with no user benefit | Fixed Tailwind scale at two breakpoints max |
+| Tailwind `prose` plugin | Designed for long-form article content, not resume cards; overrides too many things | Direct Tailwind utility classes |
+| Dark mode in this milestone | Independent feature, higher complexity; out of scope per PROJECT.md | Defer to Future |
+| Animation overhaul alongside typography | Two orthogonal concerns; mixing them creates a large, hard-to-review diff | Typography/spacing changes only; keep existing framer-motion setup |
+
+### Scope Clarity
+
+"Typography + spacing overhaul" risks being unbounded. The correct scope is:
+
+1. Establish a 4-value type scale: `text-2xl` (name) → `text-xl` (section headings) → `text-lg` (role titles) → `text-base` (body/bullets) → `text-sm` (secondary: dates, duration, tech tags)
+2. Standardize spacing: `gap-10` or `gap-12` between page sections; `p-6` on all cards; `gap-2` between bullets
+3. Standardize color tokens: zinc-900 primary, zinc-700 body, zinc-500 secondary, blue-600 accent
+4. Optional: add Inter via Google Fonts + CSS `@theme` variable
+
+### Dependencies on Existing Features
+
+- Touches `Header.tsx`, `WorkExperience.tsx`, and `Skills` component (wherever it lives)
+- No new packages unless adding Inter (in which case: `next/font/google` or a CSS `@import`)
+- The `AnimateIn` wrappers in `src/components/animation/` are unaffected
+- Tailwind v4 syntax (`@theme` in CSS, no `tailwind.config.*`) must be respected — no config file changes
+
+---
+
+## Feature Dependencies Summary
 
 ```
-Remove output: 'export'
-    └──enables──> next/image optimization
-    └──enables──> Security headers via next.config.ts
-    └──enables──> Dynamic OG image (opengraph-image.tsx)
-    └──enables──> API routes (PDF generation, etc.)
+Bio/Intro paragraph
+    └──requires──> new bio field in ResumeData + resume.md
+    └──uses──> existing AnimateIn wrapper
+    └──uses──> existing card CSS pattern
 
-Remove basePath / assetPrefix
-    └──required for──> next/image (remotePatterns, paths resolve correctly)
-    └──required for──> All asset URLs resolving at domain root
+Duration Labels
+    └──uses──> existing startDate / endDate on ExperienceEntry (no schema change)
+    └──modifies──> WorkExperience.tsx (additive only)
 
-Remove images: { unoptimized: true }
-    └──required for──> next/image optimization to actually run
+Education Section
+    └──requires──> new EducationEntry type + education[] in ResumeData
+    └──requires──> new Education.tsx component
+    └──can share──> formatDateRange utility from WorkExperience.tsx
+    └──uses──> existing AnimateIn wrapper
 
-Vercel project configured + env vars migrated
-    └──required for──> CI/CD workflow replacement
-    └──required for──> Live Vercel URL existing to test against
-
-GitHub Actions Pages workflow replaced
-    └──enables──> Decommissioning GitHub Pages
+Typography / Spacing Overhaul
+    └──touches──> Header.tsx, WorkExperience.tsx, Skills component, page.tsx
+    └──independent of──> all three content features above
+    └──no new packages required (Inter is optional)
 ```
 
-### Dependency Notes
-
-- **next/image requires all three config removals:** `output: 'export'`, `basePath`, and `images: { unoptimized: true }` must all be gone before `next/image` works correctly with external URLs and Vercel optimization.
-- **Env var migration must happen before decommissioning:** The old GitHub Actions workflow passes env vars. New Vercel deployment must have them before the old workflow is retired.
-- **OG image is independent of PDF:** Both are unlocked by removing static export, but they have no dependency on each other.
+**Recommended implementation order:** Duration labels → Bio → Education → Typography. Reason: duration and bio are purely additive. Education requires a new component. Typography touches everything — doing it last means you audit the final component set, not an intermediate one.
 
 ---
 
-## MVP Definition for v2.0 Migration
+## MVP for v3.0
 
-### Ship in v2.0 (Migration Milestone)
+### Must Ship
 
-The migration is complete when the site is live on Vercel, serving correctly, with GitHub Pages decommissioned.
+- Bio paragraph (new YAML field + new component + AnimateIn)
+- Duration labels (pure calculation, no schema change)
+- Education section (new type + new component + YAML data)
+- Typography audit: type scale + section spacing + color token consistency
 
-- [ ] Remove `output: 'export'`, `basePath`, `assetPrefix`, `images: { unoptimized: true }` from next.config.ts
-- [ ] Configure Vercel project (link repo, configure env vars `NEXT_PUBLIC_EMAIL`, `NEXT_PUBLIC_PHONE`)
-- [ ] Replace GitHub Actions Pages workflow with Vercel deployment (native GitHub integration preferred — zero YAML)
-- [ ] Decommission GitHub Pages
-- [ ] Verify site loads correctly at Vercel URL with no 404s, no missing assets
+### Defer
 
-**Optionally in v2.0 (low effort, same phase):**
-- [ ] Swap `NEXT_PUBLIC_EMAIL`/`NEXT_PUBLIC_PHONE` to server-only env vars (drop `NEXT_PUBLIC_` prefix) — contact info stays out of client bundle
-- [ ] Add HTTP security headers to next.config.ts
-- [ ] Swap `<img>` in LogoImage.tsx to `next/image` with `remotePatterns`
-
-### Add After v2.0 (v2.x)
-
-- [ ] Dynamic OG image (`opengraph-image.tsx`) — trigger: want professional social share previews
-- [ ] Proper metadata (`generateMetadata`) with name, title, canonical URL — trigger: SEO or sharing
-- [ ] PDF download via API route — trigger: recruiters asking for PDF, or user populates real data
-
-### Future (v3+)
-
-- [ ] Server-side PDF generation (Puppeteer alternative) — depends on solving Lambda size constraint
-- [ ] Dark mode — independent of Vercel, was always possible, just deferred
-
----
-
-## Feature Prioritization Matrix
-
-| Feature | User Value | Implementation Cost | Priority |
-|---------|------------|---------------------|----------|
-| Remove static export + config cleanup | HIGH (site won't work without it) | LOW | P1 |
-| Configure Vercel project + env vars | HIGH | LOW | P1 |
-| Replace CI/CD workflow | HIGH | LOW | P1 |
-| Decommission GitHub Pages | HIGH (single source of truth) | LOW | P1 |
-| next/image for logos | MEDIUM (better images, lazy load) | LOW | P1 (do in same phase) |
-| HTTP security headers | MEDIUM (best practice) | LOW | P1 (do in same phase) |
-| Server-only env vars (drop NEXT_PUBLIC_) | MEDIUM (privacy) | LOW | P1 (do in same phase) |
-| Dynamic OG image | MEDIUM (professional sharing) | MEDIUM | P2 |
-| Metadata / canonical URL | LOW-MEDIUM (SEO minimal for resume) | LOW | P2 |
-| PDF generation API route | HIGH when user wants it | HIGH | P3 |
+- Inter font: low effort but requires a Google Fonts decision; can be done after content is in
+- Relevant coursework in education: depends on user deciding what to list
 
 ---
 
 ## Sources
 
-- [Next.js static exports — unsupported features](https://github.com/vercel/next.js/blob/canary/docs/01-app/02-guides/static-exports.mdx) — official docs; confirms rewrites, redirects, headers, Server Actions, Route Handlers unavailable in static export (HIGH confidence)
-- [Next.js deploying to Vercel](https://github.com/vercel/next.js/blob/canary/docs/01-app/01-getting-started/17-deploying.mdx) — official docs (HIGH confidence)
-- [Next.js image optimization — Vercel automatic](https://github.com/vercel/next.js/blob/canary/docs/01-app/02-guides/self-hosting.mdx) — confirms Vercel provides image optimization with zero config (HIGH confidence)
-- [Next.js OG image generation](https://github.com/vercel/next.js/blob/canary/docs/01-app/03-api-reference/04-functions/generate-image-metadata.mdx) — `ImageResponse` / `opengraph-image.tsx` pattern (HIGH confidence)
-- [Existing project Key Decisions](/.planning/PROJECT.md) — documents why `<img>` was chosen over `next/image`, why PDF was deferred, why `NEXT_PUBLIC_` prefix was used (PRIMARY SOURCE)
+- Project codebase inspection (`src/types/resume.ts`, `src/components/WorkExperience.tsx`, `src/components/Header.tsx`, `src/data/resume.md`) — PRIMARY, HIGH confidence
+- PROJECT.md — authoritative scope and out-of-scope decisions — PRIMARY, HIGH confidence
+- [Brittany Chiang portfolio](https://brittanychiang.com/) — reference implementation for bio structure and date range display — MEDIUM confidence (single example but widely cited)
+- [Tech Interview Handbook — resume guide](https://www.techinterviewhandbook.org/resume/) — consensus on education section placement for senior engineers — MEDIUM confidence
+- [LinkedIn duration display convention](https://community.clay.com/x/support/pmvtmuip83w4/how-to-calculate-job-duration-on-linkedin-profiles) — "X yrs Y mos" format provenance — MEDIUM confidence (LinkedIn is de facto industry standard)
+- [NovoResume — how to list education](https://novoresume.com/career-blog/how-to-list-education-on-resume) — education section content conventions — MEDIUM confidence
+- [Tailwind CSS typography docs](https://tailwindcss.com/docs/font-size) — font-size scale and spacing utilities — HIGH confidence
 
 ---
-*Feature research for: v2.0 Vercel Migration — Next.js 16 resume site*
-*Researched: 2026-04-22*
+*Feature research for: v3.0 Content & Polish — resume site*
+*Researched: 2026-04-23*

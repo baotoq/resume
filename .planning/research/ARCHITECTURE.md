@@ -1,326 +1,324 @@
 # Architecture Research
 
-**Domain:** Next.js 16 App Router — GitHub Pages static export to Vercel migration
-**Researched:** 2026-04-22
-**Confidence:** HIGH
+**Domain:** Next.js 16 App Router — v3.0 feature integration into existing resume site
+**Researched:** 2026-04-23
+**Confidence:** HIGH (based on direct code inspection of all affected files)
 
-## Standard Architecture
+## System Overview
 
-### System Overview
-
-**Before (GitHub Pages static export):**
+The existing data flow is a straight line with no branches:
 
 ```
-Push to master
-    ↓
-GitHub Actions (deploy.yml)
-    ├── Job: build
-    │   ├── actions/configure-pages@v5  (injects basePath automatically)
-    │   ├── next build  →  ./out/  (static HTML dump)
-    │   └── actions/upload-pages-artifact@v3
-    └── Job: deploy
-        └── actions/deploy-pages@v5  →  GitHub Pages CDN
-                                            ↓
-                                   https://<user>.github.io/resume/
+src/data/resume.md (YAML frontmatter)
+    ↓  gray-matter readFileSync at request time
+src/app/page.tsx (Server Component)
+    ↓  typed as ResumeData
+    ├── <Header resume={} email={} phone={} />
+    └── <WorkExperience experience={} />
+         ├── <LogoImage />
+         ├── <HighlightedBullet />
+         └── <TechStackIcons />
 ```
 
-**After (Vercel):**
+Each new feature either extends this line (new data → new component) or modifies an existing node (richer display in existing component). No new data sources. No API routes. No client state.
 
-```
-Push to master
-    ↓
-Option A: Vercel Git Integration (no workflow file at all)
-    └── Vercel build runner detects Next.js, runs next build
-            ↓
-        Vercel Platform (Node.js runtime + CDN edge network)
-                ↓
-        https://<project>.vercel.app/
+---
 
-Option B: GitHub Actions + Vercel CLI
-    └── deploy.yml: vercel build --prod + vercel deploy --prebuilt --prod
-            ↓
-        Vercel Platform (Node.js runtime + CDN edge network)
-                ↓
-        https://<project>.vercel.app/
-```
+## Current State — What Exists
 
-### Component Responsibilities
+| File | What It Does | v3.0 Status |
+|------|-------------|-------------|
+| `src/data/resume.md` | YAML source: name, title, github, linkedin, experience[], skills{} | Needs new fields: `bio`, `education[]` |
+| `src/types/resume.ts` | `ResumeData` and `ExperienceEntry` interfaces | Needs `bio?: string`, `EducationEntry` interface, `education?: EducationEntry[]` |
+| `src/app/page.tsx` | Server Component — parses YAML, renders Header + WorkExperience | Needs EducationSection and Skills added to render tree |
+| `src/components/Header.tsx` | Renders name, title, contact links | Needs bio paragraph below contacts |
+| `src/components/WorkExperience.tsx` | Renders timeline cards; has `formatDateRange()` already | Needs computed duration label alongside date range |
+| `src/components/HighlightedBullet.tsx` | Parses **bold** and *italic* inline markdown | No change required |
+| `src/components/animation/AnimateIn.tsx` | framer-motion whileInView wrapper | No change required — wrap new sections with it |
+| `src/components/techstack-icons/TechStackIcons.tsx` | Maps tech strings to icons | No change required for v3.0 |
 
-| Component | Before (GitHub Pages) | After (Vercel) |
-|-----------|----------------------|----------------|
-| `next.config.ts` | `output:'export'`, `basePath:'/resume'`, `assetPrefix:'/resume'`, `images.unoptimized:true` | Remove all four. Keep only `reactCompiler: true`. |
-| `.github/workflows/deploy.yml` | Two-job: build (static export) + deploy-pages. OIDC Pages permissions. | REPLACE with Vercel CLI workflow (Option B), OR DELETE entirely (Option A). |
-| `vercel.json` | Does not exist | Optional. Not required for a basic Next.js deploy. Skip unless custom headers or regions are needed. |
-| `.vercel/project.json` | Does not exist | Created by `vercel link` CLI. Contains `projectId` and `orgId`. These are not secrets — commit the file. |
-| GitHub repo Settings → Pages | Enabled (source: GitHub Actions) | Disable. Set Pages source to "None" to decommission. Last step. |
-| GitHub Secrets | None (OIDC, no stored secrets needed) | Option B only: add `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`. |
+**Observation:** `skills` data exists in resume.md and is typed in `ResumeData`, but no Skills component is rendered in `page.tsx`. This is an existing gap — v3.0 is not responsible for it but the Education section placement decision should account for it.
 
-## Recommended Project Structure
+---
 
-No new source files. Changes are infrastructure-only:
+## Feature Integration Analysis
 
-```
-resume/
-├── next.config.ts          MODIFY — remove output/basePath/assetPrefix/images.unoptimized
-├── vercel.json             CREATE (optional) — skip for basic resume deploy
-├── .vercel/
-│   └── project.json        CREATED BY CLI — commit this; not a secret
-└── .github/
-    └── workflows/
-        └── deploy.yml      REPLACE or DELETE — Pages-specific workflow is fully replaced
-```
+### Feature 1: Bio / Intro Paragraph
 
-All source files under `src/`, `public/`, and `package.json` are unchanged.
+**Integration type:** Extend existing component + extend type + extend data
 
-### Structure Rationale
-
-- **.vercel/project.json:** Created by `vercel link`. Contains `projectId` and `orgId` — not secrets (visible in the Vercel dashboard URL). Committing them gives CI a canonical reference without requiring a re-link step in every environment.
-- **vercel.json:** A resume site with no API routes, no redirects, and no custom headers does not need one. Vercel's framework autodetection handles Next.js with zero config.
-
-## Architectural Patterns
-
-### Pattern 1: Vercel Git Integration (zero-config, recommended)
-
-**What:** Connect the GitHub repo to a Vercel project via the dashboard OAuth flow. Vercel deploys automatically on every push to `master`. No GitHub Actions file needed at all.
-
-**When to use:** When the goal is simplicity. No secrets to manage. No YAML to maintain. Vercel detects Next.js 16 and runs `next build` with the correct Node version.
-
-**Trade-offs:**
-- Pro: Zero configuration. Preview deployments automatically created for every PR.
-- Pro: Vercel manages the build environment — no Node version pinning needed.
-- Con: Build logs are in the Vercel dashboard, not the GitHub Actions UI.
-- Con: Cannot add lint/type-check gates before deploy without also adding a GitHub Actions workflow.
-
-**Recommendation for this project:** Use Option A. The resume project has no test suite and no lint gate in CI — the existing workflow is purely a build+deploy step. Vercel Git Integration is a direct replacement with less complexity.
-
-### Pattern 2: GitHub Actions + Vercel CLI (explicit CI/CD)
-
-**What:** Keep GitHub Actions as the CI/CD driver. The workflow installs Vercel CLI, runs `vercel build` (which detects Next.js), then uploads the pre-built artifact via `vercel deploy --prebuilt`.
-
-**When to use:** When pre-deploy gates (lint, type-check, tests) need to block deployment.
-
-**Trade-offs:**
-- Pro: Build steps can gate deployment.
-- Pro: Build logs stay in GitHub Actions UI.
-- Con: Three secrets must be managed.
-- Con: More YAML to maintain.
-
-**Example production workflow (Option B):**
+**Data change:** Add optional `bio` field to resume.md YAML frontmatter.
 ```yaml
-name: deploy
-on:
-  push:
-    branches: ["master"]
-  workflow_dispatch:
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-      - run: npm ci
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel env
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+bio: "Sentence or two about who you are and what you bring."
 ```
 
-### Pattern 3: next.config.ts cleanup
-
-**What:** Remove all four GitHub Pages-specific config keys. On Vercel the app is served from the domain root — `basePath` and `assetPrefix` must not be set. Removing `output:'export'` allows Next.js to run as a Node.js server. Removing `images.unoptimized:true` enables Vercel's built-in image optimization.
-
-**Before:**
+**Type change:** Add to `ResumeData` interface in `src/types/resume.ts`:
 ```typescript
-const isProd = process.env.NODE_ENV === "production";
-
-const nextConfig: NextConfig = {
-  output: "export",
-  basePath: isProd ? "/resume" : "",
-  assetPrefix: isProd ? "/resume" : "",
-  reactCompiler: true,
-  images: {
-    unoptimized: true,
-  },
-};
+bio?: string;
 ```
 
-**After:**
+**Component change — `Header.tsx` (MODIFIED):**
+Render `bio` below the contact links row if present. One conditional `<p>` block. The component already receives the full `resume: ResumeData` object, so no prop signature change is needed — `resume.bio` is available.
+
+```
+Header
+  ├── name (h1)
+  ├── title (p)
+  ├── contact links (div)
+  └── bio paragraph (p) ← NEW, conditional on resume.bio
+```
+
+**No new component needed.** Header enhancement is sufficient and keeps the bio visually attached to the identity block.
+
+---
+
+### Feature 2: Duration Labels on Experience Entries
+
+**Integration type:** Computed display change — existing component, existing data
+
+**Data change:** None. `startDate` and `endDate` already exist on `ExperienceEntry`.
+
+**Type change:** None.
+
+**Component change — `WorkExperience.tsx` (MODIFIED):**
+`formatDateRange()` already exists in this file and produces "Feb 2025 – Present". A `computeDuration()` helper function needs to be added in the same file. It takes `startDate: string` and `endDate: string | null` and returns a human-readable label like "3 yr 2 mo" or "9 mo".
+
+The duration label renders alongside the existing date range string in the card header. Both are display-only — no props change, no data change.
+
+**Duration computation logic:**
+- Diff in months = (endYear * 12 + endMonth) - (startYear * 12 + startMonth)
+- endDate null → use current date (Date.now())
+- Convert: years = Math.floor(months / 12), remainder months
+- Format: "X yr Y mo", "X yr", "Y mo" (omit zero parts)
+
+**No new component needed.** The helper is a pure function added to the top of WorkExperience.tsx.
+
+---
+
+### Feature 3: Education Section
+
+**Integration type:** New data section + new type + new component + page.tsx wiring
+
+**Data change:** Add `education` array to resume.md YAML frontmatter:
+```yaml
+education:
+  - institution: "Ton Duc Thang University"
+    degree: "Bachelor of Computer Science"
+    startDate: "2014"
+    endDate: "2018"
+    coursework:
+      - "Data Structures & Algorithms"
+      - "Operating Systems"
+```
+
+Dates can be year-only strings ("2014") or "YYYY-MM" for consistency with experience entries. Year-only is simpler for education and sufficient.
+
+**Type change:** Add to `src/types/resume.ts`:
 ```typescript
-const nextConfig: NextConfig = {
-  reactCompiler: true,
-};
+export interface EducationEntry {
+  institution: string;
+  degree: string;
+  startDate: string;   // "YYYY" or "YYYY-MM"
+  endDate: string;     // "YYYY" or "YYYY-MM" — education is always complete
+  coursework?: string[];
+}
 ```
 
-The `isProd` variable and its conditional logic can be deleted entirely — they only existed to conditionally apply the GitHub Pages path prefix.
-
-## Data Flow
-
-### Build + Deploy Flow (Option A: Vercel Git Integration)
-
-```
-git push master
-    ↓
-Vercel webhook triggered
-    ↓
-Vercel build runner
-    ├── npm ci
-    └── next build  (Node.js mode — no static export, output goes to .next/)
-            ↓
-        Deploy to Vercel edge network
-            ↓
-        https://<project>.vercel.app/
+Add to `ResumeData`:
+```typescript
+education?: EducationEntry[];
 ```
 
-### Build + Deploy Flow (Option B: GitHub Actions)
+**New component — `src/components/EducationSection.tsx` (NEW):**
+Mirrors the visual language of WorkExperience cards without the timeline rail (education is typically a single entry — no need for the vertical timeline chrome). Receives `education: EducationEntry[]`.
 
 ```
-git push master
-    ↓
-GitHub Actions triggered
-    ├── npm ci
-    ├── vercel pull  (fetches env vars and project config from Vercel)
-    ├── vercel build --prod  (produces .vercel/output/ conforming to Build Output API)
-    └── vercel deploy --prebuilt --prod  (uploads .vercel/output/ — does not rebuild)
-            ↓
-        https://<project>.vercel.app/
+EducationSection
+  └── for each entry:
+       └── <article> card (same card style as WorkExperience)
+            ├── institution (h3)
+            ├── degree (p)
+            ├── date range (span) — "2014 – 2018"
+            └── coursework list (ul, optional)
 ```
 
-### Request Flow (runtime, after migration)
+**page.tsx change (MODIFIED):**
+Import `EducationSection` and add it to the render tree. Education conventionally appears below Work Experience:
 
-```
-Browser → https://<project>.vercel.app/
-    ↓
-Vercel CDN edge
-    ├── /_next/static/* → served from CDN cache (unchanged behavior)
-    └── / (page request)
-            ↓
-        The resume page.tsx has no dynamic server functions (no cookies,
-        no request headers, no generateStaticParams with dynamicParams:true).
-        Vercel automatically detects this and serves the page as static HTML
-        from the CDN — same effective behavior as GitHub Pages, without the
-        basePath constraint and without the output:'export' limitation.
+```tsx
+<AnimateIn delay={0.2}>
+  <EducationSection education={resume.education} />
+</AnimateIn>
 ```
 
-Note: gray-matter reads `src/data/resume.md` at build time via synchronous `readFileSync`. This is unchanged. Vercel's build environment has filesystem access identical to a local build.
+Guard with `resume.education?.length` to avoid rendering an empty section if the field is absent.
 
-## File Change Matrix
+---
 
-| File | Action | What Changes |
-|------|--------|-------------|
-| `next.config.ts` | MODIFY | Remove `output`, `basePath`, `assetPrefix`, `images.unoptimized`, `isProd` variable. Keep `reactCompiler: true`. |
-| `.github/workflows/deploy.yml` | REPLACE or DELETE | Option A: delete entirely. Option B: replace content with Vercel CLI workflow above. |
-| `.vercel/project.json` | CREATE via CLI | Run `vercel link` locally once. Commit the generated file. Contains `projectId` + `orgId`. |
-| `vercel.json` | SKIP | Not required. Only create if custom headers, redirects, or regions become necessary. |
-| All `src/**` | NO CHANGE | All components, data layer, and styling unchanged. |
-| `public/` | NO CHANGE | Static assets served identically on Vercel. |
-| `package.json` | NO CHANGE | Build script is already `next build`. |
+### Feature 4: Typography Overhaul
 
-## Execution Order for Migration Tasks
+**Integration type:** Styling changes across existing components — no new files, no data changes, no type changes
 
-Dependencies flow in this order — do not reorder:
+**Scope:** All components that render visible text. This is a cross-cutting change.
 
-1. **VERCEL-01: Modify `next.config.ts`**
-   Must happen first. Removing `output:'export'` changes what `next build` produces (`.next/` server bundle instead of `./out/` static HTML). All downstream steps depend on correct config.
+**Components affected:**
+| Component | What Changes |
+|-----------|-------------|
+| `Header.tsx` | Heading sizes, spacing, font weights, contact link styling |
+| `WorkExperience.tsx` | Card padding, role/company font treatment, date range sizing, bullet spacing |
+| `page.tsx` | Outer layout: `gap-8` → tighter or looser, `py-12` → adjusted |
+| `EducationSection.tsx` (new) | Apply final typography system from day one |
 
-2. **VERCEL-02: Create Vercel project + link**
-   Run `vercel link` locally (or create project via Vercel dashboard → Import Git Repository). This produces `.vercel/project.json` with `projectId` and `orgId`. Required before CI/CD can reference the project. Also: set any environment variables (e.g., email/phone env vars) in the Vercel dashboard under Project Settings → Environment Variables.
+**Tailwind v4 constraint:** No `tailwind.config.*` — all customization via CSS custom properties in the global stylesheet and utility classes directly. Existing code uses inline Tailwind utilities (e.g., `text-[28px]`, `leading-[1.1]`) — continue this pattern for one-off values.
 
-3. **VERCEL-03: Replace or delete GitHub Actions workflow**
-   Depends on `.vercel/project.json` existing (for project IDs). Option A: delete `deploy.yml`. Option B: replace content with the Vercel CLI workflow. If Option B, add three secrets to the GitHub repo: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`.
+**No new libraries.** Typography overhaul is pure Tailwind v4 utility class replacement.
 
-4. **VERCEL-04: Decommission GitHub Pages**
-   Last step. Navigate to GitHub repo Settings → Pages → Source → set to "None". Execute only after confirming the Vercel URL serves the resume correctly. This is the point of no easy return.
+---
 
-## Reversibility Considerations
+## New Components
 
-The migration is reversible until VERCEL-04 is executed:
+| Component | Path | Receives | Notes |
+|-----------|------|----------|-------|
+| `EducationSection` | `src/components/EducationSection.tsx` | `education: EducationEntry[]` | New — no analog in existing codebase |
 
-- **Before VERCEL-04:** GitHub Pages still serves the site. Reverting `next.config.ts` and re-running the old workflow restores the prior deployment.
-- **After VERCEL-04:** Reversibility requires re-enabling GitHub Pages, reverting all config changes, and triggering a new build. Achievable but takes a full deploy cycle.
-- **Recommendation:** Confirm the Vercel deployment URL renders the resume correctly before executing VERCEL-04. The old `deploy.yml` is preserved in git history and can be recovered.
+---
 
-## Integration Points
+## Modified Components and Files
 
-### External Services
+| File | Modification | Scope |
+|------|-------------|-------|
+| `src/data/resume.md` | Add `bio` string field; add `education[]` array | Data only |
+| `src/types/resume.ts` | Add `bio?: string` to `ResumeData`; add `EducationEntry` interface; add `education?: EducationEntry[]` to `ResumeData` | Types only |
+| `src/app/page.tsx` | Import + render `EducationSection` inside `AnimateIn`; optionally import + render `Skills` if it exists by then | Wiring only |
+| `src/components/Header.tsx` | Add bio paragraph below contact links | Additive — no existing lines removed |
+| `src/components/WorkExperience.tsx` | Add `computeDuration()` helper; render duration label in card header alongside date range | Additive to logic; replace/extend JSX in header area |
 
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| Vercel | Git integration (dashboard OAuth) OR CLI via GitHub Actions | Choose one — do not run both simultaneously or double-deploys occur |
-| GitHub | Source repo. Grant Vercel OAuth access during project setup | Required for Git integration. Already authenticated for Actions. |
-| Devicons CDN | Browser-side external CDN fetch | Unchanged — no config impact |
+---
 
-### Internal Boundaries
+## Data Flow After v3.0
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| `next.config.ts` → Vercel build runner | Vercel reads `next.config.ts` automatically | No `vercel.json` needed to reference it |
-| `.vercel/project.json` → GitHub Actions | Workflow reads `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` from repo secrets | Values must match what `vercel link` wrote to the file |
-| `src/data/resume.md` → `page.tsx` | `readFileSync` at build time | Unchanged — works identically on Vercel's build environment |
-| Environment variables (email/phone) → runtime | Set in Vercel dashboard Project Settings → Environment Variables | Must be re-entered in Vercel; they are not in the repo |
+```
+src/data/resume.md (YAML frontmatter)
+    bio: "..."                          ← NEW
+    experience: [...]                   (unchanged; startDate/endDate already present)
+    education: [...]                    ← NEW
+    skills: {...}                       (unchanged; still unrendered after v3.0 unless Skills added)
+    ↓  gray-matter readFileSync
+src/app/page.tsx (Server Component)
+    ↓  typed as ResumeData
+    ├── <Header resume={} email={} phone={} />
+    │       └── bio paragraph (NEW)
+    ├── <WorkExperience experience={} />
+    │       └── duration label per entry (NEW)
+    └── <EducationSection education={} />   ← NEW
+```
 
-## Anti-Patterns
+---
 
-### Anti-Pattern 1: Leaving `output: 'export'` in next.config.ts
+## Component Boundaries
 
-**What people do:** Deploy to Vercel without removing the static export config.
+| Component | Responsibility | Pure? | Server/Client |
+|-----------|---------------|-------|---------------|
+| `page.tsx` | Reads file, parses YAML, passes typed data down | No (I/O) | Server |
+| `Header` | Renders identity block (name, title, contacts, bio) | Yes | Server |
+| `WorkExperience` | Renders timeline with cards; computes date ranges + durations | Yes | Server |
+| `EducationSection` | Renders education cards | Yes | Server |
+| `AnimateIn` | framer-motion scroll animation wrapper | Yes | Client (`'use client'`) |
 
-**Why it's wrong:** Vercel detects `output: 'export'` and serves the static bundle — functionally identical to GitHub Pages but on Vercel infrastructure. You lose the Node.js runtime, image optimization, and any future server-side capabilities. The whole point of the migration is lost.
+All new and modified components remain Server Components. No new client boundary is required for any v3.0 feature. `AnimateIn` already handles the client/server split via its wrapper pattern.
 
-**Do this instead:** Remove `output: 'export'` entirely as the very first step.
+---
 
-### Anti-Pattern 2: Leaving `basePath: '/resume'` and `assetPrefix: '/resume'`
+## Build Order
 
-**What people do:** Keep the basePath because it worked on GitHub Pages (where the repo name is the URL path segment `/resume/`).
+Dependencies flow in this order. Each step unblocks the next.
 
-**Why it's wrong:** On Vercel the app is served from the domain root (`/`). All internal `<Link>` hrefs, `<Image>` src paths, and asset URLs will generate `/resume/...` paths that 404. The site will be partially broken.
+### Step 1 — Types + Data (foundation, no dependencies)
 
-**Do this instead:** Remove `basePath` and `assetPrefix` entirely. They have no purpose on Vercel.
+Update `src/types/resume.ts`:
+- Add `bio?: string` to `ResumeData`
+- Add `EducationEntry` interface
+- Add `education?: EducationEntry[]` to `ResumeData`
 
-### Anti-Pattern 3: Running Vercel Git Integration AND a GitHub Actions deploy step simultaneously
+Update `src/data/resume.md`:
+- Add `bio` value
+- Add `education` array with real data
 
-**What people do:** Enable Vercel's Git integration in the dashboard AND keep a `vercel deploy` step in GitHub Actions — resulting in two deployments per push.
+**Why first:** Every component that reads these fields requires the types to compile. No component work can be type-safe until this step is done.
 
-**Why it's wrong:** Double-deploys, race conditions, and wasted Vercel build minutes.
+### Step 2 — Bio in Header (depends on Step 1)
 
-**Do this instead:** Choose one approach. If using Option A (Git Integration), delete the deploy workflow file. If using Option B (GitHub Actions), disable Vercel's automatic Git deployment in the Vercel project settings under Git → Ignored Build Step or by disconnecting the Git integration.
+Modify `src/components/Header.tsx`:
+- Add conditional bio `<p>` below contact links
+- `resume.bio` is already in scope via the existing `resume: ResumeData` prop
 
-### Anti-Pattern 4: Not committing `.vercel/project.json`
+**Why second:** Isolated change to an existing component. No new files. Fast to verify visually. Lowest risk of breaking existing layout.
 
-**What people do:** Add `.vercel/` to `.gitignore` (common in starter templates) so the project link stays out of version control.
+### Step 3 — Duration Labels in WorkExperience (depends on Step 1; independent of Step 2)
 
-**Why it's wrong:** GitHub Actions workflows using Option B need `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`. Without `.vercel/project.json` committed, developers have no canonical source for these values and must re-run `vercel link` in every new environment.
+Modify `src/components/WorkExperience.tsx`:
+- Add `computeDuration(start, end)` pure function
+- Add duration label in card header JSX
 
-**Do this instead:** Ensure `.vercel/project.json` is NOT in `.gitignore`. The values in this file are not secrets — `VERCEL_TOKEN` is the secret, and that lives in GitHub Secrets.
+**Why third (can run parallel with Step 2):** Purely additive — no existing functionality removed. The `formatDateRange` helper shows the pattern to follow.
 
-## Scaling Considerations
+### Step 4 — EducationSection component (depends on Step 1)
 
-This is a static resume site. Scaling is not a concern at any traffic level.
+Create `src/components/EducationSection.tsx`:
+- New component, no dependencies on Header or WorkExperience changes
+- Wire into `page.tsx` with `AnimateIn` wrapper
 
-| Scale | Architecture Adjustments |
-|-------|--------------------------|
-| Any traffic | None. The resume page renders as static HTML on Vercel's CDN. No server function executes per request. |
-| Future features (PDF export, analytics API) | Server Components and Route Handlers can be added without further architectural changes — this is the specific benefit unlocked by removing `output: 'export'`. |
+**Why fourth:** Requires types from Step 1. Component creation is self-contained. Wire into page.tsx after the component is stable.
+
+### Step 5 — Typography Overhaul (depends on Steps 2, 3, 4)
+
+Update Tailwind utility classes across:
+- `src/app/page.tsx` — outer layout spacing
+- `src/components/Header.tsx` — identity block typography
+- `src/components/WorkExperience.tsx` — card typography and spacing
+- `src/components/EducationSection.tsx` — match typography system
+
+**Why last:** All components must exist in final form before a holistic typography pass. Doing typography early means touching files multiple times. Doing it last means one focused pass over the complete visual surface.
+
+---
+
+## Integration Risks
+
+| Risk | Likelihood | Mitigation |
+|------|------------|-----------|
+| Duration label overflow in card header on mobile | MEDIUM | Use `flex-col` on small viewports; check the existing `sm:flex-row` pattern in WorkExperience — duration label should follow the same responsive treatment as the date range span |
+| `education` field optional in YAML causes TS error | LOW | `education?: EducationEntry[]` with optional chaining in page.tsx — `resume.education?.length` guard before rendering EducationSection |
+| Bio paragraph breaks Header card layout on long strings | LOW | Constrain with `max-w-prose` or let natural card width govern; test with ~2 sentence bio |
+| Typography pass regresses existing layout | LOW | Work Experience section is visually complex (timeline, dots, cards) — test on both mobile and desktop after every class change |
+
+---
+
+## Anti-Patterns to Avoid
+
+### Anti-Pattern: Creating a `DurationLabel` sub-component
+
+`computeDuration()` is a pure function returning a string. It does not need to be a React component. Keep it as a module-level function in `WorkExperience.tsx` alongside `formatDateRange()`.
+
+### Anti-Pattern: Separate `BioSection` component
+
+Bio is one paragraph semantically belonging to the identity block. Extracting it into a standalone component over-engineers a single `<p>` tag. Extend Header instead.
+
+### Anti-Pattern: Reusing ExperienceEntry type shape for EducationEntry
+
+Education dates are year-only and there is no `endDate: null` (education entries are complete). A distinct `EducationEntry` interface is cleaner than repurposing `ExperienceEntry` or making education dates nullable.
+
+### Anti-Pattern: Adding Skills section as part of this milestone
+
+`skills` data already exists in YAML and is typed in `ResumeData`, but no Skills component exists and `page.tsx` does not render one. This is an existing gap. Building Skills as part of the typography overhaul milestone conflates two concerns. Leave it out of scope unless explicitly added to the milestone.
+
+---
 
 ## Sources
 
-- Next.js 16 static exports docs: `node_modules/next/dist/docs/01-app/02-guides/static-exports.md` (HIGH — local, version-exact)
-- Next.js 16 output config docs: `node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/output.md` (HIGH — local, version-exact)
-- Next.js 16 deploying to platforms: `node_modules/next/dist/docs/01-app/02-guides/deploying-to-platforms.md` (HIGH — local, version-exact)
-- Vercel GitHub Actions guide: https://vercel.com/kb/guide/how-can-i-use-github-actions-with-vercel (MEDIUM)
-- Vercel Next.js framework docs: https://vercel.com/docs/frameworks/full-stack/nextjs (MEDIUM)
-- Vercel project configuration reference: https://vercel.com/docs/projects/project-configuration (MEDIUM)
-- Existing project files (direct inspection): `next.config.ts`, `.github/workflows/deploy.yml`, `package.json` (HIGH)
+- Direct inspection: `src/app/page.tsx`, `src/types/resume.ts`, `src/data/resume.md`, `src/components/Header.tsx`, `src/components/WorkExperience.tsx`, `src/components/animation/AnimateIn.tsx` (HIGH — current codebase)
+- Direct inspection: `.planning/PROJECT.md` v3.0 milestone context (HIGH)
+- Prior architecture research: `.planning/research/ARCHITECTURE.md` v2.0 (HIGH — same repo)
 
 ---
-*Architecture research for: Next.js 16 GitHub Pages to Vercel migration*
-*Researched: 2026-04-22*
+*Architecture research for: v3.0 Content & Polish — feature integration*
+*Researched: 2026-04-23*
