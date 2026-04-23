@@ -9,7 +9,7 @@ experience:
     startDate: "2025-02"
     endDate: null
     logo_url: "https://logo.clearbit.com/covergo.com"
-    tech_stack: [".NET", "DDD", "GraphQL", "Vue", "Dapr", "MongoDB", "Redis", "Kubernetes", "GitHub", "FluxCD"]
+    tech_stack: [".NET", "GraphQL", "Vue", "Dapr", "MongoDB", "Redis", "Docker", "Kubernetes", "GitHub", "FluxCD"]
     bullets:
       - "**Developed** *quotation features* for **multi-tenancy** insurance administration."
       - "**Built** *GraphQL* APIs and modern frontends with *Vue.js* to enhance user experiences"
@@ -21,7 +21,7 @@ experience:
     startDate: "2021-10"
     endDate: "2025-01"
     logo_url: "https://logo.clearbit.com/upmesh.io"
-    tech_stack: [".NET", "EF Core","Go", "gRPC", "ELK Stack", "MySQL", "PostgreSQL", "Redis", "GitHub", "Kubernetes", "AWS", "Terraform", "FluxCD", "Odoo"]
+    tech_stack: [".NET", "EF Core","Go", "gRPC", "ELK Stack", "MySQL", "PostgreSQL", "Redis", "GitHub", "Docker", "Kubernetes", "FluxCD", "AWS", "Terraform"]
     bullets:
       - "**Implemented** an automated *Facebook* comments capture system handling **5,000 comments/second** at peak time, enabling **real-time order processing** during live streams."
       - "**Designed and built** scalable APIs, integrating *Stripe* and *3rd-party logistics* services."
@@ -35,7 +35,7 @@ experience:
     startDate: "2021-01"
     endDate: "2021-09"
     logo_url: "#"
-    tech_stack: [".NET", "EF Core", "MSSQL", "React", "Redis", "Azure"]
+    tech_stack: [".NET", "EF Core", "MSSQL", "React", "Redis", "Docker", "Azure"]
     bullets:
       - "**Collaborated** closely with the Product Owner and UK colleagues to thoroughly understand and refine project requirements, ensuring **alignment with user needs** and business objectives."
       - "**Developed** responsive *React.js* portal, **designed** *RESTful APIs*, optimized data flow and ensured **smooth communication** between different components of the portal."
@@ -46,7 +46,7 @@ experience:
     startDate: "2018-12"
     endDate: "2020-12"
     logo_url: "https://logo.clearbit.com/nashtech.com"
-    tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Redis", "Grafana", "Kubernetes", "Azure"]
+    tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
     bullets:
       - "**Implemented** a data standardization adapter that efficiently converted and transformed data from external legacy systems, ensuring **smooth integration** with internal systems."
       - "**Implemented** a feature-rich portal, **designed** *RESTful APIs*, *gRPC* services and other backend solutions."

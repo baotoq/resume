@@ -4,7 +4,6 @@ import matter from "gray-matter";
 import type { ResumeData } from "@/types/resume";
 import { Header } from "@/components/Header";
 import { WorkExperience } from "@/components/WorkExperience";
-import { Skills } from "@/components/Skills";
 import { AnimateIn } from "@/components/AnimateIn";
 
 export default function Page() {

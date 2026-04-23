@@ -8,7 +8,7 @@ import Vuejs from "react-devicons/vuejs/original-wordmark";
 import Dotnet from "react-devicons/dotnetcore/original";
 import Mysql from "react-devicons/mysql/original";
 import Docker from "react-devicons/docker/original-wordmark";
-import Graphql from "react-devicons/graphql/plain-wordmark";
+import Graphql from "react-devicons/graphql/plain";
 import Mongodb from "react-devicons/mongodb/original-wordmark";
 import Redis from "react-devicons/redis/original-wordmark";
 import Tailwindcss from "react-devicons/tailwindcss/original";
@@ -53,8 +53,8 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   redis: Redis,
   mysql: Mysql,
   mssql: Microsoftsqlserver,
-  react: ({ size }) => <ReactIcon size={size} color="#0C9FC9" />,
-  vue: () => <Vuejs size={36} />,
+  react: ({ size }) => <ReactIcon size={size} color="#0380A2" />,
+  vue: () => <Vuejs size={38} />,
   tailwindcss: Tailwindcss,
   facebook: Facebook,
   dapr: ({ size }) => <DaprIcon size={size} />,
