@@ -713,3 +713,313 @@ Phase 4 — VERCEL-04 (decommission GitHub Pages). Explicit final step after Ver
 - [How can I use files in Vercel Functions? | Vercel KB](https://vercel.com/kb/guide/how-can-i-use-files-in-serverless-functions) — supports readFileSync-at-build-time analysis — MEDIUM confidence
 - [next.config.js: reactCompiler | Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js/reactCompiler) — HIGH confidence
 - Codebase direct inspection: `next.config.ts`, `src/app/page.tsx`, `src/components/TechStackIcons.tsx`, `src/components/AnimateIn.tsx`, `.github/workflows/deploy.yml`, `node_modules/react-devicons/go/original/index.js`, `package.json` — HIGH confidence
+
+---
+
+---
+
+# v3.0 Addendum: Bio, Duration Labels, Education Section, Typography Overhaul Pitfalls
+
+**Scope:** Adding bio/intro paragraph, computed duration labels, education section, and typography + spacing overhaul to existing Next.js 16 + React 19 + Tailwind v4 + framer-motion 12 resume site on Vercel.
+**Researched:** 2026-04-23
+**Confidence:** HIGH — verified against live codebase (`src/types/resume.ts`, `src/data/resume.md`, `src/app/page.tsx`, `src/app/globals.css`, `src/components/WorkExperience.tsx`, `src/components/Header.tsx`, `src/components/animation/AnimateIn.tsx`); HIGH for Next.js 16 server/client boundary (local docs); HIGH for Tailwind v4 theme/typography behavior (Context7 official docs); MEDIUM for date math edge cases.
+
+---
+
+## Critical Pitfalls (v3.0)
+
+---
+
+### Pitfall N1: Adding `bio` to `ResumeData` Without Updating `resume.md` Causes a Runtime Cast Error
+
+**What goes wrong:**
+`page.tsx` uses `const resume = data as ResumeData` — a TypeScript `as` cast, not a validated parse. If `ResumeData` is updated to add a `bio` field but `resume.md` YAML frontmatter is not updated simultaneously, TypeScript is silently satisfied at build time (the cast always succeeds), but the live component receives `undefined` instead of a string. If the component renders `{resume.bio}` without a null guard, it renders nothing — or throws if it expects a string.
+
+**Why it happens:**
+`gray-matter` + `as` cast does not validate schema. Missing YAML keys return `undefined`, not an error. TypeScript `as` casts are a developer assertion, not a runtime check. The mismatch is invisible at build time.
+
+**Consequences:**
+Bio section renders blank on the live site. No build error, no runtime error in Next.js error boundary (undefined renders as nothing). The silence makes this hard to diagnose.
+
+**Prevention:**
+Make `bio` optional in the type (`bio?: string`) and guard the render with a conditional (`{resume.bio && <BioSection bio={resume.bio} />}`). Add the field to `resume.md` in the same commit as the type change. Check the live page visually after deploy — the bio section must be visible.
+
+**Phase to address:** Bio/intro paragraph phase. Update type, YAML, and component atomically.
+
+---
+
+### Pitfall N2: Duration Calculation Using `new Date()` Gives Wrong Results for "YYYY-MM" Strings
+
+**What goes wrong:**
+The existing `formatDateRange` function in `WorkExperience.tsx` constructs dates as `new Date(Number(year), Number(month) - 1)`. Duration arithmetic that computes elapsed months between two `"YYYY-MM"` strings using `Date` subtraction (milliseconds divided by average month length) produces off-by-one errors for month boundaries. Using `new Date("YYYY-MM")` directly (without the explicit constructor) causes timezone-dependent parsing — the ISO-8601 month-only string is parsed as UTC midnight, which in negative-offset timezones (e.g., UTC-5) shifts to the previous day/month on the local clock.
+
+**Why it happens:**
+JavaScript's `Date` handles partial date strings inconsistently across runtimes. `new Date("2025-02")` parses as `2025-02-01T00:00:00Z` (UTC). In a UTC-5 timezone, `new Date("2025-02").getMonth()` returns 0 (January), not 1 (February). The explicit constructor pattern `new Date(year, month - 1)` used in the existing code avoids this, but is not used consistently in all new duration math.
+
+**Consequences:**
+A job that ran from Feb 2025 to Apr 2026 displays as "13 months" when the correct answer is 14 months. Off-by-one errors in month counts undercount tenure.
+
+**Prevention:**
+Implement duration calculation using the explicit constructor pattern already in the codebase: `new Date(Number(year), Number(month) - 1)`. Never parse `"YYYY-MM"` strings directly as `new Date(str)`. Compute elapsed months as `(endYear - startYear) * 12 + (endMonth - startMonth)`, then format as years + months. Add simple inline test cases in a comment next to the function: e.g., `// "2025-02" to "2026-04" = 14 months`.
+
+**Phase to address:** Duration labels phase. Test against several real date ranges from `resume.md`.
+
+---
+
+### Pitfall N3: Duration Label for "Present" Entries Bakes In a Stale Date at Build Time
+
+**What goes wrong:**
+`page.tsx` is a Server Component that runs at build time on Vercel (it has no dynamic APIs: no `cookies()`, `headers()`, or `searchParams`). Next.js statically generates the page once during `next build`. The build-time `new Date()` for the "Present" end date is frozen into the generated HTML. If the page is not redeployed for six months, the duration label still shows the value from the last deploy date — not the actual current date.
+
+**Why it happens:**
+Static generation in Next.js 16 is the default behavior for pages with no dynamic APIs. The resume is intentionally static (confirmed in the existing PROJECT.md: "resume data is static YAML"), so there is no per-request recomputation.
+
+**Consequences:**
+The duration label for the current job drifts silently — it underreports tenure over time. A recruiter visiting the live URL 3 months after a deploy will see a number that is 3 months stale.
+
+**Prevention — Option A (recommended):** Accept the limitation. The site is intentionally static. Add a small visual cue like "Updated April 2026" in the bio or footer to set expectations. The site redeploys on every push to master (Vercel git integration), so any resume.md content update refreshes all durations.
+
+**Prevention — Option B:** Compute "as of today" duration on the client side. Extract the duration label into a `'use client'` component that calls `new Date()` on mount via `useEffect`. This adds client-side hydration for one small string — acceptable cost for correctness.
+
+**Prevention — Option C:** Add a `revalidate` export to `page.tsx` to enable ISR (incremental static regeneration) so Vercel rebuilds the page periodically. However, PROJECT.md explicitly calls out "ISR / on-demand revalidation — resume data is static YAML" as out of scope. Avoid unless requirements change.
+
+**Phase to address:** Duration labels phase. Choose Option A or B before shipping.
+
+---
+
+### Pitfall N4: Education Section Added to Page Without `AnimateIn` Wrapping Breaks Visual Consistency
+
+**What goes wrong:**
+The existing page layout wraps every section in `<AnimateIn delay={N}>` to produce the fade-in-on-scroll animation. If an `Education` component is added to `page.tsx` without an `AnimateIn` wrapper, it renders immediately (no animation) while all other sections animate in. This is visually jarring.
+
+**Why it happens:**
+`page.tsx` is a Server Component. `AnimateIn` is already a correctly placed `'use client'` wrapper. Developers sometimes skip the `AnimateIn` wrap when adding a new section in a hurry, thinking the animation is "just cosmetic."
+
+**Consequences:**
+Education section pops in without animation while all other sections fade in on scroll. The inconsistency is obvious to any viewer who scrolls the page.
+
+**Prevention:** Every section added to `page.tsx` must be wrapped with `<AnimateIn delay={N}>`. Increment the delay value (each existing section uses 0, 0.1) — use 0.2 for a third section, 0.3 for a fourth. Check the rendered page by scrolling from fresh — confirm the education section fades in.
+
+**Phase to address:** Education section phase.
+
+---
+
+### Pitfall N5: Typography Overhaul Breaks Existing Component-Level Spacing Assumptions
+
+**What goes wrong:**
+A global typography overhaul that changes `font-size`, `line-height`, or spacing tokens in `globals.css` via `@theme { }` can break the carefully tuned card layout in `WorkExperience.tsx`. Specifically: the timeline dot is positioned using absolute offsets (`top-5.5`, `-left-5.5`) that are calibrated to the existing card header's intrinsic height. If the typography overhaul changes font sizes or padding on the header row, the dot drifts off-alignment without any error.
+
+**Why it happens:**
+Tailwind v4 custom theme tokens set in `@theme {}` affect all utilities derived from those tokens globally. A change to `--text-base` or `--spacing` propagates to every component that uses `text-base`, `p-4`, etc. The timeline dot's absolute position was set empirically to match the current layout — it is not computed from the card's actual height.
+
+**Consequences:**
+Timeline dot misaligns vertically relative to company name. This is a visual regression that only appears after the typography overhaul is applied, not before.
+
+**Prevention:** After any typography or spacing changes in `globals.css` or `@theme {}`, visually inspect the `WorkExperience` timeline at both mobile (375px) and desktop (1280px) widths to confirm dot alignment. Treat the timeline dot position values (`top-5.5`, `-left-5.5`) as fragile — they may need to be re-tuned after spacing changes.
+
+**Phase to address:** Typography overhaul phase. Perform timeline alignment verification as the final check before shipping.
+
+---
+
+### Pitfall N6: New Sections in `ResumeData` Are Not Reflected in `resume.md` YAML — Build Succeeds but Data Is Missing
+
+**What goes wrong:**
+`resume.ts` type can be updated with `education?: EducationEntry[]`. The build succeeds. `resume.md` is not updated with an `education:` YAML key. `page.tsx` passes `resume.education` to the new `Education` component. The component renders an empty list silently. No error is thrown.
+
+**Why it happens:**
+gray-matter's `data as ResumeData` cast assigns `undefined` to any missing YAML key. Optional array fields (`field?: T[]`) allow `undefined` without TypeScript error. The component may guard with `if (!education?.length) return null` — correct defensively but means missing data is silent.
+
+**Consequences:**
+Education section silently absent on the live site despite the component being rendered in `page.tsx`. A common deploy error that only shows up visually.
+
+**Prevention:** Add the `education:` block to `resume.md` in the same commit that adds the `EducationEntry` type and `Education` component. After deploy, open the live URL and verify the section is visible. Add a development guard in `page.tsx` to log a warning when `resume.education` is undefined: `if (!resume.education) console.warn("education missing from resume.md")`.
+
+**Phase to address:** Education section phase.
+
+---
+
+## Moderate Pitfalls (v3.0)
+
+---
+
+### Pitfall N7: Bio Text with Markdown Bold/Italic Not Handled by `HighlightedBullet` Outside of `<li>` Context
+
+**What goes wrong:**
+`HighlightedBullet` takes a `children: string` prop and outputs `<span>` elements — it is designed to render inside an `<li>`. If a bio paragraph uses `**bold**` or `*italic*` syntax and is passed to `HighlightedBullet`, the component renders correctly but its parent must be a block element (`<p>`, `<div>`) not an inline one — otherwise the span chain produces unexpected rendering artifacts. More critically, if the bio content is rendered directly as `{resume.bio}` without parsing, the raw asterisk syntax appears as literal characters.
+
+**Why it happens:**
+`HighlightedBullet` was designed and tested in the context of `<li>` items. The component works outside that context, but the calling code needs to wrap it in a `<p>` or `<div>`, not an inline element.
+
+**Prevention:** Re-use `HighlightedBullet` for bio text if bold/italic is desired. Wrap in `<p>` not a `<span>`. If bio should be plain text only, render `{resume.bio}` directly without the parser component. Decide which approach is used before implementing — do not mix both in the same codebase.
+
+**Phase to address:** Bio/intro paragraph phase.
+
+---
+
+### Pitfall N8: `@theme inline` in `globals.css` — Custom Font Tokens Must Use Correct CSS Variable Naming Convention
+
+**What goes wrong:**
+The existing `globals.css` uses `@theme inline { --font-sans: var(--font-geist-sans); }`. If a typography overhaul adds new font-size or spacing tokens using incorrect variable naming (e.g., `--font-size-body` instead of the Tailwind v4 convention `--text-base`), the utilities do not generate. There are no errors — the `@theme` directive silently ignores unrecognized token patterns.
+
+**Why it happens:**
+Tailwind v4 has a specific naming convention for theme tokens. `--text-{scale}` generates `text-{scale}` utilities. `--color-{name}` generates color utilities. Custom variable names that do not match the pattern produce CSS variables but no utility classes.
+
+**Prevention:** Follow Tailwind v4 naming conventions exactly when adding tokens to `@theme`:
+- Font sizes: `--text-{scale}` (e.g., `--text-resume-body: 0.9375rem`)
+- Colors: `--color-{name}`
+- Spacing: `--spacing` (single multiplier in v4, not named steps)
+Verify the utility generates by using it in a component and checking whether the browser applies the style.
+
+**Phase to address:** Typography overhaul phase.
+
+---
+
+### Pitfall N9: Education Section Layout Reuses WorkExperience Patterns But Has Different Data Shape
+
+**What goes wrong:**
+Developers copy-paste the `WorkExperience` card structure for the `Education` component because the layout is similar. The `EducationEntry` type has a different shape (no `tech_stack`, no `bullets`, has `degree`, `institution`, `gpa` or `coursework`). TypeScript catches the field mismatches at compile time, but UI gaps — like an empty `<ul>` or a missing fallback — only appear at runtime.
+
+**Why it happens:**
+Code reuse instinct. The card markup is identical (border, shadow, padding) but the data binding differs.
+
+**Prevention:** Copy the card's structural markup (border, rounded corners, shadow) but write fresh data binding for `EducationEntry` fields. Do not attempt to share the full component — only the CSS pattern. Define `EducationEntry` in `resume.ts` before implementing the component so TypeScript guides the correct field names from the start.
+
+**Phase to address:** Education section phase.
+
+---
+
+### Pitfall N10: Tailwind v4 `@layer components` for Typography Overrides Conflicts with Utility Class Precedence
+
+**What goes wrong:**
+A common pattern for a typography overhaul is to add base styles in `globals.css` via `@layer base` or `@layer components` — for example, setting `h1`, `h2`, `h3`, `p` default styles. In Tailwind v4, the layer ordering is `base` < `components` < `utilities`. If `@layer base` sets `h2 { font-size: 1.25rem; }` but a component uses `className="text-xl font-semibold"`, the utility class (`text-xl`) wins as expected. However, if the overhaul uses `@layer components` (not `@layer base`) for element selectors, the precedence is less predictable when utilities are also applied.
+
+**Why it happens:**
+Tailwind v4's cascade model: utilities always win over `@layer base` and `@layer components`. However, non-layered CSS (CSS not inside any `@layer`) has higher specificity than layered CSS in Tailwind v4. Writing bare element selectors outside any layer will beat utility classes.
+
+**Prevention:** Apply the typography overhaul exclusively through Tailwind utility classes in the component markup. If base styles are truly needed, put them in `@layer base` (not components, not unlayered). Never write element selectors outside `@layer` — they will override utility classes unexpectedly.
+
+**Phase to address:** Typography overhaul phase.
+
+---
+
+## Minor Pitfalls (v3.0)
+
+---
+
+### Pitfall N11: `AnimateIn` Delay Values Produce Staggered Animation That Feels Slow With Many Sections
+
+**What goes wrong:**
+Current delays are 0 and 0.1. Adding an education section at 0.2 and a bio at the top with delay 0 (pushing others to 0.1, 0.2, 0.3) produces a stagger gap that feels sluggish on desktop, especially for users who scroll fast. With 4 sections at 0.4 seconds apart, a fast scroller sees sections still animating in as they reach the bottom of the page.
+
+**Why it happens:**
+The delay design was calibrated for 2 sections. Adding more sections extends the total animation time linearly.
+
+**Prevention:** Keep stagger increments small: 0.05–0.08 seconds per section is sufficient for a perceptible cascade without slowness. With 4 sections: 0, 0.05, 0.10, 0.15 works well. The `duration` (currently 0.4s) is the dominant time — keep it, just tighten stagger gaps.
+
+**Phase to address:** Education and bio phases — when the number of sections changes.
+
+---
+
+### Pitfall N12: Education Section Placed After Skills Instead of After Work Experience Disrupts Reading Order
+
+**What goes wrong:**
+Recruiters and hiring engineers expect resume content in this order: intro/bio → experience → skills → education. Placing the education section before skills (or at the very bottom after everything else) creates a non-standard reading flow. This is not a technical bug but a UX regression.
+
+**Why it happens:**
+Component ordering in `page.tsx` is arbitrary during implementation. Developers add the new section at the bottom of `page.tsx` for convenience.
+
+**Prevention:** In `page.tsx`, add the education section in the correct canonical order: Header → Bio → WorkExperience → Skills (if present) → Education. The education section goes at the end per standard resume convention for senior engineers (experience is the primary selling point).
+
+**Phase to address:** Education section phase.
+
+---
+
+### Pitfall N13: Bio `line-clamp` or Truncation Cuts Off Text on Mobile
+
+**What goes wrong:**
+A bio paragraph set with `line-clamp-3` (or `overflow: hidden; max-height: ...`) renders fine on desktop but truncates awkwardly on mobile due to narrower column width causing more line wrapping. The truncation may cut mid-sentence.
+
+**Why it happens:**
+Line count varies by viewport width. 3 lines at 1280px desktop may be 5 lines at 375px mobile. `line-clamp` operates on line count, not character count.
+
+**Prevention:** Do not use `line-clamp` on the bio — show the full text. If the bio is long (more than 3–4 sentences), trim the content itself in `resume.md`. The web resume should always show the full bio without truncation.
+
+**Phase to address:** Bio/intro paragraph phase.
+
+---
+
+## Technical Debt Patterns (v3.0)
+
+| Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
+|----------|-------------------|----------------|-----------------|
+| `as ResumeData` cast without validation | Zero parsing code | Any new field mismatch is silent — blank UI, no error | Acceptable for solo dev controlling both type and YAML, but update both atomically |
+| Hardcode "Present" end date from `new Date()` in Server Component | Zero client JS | Duration label drifts stale between deploys | Acceptable if redeploys happen on content updates; add client-side computation if staleness is unacceptable |
+| Copy-paste card markup from WorkExperience to Education | Fast implementation | Duplicate markup diverges — style changes must be applied in two places | Acceptable for this milestone; extract a shared `ResumeCard` wrapper in a future cleanup pass |
+| Empirical `top-5.5` dot offset in timeline | Exact visual alignment now | Breaks silently if typography or padding changes | Acceptable now — document it as fragile and check it after every typography change |
+
+---
+
+## Integration Gotchas (v3.0)
+
+| Integration | Common Mistake | Correct Approach |
+|-------------|----------------|------------------|
+| `gray-matter` + `ResumeData` type | Adding new type fields without updating `resume.md` YAML | Update YAML and type in the same commit; visually verify section appears on live site |
+| Tailwind v4 `@theme inline` | Using non-standard token names that do not generate utilities | Follow `--text-*`, `--color-*`, `--spacing` naming conventions exactly |
+| `AnimateIn` wrapper | Adding sections without wrapping in `AnimateIn` | Every section in `page.tsx` must be wrapped with `<AnimateIn delay={N}>` |
+| Duration math with `"YYYY-MM"` strings | Parsing with `new Date("YYYY-MM")` directly | Use explicit constructor: `new Date(Number(year), Number(month) - 1)` |
+| `HighlightedBullet` in bio context | Wrapping in inline `<span>` as parent | Always wrap `HighlightedBullet` in a block element (`<p>` or `<div>`) outside of `<li>` |
+| Static generation + `new Date()` for "Present" | Assuming `new Date()` in `page.tsx` runs at request time | On Vercel with no dynamic APIs, `page.tsx` is statically generated at build time — `new Date()` runs once at deploy |
+
+---
+
+## "Looks Done But Isn't" Checklist (v3.0)
+
+- [ ] **Bio visible:** Open live URL — bio paragraph renders below name/title, above work experience. Not blank.
+- [ ] **Duration labels correct:** Check each work entry — duration label shows correct year/month count. Manually verify one entry against known dates.
+- [ ] **Education section visible:** Education section renders with degree, institution, and date range. Not blank or missing.
+- [ ] **Timeline dot alignment intact:** After typography changes, scroll through WorkExperience — all timeline dots align with card title rows. Test at 375px and 1280px.
+- [ ] **All sections animate:** Scroll from top on fresh page load — bio, work experience, and education all fade in with stagger animation. Education is not a static pop-in.
+- [ ] **No raw asterisks:** Check bio and any markdown-formatted text — no `**bold**` or `*italic*` literal syntax visible in browser.
+- [ ] **`resume.md` has all new fields:** Verify YAML frontmatter contains `bio:` and `education:` keys with real data.
+- [ ] **TypeScript strict passes:** `npm run build` completes without type errors — confirms `ResumeData` type matches the data being passed.
+
+---
+
+## Recovery Strategies (v3.0)
+
+| Pitfall | Recovery Cost | Recovery Steps |
+|---------|---------------|----------------|
+| Bio blank on live site (missing YAML key) | LOW | Add `bio:` to `resume.md`, push — Vercel redeploys in ~1 min |
+| Duration label off-by-one | LOW | Fix arithmetic in the duration function, push |
+| Education section blank (missing YAML) | LOW | Add `education:` block to `resume.md`, push |
+| Timeline dot misaligned after typography change | LOW | Adjust `top-*` and `-left-*` values on the dot element in `WorkExperience.tsx` |
+| Missing `AnimateIn` wrapper on new section | LOW | Wrap the section in `<AnimateIn delay={N}>` in `page.tsx`, push |
+
+---
+
+## Pitfall-to-Phase Mapping (v3.0)
+
+| Pitfall | Prevention Phase | Verification |
+|---------|------------------|--------------|
+| Missing bio YAML key (N1) | Bio/intro paragraph phase | Live URL shows bio text below title |
+| Duration off-by-one from `new Date()` (N2) | Duration labels phase | Manual spot-check of 2+ entries against calendar |
+| Stale "Present" duration after deploy (N3) | Duration labels phase | Document limitation or implement client-side fallback |
+| Missing `AnimateIn` on education section (N4) | Education section phase | Scroll test on live URL — education fades in |
+| Typography overhaul breaks timeline dot (N5) | Typography overhaul phase (final check) | Visual inspection at 375px and 1280px |
+| Education YAML missing from `resume.md` (N6) | Education section phase | Live URL shows education section with real data |
+| Bio rendered without markdown parsing (N7) | Bio/intro paragraph phase | No raw asterisks visible in browser |
+| Wrong `@theme` token names (N8) | Typography overhaul phase | Browser devtools confirms utility class applies expected value |
+| Education reuses WorkExperience shape incorrectly (N9) | Education section phase | TypeScript build passes; no empty `<ul>` rendered |
+| Typography `@layer` conflicts with utilities (N10) | Typography overhaul phase | All component utility classes take effect as expected |
+
+---
+
+## Sources (v3.0)
+
+- Codebase direct inspection: `src/types/resume.ts`, `src/data/resume.md`, `src/app/page.tsx`, `src/app/globals.css`, `src/components/WorkExperience.tsx`, `src/components/Header.tsx`, `src/components/HighlightedBullet.tsx`, `src/components/animation/AnimateIn.tsx` — HIGH confidence
+- Next.js 16 Server Components docs (local): `node_modules/next/dist/docs/01-app/01-getting-started/05-server-and-client-components.md` — HIGH confidence
+- Next.js 16 upgrading guide (local): `node_modules/next/dist/docs/01-app/02-guides/upgrading/version-16.md` — confirmed static generation behavior for pages with no dynamic APIs — HIGH confidence
+- Tailwind v4 `@theme` directive docs: Context7 `/tailwindlabs/tailwindcss.com` query "v4 custom theme CSS variables @theme" — HIGH confidence
+- Tailwind v4 upgrade guide (breaking changes): Context7 `/tailwindlabs/tailwindcss.com` query "v4 breaking changes renamed utilities removed" — HIGH confidence
+- JavaScript `Date` constructor timezone behavior with `"YYYY-MM"` strings — MDN Web Docs standard — HIGH confidence
+- `gray-matter` YAML parsing behavior (undefined keys) — known library behavior, MEDIUM confidence

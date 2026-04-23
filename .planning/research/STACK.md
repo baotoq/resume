@@ -493,3 +493,226 @@ After Vercel is live:
 - `npm show vercel version` (HIGH confidence) — Vercel CLI 52.0.0 current as of 2026-04-22
 - Existing `next.config.ts` — confirmed `output: 'export'`, `basePath`, `assetPrefix`, `images.unoptimized` all present and all GitHub Pages-specific
 - Existing `.github/workflows/deploy.yml` — confirmed uses `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v5` (all GitHub Pages tooling, all to be replaced)
+
+---
+
+## v3.0 Stack — Content & Design Features
+
+**Researched:** 2026-04-23
+**Confidence:** HIGH
+
+### Summary: Zero New npm Dependencies
+
+All four v3.0 features (bio/intro, duration labels, education section, typography overhaul) are implementable with the existing stack. No packages should be added to `package.json`.
+
+---
+
+### Feature 1: Duration Labels from Date Ranges
+
+**Decision: Vanilla TypeScript utility function. No library.**
+
+The existing `ExperienceEntry` type already stores `startDate: string` and `endDate: string | null` in `"YYYY-MM"` format. A pure TypeScript function of ~20 lines handles all cases correctly:
+
+```typescript
+// src/lib/duration.ts
+export function computeDuration(start: string, end: string | null): string {
+  const [sy, sm] = start.split("-").map(Number);
+  const now = new Date();
+  const [ey, em] = end
+    ? end.split("-").map(Number)
+    : [now.getFullYear(), now.getMonth() + 1];
+
+  let months = (ey - sy) * 12 + (em - sm);
+  const years = Math.floor(months / 12);
+  months = months % 12;
+
+  if (years === 0) return months === 1 ? "1 mo" : `${months} mos`;
+  if (months === 0) return years === 1 ? "1 yr" : `${years} yrs`;
+  return `${years} yr${years > 1 ? "s" : ""} ${months} mo${months > 1 ? "s" : ""}`;
+}
+```
+
+This produces LinkedIn-style labels: "2 yrs 3 mos", "1 yr", "8 mos". The function is pure (no side effects, no DOM), runs in Server Components with no client boundary requirement, and has zero bundle cost.
+
+**Why not `date-fns`:**
+
+`date-fns` `intervalToDuration` + `formatDuration` would work but adds ~18.6KB minified+gzipped to the bundle even with tree-shaking (the function pair pulls in calendar utilities). For a computation that is 20 lines of arithmetic, the library cost is not justified. The vanilla approach is faster, fully typed, and has no version drift risk.
+
+**Why not `Temporal` API:**
+
+`Temporal` (the new JS date standard) is available natively in Safari 16+ and Chrome 129+ as of late 2024, but Node.js does not yet ship it unflagged as of Node 20/22. Since this computation runs server-side in Next.js (in `page.tsx` or a Server Component helper), `Temporal` is not reliably available. The vanilla Date arithmetic approach is portable across all Node versions.
+
+**Integration point:**
+
+The function runs in `WorkExperience.tsx` (already a Server Component). Call it alongside `formatDateRange` and render the result in a secondary line under the date range:
+
+```tsx
+// In WorkExperience.tsx — no new client boundary needed
+import { computeDuration } from "@/lib/duration";
+
+<span className="text-xs text-zinc-400">{computeDuration(entry.startDate, entry.endDate)}</span>
+```
+
+---
+
+### Feature 2: Typography + Spacing Overhaul
+
+**Decision: Extend `@theme` in `globals.css`. No new packages.**
+
+Tailwind v4's `@theme` block in `globals.css` is the correct mechanism for typography customization. All `@theme` variables automatically become utility classes — no `tailwind.config.js` or plugin needed.
+
+The existing `globals.css` already has an `@theme inline` block. Extend it with explicit type scale and spacing overrides:
+
+```css
+@import "tailwindcss";
+
+:root {
+  --background: #fafafa;
+  --foreground: #18181b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Explicit type scale for resume — override defaults for tighter professional look */
+  --text-xs--line-height: 1.5;
+  --text-sm--line-height: 1.5;
+  --text-base--line-height: 1.6;
+  --text-lg--line-height: 1.4;
+  --text-xl--line-height: 1.3;
+  --leading-snug: 1.35;
+  --tracking-tight: -0.015em;
+}
+```
+
+**Key Tailwind v4 typography facts (verified via official docs):**
+
+- Font size utilities (`text-xs` through `text-9xl`) are defined as `--text-*` CSS variables in `:root`
+- Each size has a companion `--text-*--line-height` variable that controls the default line height for that size class
+- Letter spacing is `--tracking-*`; line height is `--leading-*`
+- Font weight is `--font-weight-*`
+- All overrides go in `@theme` (or `@theme inline` when referencing other variables) — NOT in `tailwind.config.js`
+- The `@tailwindcss/typography` plugin (prose classes) is NOT needed here — that plugin is for rendering arbitrary markdown/CMS HTML, not for custom component spacing
+
+**What changes in components:**
+
+The overhaul is primarily a Tailwind class audit across `Header.tsx`, `WorkExperience.tsx`, and the new `Education.tsx`. No new CSS primitives are needed. Typical changes:
+
+| Current | Improved | Why |
+|---------|----------|-----|
+| `text-[28px]` | `text-3xl` (1.875rem) or keep as-is | Use scale tokens, not arbitrary values |
+| `leading-[1.1]` | `leading-tight` | Use named token |
+| `gap-8` between sections | `gap-10` or `gap-12` | More breathing room |
+| `p-6` on cards | `p-6 sm:p-8` | Responsive padding |
+| Hard-coded color classes | Consistent zinc scale | Audit for stray grays |
+
+**Why not `@tailwindcss/typography` plugin:**
+
+The `prose` class family is designed for rendering unstructured HTML (from a CMS or markdown parser) with sensible defaults. Resume components are structured JSX with explicit Tailwind classes — `prose` would fight those explicit classes and require override work. The plugin adds ~10KB CSS and zero benefit here. Confirmed: community discussion on GitHub shows `@tailwindcss/typography` has compatibility issues with Tailwind v4 that require careful version pinning (`@plugin "@tailwindcss/typography"` in CSS rather than `plugins: []` in config). Not worth the complexity for this use case.
+
+---
+
+### Feature 3: Education Section — gray-matter YAML Schema
+
+**Decision: Add `education` array to `ResumeData`. Zero new packages.**
+
+gray-matter (v4.0.3, already installed) parses any YAML structure. No schema library or validator is needed — TypeScript interfaces provide all the typing needed at compile time.
+
+**New TypeScript interface:**
+
+```typescript
+// src/types/resume.ts — add:
+export interface EducationEntry {
+  institution: string;
+  degree: string;
+  field: string;
+  startYear: number;
+  endYear: number;
+  highlights?: string[]; // optional relevant coursework / achievements
+}
+
+// Extend ResumeData:
+export interface ResumeData {
+  name: string;
+  title: string;
+  github: string;
+  linkedin: string;
+  bio?: string;               // NEW — optional bio paragraph
+  experience: ExperienceEntry[];
+  education?: EducationEntry[]; // NEW — optional; renders section only when present
+  skills: Record<string, string>;
+}
+```
+
+**YAML schema extension in `resume.md`:**
+
+```yaml
+bio: >
+  Senior Software Engineer with 6+ years building distributed systems...
+
+education:
+  - institution: "Ton Duc Thang University"
+    degree: "Bachelor of Engineering"
+    field: "Computer Science"
+    startYear: 2014
+    endYear: 2018
+```
+
+**Why `startYear`/`endYear` as numbers (not strings):**
+
+Education dates are year-only — no month precision needed. YAML integers parse directly to TypeScript `number` without any conversion. Using `"YYYY-MM"` strings (the experience date format) would imply month precision that doesn't exist for education.
+
+**Why `bio` is optional (`bio?`):**
+
+gray-matter returns `undefined` for missing YAML fields. Making `bio` optional in the TypeScript interface means the existing `resume.md` placeholder (which lacks a bio field) continues to parse without error. The `Header` component conditionally renders the bio paragraph only when the value is truthy.
+
+**Integration with page.tsx:**
+
+No change to the data loading logic in `page.tsx`. `matter(raw).data` is cast to `ResumeData` — the new fields are present if defined in the YAML. Pass `resume.education` to a new `<Education>` Server Component, same pattern as `<WorkExperience>`.
+
+---
+
+### Full Stack Delta for v3.0
+
+| Area | Change |
+|------|--------|
+| `package.json` dependencies | **None** |
+| `globals.css` | Extend `@theme inline` with explicit line-height and tracking tokens |
+| `src/types/resume.ts` | Add `EducationEntry` interface; add `bio?` and `education?` to `ResumeData` |
+| `src/data/resume.md` | Add `bio` field and `education` array to YAML frontmatter |
+| New files | `src/lib/duration.ts` (pure TS utility, ~20 lines) |
+| New files | `src/components/Education.tsx` (Server Component) |
+| Modified files | `src/components/Header.tsx` (render `bio` paragraph) |
+| Modified files | `src/components/WorkExperience.tsx` (add duration label display) |
+| Modified files | `src/app/page.tsx` (pass `resume.education` and `resume.bio` to components) |
+
+---
+
+### What NOT to Add for v3.0
+
+| Avoid | Why | Use Instead |
+|-------|-----|-------------|
+| `date-fns` | ~18.6KB gzipped for `intervalToDuration` + `formatDuration`; overkill for 20 lines of arithmetic | Vanilla TS utility in `src/lib/duration.ts` |
+| `dayjs` | Smaller than date-fns but still an unnecessary dependency for year/month arithmetic | Same vanilla approach |
+| `@tailwindcss/typography` | Designed for CMS/markdown prose, not structured component layouts; compatibility quirks in v4; adds ~10KB CSS | Direct Tailwind utility classes |
+| `zod` / `yup` for YAML validation | No runtime validation needed — TypeScript interfaces catch type errors at compile time; resume.md is author-controlled | TypeScript `as ResumeData` cast (existing pattern) |
+| `gray-matter` upgrade | v4.0.3 is current stable; no new features needed | Keep as-is |
+| Any React state for education | Education data is static YAML — Server Component, no interactivity | Server Component pattern (same as WorkExperience) |
+
+---
+
+### Sources (v3.0)
+
+- [Tailwind v4 theme docs](https://tailwindcss.com/docs/theme) — `@theme` block, CSS variable generation, typography namespaces (HIGH confidence)
+- [Tailwind v4 font-size docs](https://tailwindcss.com/docs/font-size) — `--text-*--line-height` companion variables confirmed (HIGH confidence)
+- [Tailwind v4 upgrade guide](https://tailwindcss.com/docs/upgrade-guide) — `text-opacity-*` removed, `theme()` replaced by CSS vars (HIGH confidence)
+- [tailwindcss-typography GitHub](https://github.com/tailwindlabs/tailwindcss-typography) — v4 compatibility via `@plugin` directive (MEDIUM confidence — community reports of friction)
+- [date-fns npm](https://www.npmjs.com/package/date-fns) — v4.1.0, 18.6KB minified+gzipped (MEDIUM confidence)
+- MDN Date API — `getFullYear()`, `getMonth()` for year/month arithmetic (HIGH confidence)
+- `src/types/resume.ts` — confirmed existing `startDate`/`endDate` as `"YYYY-MM"` strings (HIGH confidence, direct source read)
+- `src/components/WorkExperience.tsx` — confirmed `formatDateRange` already exists; duration label is additive (HIGH confidence, direct source read)
+- `src/app/globals.css` — confirmed `@theme inline` block exists and is the correct extension point (HIGH confidence, direct source read)
+- gray-matter v4.0.3 — `package.json` confirms installed version; YAML arrays parse to JS arrays natively (HIGH confidence)
