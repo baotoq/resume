@@ -62,4 +62,10 @@ skills:
   "Databases & Caching": "MySQL, MS SQL, PostgreSQL, MongoDB, Redis, Elasticsearch, ELK Stack"
   "Cloud & Infrastructure": "AWS, Azure, Kubernetes, Docker, Terraform"
   "CI/CD & DevOps": "GitHub Actions, CI/CD, FluxCD, GitOps"
+bio: "Senior backend engineer with 7+ years building distributed systems — .NET, Go, and Kubernetes-native architectures across insurance, e-commerce, and enterprise platforms. Designed high-throughput event pipelines, owned systems end-to-end from implementation to production, and actively integrates AI tooling to accelerate team delivery."
+education:
+  - degree: "Bachelor of Computer Science"
+    institution: "Ton Duc Thang University"
+    startDate: "2014-09"
+    endDate: "2018-06"
 ---
