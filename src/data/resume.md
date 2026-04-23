@@ -48,7 +48,7 @@ experience:
     role: "Software Engineer"
     startDate: "2018-12"
     endDate: "2020-12"
-    logo_url: "/nashtech.svg"
+    logo_url: "/nashtech-inline.svg"
     link: "https://www.nashtechglobal.com/"
     tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
     bullets:
