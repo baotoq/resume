@@ -8,11 +8,19 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
-## Current State — v2.0 SHIPPED 2026-04-22
+## Current Milestone: v3.0 Content & Polish
+
+**Goal:** Enhance resume completeness and presentation quality — add missing content sections and elevate the visual design to senior-engineer standard.
+
+**Target features:**
+- Bio/intro paragraph at top of page
+- Duration labels computed from date ranges on experience entries
+- Education section (Bachelor of CS, Ton Duc Thang University, 2014–2018)
+- Typography + spacing overhaul: professional, scannable, well-spaced
+
+## Previous State — v2.0 SHIPPED 2026-04-22
 
 Vercel is the sole deployment target. Full Next.js 16 runtime available. All static-export constraints removed. Site live at https://resume-ruddy-one-23.vercel.app/
-
-**Next milestone goals:** Content enhancements (duration labels, bio paragraph), dark/light mode toggle, PDF export.
 
 ## Requirements
 
@@ -39,11 +47,16 @@ Vercel is the sole deployment target. Full Next.js 16 runtime available. All sta
 - ✓ Server-only EMAIL/PHONE env vars (no NEXT_PUBLIC_ prefix) — CFG-01 — v2.0
 - ✓ Clearbit remotePatterns for company logos — IMG-01 — v2.0
 
+### Active
+
+- [ ] Bio/intro paragraph at top of page
+- [ ] Duration labels computed from date ranges on experience entries
+- [ ] Education section (degree, institution, dates, relevant coursework)
+- [ ] Typography + spacing overhaul: professional, scannable, well-spaced
+
 ### Future
 
 - [ ] PDF download button — generates clean PDF from the page
-- [ ] About/bio intro paragraph
-- [ ] Duration labels computed from date ranges
 - [ ] Dark/light mode toggle
 
 ### Out of Scope
@@ -121,4 +134,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-22 after v2.0 Vercel Migration milestone*
+*Last updated: 2026-04-23 after v3.0 Content & Polish milestone start*
