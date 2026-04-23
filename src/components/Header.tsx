@@ -31,6 +31,9 @@ export function Header({ resume, email, phone }: HeaderProps) {
           </span>
         ))}
       </div>
+      {resume.bio && (
+        <p className="mt-4 text-base leading-relaxed text-zinc-600">{resume.bio}</p>
+      )}
     </section>
   )
 }
