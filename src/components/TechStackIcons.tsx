@@ -54,7 +54,7 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   mysql: Mysql,
   mssql: Microsoftsqlserver,
   react: ({ size }) => <ReactIcon size={size} color="#0C9FC9" />,
-  vue: Vuejs,
+  vue: () => <Vuejs size={36} />,
   tailwindcss: Tailwindcss,
   facebook: Facebook,
   dapr: ({ size }) => <DaprIcon size={size} />,
