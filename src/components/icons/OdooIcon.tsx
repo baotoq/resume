@@ -8,24 +8,24 @@ export function OdooIcon({ size = 40 }: OdooIconProps) {
     <svg
       width={w}
       height={w}
-      viewBox="0 0 48 62"
+      viewBox="0 0 50 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title>Odoo</title>
       {/* Main circle */}
-      <circle cx="25" cy="22" r="20" fill="#714B67" />
+      <circle cx="25" cy="19" r="18" fill="#714B67" />
       {/* Inner white ring to form O */}
-      <circle cx="25" cy="22" r="12" fill="white" />
+      <circle cx="25" cy="19" r="11" fill="white" />
       {/* Center dot */}
-      <circle cx="25" cy="22" r="5" fill="#714B67" />
+      <circle cx="25" cy="19" r="4.5" fill="#714B67" />
       {/* Odoo label */}
       <text
         x="25"
-        y="61"
+        y="50"
         textAnchor="middle"
         fill="#714B67"
-        fontSize="14"
+        fontSize="13"
         fontFamily="Arial, sans-serif"
         fontWeight="600"
       >
