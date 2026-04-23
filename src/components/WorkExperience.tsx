@@ -42,7 +42,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
             <div key={index} className="relative">
               {/* Timeline dot — z-10 so it sits above the continuous line */}
               <div
-                className={`absolute z-10 -left-[22px] sm:-left-[26px] top-[22px] w-3 h-3 rounded-full ${
+                className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
                   isCurrent
                     ? "bg-blue-600"
                     : "border-2 border-zinc-300 bg-white"
@@ -54,7 +54,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               <article className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                    <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <h3 className="font-bold text-blue-600 text-lg">
                           <LogoImage
