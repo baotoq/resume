@@ -7,8 +7,10 @@ interface LogoImageProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
   return (
-    <a className="logo" target="_blank" rel="noopener noreferrer" href={link}>
-      <img src={logoUrl} alt={company} width={200} />
-    </a>
+    <div className="flex items-center h-12">
+      <a className="logo" target="_blank" rel="noopener noreferrer" href={link}>
+        <img src={logoUrl} alt={company} width={150} />
+      </a>
+    </div>
   );
 }

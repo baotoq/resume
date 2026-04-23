@@ -36,7 +36,7 @@ experience:
     role: "Software Engineer"
     startDate: "2021-01"
     endDate: "2021-09"
-    logo_url: "/aswhite-logo.jpg"
+    logo_url: "/aswhite-logo.svg"
     link: "https://aswhiteglobal.com/"
     tech_stack: [".NET", "EF Core", "MSSQL", "React", "Redis", "Docker", "Azure"]
     bullets:
@@ -48,7 +48,7 @@ experience:
     role: "Software Engineer"
     startDate: "2018-12"
     endDate: "2020-12"
-    logo_url: "/nashtech_global_logo.jpeg"
+    logo_url: "/nashtech.svg"
     link: "https://www.nashtechglobal.com/"
     tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
     bullets:
