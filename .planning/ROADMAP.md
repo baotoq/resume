@@ -77,7 +77,10 @@
   2. `resume.md` YAML frontmatter contains a populated `bio` string and at least one `education` entry (degree, institution, dates, details)
   3. `EducationEntry` interface is distinct from `WorkEntry` — fields match education YAML shape exactly
   4. TypeScript build (`npm run build`) passes with zero type errors after the extension
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 09-01-PLAN.md — Extend TypeScript types and YAML data for bio + education
 
 ### Phase 10: Bio Paragraph + Duration Labels
 **Goal**: Recruiters can read a bio intro at the top of the page and see computed durations next to each work experience date range
@@ -111,7 +114,7 @@
   1. Body font is Inter (loaded via `next/font/google`), replacing Geist — confirmed visually in browser
   2. Name, section headings, role titles, body, and secondary text each use the correct step of the 4-level type scale (`text-2xl` → `text-xl` → `text-lg` → `text-base` → `text-sm`)
   3. All cards use `p-6` padding and sections use `gap-10`/`gap-12` spacing — no inconsistent padding visible
-  4. Color usage is consistent: zinc-900/zinc-700/zinc-500 hierarchy and indigo-600 accent apply uniformly across Header, WorkExperience, EducationSection
+  4. Color usage is consistent: zinc-900/zinc-700/500 hierarchy and indigo-600 accent apply uniformly across Header, WorkExperience, EducationSection
   5. Timeline dot alignment is verified visually at 375px (mobile) and 1280px (desktop) — no drift after spacing changes
 **Plans**: TBD
 **UI hint**: yes
@@ -128,7 +131,7 @@
 | 6. Keyword Highlights | v1.2 | — | Complete | 2026-04-14 |
 | 7. Vercel Setup & Config Migration | v2.0 | 2/2 | Complete | 2026-04-22 |
 | 8. Decommission GitHub Pages | v2.0 | 2/2 | Complete | 2026-04-22 |
-| 9. Type System & Data Foundation | v3.0 | 0/? | Not started | — |
+| 9. Type System & Data Foundation | v3.0 | 0/1 | Not started | — |
 | 10. Bio Paragraph + Duration Labels | v3.0 | 0/? | Not started | — |
 | 11. Education Section | v3.0 | 0/? | Not started | — |
 | 12. Typography & Spacing Overhaul | v3.0 | 0/? | Not started | — |
