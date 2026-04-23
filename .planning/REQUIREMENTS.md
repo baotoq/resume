@@ -41,7 +41,7 @@ Requirements for milestone v3.0 Content & Polish.
 
 - **THEME-01**: User can toggle between dark and light theme
 - **THEME-02**: Theme preference persists across sessions
-- **THEME-03**: System color scheme preference detected on first load
+- **THEME-03**: System color scheme detected on first load
 
 ### PDF Export
 
@@ -66,28 +66,26 @@ Requirements for milestone v3.0 Content & Polish.
 
 ## Traceability
 
-Populated during roadmap creation.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BIO-01 | — | Pending |
-| BIO-02 | — | Pending |
-| DUR-01 | — | Pending |
-| DUR-02 | — | Pending |
-| EDU-01 | — | Pending |
-| EDU-02 | — | Pending |
-| EDU-03 | — | Pending |
-| EDU-04 | — | Pending |
-| TYP-01 | — | Pending |
-| TYP-02 | — | Pending |
-| TYP-03 | — | Pending |
-| TYP-04 | — | Pending |
+| BIO-01 | Phase 10 | Pending |
+| BIO-02 | Phase 10 | Pending |
+| DUR-01 | Phase 10 | Pending |
+| DUR-02 | Phase 10 | Pending |
+| EDU-01 | Phase 11 | Pending |
+| EDU-02 | Phase 11 | Pending |
+| EDU-03 | Phase 11 | Pending |
+| EDU-04 | Phase 11 | Pending |
+| TYP-01 | Phase 12 | Pending |
+| TYP-02 | Phase 12 | Pending |
+| TYP-03 | Phase 12 | Pending |
+| TYP-04 | Phase 12 | Pending |
 
 **Coverage:**
 - v3.0 requirements: 12 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 12 ⚠️
+- Mapped to phases: 12
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-23*
-*Last updated: 2026-04-23 after initial definition*
+*Last updated: 2026-04-23 after roadmap creation*
