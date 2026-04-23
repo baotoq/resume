@@ -96,7 +96,7 @@ export function TechStackIcons({ stack }: TechStackIconsProps) {
   if (!stack?.length) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2 justify-center">
       {stack.map((tech) => (
         <TechIcon key={tech} tech={tech} />
       ))}

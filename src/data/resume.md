@@ -10,7 +10,7 @@ experience:
     endDate: null
     logo_url: "/covergo_logo.svg"
     link: "https://covergo.com"
-    tech_stack: [".NET", "GraphQL", "Vue", "Dapr", "MongoDB", "Redis", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
+    tech_stack: [".NET", "GraphQL", "Dapr", "Vue", "Redis", "MongoDB", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
     bullets:
       - "**Developed** *quotation features* for **multi-tenancy** insurance administration."
       - "**Built** *GraphQL* APIs and modern frontends with *Vue.js* to enhance user experiences"

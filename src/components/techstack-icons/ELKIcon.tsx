@@ -20,16 +20,22 @@ export function ELKIcon({ size = 40 }: ELKIconProps) {
       {/* Bottom half — teal */}
       <path d="M 12 34 A 28 28 0 0 0 68 34 Z" fill="#00BFB3" />
       {/* Dark band — left portion (horizontal bar of "e"), left edge follows circle curve */}
-      <path d="M 46 27 H 19 Q 12 27 12 34 Q 12 41 19 41 H 46 Z" fill="#231F20" />
+      <path
+        d="M 46 27 H 19 Q 12 27 12 34 Q 12 41 19 41 H 46 Z"
+        fill="#231F20"
+      />
       {/* Blue pill — right portion (opening of "e") */}
-      <path d="M 46 27 H 62 Q 68 27 68 34 Q 68 41 62 41 H 46 Z" fill="#00A9E0" />
+      <path
+        d="M 46 27 H 62 Q 68 27 68 34 Q 68 41 62 41 H 46 Z"
+        fill="#00A9E0"
+      />
 
       {/* ELK label — E=yellow, L=pink, K=teal */}
       <text
         x="40"
         y="80"
         textAnchor="middle"
-        fontSize="16"
+        fontSize="22"
         fontFamily="Arial, sans-serif"
         fontWeight="600"
       >
