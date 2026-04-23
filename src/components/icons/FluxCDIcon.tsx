@@ -8,7 +8,7 @@ export function FluxCDIcon({ size = 40 }: FluxCDIconProps) {
     <svg
       width={w}
       height={w}
-      viewBox="0 0 64 72"
+      viewBox="0 0 64 78"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -65,10 +65,10 @@ export function FluxCDIcon({ size = 40 }: FluxCDIconProps) {
       </g>
       <text
         x="32"
-        y="72"
+        y="78"
         textAnchor="middle"
         fill="#326CE5"
-        fontSize="17"
+        fontSize="23"
         fontFamily="Arial, sans-serif"
         fontWeight="600"
       >
