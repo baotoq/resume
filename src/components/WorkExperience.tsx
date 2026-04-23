@@ -3,6 +3,7 @@ import type { ExperienceEntry } from "@/types/resume";
 import { HighlightedBullet } from "@/components/HighlightedBullet";
 import { LogoImage } from "@/components/company-logos/LogoImage";
 import { TechStackIcons } from "@/components/techstack-icons/TechStackIcons";
+import { computeDuration } from "@/lib/duration";
 
 interface WorkExperienceProps {
   experience: ExperienceEntry[];
@@ -21,6 +22,7 @@ function formatDateRange(start: string, end: string | null): string {
 }
 
 export function WorkExperience({ experience }: WorkExperienceProps) {
+  const now = new Date();
   return (
     <section>
       <h2 className="text-xl font-semibold leading-[1.2] text-zinc-900 mb-6">
@@ -67,9 +69,14 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           {entry.role}
                         </p>
                       </div>
-                      <span className="text-sm font-bold text-zinc-500">
-                        {formatDateRange(entry.startDate, entry.endDate)}
-                      </span>
+                      <div className="flex flex-col items-end">
+                        <span className="text-sm font-bold text-zinc-500">
+                          {formatDateRange(entry.startDate, entry.endDate)}
+                        </span>
+                        <span className="text-xs text-zinc-400">
+                          {computeDuration(entry.startDate, entry.endDate, now)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <ul className="flex flex-col gap-2">
