@@ -51,7 +51,7 @@ Vercel is the sole deployment target. Full Next.js 16 runtime available. All sta
 
 - [ ] Bio/intro paragraph at top of page
 - [ ] Duration labels computed from date ranges on experience entries
-- [ ] Education section (degree, institution, dates, relevant coursework)
+- [ ] Education section (degree, institution, dates)
 - [ ] Typography + spacing overhaul: professional, scannable, well-spaced
 
 ### Future
@@ -134,4 +134,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-23 after v3.0 Content & Polish milestone start*
+*Last updated: 2026-04-24 after Phase 9 (Type System & Data Foundation) complete*
