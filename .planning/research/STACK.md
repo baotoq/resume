@@ -716,3 +716,233 @@ No change to the data loading logic in `page.tsx`. `matter(raw).data` is cast to
 - `src/components/WorkExperience.tsx` — confirmed `formatDateRange` already exists; duration label is additive (HIGH confidence, direct source read)
 - `src/app/globals.css` — confirmed `@theme inline` block exists and is the correct extension point (HIGH confidence, direct source read)
 - gray-matter v4.0.3 — `package.json` confirms installed version; YAML arrays parse to JS arrays natively (HIGH confidence)
+
+---
+
+## v4.0 Stack — shadcn/ui Full Design System Integration
+
+**Researched:** 2026-04-24
+**Confidence:** HIGH (verified via Context7 shadcn/ui docs at /llmstxt/ui_shadcn_llms_txt; npm registry version checks performed live)
+
+### Tailwind v4 Compatibility: Yes, Native Support
+
+shadcn/ui fully supports Tailwind v4. The shadcn/ui Tailwind v4 migration was shipped in March 2025. Key changes from earlier shadcn/ui behavior:
+
+- `tailwind.config.js` is **not used** with v4 — `components.json` sets `"tailwind": { "config": "" }` (empty string) to signal v4 mode
+- Animation utilities use `tw-animate-css` (CSS import) instead of the deprecated `tailwindcss-animate` plugin
+- Color tokens are defined in `:root` using `oklch()` values (consistent with Tailwind v4's default palette)
+- The `@theme inline` block in `globals.css` bridges shadcn CSS variables to Tailwind utility classes — same pattern already used in this project
+
+**Verdict:** This project's existing `@import "tailwindcss"` + `@theme inline` setup is exactly what shadcn/ui v4 expects.
+
+---
+
+### New npm Dependencies
+
+| Package | Version | Purpose | Why |
+|---------|---------|---------|-----|
+| `shadcn` | 4.4.0 | CLI + runtime | Two roles: (1) the `npx shadcn` CLI installs/manages components; (2) provides `shadcn/tailwind.css` imported at runtime in globals.css |
+| `class-variance-authority` | 0.7.1 | Variant styling engine | Used internally by every shadcn component to manage style variants (e.g. Badge `variant="outline"`) |
+| `clsx` | 2.1.1 | Conditional class composition | Builds class strings from conditional expressions in `cn()` utility |
+| `tailwind-merge` | 3.5.0 | Tailwind class deduplication | Resolves conflicts when Tailwind classes are merged (e.g., `p-4 p-6` → `p-6`); used in `cn()` utility |
+| `tw-animate-css` | 1.4.0 | CSS animation keyframes | Replaces deprecated `tailwindcss-animate` plugin; provides `animate-in`, `animate-out` and related utilities used by shadcn components |
+| `lucide-react` | 1.9.0 | Icon set | Required by shadcn components that render icons; also referenced in component templates |
+
+**Installation:**
+
+```bash
+npm install shadcn class-variance-authority clsx tailwind-merge tw-animate-css lucide-react
+```
+
+**No `radix-ui` in manual install.** The `npx shadcn add` CLI command installs per-component Radix dependencies automatically. For the three target components:
+
+| Component | Radix Dependency | CLI Installs It? |
+|-----------|-----------------|-----------------|
+| Card | None — pure Tailwind/CVA | N/A |
+| Badge | None — pure Tailwind/CVA | N/A |
+| Separator | `@radix-ui/react-separator` (via unified `radix-ui` package) | Yes, automatically |
+
+Do not manually add `radix-ui` to `package.json`. The CLI handles it when `npx shadcn@latest add separator` is run.
+
+---
+
+### React 19 Compatibility: No Flags Required
+
+All shadcn/ui dependencies explicitly list React 19 (`^19.0`) in their peer dependencies as of their current versions. The `radix-ui` unified package (v1.4.3) supports React 19 natively. No `--force` or `--legacy-peer-deps` flags are needed with npm when installing against this project's `react@19.2.4`.
+
+---
+
+### Two-Phase Installation Workflow
+
+**Phase 1: Initialize shadcn/ui**
+
+```bash
+npx shadcn@latest init
+```
+
+The init command is interactive. It creates `components.json` at the project root and rewrites `globals.css`. **This destructively overwrites the current `globals.css`.** The existing custom variables (`--background`, `--foreground`, `@theme inline` block) must be merged back manually after init runs.
+
+What init produces in `globals.css`:
+
+```css
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  /* ... full set of shadcn semantic color tokens ... */
+  --radius-sm: calc(var(--radius) * 0.6);
+  /* ... radius scale ... */
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  /* ... full shadcn color palette in oklch ... */
+}
+```
+
+What must be preserved from the existing `globals.css`:
+
+```css
+/* Keep these — they override shadcn defaults with the project's custom values */
+:root {
+  --background: #fafafa;   /* override shadcn's oklch(1 0 0) if desired */
+  --foreground: #18181b;   /* override shadcn's oklch(0.145 0 0) if desired */
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);  /* MUST keep — wires Next.js font to Tailwind */
+  --font-mono: var(--font-geist-mono);  /* MUST keep */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+```
+
+The `@custom-variant dark (&:is(.dark *));` line from shadcn's init output is worth keeping even though dark mode is listed as a Future feature — it is zero-cost and avoids a `globals.css` rewrite when dark mode is implemented.
+
+**Recommended `components.json` for this project:**
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}
+```
+
+Note: `"tailwind": { "config": "" }` — empty string is the v4 signal. `"rsc": true` because this project uses Next.js App Router with Server Components. `"css"` path must match the actual globals.css location.
+
+The init command also creates `src/lib/utils.ts`:
+
+```typescript
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+This file does not conflict with anything in the current project (no existing `src/lib/utils.ts`).
+
+**Phase 2: Add individual components**
+
+```bash
+npx shadcn@latest add card
+npx shadcn@latest add badge
+npx shadcn@latest add separator
+```
+
+Each command copies the component source into `src/components/ui/` (e.g., `src/components/ui/card.tsx`). Components are source code — not black-box npm packages — so they are fully editable and customizable.
+
+---
+
+### `next.config.ts` Changes
+
+**None required.** The current `next.config.ts` (reactCompiler + security headers) works as-is with shadcn/ui. shadcn does not require any Next.js config changes.
+
+---
+
+### `tsconfig.json` Changes
+
+**None required.** The existing `"paths": { "@/*": ["./src/*"] }` alias in `tsconfig.json` is exactly what `components.json` expects for `"aliases": { "components": "@/components", ... }`.
+
+---
+
+### Note on `lucide-react` vs Previous Decision
+
+The existing STACK.md (v1.1) explicitly rejected `lucide-react` for a single briefcase icon ("~40KB for one icon"). That decision was correct in isolation. The v4.0 decision reverses this because shadcn components reference `lucide-react` internally — Card, Badge, and Separator themselves do not, but other shadcn components do, and the project is committing to the full shadcn design system. Once `lucide-react` is installed for the design system, using it for other icons (e.g., replacing the inline BriefcaseIcon SVG) is a reasonable follow-on.
+
+---
+
+### Full Stack Delta for v4.0
+
+| Area | Change |
+|------|--------|
+| `package.json` dependencies | Add: `shadcn`, `class-variance-authority`, `clsx`, `tailwind-merge`, `tw-animate-css`, `lucide-react` |
+| `package.json` dependencies | CLI auto-adds: `radix-ui` (for Separator only, added by `shadcn add separator`) |
+| `components.json` | New file at project root |
+| `src/lib/utils.ts` | New file (created by `shadcn init`) |
+| `src/app/globals.css` | Rewritten by `shadcn init` — must manually merge existing font/background vars back in |
+| `src/components/ui/card.tsx` | New file (created by `shadcn add card`) |
+| `src/components/ui/badge.tsx` | New file (created by `shadcn add badge`) |
+| `src/components/ui/separator.tsx` | New file (created by `shadcn add separator`) |
+| `next.config.ts` | No change |
+| `tsconfig.json` | No change |
+
+---
+
+### What NOT to Add for v4.0
+
+| Avoid | Why | Note |
+|-------|-----|------|
+| `@radix-ui/react-*` individually | CLI installs correct Radix deps per-component automatically | Let `shadcn add` handle it |
+| `tailwindcss-animate` | Deprecated; replaced by `tw-animate-css` | shadcn's init uses `tw-animate-css` by default |
+| `shadcn-ui` (old package name) | The package was renamed to `shadcn`; `shadcn-ui` is the obsolete npm package | Use `shadcn` (no hyphen) |
+| Manual Radix primitives for Card/Badge | These two components are pure Tailwind — no Radix primitives needed | Only Separator needs Radix |
+| `@tailwindcss/typography` | Still inappropriate for structured component layouts | Not used by any target component |
+
+---
+
+### Sources (v4.0)
+
+- Context7 `/llmstxt/ui_shadcn_llms_txt` — shadcn/ui Tailwind v4 docs, manual install instructions, components.json schema, React 19 compatibility page (HIGH confidence)
+- `npm show shadcn version` → 4.4.0 (HIGH confidence, live npm registry)
+- `npm show class-variance-authority version` → 0.7.1 (HIGH confidence, live npm registry)
+- `npm show clsx version` → 2.1.1 (HIGH confidence, live npm registry)
+- `npm show tailwind-merge version` → 3.5.0 (HIGH confidence, live npm registry)
+- `npm show tw-animate-css version` → 1.4.0 (HIGH confidence, live npm registry)
+- `npm show lucide-react version` → 1.9.0 (HIGH confidence, live npm registry)
+- `npm show radix-ui version` → 1.4.3 (HIGH confidence, live npm registry)
+- [shadcn/ui Tailwind v4 guide](https://ui.shadcn.com/docs/tailwind-v4) — `tw-animate-css` replaces `tailwindcss-animate`, v4 config pattern (HIGH confidence)
+- [shadcn/ui React 19 page](https://ui.shadcn.com/docs/react-19) — peer dep status table, no flags needed (HIGH confidence)
+- `src/app/globals.css` — confirmed current state: `@import "tailwindcss"`, `@theme inline`, `:root` block (HIGH confidence, direct file read)
+- `tsconfig.json` — confirmed `"paths": { "@/*": ["./src/*"] }` (HIGH confidence, direct file read)
+- `next.config.ts` — confirmed no shadcn-conflicting settings (HIGH confidence, direct file read)
+- `package.json` — confirmed current deps and absence of any shadcn packages (HIGH confidence, direct file read)

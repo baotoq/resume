@@ -1,324 +1,358 @@
-# Architecture Research
+# Architecture Patterns: shadcn/ui Integration
 
-**Domain:** Next.js 16 App Router — v3.0 feature integration into existing resume site
-**Researched:** 2026-04-23
-**Confidence:** HIGH (based on direct code inspection of all affected files)
-
-## System Overview
-
-The existing data flow is a straight line with no branches:
-
-```
-src/data/resume.md (YAML frontmatter)
-    ↓  gray-matter readFileSync at request time
-src/app/page.tsx (Server Component)
-    ↓  typed as ResumeData
-    ├── <Header resume={} email={} phone={} />
-    └── <WorkExperience experience={} />
-         ├── <LogoImage />
-         ├── <HighlightedBullet />
-         └── <TechStackIcons />
-```
-
-Each new feature either extends this line (new data → new component) or modifies an existing node (richer display in existing component). No new data sources. No API routes. No client state.
+**Domain:** Personal resume site — Next.js 16 App Router, shadcn/ui design system swap (v4.0)
+**Researched:** 2026-04-24
+**Confidence:** HIGH (Context7 + official docs + GitHub source discussion + direct codebase inspection)
 
 ---
 
-## Current State — What Exists
+## Server/Client Boundary Analysis
 
-| File | What It Does | v3.0 Status |
-|------|-------------|-------------|
-| `src/data/resume.md` | YAML source: name, title, github, linkedin, experience[], skills{} | Needs new fields: `bio`, `education[]` |
-| `src/types/resume.ts` | `ResumeData` and `ExperienceEntry` interfaces | Needs `bio?: string`, `EducationEntry` interface, `education?: EducationEntry[]` |
-| `src/app/page.tsx` | Server Component — parses YAML, renders Header + WorkExperience | Needs EducationSection and Skills added to render tree |
-| `src/components/Header.tsx` | Renders name, title, contact links | Needs bio paragraph below contacts |
-| `src/components/WorkExperience.tsx` | Renders timeline cards; has `formatDateRange()` already | Needs computed duration label alongside date range |
-| `src/components/HighlightedBullet.tsx` | Parses **bold** and *italic* inline markdown | No change required |
-| `src/components/animation/AnimateIn.tsx` | framer-motion whileInView wrapper | No change required — wrap new sections with it |
-| `src/components/techstack-icons/TechStackIcons.tsx` | Maps tech strings to icons | No change required for v3.0 |
+### The central question answered
 
-**Observation:** `skills` data exists in resume.md and is typed in `ResumeData`, but no Skills component is rendered in `page.tsx`. This is an existing gap — v3.0 is not responsible for it but the Education section placement decision should account for it.
+shadcn/ui components are NOT uniformly Client Components. They fall into three categories relevant to this project:
 
----
+| Component | Has `"use client"` | Reason | Can render inside Server Component |
+|-----------|-------------------|--------|--------------------------------------|
+| `Card`, `CardHeader`, `CardContent`, `CardFooter` | No | Pure HTML div wrappers, no hooks, no Radix primitive | YES — used directly |
+| `Badge` | No | Pure styled span, no hooks, no Radix primitive | YES — used directly |
+| `Separator` | Yes | Wraps Radix UI Separator, which calls `useEffect` internally | YES — as a leaf node import |
 
-## Feature Integration Analysis
+**Source:** GitHub discussion [shadcn-ui/ui #2562](https://github.com/shadcn-ui/ui/discussions/2562) confirms Separator requires `"use client"` due to Radix's `useEffect` registering `window['radix-ui']`. Card and Badge are vanilla React with no Radix dependency.
 
-### Feature 1: Bio / Intro Paragraph
+### The leaf node rule (HIGH confidence)
 
-**Integration type:** Extend existing component + extend type + extend data
-
-**Data change:** Add optional `bio` field to resume.md YAML frontmatter.
-```yaml
-bio: "Sentence or two about who you are and what you bring."
-```
-
-**Type change:** Add to `ResumeData` interface in `src/types/resume.ts`:
-```typescript
-bio?: string;
-```
-
-**Component change — `Header.tsx` (MODIFIED):**
-Render `bio` below the contact links row if present. One conditional `<p>` block. The component already receives the full `resume: ResumeData` object, so no prop signature change is needed — `resume.bio` is available.
+React's Server/Client boundary propagates *down*, not *up*. A Server Component can import a Client Component as a child — the Client Component becomes a leaf. The parent stays a Server Component.
 
 ```
-Header
-  ├── name (h1)
-  ├── title (p)
-  ├── contact links (div)
-  └── bio paragraph (p) ← NEW, conditional on resume.bio
+page.tsx (Server)
+  └── AnimateIn (Client — framer-motion)
+        └── WorkExperience (Server)
+              ├── Card (no "use client" — Server fine)
+              ├── Badge (no "use client" — Server fine)
+              └── Separator (Client leaf — Server Component importing it is fine)
 ```
 
-**No new component needed.** Header enhancement is sufficient and keeps the bio visually attached to the identity block.
+`WorkExperience`, `Header`, and `EducationSection` do NOT need to become Client Components. They import shadcn primitives the same way they currently import plain divs.
 
----
+### What would force a section component to become a Client Component
 
-### Feature 2: Duration Labels on Experience Entries
+Nothing in the v4.0 scope does this. Card, Badge, and Separator are all pure display components — no interactive state. If future phases add Dialog, DropdownMenu, or Tooltip, those components would force the file they live in to have `"use client"`, but they would still be leaf nodes, not contagious to the Server Component parent.
 
-**Integration type:** Computed display change — existing component, existing data
+### The AnimateIn pattern is unaffected
 
-**Data change:** None. `startDate` and `endDate` already exist on `ExperienceEntry`.
-
-**Type change:** None.
-
-**Component change — `WorkExperience.tsx` (MODIFIED):**
-`formatDateRange()` already exists in this file and produces "Feb 2025 – Present". A `computeDuration()` helper function needs to be added in the same file. It takes `startDate: string` and `endDate: string | null` and returns a human-readable label like "3 yr 2 mo" or "9 mo".
-
-The duration label renders alongside the existing date range string in the card header. Both are display-only — no props change, no data change.
-
-**Duration computation logic:**
-- Diff in months = (endYear * 12 + endMonth) - (startYear * 12 + startMonth)
-- endDate null → use current date (Date.now())
-- Convert: years = Math.floor(months / 12), remainder months
-- Format: "X yr Y mo", "X yr", "Y mo" (omit zero parts)
-
-**No new component needed.** The helper is a pure function added to the top of WorkExperience.tsx.
-
----
-
-### Feature 3: Education Section
-
-**Integration type:** New data section + new type + new component + page.tsx wiring
-
-**Data change:** Add `education` array to resume.md YAML frontmatter:
-```yaml
-education:
-  - institution: "Ton Duc Thang University"
-    degree: "Bachelor of Computer Science"
-    startDate: "2014"
-    endDate: "2018"
-    coursework:
-      - "Data Structures & Algorithms"
-      - "Operating Systems"
-```
-
-Dates can be year-only strings ("2014") or "YYYY-MM" for consistency with experience entries. Year-only is simpler for education and sufficient.
-
-**Type change:** Add to `src/types/resume.ts`:
-```typescript
-export interface EducationEntry {
-  institution: string;
-  degree: string;
-  startDate: string;   // "YYYY" or "YYYY-MM"
-  endDate: string;     // "YYYY" or "YYYY-MM" — education is always complete
-  coursework?: string[];
-}
-```
-
-Add to `ResumeData`:
-```typescript
-education?: EducationEntry[];
-```
-
-**New component — `src/components/EducationSection.tsx` (NEW):**
-Mirrors the visual language of WorkExperience cards without the timeline rail (education is typically a single entry — no need for the vertical timeline chrome). Receives `education: EducationEntry[]`.
-
-```
-EducationSection
-  └── for each entry:
-       └── <article> card (same card style as WorkExperience)
-            ├── institution (h3)
-            ├── degree (p)
-            ├── date range (span) — "2014 – 2018"
-            └── coursework list (ul, optional)
-```
-
-**page.tsx change (MODIFIED):**
-Import `EducationSection` and add it to the render tree. Education conventionally appears below Work Experience:
+`AnimateIn` wraps Server Component output by accepting `children` as props. In React's model, children passed from a Server Component parent remain serializable server output — they are not pulled into the Client Component's bundle. This pattern is already proven in the codebase and shadcn integration does not change it.
 
 ```tsx
-<AnimateIn delay={0.2}>
-  <EducationSection education={resume.education} />
+// page.tsx (Server) — unchanged
+<AnimateIn delay={0.1}>
+  <WorkExperience experience={resume.experience} />  {/* stays Server */}
 </AnimateIn>
 ```
 
-Guard with `resume.education?.length` to avoid rendering an empty section if the field is absent.
-
 ---
 
-### Feature 4: Typography Overhaul
+## CSS Variable Integration with Tailwind v4
 
-**Integration type:** Styling changes across existing components — no new files, no data changes, no type changes
+### Current state of globals.css
 
-**Scope:** All components that render visible text. This is a cross-cutting change.
+```css
+@import "tailwindcss";
 
-**Components affected:**
-| Component | What Changes |
-|-----------|-------------|
-| `Header.tsx` | Heading sizes, spacing, font weights, contact link styling |
-| `WorkExperience.tsx` | Card padding, role/company font treatment, date range sizing, bullet spacing |
-| `page.tsx` | Outer layout: `gap-8` → tighter or looser, `py-12` → adjusted |
-| `EducationSection.tsx` (new) | Apply final typography system from day one |
+:root {
+  --background: #fafafa;
+  --foreground: #18181b;
+}
 
-**Tailwind v4 constraint:** No `tailwind.config.*` — all customization via CSS custom properties in the global stylesheet and utility classes directly. Existing code uses inline Tailwind utilities (e.g., `text-[28px]`, `leading-[1.1]`) — continue this pattern for one-off values.
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
 
-**No new libraries.** Typography overhaul is pure Tailwind v4 utility class replacement.
-
----
-
-## New Components
-
-| Component | Path | Receives | Notes |
-|-----------|------|----------|-------|
-| `EducationSection` | `src/components/EducationSection.tsx` | `education: EducationEntry[]` | New — no analog in existing codebase |
-
----
-
-## Modified Components and Files
-
-| File | Modification | Scope |
-|------|-------------|-------|
-| `src/data/resume.md` | Add `bio` string field; add `education[]` array | Data only |
-| `src/types/resume.ts` | Add `bio?: string` to `ResumeData`; add `EducationEntry` interface; add `education?: EducationEntry[]` to `ResumeData` | Types only |
-| `src/app/page.tsx` | Import + render `EducationSection` inside `AnimateIn`; optionally import + render `Skills` if it exists by then | Wiring only |
-| `src/components/Header.tsx` | Add bio paragraph below contact links | Additive — no existing lines removed |
-| `src/components/WorkExperience.tsx` | Add `computeDuration()` helper; render duration label in card header alongside date range | Additive to logic; replace/extend JSX in header area |
-
----
-
-## Data Flow After v3.0
-
-```
-src/data/resume.md (YAML frontmatter)
-    bio: "..."                          ← NEW
-    experience: [...]                   (unchanged; startDate/endDate already present)
-    education: [...]                    ← NEW
-    skills: {...}                       (unchanged; still unrendered after v3.0 unless Skills added)
-    ↓  gray-matter readFileSync
-src/app/page.tsx (Server Component)
-    ↓  typed as ResumeData
-    ├── <Header resume={} email={} phone={} />
-    │       └── bio paragraph (NEW)
-    ├── <WorkExperience experience={} />
-    │       └── duration label per entry (NEW)
-    └── <EducationSection education={} />   ← NEW
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
 ```
 
+### What shadcn adds to globals.css
+
+shadcn's Tailwind v4 setup requires two additional imports and a large `:root` variable block. The target state after manual merge:
+
+```css
+@import "tailwindcss";
+@import "tw-animate-css";           /* NEW — shadcn animation library */
+@import "shadcn/tailwind.css";      /* NEW — shadcn base styles */
+
+@custom-variant dark (&:is(.dark *));   /* NEW — dark mode variant */
+
+:root {
+  /* UPDATED — shadcn uses oklch() for color values */
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  /* NEW shadcn semantic tokens */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  /* KEEP — existing font and base color mappings */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* NEW shadcn token mappings */
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+```
+
+### Color system coexistence decision
+
+The existing codebase uses Tailwind's built-in zinc/indigo/blue palette classes directly (e.g., `text-zinc-900`, `border-zinc-200`, `text-indigo-600`, `bg-blue-600`). shadcn tokens are additive — they do not remove built-in Tailwind colors.
+
+Recommended approach: keep both systems in parallel during migration. Existing hand-rolled classes continue working unchanged. New shadcn component props (`variant`, `className` overrides) use shadcn tokens. This allows incremental replacement without a big-bang rewrite. After all components are migrated, do a final pass to unify remaining raw zinc/indigo/blue references to shadcn semantic tokens.
+
+### Critical: Do NOT blindly run `shadcn init` on globals.css
+
+`shadcn@latest init` will attempt to rewrite globals.css. The project's existing `@import "tailwindcss"`, `@theme inline` block, and Geist font variables must be preserved. Perform the globals.css merge manually, or run `init` and then restore the overwritten sections. Blindly accepting the CLI's file overwrite destroys the existing font and base color setup.
+
 ---
 
-## Component Boundaries
+## Component Boundaries: New vs Modified Files
 
-| Component | Responsibility | Pure? | Server/Client |
-|-----------|---------------|-------|---------------|
-| `page.tsx` | Reads file, parses YAML, passes typed data down | No (I/O) | Server |
-| `Header` | Renders identity block (name, title, contacts, bio) | Yes | Server |
-| `WorkExperience` | Renders timeline with cards; computes date ranges + durations | Yes | Server |
-| `EducationSection` | Renders education cards | Yes | Server |
-| `AnimateIn` | framer-motion scroll animation wrapper | Yes | Client (`'use client'`) |
+### New files — created by shadcn CLI (`npx shadcn@latest add`)
 
-All new and modified components remain Server Components. No new client boundary is required for any v3.0 feature. `AnimateIn` already handles the client/server split via its wrapper pattern.
+```
+src/components/ui/
+  card.tsx        — Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription, CardAction
+  badge.tsx       — Badge (with variant prop: default | secondary | destructive | outline)
+  separator.tsx   — Separator (has "use client" — Radix UI primitive)
+```
 
----
+### New files — created manually
 
-## Build Order
+```
+components.json   — shadcn CLI configuration (project root)
+src/lib/utils.ts  — cn() utility function (clsx + tailwind-merge)
+```
 
-Dependencies flow in this order. Each step unblocks the next.
+### Modified files
 
-### Step 1 — Types + Data (foundation, no dependencies)
+```
+src/app/globals.css               — add tw-animate-css, shadcn/tailwind.css imports + CSS variable expansion
+src/components/Header.tsx         — wrap section content in Card/CardContent
+src/components/WorkExperience.tsx — article → Card; tech pills → Badge
+src/components/EducationSection.tsx — article → Card
+src/components/techstack-icons/TechStackIcons.tsx — zinc fallback pills → Badge
+```
 
-Update `src/types/resume.ts`:
-- Add `bio?: string` to `ResumeData`
-- Add `EducationEntry` interface
-- Add `education?: EducationEntry[]` to `ResumeData`
+### Untouched files
 
-Update `src/data/resume.md`:
-- Add `bio` value
-- Add `education` array with real data
-
-**Why first:** Every component that reads these fields requires the types to compile. No component work can be type-safe until this step is done.
-
-### Step 2 — Bio in Header (depends on Step 1)
-
-Modify `src/components/Header.tsx`:
-- Add conditional bio `<p>` below contact links
-- `resume.bio` is already in scope via the existing `resume: ResumeData` prop
-
-**Why second:** Isolated change to an existing component. No new files. Fast to verify visually. Lowest risk of breaking existing layout.
-
-### Step 3 — Duration Labels in WorkExperience (depends on Step 1; independent of Step 2)
-
-Modify `src/components/WorkExperience.tsx`:
-- Add `computeDuration(start, end)` pure function
-- Add duration label in card header JSX
-
-**Why third (can run parallel with Step 2):** Purely additive — no existing functionality removed. The `formatDateRange` helper shows the pattern to follow.
-
-### Step 4 — EducationSection component (depends on Step 1)
-
-Create `src/components/EducationSection.tsx`:
-- New component, no dependencies on Header or WorkExperience changes
-- Wire into `page.tsx` with `AnimateIn` wrapper
-
-**Why fourth:** Requires types from Step 1. Component creation is self-contained. Wire into page.tsx after the component is stable.
-
-### Step 5 — Typography Overhaul (depends on Steps 2, 3, 4)
-
-Update Tailwind utility classes across:
-- `src/app/page.tsx` — outer layout spacing
-- `src/components/Header.tsx` — identity block typography
-- `src/components/WorkExperience.tsx` — card typography and spacing
-- `src/components/EducationSection.tsx` — match typography system
-
-**Why last:** All components must exist in final form before a holistic typography pass. Doing typography early means touching files multiple times. Doing it last means one focused pass over the complete visual surface.
+```
+src/app/page.tsx                          — Server Component, data flow unchanged
+src/components/animation/AnimateIn.tsx    — no change
+src/components/HighlightedBullet.tsx      — no change
+src/components/company-logos/LogoImage.tsx — no change
+src/types/resume.ts                       — no change
+src/data/resume.md                        — no change
+```
 
 ---
 
-## Integration Risks
+## Data Flow Changes
 
-| Risk | Likelihood | Mitigation |
-|------|------------|-----------|
-| Duration label overflow in card header on mobile | MEDIUM | Use `flex-col` on small viewports; check the existing `sm:flex-row` pattern in WorkExperience — duration label should follow the same responsive treatment as the date range span |
-| `education` field optional in YAML causes TS error | LOW | `education?: EducationEntry[]` with optional chaining in page.tsx — `resume.education?.length` guard before rendering EducationSection |
-| Bio paragraph breaks Header card layout on long strings | LOW | Constrain with `max-w-prose` or let natural card width govern; test with ~2 sentence bio |
-| Typography pass regresses existing layout | LOW | Work Experience section is visually complex (timeline, dots, cards) — test on both mobile and desktop after every class change |
+None. The data pipeline (`resume.md` → gray-matter → page.tsx → typed props → section components) is purely about data. shadcn primitives are presentational wrappers that accept `className` and `children`. No prop signatures change at the page level. The `ResumeData` type is unchanged.
+
+---
+
+## Recommended Build Order
+
+Dependencies flow from infrastructure upward. Complete each step before the next to isolate integration issues.
+
+### Step 1 — Infrastructure (zero visual change, unblocks everything)
+
+1. Install npm packages:
+   ```bash
+   npm install shadcn class-variance-authority clsx tailwind-merge tw-animate-css
+   ```
+2. Create `components.json` at project root with `rsc: true`, Tailwind v4 paths:
+   ```json
+   {
+     "$schema": "https://ui.shadcn.com/schema.json",
+     "style": "base-nova",
+     "rsc": true,
+     "tsx": true,
+     "tailwind": {
+       "config": "",
+       "css": "src/app/globals.css",
+       "baseColor": "neutral",
+       "cssVariables": true
+     },
+     "aliases": {
+       "components": "@/components",
+       "utils": "@/lib/utils",
+       "ui": "@/components/ui",
+       "lib": "@/lib",
+       "hooks": "@/hooks"
+     },
+     "iconLibrary": "lucide"
+   }
+   ```
+3. Create `src/lib/utils.ts` with the `cn()` function.
+4. Manually merge shadcn CSS variables into `globals.css` — preserve existing `@theme inline` and font vars.
+
+Gate: `npm run build` passes, no visual change in browser.
+
+### Step 2 — shadcn component source files
+
+Run `npx shadcn@latest add card badge separator`. This copies component source into `src/components/ui/`. Review each file after the CLI runs. Do not let the CLI overwrite `globals.css` a second time if it prompts.
+
+Gate: Files exist at `src/components/ui/`, TypeScript compiles, build passes.
+
+### Step 3 — Card replacement (Header, WorkExperience, EducationSection)
+
+Replace hand-rolled `<article className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">` patterns with `<Card><CardContent>` (or `<CardHeader>` / `<CardContent>` substructure). Three files, same structural pattern.
+
+Gate: Visual parity — cards look equivalent to before or improved. No layout regressions on mobile or desktop.
+
+### Step 4 — Badge replacement (TechStackIcons)
+
+Replace zinc pill fallbacks and styled spans in `src/components/techstack-icons/TechStackIcons.tsx` with `<Badge variant="secondary">` or `<Badge variant="outline">`. The Devicons CDN icon elements remain unchanged — Badge wraps the pill text/fallback label only.
+
+Gate: Tech stack section renders correctly. Both icon-present and fallback-pill cases handled.
+
+### Step 5 — Separator (optional dividers)
+
+Add `<Separator />` between sections or within card layouts where horizontal rules add visual structure. Since Separator has `"use client"`, verify it renders as a leaf inside Server Component files (it does — see boundary analysis above). No SSR errors or hydration warnings expected.
+
+Gate: Dividers render, no console errors.
+
+### Step 6 — Token unification pass (polish)
+
+After all shadcn components are in place, audit remaining raw `text-zinc-*`, `border-zinc-*`, `text-indigo-*`, `bg-blue-*` classes. Map to shadcn semantic tokens (`text-foreground`, `text-muted-foreground`, `border`, `text-primary`) where appropriate for consistency. This is polish — no functional change.
+
+---
+
+## Architecture Diagram
+
+```
+page.tsx (Server Component)
+│  reads resume.md via gray-matter
+│  reads EMAIL/PHONE env vars
+│
+├── AnimateIn (Client — framer-motion)
+│   └── Header (Server Component)
+│         └── Card, CardContent           ← shadcn (no "use client")
+│               └── name, title, contacts, bio (plain JSX)
+│
+├── AnimateIn (Client — framer-motion)
+│   └── WorkExperience (Server Component)
+│         └── Card, CardContent           ← shadcn (no "use client")
+│               ├── LogoImage             ← existing (unchanged)
+│               ├── HighlightedBullet     ← existing (unchanged)
+│               └── TechStackIcons        ← existing wrapper (modified)
+│                     └── Badge           ← shadcn (no "use client")
+│                         or DevIcon      ← CDN (unchanged)
+│
+├── AnimateIn (Client — framer-motion)
+│   └── EducationSection (Server Component)
+│         └── Card, CardContent           ← shadcn (no "use client")
+│
+└── Separator (if used)                   ← shadcn ("use client", leaf node — fine)
+```
+
+---
+
+## Key Architecture Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| Keep section components as Server Components | Card and Badge have no `"use client"` — no boundary change required |
+| Separator as leaf import inside Server Components | Server Components can import and render Client Component leaves without becoming Client Components |
+| Manual globals.css merge instead of `shadcn init` rewrite | Prevents loss of Geist font variables and existing `@theme inline` setup |
+| `rsc: true` in components.json | CLI auto-adds `"use client"` to components that need it (like Separator) |
+| Parallel color systems during migration | Avoids big-bang token swap; existing zinc/indigo classes continue to work during incremental replacement |
+| Source-copy model (shadcn adds to `src/components/ui/`) | No runtime package; full ownership; components can be customized without forking |
 
 ---
 
 ## Anti-Patterns to Avoid
 
-### Anti-Pattern: Creating a `DurationLabel` sub-component
+### Converting section components to Client Components
 
-`computeDuration()` is a pure function returning a string. It does not need to be a React component. Keep it as a module-level function in `WorkExperience.tsx` alongside `formatDateRange()`.
+There is no need. Card, Badge, and Separator all work inside Server Components. Adding `"use client"` to `WorkExperience.tsx` or `Header.tsx` is unnecessary and would increase client bundle size.
 
-### Anti-Pattern: Separate `BioSection` component
+### Running `shadcn init` and accepting all file overwrites
 
-Bio is one paragraph semantically belonging to the identity block. Extracting it into a standalone component over-engineers a single `<p>` tag. Extend Header instead.
+The CLI will attempt to rewrite `globals.css`. The project already has a configured Tailwind v4 CSS setup with Geist font variables. Blindly accepting overwrites destroys those settings. Always merge manually or restore after CLI runs.
 
-### Anti-Pattern: Reusing ExperienceEntry type shape for EducationEntry
+### Adding shadcn as a runtime npm dependency
 
-Education dates are year-only and there is no `endDate: null` (education entries are complete). A distinct `EducationEntry` interface is cleaner than repurposing `ExperienceEntry` or making education dates nullable.
+shadcn is a source-copy tool — it adds component source files to your codebase. The `shadcn` package itself is a dev/CLI tool. Do not add it to `dependencies` in package.json, only `devDependencies` (or run via `npx`).
 
-### Anti-Pattern: Adding Skills section as part of this milestone
+---
 
-`skills` data already exists in YAML and is typed in `ResumeData`, but no Skills component exists and `page.tsx` does not render one. This is an existing gap. Building Skills as part of the typography overhaul milestone conflates two concerns. Leave it out of scope unless explicitly added to the milestone.
+## Confidence Assessment
+
+| Area | Confidence | Basis |
+|------|------------|-------|
+| Card/Badge have no "use client" | HIGH | Official shadcn docs: display-only components, no Radix dependency |
+| Separator requires "use client" | HIGH | GitHub discussion #2562 with maintainer confirmation |
+| Leaf node pattern (Server imports Client) | HIGH | React 19 + Next.js App Router documented behaviour |
+| globals.css merge approach | HIGH | shadcn Tailwind v4 docs at ui.shadcn.com/docs/tailwind-v4 |
+| AnimateIn pattern unaffected | HIGH | Direct codebase inspection of existing pattern |
+| Build order | MEDIUM | Derived from dependency analysis; no single authoritative source |
 
 ---
 
 ## Sources
 
-- Direct inspection: `src/app/page.tsx`, `src/types/resume.ts`, `src/data/resume.md`, `src/components/Header.tsx`, `src/components/WorkExperience.tsx`, `src/components/animation/AnimateIn.tsx` (HIGH — current codebase)
-- Direct inspection: `.planning/PROJECT.md` v3.0 milestone context (HIGH)
-- Prior architecture research: `.planning/research/ARCHITECTURE.md` v2.0 (HIGH — same repo)
+- [shadcn/ui Tailwind v4 docs](https://ui.shadcn.com/docs/tailwind-v4) — CSS variable structure and `@theme inline` integration
+- [shadcn/ui Manual Installation](https://ui.shadcn.com/docs/installation/manual) — components.json and utils setup
+- [shadcn/ui components.json reference](https://ui.shadcn.com/docs/components-json) — `rsc` flag, Tailwind v4 config path
+- [Why does Separator need "use client"? — GitHub Discussion #2562](https://github.com/shadcn-ui/ui/discussions/2562) — Radix useEffect cause
+- [Next.js Server and Client Components guide](https://nextjs.org/docs/app/getting-started/server-and-client-components) — leaf node boundary behaviour
+- Context7 `/llmstxt/ui_shadcn_llms_txt` — shadcn/ui full documentation corpus
+- Direct codebase inspection: `src/app/globals.css`, `src/app/page.tsx`, `src/components/*.tsx`
 
 ---
-*Architecture research for: v3.0 Content & Polish — feature integration*
-*Researched: 2026-04-23*
+
+*Architecture research for: v4.0 shadcn/ui Full Design System Swap*
+*Researched: 2026-04-24*

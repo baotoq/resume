@@ -1023,3 +1023,393 @@ Line count varies by viewport width. 3 lines at 1280px desktop may be 5 lines at
 - Tailwind v4 upgrade guide (breaking changes): Context7 `/tailwindlabs/tailwindcss.com` query "v4 breaking changes renamed utilities removed" — HIGH confidence
 - JavaScript `Date` constructor timezone behavior with `"YYYY-MM"` strings — MDN Web Docs standard — HIGH confidence
 - `gray-matter` YAML parsing behavior (undefined keys) — known library behavior, MEDIUM confidence
+
+---
+
+---
+
+# v4.0 Addendum: shadcn/ui Full Design System Integration Pitfalls
+
+**Scope:** Adding shadcn/ui (Card, Badge, Separator) to existing Next.js 16.2.3 + React 19.2.4 + Tailwind v4 + Biome resume site on Vercel.
+**Researched:** 2026-04-24
+**Confidence:** HIGH for Tailwind v4 compatibility and React 19 support (Context7 + official shadcn docs confirmed); LOW for Next.js 16 specifics (shadcn targets Next.js 15; 16 is untested in official docs).
+
+---
+
+## Tailwind v4 Compatibility — Official Status
+
+**shadcn/ui IS fully compatible with Tailwind v4. Confirmed HIGH confidence.**
+
+As of February 2025, all shadcn/ui components were comprehensively updated for Tailwind v4 and React 19. The `npx shadcn@latest init` CLI detects Tailwind v4 and generates a CSS-first configuration automatically — no `tailwind.config.js` is needed or created. The `tailwind.config` field in `components.json` must be left blank for v4 projects.
+
+Source: https://ui.shadcn.com/docs/tailwind-v4 | https://ui.shadcn.com/docs/changelog/2025-02-tailwind-v4
+
+---
+
+## Critical Pitfalls (v4.0)
+
+---
+
+### Pitfall S1: `shadcn init` Overwrites `globals.css` — Destroys Geist Font Mappings
+
+**Phase:** Init (Phase 1 of milestone)
+
+**What goes wrong:** `npx shadcn@latest init` rewrites `globals.css` with its own `:root` CSS variable block and `@theme inline` directives. The current `globals.css` has this `@theme inline` block:
+```css
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+```
+
+Running `init` without a backup plan will destroy the `--font-sans` and `--font-mono` Geist mappings. After init, `layout.tsx` still injects `--font-geist-sans` / `--font-geist-mono` as CSS variables on `<html>`, but without the `@theme inline` bridge, the Tailwind `font-sans` utility no longer resolves to Geist — the body reverts to `system-ui`.
+
+**Why it happens:** shadcn's init performs a merge-then-write on `globals.css`. The merge logic is designed for its own expected schema and does not preserve arbitrary `@theme inline` entries.
+
+**Consequences:** Body font reverts to `system-ui`. The font change is subtle and easy to miss unless specifically checked.
+
+**Prevention:**
+1. Commit all changes before running `init` so `git diff` shows exactly what changed.
+2. After init, manually restore the Geist font mappings in `@theme inline`:
+   ```css
+   @theme inline {
+     /* shadcn color mappings -- keep all of these */
+     --color-background: var(--background);
+     /* ... all shadcn color variables ... */
+
+     /* Manually restore these */
+     --font-sans: var(--font-geist-sans);
+     --font-mono: var(--font-geist-mono);
+   }
+   ```
+3. After init, check body font in DevTools — confirm `font-family` resolves to Geist, not system-ui.
+
+**Detection:** Open the site after init. If the font changes visibly to a system sans-serif (Inter-ish → system default), the Geist mapping was dropped.
+
+---
+
+### Pitfall S2: Existing Hex Color Variables Incompatible With shadcn's HSL Color System
+
+**Phase:** Init (Phase 1 of milestone)
+
+**What goes wrong:** shadcn/ui v4 expects CSS color variables in `hsl()` format inside `:root`, then maps them via `@theme inline` without the `hsl()` wrapper. The current `globals.css` uses raw hex values:
+```css
+--background: #fafafa;
+--foreground: #18181b;
+```
+
+shadcn components reference `bg-background`, `text-foreground`, etc. through the `--color-*` variables in `@theme inline`. If shadcn's init generates:
+```css
+@theme inline {
+  --color-background: hsl(var(--background));
+}
+```
+...but `--background` is `#fafafa` (a hex value), then `hsl(#fafafa)` is invalid CSS. Component backgrounds render transparent or incorrect.
+
+**Why it happens:** shadcn's theming convention bridges CSS variables to Tailwind utilities using `hsl()` wrapping. Hex values are not valid inside `hsl()`.
+
+**Consequences:** Components render with wrong or transparent colors. The issue is silent — no build error, components simply look wrong.
+
+**Prevention:** Before or immediately after init, convert existing color variables to HSL format:
+```css
+/* Before */
+--background: #fafafa;
+--foreground: #18181b;
+
+/* After (shadcn-compatible) */
+--background: hsl(0 0% 98%);      /* #fafafa */
+--foreground: hsl(240 3.7% 15.9%); /* #18181b */
+```
+
+The shadcn v4 pattern uses the full `hsl()` value in `:root`, then maps directly:
+```css
+@theme inline {
+  --color-background: var(--background); /* no hsl() wrapper here */
+}
+```
+
+**Detection:** Inspect a shadcn component in browser DevTools. If `background-color: hsl(#fafafa)` appears (invalid CSS), the format mismatch is present.
+
+---
+
+### Pitfall S3: `tw-animate-css` Package Not Auto-Installed for Existing Projects
+
+**Phase:** Init (Phase 1 of milestone)
+
+**What goes wrong:** shadcn/ui migrated from `tailwindcss-animate` to `tw-animate-css` in early 2025. When init runs on an existing project, it adds `@import "tw-animate-css"` to `globals.css` but may not install the package itself. Adding any animated component (Accordion, Dialog, Sheet, Tooltip, etc.) then fails:
+```
+Error: Can't resolve 'tw-animate-css'
+```
+
+This is confirmed in GitHub Issue #6970 affecting existing projects.
+
+**Why it happens:** The init script's dependency install step may skip `tw-animate-css` if it considers the CSS import sufficient. The package isn't in `package.json` so the bundler can't resolve it.
+
+**Consequences:** Build fails on any component using CSS animations — which is most interactive shadcn components. The error only surfaces after adding a component, not at init time.
+
+**Prevention:** After `shadcn init`, immediately check that `tw-animate-css` appears in `package.json`. If absent:
+```bash
+npm install tw-animate-css
+```
+Also verify `globals.css` has the import and NOT the old plugin syntax:
+```css
+/* Correct */
+@import "tw-animate-css";
+
+/* Wrong (old) — remove if present */
+@plugin 'tailwindcss-animate';
+```
+
+**Detection:** `npm run build` fails with `Can't resolve 'tw-animate-css'`. Or proactively check `package.json` after init.
+
+---
+
+### Pitfall S4: React 19 Peer Dependency ERESOLVE Blocks `npm install` During Init
+
+**Phase:** Init (Phase 1 of milestone)
+
+**What goes wrong:** This project uses React 19.2.4. Some shadcn dependencies (Radix UI packages, `@radix-ui/react-icons`) still declare peer dependencies only up to `react@"^18.0"`. npm's strict resolver rejects this:
+```
+npm error ERESOLVE unable to resolve dependency tree
+npm error peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-dialog
+```
+
+**Why it happens:** Peer dependency ranges haven't universally been updated to include `^19.0`. pnpm and bun handle this silently; npm strict mode rejects it.
+
+**Consequences:** Init fails entirely, leaving no `components.json` and no installed dependencies.
+
+**Prevention:** Use `--legacy-peer-deps` with npm for init and ALL subsequent `shadcn add` commands:
+```bash
+npx shadcn@latest init --legacy-peer-deps
+npx shadcn@latest add badge --legacy-peer-deps
+```
+
+Or add to `.npmrc` in the project root to apply globally:
+```
+legacy-peer-deps=true
+```
+
+Alternatively, switch to pnpm — it handles peer dep conflicts without flags and is officially recommended for React 19 projects by the shadcn docs.
+
+**Detection:** npm install output contains `ERESOLVE` and mentions `react@"^18"` peer requirement.
+
+---
+
+## Moderate Pitfalls (v4.0)
+
+---
+
+### Pitfall S5: `components.json` Alias Misconfiguration for `src/` Directory
+
+**Phase:** Init (Phase 1 of milestone)
+
+**What goes wrong:** The shadcn init prompt asks for path aliases. If the generated `components.json` aliases don't match the project's `tsconfig.json` path mappings, component imports fail at build time with module-not-found errors. The most common misconfiguration: the aliases default to `@/components` but the project's `@/` maps to `./src/` — which is correct and expected.
+
+**Prevention:** Verify `tsconfig.json` has the `src/` alias configured:
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+The correct `components.json` for this project:
+```json
+{
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css"
+  }
+}
+```
+
+Note: `tailwind.config` must be empty string (not a path) for Tailwind v4 projects.
+
+---
+
+### Pitfall S6: Server Component vs Client Component — Interactive shadcn Components Need `"use client"` Boundaries
+
+**Phase:** Component replacement phases (ongoing)
+
+**What goes wrong:** Many shadcn components include `"use client"` at the top of their file because they use React hooks or event handlers internally. When `rsc: true` is set in `components.json` (required for App Router), the CLI adds `"use client"` automatically to components that need it. Problems arise when:
+
+1. Developers assume all shadcn components are server-safe and import interactive ones directly into Server Components.
+2. The `"use client"` boundary is placed too deep — a component file without `"use client"` imports from a shadcn file that has it, causing React to complain about client-only APIs being used in a server context.
+
+**Prevention:** The three target components for this milestone — Card, Badge, and Separator — are all non-interactive presentational primitives. They do NOT require `"use client"` and are safe to import directly into Server Components. This is the low-risk path.
+
+The existing `AnimateIn` client wrapper pattern is the right model for any future interactive shadcn components: wrap them at the section boundary, keep Server Components clean.
+
+**Detection:** Build error: "You're importing a component that needs `useState`. It only works in a Client Component..." — this means `"use client"` is missing from the importing file.
+
+---
+
+### Pitfall S7: Biome Linter Flags shadcn-Generated Component Code
+
+**Phase:** Init and each component addition (ongoing)
+
+**What goes wrong:** This project uses Biome instead of ESLint. shadcn generates standard TypeScript/TSX targeting ESLint assumptions. Generated components may include patterns Biome flags as errors:
+- Unused imports (e.g., `import * as React from "react"` when JSX transform is configured)
+- Explicit `any` types in utility functions
+- Import ordering violations
+- `class` attribute instead of `className` (rare but possible in some templates)
+
+**Why it happens:** The shadcn CLI does not detect or respect Biome configuration. It generates ESLint-compatible code.
+
+**Consequences:** `npm run lint` fails after adding components, blocking any CI gate that checks lint.
+
+**Prevention:** After adding each component, run `npm run lint` immediately. Use `npm run format` to auto-fix formatting issues first. For remaining errors in generated files that are false positives, add targeted Biome suppression comments rather than disabling rules globally:
+```tsx
+// biome-ignore lint/style/useImportType: shadcn generated
+import * as React from "react"
+```
+
+---
+
+### Pitfall S8: `cn()` Custom Class Groups — `tailwind-merge` Doesn't Know About Project's Custom Utilities
+
+**Phase:** Component replacement phases (ongoing)
+
+**What goes wrong:** shadcn/ui uses `tailwind-merge` via the `cn()` utility in `src/lib/utils.ts`. When passing className overrides to shadcn components, `tailwind-merge` resolves conflicting Tailwind class groups. However, `tailwind-merge` only knows about standard Tailwind class groups by default. Custom utilities defined via `@utility` in `globals.css` (or project-specific patterns like `bg-zinc-pill`) are unknown to `tailwind-merge` and may be incorrectly dropped when they appear alongside standard background utilities.
+
+**Why it happens:** `tailwind-merge` maintains a class group registry. Custom utilities outside the standard Tailwind scale are not registered.
+
+**Consequences:** Custom class names may be silently dropped when merged with standard classes via `cn()`. Visual regressions with no error.
+
+**Prevention:** For a resume site this is a minor risk — the custom utilities (`bg-zinc-pill`) are applied without competing standard background classes. If conflicts surface, configure a custom `twMerge` using `extendTailwindMerge`:
+```ts
+import { extendTailwindMerge } from "tailwind-merge"
+const customTwMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "bg-color": [{ bg: ["zinc-pill"] }],
+    },
+  },
+})
+```
+
+---
+
+### Pitfall S9: Next.js 16 Untested With shadcn CLI — Potential Detection Failures
+
+**Phase:** Init (Phase 1 of milestone)
+
+**Confidence:** LOW — no official documentation or community reports specifically address Next.js 16 + shadcn compatibility. This is extrapolated from known Next.js 15 support.
+
+**What goes wrong:** shadcn/ui documentation targets Next.js 15. This project runs 16.2.3. The shadcn CLI detects the Next.js version during init to configure `rsc`, `tsx`, and other settings. If it doesn't recognize Next.js 16, it may:
+- Default to older behavior (RSC disabled)
+- Misconfigure `components.json`
+- Generate components with deprecated patterns from Next.js 14/15
+
+**Prevention:** During init, explicitly verify the generated `components.json` has `"rsc": true`. If the CLI auto-configures it incorrectly, set it manually before adding any components. After init, add one simple component (Badge) and confirm it renders correctly in a Server Component before doing a full swap.
+
+---
+
+## Minor Pitfalls (v4.0)
+
+---
+
+### Pitfall S10: `forwardRef` Removal in React 19 — Type Signature Differences
+
+**Phase:** Component replacement phases (ongoing)
+
+**What goes wrong:** React 19 removed `forwardRef`. New shadcn components no longer use it. However, if the project somehow has older cached shadcn component versions or uses `shadcn-ui@latest` (old package) instead of `shadcn@latest` (new package), generated components may use the old `forwardRef` pattern, which works but TypeScript types differ for `ref` prop passing.
+
+**Prevention:** Always use `npx shadcn@latest` (not `npx shadcn-ui@latest` — that package is deprecated). The `--overwrite` flag updates existing components to the latest version when needed:
+```bash
+npx shadcn@latest add badge --overwrite
+```
+
+---
+
+### Pitfall S11: Dark Mode CSS Variables Need Complete Redefinition in `.dark`
+
+**Phase:** Future dark mode work (not current milestone, but plant the flag)
+
+**What goes wrong:** When dark mode is added later (listed as a future requirement in PROJECT.md), shadcn's `.dark` class requires that ALL theme variables in `:root` be redefined with dark values. Tailwind v4 uses `@theme inline` to bridge CSS variables to utilities — missing variables in `.dark` cause components to inherit light-mode colors in dark mode, appearing washed out or unreadable.
+
+**Prevention:** This is a future concern. When implementing dark mode, follow shadcn's complete `.dark` variable set from the official theming docs exactly. Do not partially define `.dark` variables.
+
+---
+
+### Pitfall S12: Tailwind Preflight Reset Changes Inherited Browser Styles
+
+**Phase:** After init (visual audit)
+
+**What goes wrong:** If shadcn init adds Tailwind Preflight-based resets to `globals.css` (or if Preflight was not previously active), browser defaults are normalized — removing default margins on headings, normalizing `<ul>` list styles, setting `box-sizing: border-box`. Existing components that relied on inherited browser defaults may visually regress.
+
+**Prevention:** After init, do a full visual pass through the page before touching any components. Identify any regressions from Preflight and add explicit Tailwind classes to restore the intended behavior. Note: since this project already uses Tailwind v4 which applies Preflight by default, this risk is LOW — Preflight is likely already active.
+
+---
+
+## Phase-Specific Warnings (v4.0)
+
+| Phase Topic | Likely Pitfall | Mitigation |
+|-------------|----------------|------------|
+| `shadcn init` | `globals.css` overwrite destroys Geist font mappings (S1) | Commit first; manually restore `--font-sans`/`--font-mono` in `@theme inline` after init |
+| `shadcn init` | Hex color variables break shadcn HSL system (S2) | Convert `--background`/`--foreground` to `hsl()` format before or after init |
+| `shadcn init` | `tw-animate-css` not installed (S3) | Run `npm install tw-animate-css` explicitly after init |
+| `shadcn init` with npm + React 19 | ERESOLVE peer dep blocks install (S4) | Use `--legacy-peer-deps` or add to `.npmrc` |
+| `shadcn init` | `components.json` alias misconfigured (S5) | Verify `tailwind.config` is blank string; verify CSS path points to `src/app/globals.css` |
+| Card replacement | Low risk — Card is Server Component safe (S6 N/A) | No `"use client"` needed |
+| Badge replacement | Low risk — Badge is Server Component safe (S6 N/A) | No `"use client"` needed |
+| Separator replacement | Low risk — Separator is Server Component safe (S6 N/A) | No `"use client"` needed |
+| After each `shadcn add` | Biome lint fails on generated code (S7) | Run `npm run lint` immediately; add targeted `biome-ignore` comments |
+| Custom utility classes in `cn()` | `tailwind-merge` drops project-specific utilities (S8) | Test zinc-pill and other custom utilities explicitly |
+| Next.js 16 detection | CLI may not recognize v16 correctly (S9) | Manually verify `"rsc": true` in `components.json` |
+| Future dark mode | `.dark` class requires complete variable redefinition (S11) | Follow shadcn theming docs exactly when adding dark mode |
+
+---
+
+## "Looks Done But Isn't" Checklist (v4.0)
+
+- [ ] **Font still Geist:** After init, confirm body font renders in Geist (not system-ui) in browser DevTools.
+- [ ] **Color variables correct:** Add a shadcn Badge to a test page — confirm `bg-primary`, `text-primary-foreground` render with correct colors.
+- [ ] **`tw-animate-css` installed:** Check `package.json` — `tw-animate-css` appears in dependencies.
+- [ ] **`components.json` correct:** `tailwind.config` is `""` (not a path); `css` points to `src/app/globals.css`; `rsc` is `true`.
+- [ ] **No ERESOLVE errors:** `npm install` (or `shadcn add`) completes without ERESOLVE. Use `--legacy-peer-deps` if needed.
+- [ ] **Biome passes:** `npm run lint` succeeds after each component addition.
+- [ ] **Shadcn Card renders correctly:** Replace one hand-rolled card with shadcn Card — confirms full integration working before bulk replacement.
+- [ ] **No raw asterisks or broken content:** Existing `HighlightedBullet`, tech stack icons, and timeline elements all render correctly after shadcn styles are applied.
+- [ ] **Build succeeds:** `npm run build` completes without errors after all component replacements.
+
+---
+
+## Recovery Strategies (v4.0)
+
+| Pitfall | Recovery Cost | Recovery Steps |
+|---------|---------------|----------------|
+| Geist font lost after init | LOW | Add `--font-sans: var(--font-geist-sans)` back to `@theme inline` in `globals.css`, push |
+| Color variables broken | LOW | Convert hex values to `hsl()` format in `:root`, push |
+| `tw-animate-css` missing | LOW | `npm install tw-animate-css`, push |
+| ERESOLVE during install | LOW | Add `legacy-peer-deps=true` to `.npmrc`, re-run init |
+| Wrong `components.json` aliases | LOW | Edit `components.json` manually, re-add components |
+| Biome lint failures in generated files | LOW | Add targeted `biome-ignore` comments, `npm run format` |
+| Wrong component renders after replacement | LOW | `npx shadcn@latest add <component> --overwrite` to get latest version |
+
+---
+
+## Sources (v4.0)
+
+- [shadcn/ui Tailwind v4 docs](https://ui.shadcn.com/docs/tailwind-v4) — PRIMARY: confirms v4 compatibility, CSS variable migration, tw-animate-css migration — HIGH confidence
+- [shadcn/ui React 19 docs](https://ui.shadcn.com/docs/react-19) — confirms React 19 support, `--legacy-peer-deps` workaround — HIGH confidence
+- [shadcn/ui Changelog February 2025](https://ui.shadcn.com/docs/changelog/2025-02-tailwind-v4) — confirms all components updated for v4 + React 19 — HIGH confidence
+- [shadcn/ui components.json docs](https://ui.shadcn.com/docs/components-json) — confirms `tailwind.config` blank for v4; `rsc` behavior — HIGH confidence
+- [GitHub Issue #6970: tw-animate-css not found on existing projects](https://github.com/shadcn-ui/ui/issues/6970) — confirms missing package bug — HIGH confidence (reproduced bug)
+- [GitHub Discussion #6646: CLI overwrites CSS variables](https://github.com/shadcn-ui/ui/discussions/6646) — confirms init overwrites globals.css — MEDIUM confidence
+- [shadcn/ui Troubleshooting](https://eastondev.com/blog/en/posts/dev/20260402-shadcn-ui-troubleshooting/) — style conflicts, TypeScript errors breakdown — MEDIUM confidence
+- [Tailwind v4 + shadcn Dropdown transparent after upgrade](https://github.com/tailwindlabs/tailwindcss/discussions/17137) — real-world CSS variable conflict example — MEDIUM confidence
+- Context7 `/shadcn-ui/ui` — React 19 peer dependency docs — HIGH confidence
+- Context7 `/llmstxt/ui_shadcn_llms_txt` — components.json, `cn()` utility, RSC/client boundaries — HIGH confidence
+- Codebase direct inspection: `src/app/globals.css`, `src/app/layout.tsx`, `package.json` — HIGH confidence
