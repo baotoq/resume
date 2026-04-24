@@ -25,6 +25,14 @@ Next.js 16 (App Router) + React 19 + Tailwind CSS 4 + TypeScript. Single-page re
 
 **Contact info** (`EMAIL`, `PHONE`) comes from environment variables, not the markdown file.
 
-**Adding a new tech icon:** Add entry to `TECH_ICON_MAP` in `src/components/TechStackIcons.tsx`. Key must match `tech_stack` values lowercased. Use `react-devicons` if available; otherwise create a custom SVG component in `src/components/icons/`.
+**`skills` field** in `ResumeData` is `Record<string, string>` — keys are category labels, values are comma-separated skill strings.
+
+**Adding a new tech icon:** Add entry to `TECH_ICON_MAP` in `src/components/techstack-icons/TechStackIcons.tsx`. Key must match `tech_stack` values after `.toLowerCase().trim()`. Use `react-devicons` if available; otherwise create a custom SVG component in `src/components/techstack-icons/`.
+
+**Adding a company logo:** Add an SVG component in `src/components/company-logos/` and register it in `COMPANY_LOGO_MAP` in `LogoImage.tsx` (key = exact `company` string from resume data). Falls back to `<img src={logo_url}>` for unregistered companies.
+
+**shadcn/ui:** Style `new-york`, base color `neutral`, CSS variables enabled. Add components via `npx shadcn add <component>`; they land in `src/components/ui/`. Do not hand-edit generated files — re-run the CLI instead.
 
 **Bullet formatting:** Supports `**bold**` and `*italic*` markdown inline — rendered via `HighlightedBullet` component.
+
+**Animations:** Wrap sections in `<AnimateIn delay={n}>` (framer-motion). Delay is in seconds; stagger by 0.1 between sections.
