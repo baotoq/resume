@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: stable list from static YAML data */
 import type { EducationEntry } from "@/types/resume";
 
 interface EducationSectionProps {
@@ -9,7 +9,10 @@ function formatDateRange(start: string, end: string | null): string {
   const formatMonth = (d: string) => {
     const [year, month] = d.split("-");
     const date = new Date(Number(year), Number(month) - 1);
-    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric",
+    });
   };
   return `${formatMonth(start)} – ${end ? formatMonth(end) : "Present"}`;
 }
@@ -24,10 +27,15 @@ export function EducationSection({ education }: EducationSectionProps) {
       </h2>
       <div className="flex flex-col gap-6">
         {education.map((entry, index) => (
-          <article key={index} className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <article
+            key={index}
+            className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm"
+          >
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-0">
               <div className="flex flex-col gap-1">
-                <h3 className="text-lg font-semibold text-zinc-900">{entry.degree}</h3>
+                <h3 className="text-lg font-semibold text-zinc-900">
+                  {entry.degree}
+                </h3>
                 <p className="text-base text-zinc-700">{entry.institution}</p>
               </div>
               <span className="text-sm font-semibold text-zinc-500 sm:text-right">
@@ -35,7 +43,9 @@ export function EducationSection({ education }: EducationSectionProps) {
               </span>
             </div>
             {entry.details && (
-              <p className="mt-4 text-base leading-relaxed text-zinc-700">{entry.details}</p>
+              <p className="mt-4 text-base leading-relaxed text-zinc-700">
+                {entry.details}
+              </p>
             )}
           </article>
         ))}
