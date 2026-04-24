@@ -46,7 +46,10 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
           const isCurrent = entry.endDate === null;
 
           return (
-            <div key={`${entry.company}-${entry.startDate}`} className="relative">
+            <div
+              key={`${entry.company}-${entry.startDate}`}
+              className="relative"
+            >
               {/* Timeline dot — z-10 so it sits above the continuous line */}
               <div
                 className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
