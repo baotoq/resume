@@ -8,7 +8,18 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
-## Current Milestone: v3.0 Content & Polish
+## Current Milestone: v4.0 shadcn/ui Full Design System Swap
+
+**Goal:** Replace all hand-rolled component styling with shadcn/ui primitives — Card, Badge, Separator, and related components — giving the resume a polished, design-system-backed UI with consistent tokens for typography, spacing, and color.
+
+**Target features:**
+- Install and configure shadcn/ui for Next.js 16 + Tailwind v4
+- Replace hand-rolled section cards with shadcn Card primitives
+- Replace hand-rolled badges/pills (tech stack, fallback pills) with shadcn Badge
+- Replace hand-rolled dividers and structural elements with shadcn Separator
+- Typography, spacing, and color tokens unified via shadcn design system (subsumes v3.0 Phase 12 scope)
+
+## Previous Milestone: v3.0 Content & Polish (Phases 9–11 complete, Phase 12 superseded by v4.0)
 
 **Goal:** Enhance resume completeness and presentation quality — add missing content sections and elevate the visual design to senior-engineer standard.
 
@@ -47,12 +58,13 @@ Vercel is the sole deployment target. Full Next.js 16 runtime available. All sta
 - ✓ Server-only EMAIL/PHONE env vars (no NEXT_PUBLIC_ prefix) — CFG-01 — v2.0
 - ✓ Clearbit remotePatterns for company logos — IMG-01 — v2.0
 
-### Active
+### Active (v4.0)
 
-- [ ] Bio/intro paragraph at top of page
-- [ ] Duration labels computed from date ranges on experience entries
-- [ ] Education section (degree, institution, dates)
-- [ ] Typography + spacing overhaul: professional, scannable, well-spaced
+- [ ] Install and configure shadcn/ui for Next.js 16 + Tailwind v4
+- [ ] Replace section cards with shadcn Card primitives
+- [ ] Replace tech stack pills / fallback pills with shadcn Badge
+- [ ] Replace dividers with shadcn Separator
+- [ ] Unify typography, spacing, and color tokens via shadcn design system
 
 ### Future
 
@@ -134,4 +146,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-24 after Phase 9 (Type System & Data Foundation) complete*
+*Last updated: 2026-04-24 — Milestone v4.0 shadcn/ui Full Design System Swap started*
