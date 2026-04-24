@@ -88,6 +88,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
     <section>
       <Card className="hover-lift relative overflow-hidden">
         <div className="accent-glow" aria-hidden="true" />
+        <div className="accent-glow-bottom" aria-hidden="true" />
         <CardContent className="relative">
           <h1 className="accent-gradient-text text-[28px] font-semibold leading-[1.1]">
             {resume.name}
