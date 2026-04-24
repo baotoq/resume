@@ -1,9 +1,11 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
-import type { ExperienceEntry } from "@/types/resume";
-import { HighlightedBullet } from "@/components/HighlightedBullet";
+
 import { LogoImage } from "@/components/company-logos/LogoImage";
+import { HighlightedBullet } from "@/components/HighlightedBullet";
 import { TechStackIcons } from "@/components/techstack-icons/TechStackIcons";
+import { Card, CardContent } from "@/components/ui/card";
 import { computeDuration } from "@/lib/duration";
+import type { ExperienceEntry } from "@/types/resume";
 
 interface WorkExperienceProps {
   experience: ExperienceEntry[];
@@ -53,44 +55,52 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               />
 
               {/* Card */}
-              <article className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <h3 className="font-bold text-blue-600 text-lg">
-                          <LogoImage
-                            company={entry.company}
-                            link={entry.link}
-                            logoUrl={entry.logo_url}
-                          />
-                        </h3>
-                        <p className="text-xl font-bold text-zinc-900">
-                          {entry.role}
-                        </p>
+              <article>
+                <Card>
+                  <CardContent>
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-center sm:justify-between">
+                          <div>
+                            <h3 className="font-bold text-blue-600 text-lg">
+                              <LogoImage
+                                company={entry.company}
+                                link={entry.link}
+                                logoUrl={entry.logo_url}
+                              />
+                            </h3>
+                            <p className="text-xl font-bold text-zinc-900">
+                              {entry.role}
+                            </p>
+                          </div>
+                          <div className="flex flex-col items-end">
+                            <span className="text-sm font-bold text-zinc-500">
+                              {formatDateRange(entry.startDate, entry.endDate)}
+                            </span>
+                            <span className="text-xs text-zinc-400">
+                              {computeDuration(
+                                entry.startDate,
+                                entry.endDate,
+                                now,
+                              )}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex flex-col items-end">
-                        <span className="text-sm font-bold text-zinc-500">
-                          {formatDateRange(entry.startDate, entry.endDate)}
-                        </span>
-                        <span className="text-xs text-zinc-400">
-                          {computeDuration(entry.startDate, entry.endDate, now)}
-                        </span>
-                      </div>
+                      <ul className="flex flex-col gap-2">
+                        {entry.bullets.map((bullet, i) => (
+                          <li
+                            key={i}
+                            className="text-base leading-relaxed text-zinc-700 pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-zinc-300"
+                          >
+                            <HighlightedBullet>{bullet}</HighlightedBullet>
+                          </li>
+                        ))}
+                      </ul>
+                      <TechStackIcons stack={entry.tech_stack} />
                     </div>
-                  </div>
-                  <ul className="flex flex-col gap-2">
-                    {entry.bullets.map((bullet, i) => (
-                      <li
-                        key={i}
-                        className="text-base leading-relaxed text-zinc-700 pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-zinc-300"
-                      >
-                        <HighlightedBullet>{bullet}</HighlightedBullet>
-                      </li>
-                    ))}
-                  </ul>
-                  <TechStackIcons stack={entry.tech_stack} />
-                </div>
+                  </CardContent>
+                </Card>
               </article>
             </div>
           );
