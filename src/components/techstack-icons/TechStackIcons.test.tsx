@@ -29,7 +29,8 @@ describe("TechStackIcons", () => {
   });
 
   it("renders a Badge with the ORIGINAL text when tech is unknown", () => {
-    render(<TechStackIcons stack={["UnknownTech"]} />);
+    const { container } = render(<TechStackIcons stack={["UnknownTech"]} />);
     expect(screen.getByText("UnknownTech")).toBeInTheDocument();
+    expect(container.querySelector("svg")).toBeNull();
   });
 });
