@@ -26,8 +26,9 @@ export function Header({ resume, email, phone }: HeaderProps) {
 
   return (
     <section>
-      <Card>
-        <CardContent>
+      <Card className="relative overflow-hidden">
+        <div className="accent-glow" aria-hidden="true" />
+        <CardContent className="relative">
           <h1 className="text-[28px] font-semibold leading-[1.1] text-foreground">
             {resume.name}
           </h1>
@@ -40,7 +41,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
                 {i > 0 && <span className="text-muted-foreground"> · </span>}
                 <a
                   href={c.href}
-                  className="text-primary hover:text-primary/80 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+                  className="link-underline text-primary hover:text-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
                   {...(c.href.startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
