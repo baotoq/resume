@@ -77,7 +77,7 @@ function TechIcon({ tech }: { tech: string }) {
 
   if (Icon) {
     return (
-      <div className="relative group">
+      <div className="relative group hover-lift">
         <Icon size={40} />
         <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-popover text-popover-foreground border border-border text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap pointer-events-none z-10">
           {tech}
@@ -86,7 +86,7 @@ function TechIcon({ tech }: { tech: string }) {
     );
   }
 
-  return <Badge variant="secondary">{tech}</Badge>;
+  return <Badge variant="secondary" className="hover-lift">{tech}</Badge>;
 }
 
 export function TechStackIcons({ stack }: TechStackIconsProps) {
