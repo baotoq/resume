@@ -14,6 +14,7 @@ export interface EducationEntry {
   institution: string;
   startDate: string; // "YYYY-MM" format
   endDate: string | null; // null renders as "Present"
+  details?: string; // optional prose rendered as paragraph when present
   logo_url?: string;
   link?: string;
 }
