@@ -1,258 +1,225 @@
-# Feature Landscape — v3.0 Content & Polish
+# Feature Landscape — v4.0 shadcn/ui Design System Swap
 
-**Domain:** Software engineer resume / CV personal page — content completeness and design quality
-**Researched:** 2026-04-23
-**Confidence:** HIGH (codebase inspection + official sources + widely-established conventions)
+**Domain:** Personal resume website — replacing hand-rolled Tailwind styling with shadcn/ui primitives
+**Researched:** 2026-04-24
+**Confidence:** HIGH (codebase inspection + Context7 shadcn/ui official docs)
 
 ---
 
 ## Overview
 
-Four features are being added to the existing site. The site already has: work experience section with timeline, tech stack icons, bullet highlights, skills section, scroll animations (framer-motion), and responsive layout. Features below are assessed against that baseline.
+The existing site has four hand-rolled card-shaped UI elements that all use the same pattern (`rounded-xl border border-zinc-200 bg-white p-6 shadow-sm`): the Header section, WorkExperience article cards, EducationSection article cards, and the Skills section. Additionally there are tech-stack fallback pills, a pure-CSS tooltip on tech icons, and inline `·` separators in the Header contact row. This file maps each to the appropriate shadcn/ui primitive and classifies them.
 
 ---
 
-## Feature 1 — Bio / Intro Paragraph
+## Table Stakes
 
-### Table Stakes
+Features/components that the milestone explicitly requires. Missing any of these means the design system swap is incomplete.
 
-These are the minimum behaviors that recruiters and engineers expect. Omitting them makes the section feel incomplete.
+| Feature | Existing Element | shadcn Component | Complexity | Notes |
+|---------|-----------------|-----------------|------------|-------|
+| Section card container | `<article className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">` in WorkExperience, EducationSection, and Header | `Card` + `CardContent` | LOW | Direct structural swap; keep `p-6` spacing via CardContent |
+| Tech stack fallback pills | `<span className="bg-zinc-100 text-zinc-600 rounded-full px-2 py-0.5 text-xs">` in TechStackIcons.tsx line 89 | `Badge variant="secondary"` | LOW | One-liner swap; `outline` variant also viable for a lighter look |
+| Section dividers | No dividers currently exist; project goal says "replace hand-rolled dividers" | `Separator` | LOW | Install for structural use *between* sections only — not inline text |
+| CSS variable token unification | Scattered zinc-* / blue-* / indigo-* hardcoded classes | shadcn CSS variable theme (`--background`, `--foreground`, `--primary`, `--muted`, `--border`) | MEDIUM | Requires init + `globals.css` `@theme inline` block; all existing color tokens must be audited and remapped |
+| Typography system | Inconsistent manual Tailwind classes across Header, WorkExperience, EducationSection | shadcn Typography class recipes | LOW-MEDIUM | **Not a component** — see note below |
 
-| Behavior | Why Expected | Complexity | Notes |
-|----------|--------------|------------|-------|
-| Placed at top of page, above work experience | Recruiters expect to understand who you are before reading your history | LOW | Slot it between Header and WorkExperience in `page.tsx` |
-| 2–5 sentence prose summary | A short paragraph (50–150 words) is the universal convention for bio sections | LOW | YAML string field in `resume.md`; rendered as `<p>` |
-| Reflects current role / seniority signal | Engineers want to read a confident professional identity statement, not a generic intro | LOW | Content responsibility, not implementation |
-| Consistent card styling with rest of page | Should use the same `rounded-xl border border-zinc-200 bg-white shadow-sm` card style the other sections use | LOW | CSS only |
+### Critical Note: Typography is Not an Installable Component
 
-### Differentiators
-
-These make the bio stand out above the baseline.
-
-| Behavior | Value | Complexity | Notes |
-|----------|-------|------------|-------|
-| Fade-in scroll animation matching other sections | Visual consistency with framer-motion AnimateIn wrappers already used throughout | LOW | Wrap with existing `AnimateIn` component |
-| One sentence of personal texture at end | "I care about X" or a side interest humanizes the profile — used on high-quality portfolios like Brittany Chiang's | LOW | Content choice only |
-
-### Anti-Features
-
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Typing / typewriter animation on the bio | Signals student project, distracts from reading the text, explicitly out of scope per PROJECT.md | Static text |
-| Embedded profile photo | Resume sites for engineers do not conventionally include photos; in some regions it creates legal risk for employers | Omit |
-| Multiple bio length variants / tabs | Over-engineering for a personal resume page | Single bio string |
-| HTML markup inside the bio string | Creates XSS surface and complicates data model | Plain string in YAML; no markdown parsing needed in bio |
-
-### Dependencies on Existing Features
-
-- Requires a new `bio` field added to `ResumeData` interface in `src/types/resume.ts`
-- Requires a new `bio` string in `resume.md` YAML frontmatter
-- Uses existing `AnimateIn` wrapper in `src/components/animation/`
-- Placement in `page.tsx` between `<Header>` and `<WorkExperience>` — no structural changes to other sections
+`npx shadcn@latest add typography` does not exist. Shadcn typography is a set of Tailwind class-name recipes documented at `https://ui.shadcn.com/docs/components/typography`. There is no component file to install. Unifying typography means adopting the class patterns from those docs (`scroll-m-20 text-4xl font-extrabold tracking-tight`, `leading-7`, etc.) and applying them consistently across existing components. Do not attempt to `add` typography.
 
 ---
 
-## Feature 2 — Duration Labels on Experience Entries
+## Differentiators
 
-### Table Stakes
+Nice-to-have components that add polish beyond the stated minimum. Build these if scope allows.
 
-| Behavior | Why Expected | Complexity | Notes |
-|----------|--------------|------------|-------|
-| Duration displayed alongside the date range | LinkedIn established this as the dominant convention; recruiters read it to assess tenure quickly | LOW | Pure calculation, no UI library needed |
-| Format: "X yrs Y mos" or "Y mos" | LinkedIn's exact abbreviated format; familiar to all recruiters; "2 yrs 3 mos" for ≥1 year, "8 mos" when < 1 year | LOW | Single utility function |
-| Computed from `startDate` / `endDate` fields that already exist | Data already present in `ExperienceEntry`; no schema change needed | LOW | `endDate: null` means "use today's date" |
-| Current-role duration updates automatically | "Present" entries should calculate against today, not a hardcoded date | LOW | `new Date()` for null endDate |
+| Feature | Existing Element | shadcn Component | Value | Complexity | Notes |
+|---------|-----------------|-----------------|-------|------------|-------|
+| Tech icon tooltip | `group-hover:opacity-100` absolute-positioned span in TechStackIcons.tsx lines 80–83 | `Tooltip` + `TooltipProvider` + `TooltipTrigger` | Accessible hover tooltip with Radix focus/keyboard support | MEDIUM | Converts pure-CSS hover to a Radix JS client component — see tradeoff flag below |
+| Contact link separators (structural) | n/a — not currently used | `Separator orientation="vertical"` | Visual dividers in sidebar-style layouts | LOW | Only relevant if layout changes to have vertical sections; current horizontal layout uses inline `·` text |
+| Section header card enhancement | Plain `<section>` wrappers for WorkExperience, Education section headings | `CardHeader` + `CardTitle` | Consistent heading structure inside Card | LOW | If the section heading is placed inside the Card boundary |
 
-### Differentiators
+### Tooltip Tradeoff Flag
 
-| Behavior | Value | Complexity | Notes |
-|----------|-------|------------|-------|
-| Muted/secondary styling distinct from the date range | Duration is secondary information to the "Jan 2021 – Sep 2021" range — styling it smaller or in zinc-400/zinc-500 vs zinc-500 creates hierarchy | LOW | Tailwind class tweak only |
-| Render duration on same line as date range, parenthetical | "Jan 2021 – Sep 2021 · 8 mos" avoids adding a second line | LOW | A `·` separator or wrapping in parentheses both work |
+The existing tech icon tooltip is pure CSS (`group-hover:opacity-100` span with `pointer-events-none`). Replacing it with shadcn `Tooltip` means:
 
-### Anti-Features
-
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Showing days ("2 yrs 3 mos 14 days") | Noise; no recruiter cares about day precision on job tenure | Cap at months |
-| Computing "total years of experience" across all entries | Not requested; aggregate calculations are ambiguous (overlapping roles, etc.) | Duration per entry only |
-| Server-side date logic that breaks on Vercel edge | None needed — this is pure arithmetic on YYYY-MM strings; no date library required | Vanilla JS `Date` arithmetic |
-
-### Implementation Note
-
-The existing `formatDateRange` function in `WorkExperience.tsx` already formats the display range. A parallel `formatDuration(start, end)` function is the correct pattern — keeps concerns separate and leaves `formatDateRange` unchanged.
-
-Calculation logic:
-- Parse YYYY-MM strings to `Date` objects (set day to 1 for consistent month math)
-- Compute total months: `(endYear - startYear) * 12 + (endMonth - startMonth)`
-- Convert: years = `Math.floor(months / 12)`, remainder months = `months % 12`
-- Format: if years > 0 → `"X yr[s] Y mo[s]"` (drop zero month remainder); if years === 0 → `"Y mo[s]"`
-- Edge: if total months < 1 → `"< 1 mo"`
-
-### Dependencies on Existing Features
-
-- No schema changes — `startDate` and `endDate` already exist on `ExperienceEntry`
-- Modifies `WorkExperience.tsx` only (or extracts a `formatDuration` util)
-- No new packages needed
+- **Pro:** keyboard accessible (focus triggers tooltip), ARIA attributes, Radix portal avoids z-index battles
+- **Con:** requires `"use client"` directive, `TooltipProvider` wrapper at a higher level, and a Radix JS bundle. TechStackIcons.tsx is currently a server-renderable component — adding `Tooltip` makes it a client component.
+- **Recommendation:** Swap to Tooltip if accessibility is a priority; keep pure-CSS if server-component boundary is important to preserve. Either is valid for a resume site.
 
 ---
 
-## Feature 3 — Education Section
+## Anti-Features
 
-### Table Stakes
+Components to explicitly NOT use for specific elements in this codebase.
 
-| Behavior | Why Expected | Complexity | Notes |
-|----------|--------------|------------|-------|
-| Degree title, institution name, graduation year | The three irreducible fields every recruiter expects | LOW | Three YAML fields |
-| Placed below work experience | Senior engineers (4+ years exp) conventionally place education at the bottom; work experience is the differentiator | LOW | Order in `page.tsx` |
-| Consistent card styling with work experience section | Visual consistency with the rest of the page | LOW | Reuse card CSS pattern |
-| Section heading "Education" matching "Work Experience" heading style | Typographic consistency | LOW | Match `text-xl font-semibold` heading |
+| Anti-Feature | Specific Mis-use | Why Avoid | What to Do Instead |
+|--------------|-----------------|-----------|-------------------|
+| `Separator` for Header contact inline dots | The `·` between contact links in Header.tsx is inline text, rendered inside a `flex flex-wrap` span row | Separator renders as a block `<div>` (Radix `SeparatorPrimitive.Root` is `role="separator"` with `display: block`). It cannot be used inline between text links — it will break the horizontal flow. | Keep the existing `<span className="text-zinc-400"> · </span>` text separator. It works correctly and needs no change. |
+| `ScrollArea` | The resume page content | Over-engineering — single-column scrollable page needs native browser scroll | Native scroll; no wrapper |
+| `Avatar` for company logos | LogoImage component in WorkExperience | Avatar expects a circular profile photo. Company logos are rectangular and rendered via `next/image` with fallback. The existing `LogoImage` component handles this correctly. | Keep LogoImage as-is |
+| `HoverCard` for tech stack entries | Tech icons in TechStackIcons | Over-engineered for simple icon labels; adds a card popup for what is just a text label | Use Tooltip if upgrading from pure CSS, or keep pure CSS |
+| `Badge` for ALL pills | Tech stack icon entries that already have a real SVG icon | When the tech has a recognized icon in TECH_ICON_MAP, the icon is the display element, not a pill. Badge should only replace the fallback pill path (line 89 in TechStackIcons.tsx). | Badge replaces only the `else` branch (unknown techs) — do not wrap icon entries in Badge |
+| shadcn `Button` | Contact links in Header, any links on the page | Resume links are semantic `<a>` elements. Button styling on links signals interactivity/action, which confuses the recruiter's mental model. | Keep `<a>` with `text-indigo-600 hover:underline` or restyle directly |
+| Dark mode toggle via shadcn `Switch` | Page-level theme | Out of scope per PROJECT.md "Future" — deferred deliberately | Defer to a future milestone |
 
-### Differentiators
+---
 
-| Behavior | Value | Complexity | Notes |
-|----------|-------|------------|-------|
-| Date range shown in same format as work experience ("Sep 2014 – Jun 2018") | Consistency signal; aligns visual rhythm with the experience section | LOW | Reuse or share `formatDateRange` logic |
-| Relevant coursework as a light secondary line | Optional but adds substance for a CS degree; keeps education from looking sparse | LOW | Optional YAML array field `relevant_coursework`; rendered as a comma-separated line, not a bullet list |
-| Scroll animation consistent with other sections | AnimateIn wrapper | LOW | Same as all other sections |
+## Component-to-Existing-Element Mapping
 
-### Anti-Features
+Explicit mapping from every hand-rolled element to its shadcn replacement (or explicit "no change" decision).
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| GPA display | Irrelevant for a 7+ year experienced engineer; can actively signal insecurity | Omit entirely |
-| Vertical timeline applied to education | Over-engineered for a single institution; timeline is meaningful when there are 3+ entries | Simple card without timeline rail |
-| Multiple education entries | Not needed for this user (one degree); over-engineering the data model | Single entry; array can be supported in type but one entry is fine for v3 |
-| Honors, activities, publications list | Out of scope; adds noise for a senior engineering resume; education is intentionally brief | Plain degree/institution/dates card |
+### Card — `npx shadcn@latest add card`
 
-### Schema Required
+| Existing Element | Location | Replacement |
+|-----------------|----------|-------------|
+| `<section className="rounded-xl border border-zinc-200 bg-white px-6 py-6 shadow-sm">` | Header.tsx line 17 | `<Card><CardContent className="px-6 py-6">` |
+| `<article className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">` | WorkExperience.tsx line 56 | `<Card><CardContent className="p-6">` |
+| `<article className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">` | EducationSection.tsx line 33 | `<Card><CardContent className="p-6">` |
 
-```typescript
-// New type
-export interface EducationEntry {
-  degree: string;          // "Bachelor of Science in Computer Science"
-  institution: string;     // "Ton Duc Thang University"
-  startDate: string;       // "YYYY-MM" or "YYYY"
-  endDate: string;         // "YYYY-MM" or "YYYY"
-  relevant_coursework?: string[]; // optional
-}
+Card sub-components available: `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter`. For resume cards, `Card` + `CardContent` is sufficient. `CardHeader` + `CardTitle` can optionally be used if the role title or degree title is moved inside the card header boundary.
 
-// Addition to ResumeData
-education: EducationEntry[];
+Card `size` prop: `"default"` | `"sm"` — use default for all resume cards.
+
+### Badge — `npx shadcn@latest add badge`
+
+| Existing Element | Location | Replacement |
+|-----------------|----------|-------------|
+| `<span className="bg-zinc-100 text-zinc-600 rounded-full px-2 py-0.5 text-xs">{tech}</span>` | TechStackIcons.tsx line 89 (fallback pill, `else` branch) | `<Badge variant="secondary">{tech}</Badge>` |
+
+Badge props:
+- `variant`: `"default"` (primary color fill) | `"secondary"` (muted bg) | `"outline"` (border only) | `"destructive"` (red fill)
+- `asChild`: `boolean` — renders as a different element type via Radix Slot
+- All standard HTML `<span>` attributes are passed through
+
+For tech fallback pills, `variant="secondary"` matches the existing zinc-100 muted style. `variant="outline"` gives a cleaner, lighter look — valid alternative.
+
+### Separator — `npx shadcn@latest add separator`
+
+| Where to Use | Purpose |
+|-------------|---------|
+| Between major page sections (below Header, below WorkExperience, below Education) | Optional structural divider if the design calls for visual breaks between sections |
+| Inside a card between the header area and bullet list | Thin horizontal rule between role info and bullets |
+
+Separator props:
+- `orientation`: `"horizontal"` (default, `h-px w-full`) | `"vertical"` (`w-px self-stretch`)
+- `decorative`: `boolean` (default `true`) — when `true`, sets `aria-hidden` and `role="none"` (purely visual). Set `false` if the separator has semantic meaning.
+- All standard `ComponentProps<typeof SeparatorPrimitive.Root>` passed through
+
+**Do NOT use for:** Header contact dot separators (inline text, block element will break layout).
+
+### Typography — No install, class-name recipes only
+
+No `npx shadcn@latest add typography` command exists. Use these class patterns from the official shadcn typography docs:
+
+| Element | Shadcn Recipe | Current Class (approximate) |
+|---------|--------------|---------------------------|
+| Page name (h1) | `text-4xl font-extrabold tracking-tight` | `text-[28px] font-semibold` — consider aligning |
+| Section headings (h2) | `text-3xl font-semibold tracking-tight` + `border-b pb-2` | `text-xl font-semibold` — current size is fine for resume density |
+| Role/degree title (h3) | `text-2xl font-semibold tracking-tight` | `text-lg font-bold` / `text-xl font-bold` |
+| Body / bullets (p) | `leading-7 [&:not(:first-child)]:mt-6` | `text-base leading-relaxed` — already good |
+| Secondary text (dates, duration) | `text-sm text-muted-foreground` | `text-sm text-zinc-500` — maps to `--muted-foreground` token |
+
+Once CSS variables are initialized via shadcn, `text-muted-foreground` replaces `text-zinc-500`, `text-foreground` replaces `text-zinc-900`, `bg-card` replaces `bg-white`, `border-border` replaces `border-zinc-200`.
+
+---
+
+## Silent Dependency: `cn()` Utility
+
+Every shadcn component imports `cn` from `@/lib/utils`. This file does not currently exist in the project. Running `npx shadcn@latest init` creates it automatically. The file exports a `cn(...inputs)` function that merges Tailwind classes using `clsx` + `tailwind-merge`.
+
+This is a prerequisite — without it, no shadcn component can be installed. It must be set up before any component is added.
+
+---
+
+## Installation Commands (per component)
+
+```bash
+# Initialize shadcn/ui (creates components.json, lib/utils.ts, CSS variables)
+npx shadcn@latest init
+
+# Individual component installs
+npx shadcn@latest add card
+npx shadcn@latest add badge
+npx shadcn@latest add separator
+npx shadcn@latest add tooltip   # differentiator only
 ```
 
-### Dependencies on Existing Features
-
-- New `EducationEntry` type in `src/types/resume.ts`
-- New `education` array field in `resume.md` YAML
-- New `Education` component (new file `src/components/Education.tsx`)
-- Placed in `page.tsx` after `<WorkExperience>` (before or after Skills — conventional order is Skills then Education for senior engineers, but either works)
-- Can reuse `formatDateRange` from WorkExperience — consider extracting to a shared util
-
 ---
 
-## Feature 4 — Typography + Spacing Overhaul
-
-### Table Stakes
-
-| Behavior | Why Expected | Complexity | Notes |
-|----------|--------------|------------|-------|
-| Consistent type scale: name > section-heading > role-title > body > secondary | Without a clear hierarchy the page reads as flat; recruiters need to scan in 6 seconds | MEDIUM | Audit all text classes across Header, WorkExperience, Skills |
-| Adequate vertical rhythm between sections | Cramped sections signal rushed design; each section needs breathing room | LOW | Gap/margin audit in `page.tsx` layout wrapper |
-| Body text legible at default zoom | 16px (Tailwind `text-base`) is the safe floor; do not go below 14px for bullet text | LOW | Check all `text-sm` usages — are any body text? |
-| Consistent font weight usage | Bold for names/roles, medium/regular for secondary info, no weight chaos | LOW | Audit class list across components |
-
-### Differentiators
-
-| Behavior | Value | Complexity | Notes |
-|----------|-------|------------|-------|
-| Inter or similar geometric sans-serif | Professional-grade readability at screen sizes; engineers recognize it as the de facto modern UI font | LOW | Tailwind v4: define `--font-sans: 'Inter', sans-serif` in `@theme` block in CSS; add Google Fonts import |
-| Section spacing 32–48px between major sections | "Breathing room" is the single highest-ROI spacing fix; sections at 24px or less feel packed | LOW | `gap-8` to `gap-12` on the page column wrapper |
-| Card internal padding 24px (p-6) consistent across all cards | WorkExperience already uses `p-6`; ensure Header and future Education use the same | LOW | Audit Header.tsx — it already uses `px-6 py-6` |
-| Secondary text (dates, duration, institution) in zinc-500 consistently | Creates a reliable hierarchy signal: primary=zinc-900, secondary=zinc-500, accent=blue-600 | LOW | Audit and standardize color tokens |
-
-### Anti-Features
-
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Custom font hosted in repo | Binary asset in git, slow loading, maintenance burden | Google Fonts or system font stack |
-| Fluid/clamp typography scaling | Resume is a single-column document, not a marketing site; fluid type adds complexity with no user benefit | Fixed Tailwind scale at two breakpoints max |
-| Tailwind `prose` plugin | Designed for long-form article content, not resume cards; overrides too many things | Direct Tailwind utility classes |
-| Dark mode in this milestone | Independent feature, higher complexity; out of scope per PROJECT.md | Defer to Future |
-| Animation overhaul alongside typography | Two orthogonal concerns; mixing them creates a large, hard-to-review diff | Typography/spacing changes only; keep existing framer-motion setup |
-
-### Scope Clarity
-
-"Typography + spacing overhaul" risks being unbounded. The correct scope is:
-
-1. Establish a 4-value type scale: `text-2xl` (name) → `text-xl` (section headings) → `text-lg` (role titles) → `text-base` (body/bullets) → `text-sm` (secondary: dates, duration, tech tags)
-2. Standardize spacing: `gap-10` or `gap-12` between page sections; `p-6` on all cards; `gap-2` between bullets
-3. Standardize color tokens: zinc-900 primary, zinc-700 body, zinc-500 secondary, blue-600 accent
-4. Optional: add Inter via Google Fonts + CSS `@theme` variable
-
-### Dependencies on Existing Features
-
-- Touches `Header.tsx`, `WorkExperience.tsx`, and `Skills` component (wherever it lives)
-- No new packages unless adding Inter (in which case: `next/font/google` or a CSS `@import`)
-- The `AnimateIn` wrappers in `src/components/animation/` are unaffected
-- Tailwind v4 syntax (`@theme` in CSS, no `tailwind.config.*`) must be respected — no config file changes
-
----
-
-## Feature Dependencies Summary
+## Feature Dependencies
 
 ```
-Bio/Intro paragraph
-    └──requires──> new bio field in ResumeData + resume.md
-    └──uses──> existing AnimateIn wrapper
-    └──uses──> existing card CSS pattern
+shadcn/ui init (creates lib/utils.ts, updates globals.css, creates components.json)
+    └──required by──> ALL shadcn component installs
 
-Duration Labels
-    └──uses──> existing startDate / endDate on ExperienceEntry (no schema change)
-    └──modifies──> WorkExperience.tsx (additive only)
+Card
+    └──replaces──> .rounded-xl.border.border-zinc-200.bg-white.shadow-sm pattern
+    └──in──> Header.tsx, WorkExperience.tsx, EducationSection.tsx
 
-Education Section
-    └──requires──> new EducationEntry type + education[] in ResumeData
-    └──requires──> new Education.tsx component
-    └──can share──> formatDateRange utility from WorkExperience.tsx
-    └──uses──> existing AnimateIn wrapper
+Badge
+    └──replaces──> fallback pill span in TechStackIcons.tsx (else branch only)
+    └──does NOT replace──> SVG icon entries in TechStackIcons.tsx
 
-Typography / Spacing Overhaul
-    └──touches──> Header.tsx, WorkExperience.tsx, Skills component, page.tsx
-    └──independent of──> all three content features above
-    └──no new packages required (Inter is optional)
+Separator
+    └──adds visual structure──> between page sections OR inside cards
+    └──does NOT replace──> inline text · separators in Header.tsx contact row
+
+Typography (no install)
+    └──is an audit + class rename task──> across Header, WorkExperience, EducationSection
+    └──depends on──> CSS variables being set up by shadcn init first
+    └──maps zinc-* tokens──> to --foreground / --muted-foreground / --border CSS variables
+
+Tooltip (differentiator)
+    └──replaces──> pure-CSS group-hover tooltip in TechStackIcons.tsx
+    └──forces──> "use client" on TechStackIcons.tsx (currently server-renderable)
+    └──requires──> TooltipProvider wrapper in a parent component
 ```
-
-**Recommended implementation order:** Duration labels → Bio → Education → Typography. Reason: duration and bio are purely additive. Education requires a new component. Typography touches everything — doing it last means you audit the final component set, not an intermediate one.
 
 ---
 
-## MVP for v3.0
+## Complexity Notes Per Component
+
+| Component | Install Complexity | Integration Complexity | Risk |
+|-----------|------------------|----------------------|------|
+| `Card` | LOW — one CLI command | LOW — structural swap only; identical visual result | LOW — no behavioral change |
+| `Badge` | LOW — one CLI command | LOW — one-line swap in one component | LOW |
+| `Separator` | LOW — one CLI command | LOW — additive; no existing element removed | LOW — only risk is misusing it for inline separators |
+| Typography | NONE (no install) | MEDIUM — requires audit of all text classes across 3 components | MEDIUM — high surface area; easy to miss one |
+| shadcn init | LOW — one CLI command | MEDIUM — modifies globals.css (CSS variable block added); must not conflict with existing Tailwind v4 `@import "tailwindcss"` | MEDIUM — Tailwind v4 compatibility requires careful review of generated CSS |
+| `Tooltip` | LOW | MEDIUM — adds client boundary to TechStackIcons | LOW–MEDIUM — bundle size increase, architectural boundary change |
+
+---
+
+## MVP for v4.0
 
 ### Must Ship
 
-- Bio paragraph (new YAML field + new component + AnimateIn)
-- Duration labels (pure calculation, no schema change)
-- Education section (new type + new component + YAML data)
-- Typography audit: type scale + section spacing + color token consistency
+1. `npx shadcn@latest init` — prerequisite for everything
+2. `Card` — replaces all three card-pattern elements (Header, WorkExperience, EducationSection)
+3. `Badge` — replaces TechStackIcons fallback pill
+4. `Separator` — use structurally between sections (additive, not a replacement)
+5. Typography audit — remap zinc-* colors to CSS variable tokens post-init
 
 ### Defer
 
-- Inter font: low effort but requires a Google Fonts decision; can be done after content is in
-- Relevant coursework in education: depends on user deciding what to list
+- `Tooltip` for tech icons: architectural boundary change, not strictly required for design system swap
+- Dark mode: explicitly deferred to Future in PROJECT.md
 
 ---
 
 ## Sources
 
-- Project codebase inspection (`src/types/resume.ts`, `src/components/WorkExperience.tsx`, `src/components/Header.tsx`, `src/data/resume.md`) — PRIMARY, HIGH confidence
-- PROJECT.md — authoritative scope and out-of-scope decisions — PRIMARY, HIGH confidence
-- [Brittany Chiang portfolio](https://brittanychiang.com/) — reference implementation for bio structure and date range display — MEDIUM confidence (single example but widely cited)
-- [Tech Interview Handbook — resume guide](https://www.techinterviewhandbook.org/resume/) — consensus on education section placement for senior engineers — MEDIUM confidence
-- [LinkedIn duration display convention](https://community.clay.com/x/support/pmvtmuip83w4/how-to-calculate-job-duration-on-linkedin-profiles) — "X yrs Y mos" format provenance — MEDIUM confidence (LinkedIn is de facto industry standard)
-- [NovoResume — how to list education](https://novoresume.com/career-blog/how-to-list-education-on-resume) — education section content conventions — MEDIUM confidence
-- [Tailwind CSS typography docs](https://tailwindcss.com/docs/font-size) — font-size scale and spacing utilities — HIGH confidence
+- Context7 `/llmstxt/ui_shadcn_llms_txt` — Card, Badge, Separator, Tooltip API reference — HIGH confidence
+- `https://ui.shadcn.com/docs/components/card` — Card sub-components and props — HIGH confidence
+- `https://ui.shadcn.com/docs/components/badge` — Badge variants (`default`, `secondary`, `outline`, `destructive`) — HIGH confidence
+- `https://ui.shadcn.com/docs/components/separator` — Separator orientation/decorative props, Radix `SeparatorPrimitive.Root` — HIGH confidence
+- `https://ui.shadcn.com/docs/components/typography` — Typography is class recipes only, no installable component — HIGH confidence
+- `https://ui.shadcn.com/docs/tailwind-v4` — Tailwind v4 compatibility (CSS variable syntax, `@theme inline`, `tw-animate-css`) — HIGH confidence
+- Codebase inspection: `src/components/Header.tsx`, `src/components/WorkExperience.tsx`, `src/components/EducationSection.tsx`, `src/components/techstack-icons/TechStackIcons.tsx` — PRIMARY, HIGH confidence
+- `.planning/PROJECT.md` — authoritative scope and constraints — PRIMARY, HIGH confidence
 
 ---
-*Feature research for: v3.0 Content & Polish — resume site*
-*Researched: 2026-04-23*
+*Feature research for: v4.0 shadcn/ui Full Design System Swap*
+*Researched: 2026-04-24*
