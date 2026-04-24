@@ -28,19 +28,19 @@ export function Header({ resume, email, phone }: HeaderProps) {
     <section>
       <Card>
         <CardContent>
-          <h1 className="text-[28px] font-semibold leading-[1.1] text-zinc-900">
+          <h1 className="text-[28px] font-semibold leading-[1.1] text-foreground">
             {resume.name}
           </h1>
-          <p className="text-xl font-semibold leading-[1.2] text-zinc-700 mt-1">
+          <p className="text-xl font-semibold leading-[1.2] text-foreground mt-1">
             {resume.title}
           </p>
           <div className="flex flex-wrap items-center gap-1 text-base mt-4">
             {contacts.map((c, i) => (
               <span key={c.label}>
-                {i > 0 && <span className="text-zinc-400"> · </span>}
+                {i > 0 && <span className="text-muted-foreground"> · </span>}
                 <a
                   href={c.href}
-                  className="text-indigo-600 hover:text-indigo-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 focus-visible:outline-offset-2"
+                  className="text-primary hover:text-primary/80 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
                   {...(c.href.startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
@@ -51,7 +51,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
             ))}
           </div>
           {resume.bio && (
-            <p className="mt-4 text-base leading-relaxed text-zinc-600">
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
               {resume.bio}
             </p>
           )}
