@@ -1,5 +1,24 @@
 # Milestones
 
+## v4.0 shadcn/ui Full Design System Swap (Shipped: 2026-04-24)
+
+**Phases completed:** 4 phases, 14 plans
+**Timeline:** single-day sprint, 2026-04-24 16:44 → 19:31 (~3 hours)
+**Requirements:** 9/9 satisfied
+
+**Key accomplishments:**
+
+- Initialized shadcn/ui on Tailwind v4 with oklch tokens and preserved Geist fonts (Phase 13 — SHAD-01, SHAD-02)
+- Replaced all hand-rolled card wrappers with shadcn `Card` across Header, WorkExperience, and EducationSection with visual parity (Phase 14 — CARD-01, CARD-02, CARD-03)
+- Adopted shadcn `Badge` for tech-stack fallback pill and shadcn `Separator` between resume sections (Phase 15 — BADGE-01, SEP-01)
+- Unified raw zinc/indigo/blue color classes to semantic tokens (`text-foreground`, `bg-card`, `bg-popover`, `bg-primary`, `border-border`) across 4 section components (Phase 16 — TOKEN-01)
+- Established token layer as single color source of truth, subsuming v3.0 typography requirements TYP-01..04 (TOKEN-02)
+
+Known deferred items at close: 7 (see STATE.md Deferred Items — all carried from prior milestones)
+Audit status: `tech_debt` (process-only; product fully shipped — see `.planning/milestones/v4.0-MILESTONE-AUDIT.md`)
+
+---
+
 ## v2.0 Vercel Migration (Shipped: 2026-04-22)
 
 **Phases completed:** 2 phases, 4 plans, 4 tasks

@@ -8,16 +8,13 @@ A personal resume website for a software engineer to share with recruiters and h
 
 A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
 
-## Current Milestone: v4.0 shadcn/ui Full Design System Swap
+## Current State — v4.0 SHIPPED 2026-04-24
 
-**Goal:** Replace all hand-rolled component styling with shadcn/ui primitives — Card, Badge, Separator, and related components — giving the resume a polished, design-system-backed UI with consistent tokens for typography, spacing, and color.
+shadcn/ui Full Design System Swap complete. Resume now uses shadcn primitives (Card, Badge, Separator) across all section components with a unified semantic token layer (text-foreground, text-muted-foreground, bg-card, bg-popover, border-border). All 9 v4.0 requirements satisfied. See `.planning/milestones/v4.0-ROADMAP.md`.
 
-**Target features:**
-- Install and configure shadcn/ui for Next.js 16 + Tailwind v4
-- Replace hand-rolled section cards with shadcn Card primitives
-- Replace hand-rolled badges/pills (tech stack, fallback pills) with shadcn Badge
-- Replace hand-rolled dividers and structural elements with shadcn Separator
-- Typography, spacing, and color tokens unified via shadcn design system (subsumes v3.0 Phase 12 scope)
+## Next Milestone Goals
+
+TBD — candidates: dark/light mode toggle, PDF export, content polish (real bullet metrics), content authoring ergonomics. Run `/gsd-new-milestone` to formalize.
 
 ## Previous Milestone: v3.0 Content & Polish (Phases 9–11 complete, Phase 12 superseded by v4.0)
 
@@ -57,14 +54,16 @@ Vercel is the sole deployment target. Full Next.js 16 runtime available. All sta
 - ✓ Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) — SEC-01 — v2.0
 - ✓ Server-only EMAIL/PHONE env vars (no NEXT_PUBLIC_ prefix) — CFG-01 — v2.0
 - ✓ Clearbit remotePatterns for company logos — IMG-01 — v2.0
+- ✓ shadcn/ui initialized on Next.js 16 + Tailwind v4 — SHAD-01, SHAD-02 — v4.0
+- ✓ Section cards replaced with shadcn Card primitives — CARD-01, CARD-02, CARD-03 — v4.0
+- ✓ Tech stack fallback pill replaced with shadcn Badge — BADGE-01 — v4.0
+- ✓ Structural shadcn Separators between resume sections — SEP-01 — v4.0
+- ✓ Semantic color tokens unified (text-foreground, bg-card, bg-popover, border-border) — TOKEN-01 — v4.0
+- ✓ Typography/spacing consistent via shadcn token layer (subsumes v3.0 TYP-01..04) — TOKEN-02 — v4.0
 
-### Active (v4.0)
+### Active
 
-- [ ] Install and configure shadcn/ui for Next.js 16 + Tailwind v4
-- [ ] Replace section cards with shadcn Card primitives
-- [ ] Replace tech stack pills / fallback pills with shadcn Badge
-- [ ] Replace dividers with shadcn Separator
-- [ ] Unify typography, spacing, and color tokens via shadcn design system
+(none — next milestone to be defined via `/gsd-new-milestone`)
 
 ### Future
 
@@ -127,6 +126,12 @@ Vercel is the sole deployment target. Full Next.js 16 runtime available. All sta
 | Security headers via next.config.ts headers() | Vercel respects Next.js headers config natively | ✓ Good |
 | readFileSync guarded with try/catch | App Router error boundary catches thrown Error, renders error page instead of server crash | ✓ Good |
 | LogoImage props: HTMLAttributes not ButtonHTMLAttributes | div wrapper must not carry button-specific props | ✓ Good |
+| shadcn/ui on Tailwind v4 with oklch tokens | Modern design system; oklch gives perceptually-uniform color math; merge preserves Geist fonts | ✓ Good — v4.0 shipped cleanly |
+| Manual globals.css merge | `shadcn@latest init` destructively overwrites — must preserve `@theme inline` + Geist vars by hand | ✓ Good — one-time cost |
+| Zero className overrides on shadcn Card | Trust D-03/04/05 defaults; keeps migration reversible and visual parity strict | ✓ Good — fewer surprises |
+| Badge only for unknown-tech fallback | Recognized tech entries stay as SVG icon rows; Badge semantic = "pill for text token" | ✓ Good |
+| Separator as block element between sections only | Would break flex layout if applied to inline contact-row dots | ✓ Good |
+| Semantic tokens (`text-foreground`, `bg-card`, etc.) replace raw zinc/indigo | Single color source of truth; theming (dark mode, PDF variants) now trivial | ✓ Good — unlocks future work |
 
 ## Evolution
 
@@ -146,4 +151,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-24 — Milestone v4.0 shadcn/ui Full Design System Swap started*
+*Last updated: 2026-04-24 after v4.0 milestone shipped*

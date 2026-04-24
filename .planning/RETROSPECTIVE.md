@@ -2,6 +2,48 @@
 
 *A living document updated after each milestone. Lessons feed forward into future planning.*
 
+## Milestone: v4.0 — shadcn/ui Full Design System Swap
+
+**Shipped:** 2026-04-24
+**Phases:** 4 (13, 14, 15, 16) | **Plans:** 14 | **Sessions:** 1 (3-hour sprint)
+
+### What Was Built
+- shadcn/ui initialized on Tailwind v4 with oklch semantic tokens and preserved Geist fonts (SHAD-01/02)
+- shadcn Card primitives replace hand-rolled wrappers in Header, WorkExperience, EducationSection (CARD-01/02/03)
+- shadcn Badge for unknown-tech fallback pill and shadcn Separator between resume sections (BADGE-01, SEP-01)
+- All raw zinc/indigo/blue color classes unified to semantic tokens (text-foreground, bg-card, bg-popover, bg-primary, border-border) across 4 section components (TOKEN-01, TOKEN-02)
+
+### What Worked
+- Manual globals.css merge protocol — treating `shadcn@latest init` as destructive and merging by hand preserved the Geist font layer cleanly
+- Zero className overrides on shadcn Card — trusting D-03/04/05 defaults kept migration reversible and made visual parity strict
+- Ripgrep-based phase gates (16-05) — automated "no raw `text-zinc-*` remains" check caught leftovers faster than eyeballing diffs
+- Phase decomposition by component file (16-01 Header, 16-02 Work, 16-03 Education, 16-04 TechStack) kept each commit tight and reviewable
+
+### What Was Inefficient
+- Phases 15 and 16 skipped formal VERIFICATION.md files in favor of SUMMARY + user visual sign-off — audit flagged this as process debt. No product impact but breaks the 3-source cross-reference pattern.
+- ROADMAP.md progress table drifted during execution — Phase 14 showed "0/? Not started" despite 4 summaries. Lag between execution and roadmap mark.
+- REQUIREMENTS.md checkboxes stayed `[ ]` for BADGE-01/SEP-01/TOKEN-01/TOKEN-02 until milestone close — known pattern, repeats from prior milestones.
+- TOKEN-02 (typography/spacing) coverage is negative-smoke-verified ("no spacing/font classes touched") rather than a positive token audit. Acceptable given scope but weak evidence.
+
+### Patterns Established
+- **Token migration atomicity** — each component's color swap in a single commit with before/after ripgrep evidence
+- **Phase gate = ripgrep + build + lint + visual** — concrete 4-check contract for pure UI phases
+- **Pure-UI phases gate via SUMMARY + user visual commit** instead of formal VERIFICATION.md — project-accepted but violates audit tooling assumptions
+- **Semantic tokens unlock future theming** — dark mode and PDF variants now trivial since color is single-sourced
+
+### Key Lessons
+- Destructive CLI init commands (`shadcn@latest init`) need a documented manual-merge protocol, not "run and hope"
+- Negative smoke tests ("nothing was touched") are weaker than positive audits ("tokens own this layer") — prefer positive when requirement is cohesion
+- REQUIREMENTS.md checkbox drift is systemic — consider a post-commit hook or `/gsd-sync-requirements` skill
+- Single-day milestones are viable when scope is homogeneous (token swap) and plan decomposition follows component boundaries
+
+### Cost Observations
+- Duration: ~3 hours wall clock, single session
+- Commits: 55 in range (a11b2a8..2200148) including docs
+- Files changed: 76, +15586/-1282 lines (heavy planning doc contribution)
+
+---
+
 ## Milestone: v1.0 — MVP
 
 **Shipped:** 2026-04-13

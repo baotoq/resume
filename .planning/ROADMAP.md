@@ -7,7 +7,7 @@
 - ✅ **v1.2 Tech Stack Icons + Keyword Highlights** — Phases 5-6 (shipped 2026-04-14)
 - ✅ **v2.0 Vercel Migration** — Phases 7-8 (shipped 2026-04-22)
 - [ ] **v3.0 Content & Polish** — Phases 9-12
-- [ ] **v4.0 shadcn/ui Full Design System Swap** — Phases 13-16
+- ✅ **v4.0 shadcn/ui Full Design System Swap** — Phases 13-16 (shipped 2026-04-24)
 
 ## Phases
 
@@ -130,68 +130,17 @@ Plans:
 
 ---
 
-## v4.0 shadcn/ui Full Design System Swap — Phases 13-16
+<details>
+<summary>✅ v4.0 shadcn/ui Full Design System Swap (Phases 13-16) — SHIPPED 2026-04-24</summary>
 
-### Phase 13: shadcn Infrastructure
-**Goal**: shadcn/ui is initialized with a correctly merged globals.css, cn() utility present, and all npm dependencies installed — zero visual change, gates all subsequent phases
-**Depends on**: Phase 12
-**Requirements**: SHAD-01, SHAD-02
-**Success Criteria** (what must be TRUE):
-  1. `npm run build` passes with no errors and no visual change is observable in the browser after the phase lands
-  2. `src/lib/utils.ts` exists with the `cn()` utility function (clsx + tailwind-merge)
-  3. `components.json` exists at the project root with `"style": "new-york"` and `"tailwind": { "config": "" }` (v4 mode)
-  4. `globals.css` contains the shadcn CSS variable block (oklch tokens) AND the existing Geist font vars (`--font-sans: var(--font-geist-sans)`) and `@theme inline` block are preserved
-  5. `src/components/ui/card.tsx`, `badge.tsx`, and `separator.tsx` are present and TypeScript-clean (`npm run build` passes, `npm run lint` passes after Biome format)
-**Plans**: 2 plans
+- [x] Phase 13: shadcn Infrastructure (2/2 plans) — completed 2026-04-24
+- [x] Phase 14: Card Swap (4/4 plans) — completed 2026-04-24
+- [x] Phase 15: Badge and Separator (3/3 plans) — completed 2026-04-24
+- [x] Phase 16: Token Unification (5/5 plans) — completed 2026-04-24
 
-Plans:
-- [x] 13-01-PLAN.md — Install packages, create components.json + utils.ts, merge globals.css
-- [x] 13-02-PLAN.md — Install Card/Badge/Separator component sources via shadcn CLI + Biome fix + visual verify
+See `.planning/milestones/v4.0-ROADMAP.md` for full phase detail.
 
-**UI hint**: yes
-
-### Phase 14: Card Swap
-**Goal**: All hand-rolled card patterns across Header, WorkExperience, and EducationSection are replaced with shadcn Card primitives — visual parity maintained
-**Depends on**: Phase 13
-**Requirements**: CARD-01, CARD-02, CARD-03
-**Success Criteria** (what must be TRUE):
-  1. Header section wrapper uses `<Card><CardContent>` — no `rounded-xl border border-zinc-200 bg-white p-6 shadow-sm` raw classes remain in Header.tsx
-  2. Each WorkExperience entry card uses `<Card><CardContent>` — the repeated hand-rolled pattern is gone from WorkExperience.tsx
-  3. Each EducationSection entry card uses `<Card><CardContent>` — the hand-rolled pattern is gone from EducationSection.tsx
-  4. Visual parity: cards look the same (or better) on mobile (375px) and desktop (1280px) — no layout regressions, no content clipping
-  5. `npm run build` and `npm run lint` pass with no errors after the swap
-**Plans**: 4 plans
-  - [ ] 14-01-PLAN.md — Swap Header.tsx to shadcn Card (CARD-01)
-  - [ ] 14-02-PLAN.md — Swap WorkExperience.tsx to shadcn Card (CARD-02)
-  - [ ] 14-03-PLAN.md — Swap EducationSection.tsx to shadcn Card (CARD-03)
-  - [ ] 14-04-PLAN.md — Phase gate: build + lint + visual parity (all CARD reqs)
-**UI hint**: yes
-
-### Phase 15: Badge and Separator
-**Goal**: Unrecognized tech stack pills use shadcn Badge and structural shadcn Separators are present between resume sections
-**Depends on**: Phase 13
-**Requirements**: BADGE-01, SEP-01
-**Success Criteria** (what must be TRUE):
-  1. Unknown tech stack items (not in `TECH_ICON_MAP`) render using shadcn Badge with `variant="secondary"` — the hand-rolled `bg-zinc-100 text-zinc-600 rounded-full` pill is gone from TechStackIcons.tsx
-  2. Tech stack icon entries (TECH_ICON_MAP hits) are unchanged — Badge is NOT applied to SVG icon rows
-  3. Horizontal shadcn Separator elements are visible between resume sections in the browser
-  4. Inline contact-row dots (`·`) in Header remain as `<span>` text separators — no Separator block element breaks the flex row
-  5. `npm run build` and `npm run lint` pass with no errors
-**Plans**: TBD
-**UI hint**: yes
-
-### Phase 16: Token Unification
-**Goal**: All raw zinc/indigo/blue color classes in section components are replaced with shadcn semantic tokens — consistent design system across the entire resume
-**Depends on**: Phase 15
-**Requirements**: TOKEN-01, TOKEN-02
-**Success Criteria** (what must be TRUE):
-  1. No raw `text-zinc-*` or `border-zinc-*` color classes remain in Header.tsx, WorkExperience.tsx, EducationSection.tsx, or TechStackIcons.tsx — replaced by `text-foreground`, `text-muted-foreground`, `border-border`, etc.
-  2. `bg-white` and `bg-zinc-*` background classes in section components are replaced with `bg-card` or `bg-background` shadcn tokens
-  3. Typography scale and spacing are consistent across all section components via shadcn token layer — TYP-01 through TYP-04 scope is covered
-  4. `npm run build` passes, `npm run lint` passes — no Biome violations introduced
-  5. Resume reads as visually cohesive in browser — no component looks stylistically mismatched from the others
-**Plans**: TBD
-**UI hint**: yes
+</details>
 
 ---
 
@@ -211,7 +160,7 @@ Plans:
 | 10. Bio Paragraph + Duration Labels | v3.0 | 3/3 | Complete | 2026-04-24 |
 | 11. Education Section | v3.0 | 1/1 | Complete | 2026-04-24 |
 | 12. Typography & Spacing Overhaul | v3.0 | 0/? | Not started | — |
-| 13. shadcn Infrastructure | v4.0 | 2/2 | Complete    | 2026-04-24 |
-| 14. Card Swap | v4.0 | 0/? | Not started | — |
+| 13. shadcn Infrastructure | v4.0 | 2/2 | Complete | 2026-04-24 |
+| 14. Card Swap | v4.0 | 4/4 | Complete | 2026-04-24 |
 | 15. Badge and Separator | v4.0 | 3/3 | Complete | 2026-04-24 |
 | 16. Token Unification | v4.0 | 5/5 | Complete | 2026-04-24 |
