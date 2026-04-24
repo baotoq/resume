@@ -21,11 +21,11 @@ describe("parseResumeFile — real resume.md schema guard", () => {
     for (const [i, entry] of resume.experience.entries()) {
       expect(typeof entry.company, `experience[${i}].company`).toBe("string");
       expect(typeof entry.role, `experience[${i}].role`).toBe("string");
-      expect(typeof entry.startDate, `experience[${i}].startDate`).toBe(
-        "string",
+      expect(entry.startDate, `experience[${i}].startDate`).toMatch(
+        /^\d{4}-\d{2}$/,
       );
       expect(
-        entry.endDate === null || typeof entry.endDate === "string",
+        entry.endDate === null || /^\d{4}-\d{2}$/.test(entry.endDate),
         `experience[${i}].endDate`,
       ).toBe(true);
       expect(Array.isArray(entry.bullets), `experience[${i}].bullets`).toBe(
@@ -47,8 +47,7 @@ describe("parseResumeFile — real resume.md schema guard", () => {
 });
 
 describe("parseResumeString — fixtures", () => {
-  it("parses minimal valid frontmatter", () => {
-    const raw = `---
+  const minimalValid = `---
 name: Jane Doe
 title: Engineer
 github: https://github.com/jane
@@ -57,23 +56,11 @@ experience: []
 skills: {}
 ---
 `;
-    const data = parseResumeString(raw);
+
+  it("parses minimal valid frontmatter", () => {
+    const data = parseResumeString(minimalValid);
     expect(data.name).toBe("Jane Doe");
     expect(data.experience).toEqual([]);
-    expect(data.skills).toEqual({});
-  });
-
-  it("allows empty skills record", () => {
-    const raw = `---
-name: X
-title: Y
-github: g
-linkedin: l
-experience: []
-skills: {}
----
-`;
-    const data = parseResumeString(raw);
     expect(data.skills).toEqual({});
   });
 
@@ -85,8 +72,43 @@ name: "unterminated
     expect(() => parseResumeString(raw)).toThrow();
   });
 
-  it("returns empty object shape when frontmatter absent", () => {
-    const data = parseResumeString("no frontmatter here");
-    expect(data).toEqual({});
+  it("throws when frontmatter is absent", () => {
+    expect(() => parseResumeString("no frontmatter here")).toThrow(
+      /Invalid resume frontmatter/,
+    );
+  });
+
+  it("throws with field path when startDate format is wrong", () => {
+    const raw = `---
+name: X
+title: Y
+github: g
+linkedin: l
+skills: {}
+experience:
+  - company: A
+    role: B
+    startDate: "Jan 2025"
+    endDate: null
+    logo_url: /l.svg
+    link: https://a
+    bullets: ["x"]
+---
+`;
+    expect(() => parseResumeString(raw)).toThrow(/experience\.0\.startDate/);
+  });
+
+  it("throws when an unknown top-level key is present", () => {
+    const raw = `---
+name: X
+title: Y
+github: g
+linkedin: l
+experience: []
+skills: {}
+foo: bar
+---
+`;
+    expect(() => parseResumeString(raw)).toThrow(/foo/);
   });
 });
