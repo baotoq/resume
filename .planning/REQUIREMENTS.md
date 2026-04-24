@@ -11,8 +11,8 @@ Requirements for milestone v4.0 shadcn/ui Full Design System Swap.
 
 ### Infrastructure
 
-- [ ] **SHAD-01**: shadcn/ui is initialized — packages installed, components.json configured, cn() utility present, globals.css merged with Geist font vars preserved
-- [ ] **SHAD-02**: shadcn component sources installed in src/components/ui/ (Card, Badge, Separator via CLI)
+- [x] **SHAD-01**: shadcn/ui is initialized — packages installed, components.json configured, cn() utility present, globals.css merged with Geist font vars preserved
+- [x] **SHAD-02**: shadcn component sources installed in src/components/ui/ (Card, Badge, Separator via CLI)
 
 ### Card Swap
 
@@ -112,8 +112,8 @@ Requirements for milestone v3.0 Content & Polish.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SHAD-01 | Phase 13 | Pending |
-| SHAD-02 | Phase 13 | Pending |
+| SHAD-01 | Phase 13 | Complete |
+| SHAD-02 | Phase 13 | Complete |
 | CARD-01 | Phase 14 | Pending |
 | CARD-02 | Phase 14 | Pending |
 | CARD-03 | Phase 14 | Pending |
