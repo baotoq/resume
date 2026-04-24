@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: shadcn/ui Full Design System Swap — Phases 13-16
 status: planning
-last_updated: "2026-04-24T11:12:00.285Z"
+last_updated: "2026-04-24T11:25:46.180Z"
 last_activity: 2026-04-24
 progress:
   total_phases: 8
   completed_phases: 4
-  total_plans: 7
-  completed_plans: 7
-  percent: 100
+  total_plans: 11
+  completed_plans: 9
+  percent: 82
 ---
 
 # Project State
@@ -29,7 +29,7 @@ Plan: Not started
 Status: Ready to plan
 Last activity: 2026-04-24
 
-Progress: ░░░░░░░░░░ 0/4 phases complete (v4.0)
+Progress: [████████░░] 82%
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: ░░░░░░░░░░ 0/4 phases complete (v4.0)
 - v4.0: Separator must NOT replace inline `·` contact-row dots in Header — Separator is a block element, would break flex layout
 - v4.0: Card and Badge are Server Component safe (no "use client"); Separator has "use client" but is a safe leaf node import
 - v4.0: Plain `npm install` — no `--legacy-peer-deps` needed; all packages declare React 19 peer deps at current versions
+- v4.0: Phase 14-01 — Header.tsx adopts shadcn Card with zero className overrides (D-03/04/05 defaults trusted)
 
 ### Pending Todos
 
@@ -64,3 +65,5 @@ Progress: ░░░░░░░░░░ 0/4 phases complete (v4.0)
 ### Blockers/Concerns
 
 - (none — shadcn/ui Tailwind v4 compatibility confirmed HIGH confidence per research)
+
+**Planned Phase:** 14 (Card Swap) — 4 plans — 2026-04-24T11:23:45.133Z
