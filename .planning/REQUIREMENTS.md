@@ -5,6 +5,33 @@
 
 ---
 
+## v4.0 Requirements
+
+Requirements for milestone v4.0 shadcn/ui Full Design System Swap.
+
+### Infrastructure
+
+- [ ] **SHAD-01**: shadcn/ui is initialized — packages installed, components.json configured, cn() utility present, globals.css merged with Geist font vars preserved
+- [ ] **SHAD-02**: shadcn component sources installed in src/components/ui/ (Card, Badge, Separator via CLI)
+
+### Card Swap
+
+- [ ] **CARD-01**: Header section wrapper uses shadcn Card primitive instead of hand-rolled rounded-xl border bg-white classes
+- [ ] **CARD-02**: Each WorkExperience entry card uses shadcn Card primitive
+- [ ] **CARD-03**: Each EducationSection entry card uses shadcn Card primitive
+
+### Badge and Separator
+
+- [ ] **BADGE-01**: Unrecognized tech stack fallback pill in TechStackIcons uses shadcn Badge instead of hand-rolled zinc pill
+- [ ] **SEP-01**: Structural shadcn Separator is present between resume sections
+
+### Token Unification
+
+- [ ] **TOKEN-01**: Hardcoded zinc/indigo/blue color classes replaced with shadcn semantic tokens (text-foreground, text-muted-foreground, bg-card, border-border, etc.) across all components
+- [ ] **TOKEN-02**: Typography and spacing consistent across all components via shadcn design token layer — subsumes v3.0 TYP-01 through TYP-04
+
+---
+
 ## v3.0 Requirements
 
 Requirements for milestone v3.0 Content & Polish.
@@ -76,15 +103,29 @@ Requirements for milestone v3.0 Content & Polish.
 | EDU-02 | Phase 11 | Complete |
 | EDU-03 | Phase 11 | Complete |
 | EDU-04 | Phase 11 | Complete |
-| TYP-01 | Phase 12 | Pending |
-| TYP-02 | Phase 12 | Pending |
-| TYP-03 | Phase 12 | Pending |
-| TYP-04 | Phase 12 | Pending |
+| TYP-01 | Phase 12 | Superseded by TOKEN-01/TOKEN-02 (v4.0) |
+| TYP-02 | Phase 12 | Superseded by TOKEN-02 (v4.0) |
+| TYP-03 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
+| TYP-04 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
+
+### v4.0 Traceability
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| SHAD-01 | TBD | Pending |
+| SHAD-02 | TBD | Pending |
+| CARD-01 | TBD | Pending |
+| CARD-02 | TBD | Pending |
+| CARD-03 | TBD | Pending |
+| BADGE-01 | TBD | Pending |
+| SEP-01 | TBD | Pending |
+| TOKEN-01 | TBD | Pending |
+| TOKEN-02 | TBD | Pending |
 
 **Coverage:**
-- v3.0 requirements: 12 total
-- Mapped to phases: 12
-- Unmapped: 0 ✓
+- v3.0 requirements: 12 total (8 complete, 4 superseded by v4.0)
+- v4.0 requirements: 9 total
+- Mapped to phases: TBD (roadmap pending)
 
 ---
 *Requirements defined: 2026-04-23*
