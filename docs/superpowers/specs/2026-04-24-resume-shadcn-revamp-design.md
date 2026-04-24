@@ -187,11 +187,11 @@ Add / override:
 - Add `transition-transform hover:-translate-y-0.5` to each icon wrapper (respects reduced-motion via global media query).
 
 ### `src/components/ui/badge.tsx`
-- Run `npx shadcn add badge` if not already present.
+- Already present in repo (shadcn add already run).
 - Extend `badgeVariants` with `accent: "border-transparent text-white accent-gradient-bg"` variant.
 
 ### `src/components/EducationSection.tsx`
-- Minor alignment only: update Card padding/radius if they differ from new conventions. No structural change.
+- No changes. Inherits updated Card defaults automatically. If visual QA shows misalignment with new `rounded-2xl` + `gap-10`, patch in-place — otherwise leave untouched.
 
 ## Interactions
 
@@ -208,7 +208,7 @@ Each step is an atomic commit.
 
 1. Add Geist Sans via `next/font/google` (`src/app/fonts.ts` + wire into `layout.tsx`).
 2. Override `--primary` and add accent utilities/keyframes in `globals.css`.
-3. `npx shadcn add badge`; add `accent` variant to `badgeVariants`.
+3. Add `accent` variant to existing `badgeVariants` in `src/components/ui/badge.tsx`.
 4. Header: add `.accent-glow` decoration + `link-underline` on contacts.
 5. WorkExperience: gradient rail, pulse-ring dot on current, gradient `Badge` for "Current" pill, `hover-lift` on cards.
 6. TechStackIcons: hover lift on each icon wrapper.
