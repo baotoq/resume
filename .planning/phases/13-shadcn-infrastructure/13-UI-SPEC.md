@@ -276,6 +276,13 @@ correct and intentional. Separator will NOT use `currentColor` (see PITFALLS: Ta
 default). Verify `separator.tsx` source after `npx shadcn add separator` to confirm it uses
 `bg-border` not a raw `border` class.
 
+**card-foreground note for Phase 14:** `--card-foreground: oklch(0.145 0 0)` is darker than the
+pinned `--foreground: oklch(0.210 0.006 286)`. shadcn Card applies `text-card-foreground` on its
+root div as the inherited text color. Existing children with explicit `text-zinc-*` classes will
+override — so impact is limited to unclassed inherited text inside cards. Phase 14 must decide:
+either override `--card-foreground` to match `--foreground` (for full parity), or add explicit
+`text-foreground` to CardContent wrappers.
+
 ---
 
 ## Copywriting Contract
