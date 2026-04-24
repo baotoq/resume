@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: shadcn/ui Full Design System Swap
-status: defining_requirements
+status: roadmap_created
 last_updated: "2026-04-24T00:00:00.000Z"
-last_activity: 2026-04-24 -- Milestone v4.0 started
+last_activity: 2026-04-24 -- Roadmap created for v4.0
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,21 +20,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-24)
 
 **Core value:** A recruiter or engineer can open the link, immediately understand who you are and what you've built — all without friction.
-**Current focus:** Defining requirements for v4.0
+**Current focus:** Phase 13 — shadcn Infrastructure
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 13 (shadcn Infrastructure) — not started
 Plan: —
-Status: Defining requirements
-Last activity: 2026-04-24 — Milestone v4.0 started
+Status: Roadmap created, ready to plan Phase 13
+Last activity: 2026-04-24 — v4.0 roadmap created (Phases 13-16)
 
-Progress: ░░░░░░░░░░ 0/? phases complete
+Progress: ░░░░░░░░░░ 0/4 phases complete (v4.0)
 
 ## Performance Metrics
 
-- Phases complete (v4.0): 0/?
-- Requirements mapped: 0/?
+- Phases complete (v4.0): 0/4
+- Requirements mapped: 9/9 (100%)
 
 ## Accumulated Context
 
@@ -49,6 +49,12 @@ Progress: ░░░░░░░░░░ 0/? phases complete
 - v3.0: Type + YAML atomicity rule — `src/types/resume.ts` and `src/data/resume.md` must be updated in the same commit
 - v3.0: Phase 12 (Typography & Spacing Overhaul) superseded by v4.0 shadcn adoption — TYP-01–04 requirements absorbed into v4.0 scope
 - v4.0: Full design system swap — all hand-rolled component styling replaced with shadcn/ui primitives
+- v4.0: globals.css merge must be done manually — `npx shadcn@latest init` destructively overwrites the file; Geist font vars and `@theme inline` block must be preserved
+- v4.0: All token hex values converted to oklch during merge — no mixed hex/oklch token system
+- v4.0: Badge applies only to unknown-tech fallback pill in TechStackIcons — NOT to SVG icon entries
+- v4.0: Separator must NOT replace inline `·` contact-row dots in Header — Separator is a block element, would break flex layout
+- v4.0: Card and Badge are Server Component safe (no "use client"); Separator has "use client" but is a safe leaf node import
+- v4.0: Plain `npm install` — no `--legacy-peer-deps` needed; all packages declare React 19 peer deps at current versions
 
 ### Pending Todos
 
@@ -57,4 +63,4 @@ Progress: ░░░░░░░░░░ 0/? phases complete
 
 ### Blockers/Concerns
 
-- shadcn/ui Tailwind v4 compatibility needs verification — shadcn traditionally targets Tailwind v3 CSS variable approach
+- (none — shadcn/ui Tailwind v4 compatibility confirmed HIGH confidence per research)
