@@ -17,7 +17,7 @@ export function computeDuration(
   const ey = endDate ? Number(endDate.split("-")[0]) : now.getFullYear();
   const em = endDate ? Number(endDate.split("-")[1]) : now.getMonth() + 1;
 
-  const totalMonths = (ey - sy) * 12 + (em - sm);
+  const totalMonths = (ey - sy) * 12 + (em - sm) + 1;
   if (totalMonths < 1) return "< 1 mo";
 
   const yrs = Math.floor(totalMonths / 12);
