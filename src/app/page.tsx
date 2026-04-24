@@ -1,25 +1,13 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
 import { AnimateIn } from "@/components/animation/AnimateIn";
 import { CertificationsSection } from "@/components/CertificationsSection";
 import { EducationSection } from "@/components/EducationSection";
 import { Header } from "@/components/Header";
 import { Separator } from "@/components/ui/separator";
 import { WorkExperience } from "@/components/WorkExperience";
-import type { ResumeData } from "@/types/resume";
+import { parseResumeFile } from "@/lib/parse-resume";
 
 export default function Page() {
-  const filePath = path.join(process.cwd(), "src/data/resume.md");
-  let raw: string;
-  try {
-    raw = fs.readFileSync(filePath, "utf-8");
-  } catch (err) {
-    console.error("Failed to read resume.md:", err);
-    throw new Error("Resume data unavailable");
-  }
-  const { data } = matter(raw);
-  const resume = data as ResumeData;
+  const resume = parseResumeFile();
 
   const email = process.env.EMAIL ?? "";
   const phone = process.env.PHONE ?? "";
@@ -61,9 +49,7 @@ export default function Page() {
           <Separator />
         </AnimateIn>
         <AnimateIn delay={0.3}>
-          <CertificationsSection
-            certifications={resume.certifications ?? []}
-          />
+          <CertificationsSection certifications={resume.certifications ?? []} />
         </AnimateIn>
       </div>
     </main>
