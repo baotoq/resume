@@ -19,6 +19,23 @@ Audit status: `tech_debt` (process-only; product fully shipped — see `.plannin
 
 ---
 
+## v3.0 Content & Polish (Shipped: 2026-04-24)
+
+**Phases completed:** 3 phases (9, 10, 11), 5 plans (Phase 12 superseded by v4.0 before execution)
+**Timeline:** 2026-04-24 00:45 → 15:13 (~14.5h overnight + morning)
+**Requirements:** 8/8 net-new satisfied; 4 TYP requirements rerouted to v4.0
+
+**Key accomplishments:**
+
+- Extended `ResumeData` types and YAML schema to support `bio` and `education` arrays with distinct `EducationEntry` interface (Phase 9 — foundation for all content work)
+- Added bio paragraph below contacts in Header; wired computed duration labels ("X yrs Y mos") next to each work experience date range via pure `src/lib/duration.ts` utility (Phase 10 — BIO-01, BIO-02, DUR-01, DUR-02)
+- Built EducationSection component wired into page with AnimateIn; renders degree, institution, dates, and coursework detail (Phase 11 — EDU-01..EDU-04)
+- Scope adjusted mid-milestone: Phase 12 typography overhaul superseded by v4.0 shadcn/ui adoption before execution — TYP-01/02 → TOKEN-02, TYP-03/04 → TOKEN-01
+
+Known deferred items at close: 3 phase-level UAT/verification items marked `human_needed` — browser visual implicitly covered by v4.0 shipping (see STATE.md Deferred Items)
+
+---
+
 ## v2.0 Vercel Migration (Shipped: 2026-04-22)
 
 **Phases completed:** 2 phases, 4 plans, 4 tasks

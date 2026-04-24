@@ -6,7 +6,7 @@
 - ✅ **v1.1 Visual Polish** — Phase 4 (shipped 2026-04-13)
 - ✅ **v1.2 Tech Stack Icons + Keyword Highlights** — Phases 5-6 (shipped 2026-04-14)
 - ✅ **v2.0 Vercel Migration** — Phases 7-8 (shipped 2026-04-22)
-- [ ] **v3.0 Content & Polish** — Phases 9-12
+- ✅ **v3.0 Content & Polish** — Phases 9-11 (shipped 2026-04-24); Phase 12 superseded by v4.0
 - ✅ **v4.0 shadcn/ui Full Design System Swap** — Phases 13-16 (shipped 2026-04-24)
 
 ## Phases
@@ -69,64 +69,17 @@
 
 </details>
 
-### Phase 9: Type System & Data Foundation
-**Goal**: TypeScript interfaces and YAML data are extended to support bio, education, and all v3.0 content — unblocking all component work
-**Depends on**: Phase 8
-**Requirements**: (data foundation — enables BIO-01, DUR-01, EDU-01, EDU-02, EDU-03)
-**Success Criteria** (what must be TRUE):
-  1. `ResumeData` type in `src/types/resume.ts` has `bio?: string` and `education?: EducationEntry[]` fields without TypeScript errors
-  2. `resume.md` YAML frontmatter contains a populated `bio` string and at least one `education` entry (degree, institution, dates, details)
-  3. `EducationEntry` interface is distinct from `WorkEntry` — fields match education YAML shape exactly
-  4. TypeScript build (`npm run build`) passes with zero type errors after the extension
-**Plans**: 1 plan
+<details>
+<summary>✅ v3.0 Content & Polish (Phases 9-11) — SHIPPED 2026-04-24 (Phase 12 superseded by v4.0)</summary>
 
-Plans:
-- [x] 09-01-PLAN.md — Extend TypeScript types and YAML data for bio + education
+- [x] Phase 9: Type System & Data Foundation (1/1 plans) — completed 2026-04-24
+- [x] Phase 10: Bio Paragraph + Duration Labels (3/3 plans) — completed 2026-04-24
+- [x] Phase 11: Education Section (1/1 plans) — completed 2026-04-24
+- [~] Phase 12: Typography & Spacing Overhaul — superseded by v4.0 (TYP-01..04 → TOKEN-01/02)
 
-### Phase 10: Bio Paragraph + Duration Labels
-**Goal**: Recruiters can read a bio intro at the top of the page and see computed durations next to each work experience date range
-**Depends on**: Phase 9
-**Requirements**: BIO-01, BIO-02, DUR-01, DUR-02
-**Success Criteria** (what must be TRUE):
-  1. A bio paragraph is visible below the name/contact header on page load, with no JS required
-  2. The bio section animates in on scroll entry, consistent with other sections
-  3. Each work experience card shows a "X yrs Y mos" label alongside its date range
-  4. Duration values are correct (computed from `start_date` to `end_date` or present) and require no client-side JavaScript
-**Plans**: 3 plans
+See `.planning/milestones/v3.0-ROADMAP.md` for full phase detail.
 
-Plans:
-- [x] 10-01-PLAN.md — Create src/lib/duration.ts pure computeDuration utility
-- [x] 10-02-PLAN.md — Wire duration labels into WorkExperience.tsx (stacked layout)
-- [x] 10-03-PLAN.md — Add bio paragraph to Header.tsx below contacts row
-
-### Phase 11: Education Section
-**Goal**: Recruiters can read a complete education section below work experience showing degree, institution, dates, and relevant coursework
-**Depends on**: Phase 9
-**Requirements**: EDU-01, EDU-02, EDU-03, EDU-04
-**Success Criteria** (what must be TRUE):
-  1. An education section is visible below the work experience section
-  2. Each education entry shows degree, institution name, and date range
-  3. Relevant coursework or details are displayed when present in the YAML data
-  4. The education section animates in on scroll entry, consistent with other sections
-**Plans**: 1 plan
-
-Plans:
-- [x] 11-01-PLAN.md — Create EducationSection component and wire into page with AnimateIn
-
-**UI hint**: yes
-
-### Phase 12: Typography & Spacing Overhaul
-**Goal**: The resume uses a consistent 4-level type scale, Inter font, unified color tokens, and professional spacing — readable and scannable at recruiter pace
-**Depends on**: Phase 11
-**Requirements**: TYP-01, TYP-02, TYP-03, TYP-04
-**Success Criteria** (what must be TRUE):
-  1. Body font is Inter (loaded via `next/font/google`), replacing Geist — confirmed visually in browser
-  2. Name, section headings, role titles, body, and secondary text each use the correct step of the 4-level type scale (`text-2xl` → `text-xl` → `text-lg` → `text-base` → `text-sm`)
-  3. All cards use `p-6` padding and sections use `gap-10`/`gap-12` spacing — no inconsistent padding visible
-  4. Color usage is consistent: zinc-900/zinc-700/500 hierarchy and indigo-600 accent apply uniformly across Header, WorkExperience, EducationSection
-  5. Timeline dot alignment is verified visually at 375px (mobile) and 1280px (desktop) — no drift after spacing changes
-**Plans**: TBD
-**UI hint**: yes
+</details>
 
 ---
 
@@ -156,10 +109,10 @@ See `.planning/milestones/v4.0-ROADMAP.md` for full phase detail.
 | 6. Keyword Highlights | v1.2 | — | Complete | 2026-04-14 |
 | 7. Vercel Setup & Config Migration | v2.0 | 2/2 | Complete | 2026-04-22 |
 | 8. Decommission GitHub Pages | v2.0 | 2/2 | Complete | 2026-04-22 |
-| 9. Type System & Data Foundation | v3.0 | 0/1 | Not started | — |
+| 9. Type System & Data Foundation | v3.0 | 1/1 | Complete | 2026-04-24 |
 | 10. Bio Paragraph + Duration Labels | v3.0 | 3/3 | Complete | 2026-04-24 |
 | 11. Education Section | v3.0 | 1/1 | Complete | 2026-04-24 |
-| 12. Typography & Spacing Overhaul | v3.0 | 0/? | Not started | — |
+| 12. Typography & Spacing Overhaul | v3.0 | — | Superseded by v4.0 | — |
 | 13. shadcn Infrastructure | v4.0 | 2/2 | Complete | 2026-04-24 |
 | 14. Card Swap | v4.0 | 4/4 | Complete | 2026-04-24 |
 | 15. Badge and Separator | v4.0 | 3/3 | Complete | 2026-04-24 |

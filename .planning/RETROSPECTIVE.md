@@ -2,6 +2,45 @@
 
 *A living document updated after each milestone. Lessons feed forward into future planning.*
 
+## Milestone: v3.0 — Content & Polish
+
+**Shipped:** 2026-04-24
+**Phases:** 3 shipped (9, 10, 11) + 1 superseded (12) | **Plans:** 5 | **Sessions:** 1
+
+### What Was Built
+- Extended `ResumeData` types and YAML schema for `bio` string and `education` array with distinct `EducationEntry` interface
+- Pure `src/lib/duration.ts` utility computing "X yrs Y mos" from start/end dates at build time (no client JS)
+- Bio paragraph rendered below contacts in Header; duration labels stacked next to date ranges in WorkExperience
+- EducationSection component wired into page with AnimateIn, rendering degree/institution/dates/coursework
+
+### What Worked
+- **Type + YAML atomicity rule** — updating `src/types/resume.ts` and `src/data/resume.md` in the same commit prevented type/data drift
+- **Zero-new-dependency duration math** — ~20-line vanilla TS vs. pulling date-fns/Temporal
+- **Dedicated `EducationEntry` interface** — not reusing `WorkEntry`; cleaner types even though structurally similar
+- **Mid-milestone scope adjustment** — recognizing Phase 12 typography overhaul was better served by v4.0 shadcn adoption, and deferring it before execution, avoided ~half a milestone of wasted work
+
+### What Was Inefficient
+- All 3 phases' VERIFICATION.md files ended at status `human_needed` — waiting on browser visual confirmation that ultimately got deferred and implicitly covered by v4.0 shipping. Creates a verification backlog that blurs the "done" signal.
+- UAT files (10-HUMAN-UAT.md, 11-HUMAN-UAT.md) left with partial scenarios — 1 and 2 respectively still marked pending at close
+- Phase 12 sat on the roadmap for most of the milestone before being recognized as redundant — earlier ingest of v4.0 intent could have removed it sooner
+
+### Patterns Established
+- **Build-time computation over client JS** — for any derivable value (durations, formatted dates), compute in the Server Component path, never ship a client script for it
+- **Dedicated interfaces per domain entity** — `WorkEntry`, `EducationEntry` are structurally similar but semantically distinct; prefer distinct types
+- **Scope can retire mid-milestone** — if an incoming milestone (v4.0) subsumes a planned phase (12), deprecate the phase in the roadmap rather than executing it
+
+### Key Lessons
+- "human_needed" as a verification terminal state needs a follow-up cadence — otherwise UAT/verification debt accumulates silently across milestones
+- Milestone boundaries aren't rigid — a planned phase can be absorbed into the next milestone if scope overlaps; record the reasoning in Key Decisions
+- Pure utility functions (`duration.ts`) belong in `src/lib/` with zero framework coupling — trivial to test, trivial to move
+
+### Cost Observations
+- Duration: ~14.5 hours wall clock across overnight + morning (non-continuous)
+- Commits in range (`82a770f`..`62b1eba`): 37
+- One mid-milestone scope adjustment (Phase 12 → superseded) — caught before execution, zero rework cost
+
+---
+
 ## Milestone: v4.0 — shadcn/ui Full Design System Swap
 
 **Shipped:** 2026-04-24
