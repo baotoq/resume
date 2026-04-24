@@ -19,6 +19,14 @@ export interface EducationEntry {
   link?: string;
 }
 
+export interface CertificationEntry {
+  name: string;
+  abbrev?: string; // up to 4 chars shown on gradient tile; falls back to first 3 chars of name
+  issuer: string;
+  year: number;
+  url?: string;
+}
+
 export interface ResumeData {
   name: string;
   title: string;
@@ -28,4 +36,5 @@ export interface ResumeData {
   skills: Record<string, string>; // category label -> comma-separated values
   bio?: string;
   education?: EducationEntry[];
+  certifications?: CertificationEntry[];
 }

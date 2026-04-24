@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: stable list from static YAML data */
 import type { ReactNode } from "react";
 
 interface HighlightedBulletProps {
