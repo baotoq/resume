@@ -42,3 +42,5 @@ next-env.d.ts
 .claude/worktrees/*
 .env*.local
 !.env.example
+
+.superpowers/
