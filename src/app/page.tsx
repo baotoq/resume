@@ -25,8 +25,8 @@ export default function Page() {
   const phone = process.env.PHONE ?? "";
 
   return (
-    <main className="min-h-screen bg-zinc-50 py-12 px-4 sm:px-8">
-      <div className="mx-auto max-w-3xl flex flex-col gap-10">
+    <main className="page-grain min-h-screen bg-zinc-50 py-12 px-4 sm:px-8">
+      <div className="relative z-10 mx-auto max-w-3xl flex flex-col gap-10">
         <AnimateIn delay={0}>
           <Header resume={resume} email={email} phone={phone} />
         </AnimateIn>
