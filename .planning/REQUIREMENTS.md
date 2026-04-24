@@ -117,9 +117,9 @@ Requirements for milestone v3.0 Content & Polish.
 |-------------|-------|--------|
 | SHAD-01 | Phase 13 | Complete |
 | SHAD-02 | Phase 13 | Complete |
-| CARD-01 | Phase 14 | Pending |
-| CARD-02 | Phase 14 | Pending |
-| CARD-03 | Phase 14 | Pending |
+| CARD-01 | Phase 14 | Verified |
+| CARD-02 | Phase 14 | Verified |
+| CARD-03 | Phase 14 | Verified |
 | BADGE-01 | Phase 15 | Pending |
 | SEP-01 | Phase 15 | Pending |
 | TOKEN-01 | Phase 16 | Pending |
