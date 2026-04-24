@@ -16,15 +16,13 @@ shadcn/ui Full Design System Swap complete. Resume now uses shadcn primitives (C
 
 TBD — candidates: dark/light mode toggle, PDF export, content polish (real bullet metrics), content authoring ergonomics. Run `/gsd-new-milestone` to formalize.
 
-## Previous Milestone: v3.0 Content & Polish (Phases 9–11 complete, Phase 12 superseded by v4.0)
+## Previous Milestones
 
-**Goal:** Enhance resume completeness and presentation quality — add missing content sections and elevate the visual design to senior-engineer standard.
-
-**Target features:**
-- Bio/intro paragraph at top of page
-- Duration labels computed from date ranges on experience entries
-- Education section (Bachelor of CS, Ton Duc Thang University, 2014–2018)
-- Typography + spacing overhaul: professional, scannable, well-spaced
+- **v3.0 Content & Polish** — bio, duration labels, education section (Phases 9–11); Phase 12 typography overhaul superseded by v4.0 — shipped 2026-04-24
+- **v2.0 Vercel Migration** — Next.js runtime on Vercel, GitHub Pages decommissioned — shipped 2026-04-22
+- **v1.2 Tech Stack Icons + Keyword Highlights** — shipped 2026-04-14
+- **v1.1 Visual Polish** — logos + timeline — shipped 2026-04-13
+- **v1.0 MVP** — initial resume with Server Components + animations — shipped 2026-04-13
 
 ## Previous State — v2.0 SHIPPED 2026-04-22
 
@@ -54,6 +52,9 @@ Vercel is the sole deployment target. Full Next.js 16 runtime available. All sta
 - ✓ Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) — SEC-01 — v2.0
 - ✓ Server-only EMAIL/PHONE env vars (no NEXT_PUBLIC_ prefix) — CFG-01 — v2.0
 - ✓ Clearbit remotePatterns for company logos — IMG-01 — v2.0
+- ✓ Bio paragraph at top of page — BIO-01, BIO-02 — v3.0
+- ✓ Duration labels ("X yrs Y mos") on work entries, built at compile time — DUR-01, DUR-02 — v3.0
+- ✓ Education section with degree, institution, dates, coursework — EDU-01..EDU-04 — v3.0
 - ✓ shadcn/ui initialized on Next.js 16 + Tailwind v4 — SHAD-01, SHAD-02 — v4.0
 - ✓ Section cards replaced with shadcn Card primitives — CARD-01, CARD-02, CARD-03 — v4.0
 - ✓ Tech stack fallback pill replaced with shadcn Badge — BADGE-01 — v4.0

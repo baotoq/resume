@@ -11,33 +11,9 @@ Archived: `.planning/milestones/v4.0-REQUIREMENTS.md` — all 9 satisfied (2026-
 
 ---
 
-## v3.0 Requirements
+## v3.0 Requirements (Shipped)
 
-Requirements for milestone v3.0 Content & Polish.
-
-### Bio
-
-- [x] **BIO-01**: User can read a plain-text bio paragraph at the top of the resume page
-- [x] **BIO-02**: Bio section animates in on scroll entry
-
-### Duration Labels
-
-- [x] **DUR-01**: Each work experience entry displays a computed duration label ("X yrs Y mos") next to the date range
-- [x] **DUR-02**: Duration computed at build time (static — no client JS required)
-
-### Education
-
-- [x] **EDU-01**: User can read an education section below work experience
-- [x] **EDU-02**: Education entry shows degree, institution, and date range
-- [x] **EDU-03**: Education entry shows relevant coursework/details when present
-- [x] **EDU-04**: Education section animates in on scroll entry
-
-### Typography
-
-- [ ] **TYP-01**: Resume uses a 4-level type scale (text-2xl name → text-xl section heads → text-lg role titles → text-base body → text-sm secondary)
-- [ ] **TYP-02**: Section spacing uses gap-10/12 between sections; p-6 on all cards
-- [ ] **TYP-03**: Color tokens consistent — zinc-900/700/500 hierarchy + indigo-600 accent across all components
-- [ ] **TYP-04**: Body font is Inter (via next/font/google), replacing Geist
+Archived: `.planning/milestones/v3.0-REQUIREMENTS.md` — BIO/DUR/EDU (8/8) satisfied; TYP-01..04 superseded by v4.0 TOKEN-01/02 (2026-04-24).
 
 ---
 
@@ -72,25 +48,12 @@ Requirements for milestone v3.0 Content & Polish.
 
 ## Traceability
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| BIO-01 | Phase 10 | Complete |
-| BIO-02 | Phase 10 | Complete |
-| DUR-01 | Phase 10 | Complete |
-| DUR-02 | Phase 10 | Complete |
-| EDU-01 | Phase 11 | Complete |
-| EDU-02 | Phase 11 | Complete |
-| EDU-03 | Phase 11 | Complete |
-| EDU-04 | Phase 11 | Complete |
-| TYP-01 | Phase 12 | Superseded by TOKEN-02 (v4.0) |
-| TYP-02 | Phase 12 | Superseded by TOKEN-02 (v4.0) |
-| TYP-03 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
-| TYP-04 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
+Shipped milestone traceability archived:
+- v3.0 — `.planning/milestones/v3.0-REQUIREMENTS.md`
+- v4.0 — `.planning/milestones/v4.0-REQUIREMENTS.md`
 
-**Coverage:**
-- v3.0 requirements: 12 total (8 complete, 4 superseded by v4.0)
-- v4.0 requirements: archived to `.planning/milestones/v4.0-REQUIREMENTS.md` (9/9 complete)
+No active requirements. Next milestone requirements will be defined via `/gsd-new-milestone`.
 
 ---
 *Requirements defined: 2026-04-23*
-*Last updated: 2026-04-24 after v4.0 milestone archive*
+*Last updated: 2026-04-24 after v3.0 + v4.0 milestones archived*
