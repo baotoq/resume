@@ -9,13 +9,17 @@ Always use Context7 when I need library/API documentation, code generation, setu
 ## Commands
 
 ```bash
-npm run dev      # start dev server on http://localhost:3000
-npm run build    # production build
-npm run lint     # biome check (linter)
-npm run format   # biome format --write
+npm run dev         # start dev server on http://localhost:3000
+npm run build       # production build
+npm run lint        # biome check (linter)
+npm run format      # biome format --write
+npm run test        # vitest unit tests (single run)
+npm run test:watch  # vitest watch mode
+npm run test:e2e    # playwright e2e (smoke)
+npm run test:all    # unit + e2e
 ```
 
-No test suite configured.
+Unit tests are co-located with source as `*.test.tsx`. E2E tests live in `e2e/`. CI runs lint → unit → build → e2e on PRs.
 
 ## Architecture
 
