@@ -23,7 +23,12 @@ export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
   if (LogoComponent) {
     // Use the SVG component for the specified company to ensure it scales well and looks crisp
     return (
-      <a href={link} target="_blank" rel="noopener noreferrer">
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover-lift inline-block"
+      >
         <LogoComponent width={150} height={45} />
       </a>
     );
@@ -31,7 +36,12 @@ export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
   // Fallback for other companies
   return (
     <div className="flex items-center h-12">
-      <a className="logo" target="_blank" rel="noopener noreferrer" href={link}>
+      <a
+        className="logo hover-lift inline-block"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={link}
+      >
         <img src={logoUrl} alt={company} width={150} />
       </a>
     </div>
