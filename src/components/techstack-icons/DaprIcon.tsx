@@ -21,10 +21,38 @@ export function DaprIcon({ size = 40 }: DaprIconProps) {
         points="205.538409 194.062172 232.614551 194.062172 234.946621 257.633831 219.07648 268.75443 203.206339 257.633831"
         fill="#0D2192"
       />
-      <rect x="144.829" y="2.279" width="102.723" height="72.294" rx="2" fill="#0D2192" />
-      <rect x="144.829" y="2.279" width="37.998" height="72.294" fill="#FFFFFF" opacity="0.08" />
-      <rect x="112.391" y="69.909" width="166.248" height="17.351" rx="3.72" fill="#0D2192" />
-      <rect x="112.391" y="69.909" width="51.438" height="21.355" fill="#FFFFFF" opacity="0.08" />
+      <rect
+        x="144.829"
+        y="2.279"
+        width="102.723"
+        height="72.294"
+        rx="2"
+        fill="#0D2192"
+      />
+      <rect
+        x="144.829"
+        y="2.279"
+        width="37.998"
+        height="72.294"
+        fill="#FFFFFF"
+        opacity="0.08"
+      />
+      <rect
+        x="112.391"
+        y="69.909"
+        width="166.248"
+        height="17.351"
+        rx="3.72"
+        fill="#0D2192"
+      />
+      <rect
+        x="112.391"
+        y="69.909"
+        width="51.438"
+        height="21.355"
+        fill="#FFFFFF"
+        opacity="0.08"
+      />
     </svg>
   );
 }

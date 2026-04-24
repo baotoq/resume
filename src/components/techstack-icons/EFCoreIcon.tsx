@@ -14,10 +14,7 @@ export function EFCoreIcon({ size = 40 }: EFCoreIconProps) {
     >
       <title>EF Core</title>
       {/* Hexagon filling viewBox */}
-      <polygon
-        points="25,1 49,14 49,43 25,57 1,43 1,14"
-        fill="#5C2D91"
-      />
+      <polygon points="25,1 49,14 49,43 25,57 1,43 1,14" fill="#5C2D91" />
       {/* EF text inside */}
       <text
         x="25"
