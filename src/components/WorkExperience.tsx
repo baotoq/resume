@@ -27,7 +27,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
   const now = new Date();
   return (
     <section>
-      <h2 className="text-xl font-semibold leading-[1.2] text-zinc-900 mb-6">
+      <h2 className="text-xl font-semibold leading-[1.2] text-foreground mb-6">
         Work Experience
       </h2>
 
@@ -35,7 +35,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
       <div className="relative pl-5 sm:pl-7 flex flex-col gap-6">
         {/* Single continuous timeline line — starts at first dot centre, ends at last card bottom */}
         <div
-          className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5 bg-zinc-200"
+          className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5 bg-border"
           aria-hidden="true"
         />
 
@@ -48,8 +48,8 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               <div
                 className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
                   isCurrent
-                    ? "bg-blue-600"
-                    : "border-2 border-zinc-300 bg-white"
+                    ? "bg-primary"
+                    : "border-2 border-border bg-background"
                 }`}
                 aria-hidden="true"
               />
@@ -62,22 +62,22 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                       <div className="flex items-center gap-3">
                         <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-center sm:justify-between">
                           <div>
-                            <h3 className="font-bold text-blue-600 text-lg">
+                            <h3 className="font-bold text-primary text-lg">
                               <LogoImage
                                 company={entry.company}
                                 link={entry.link}
                                 logoUrl={entry.logo_url}
                               />
                             </h3>
-                            <p className="text-xl font-bold text-zinc-900">
+                            <p className="text-xl font-bold text-foreground">
                               {entry.role}
                             </p>
                           </div>
                           <div className="flex flex-col items-end">
-                            <span className="text-sm font-bold text-zinc-500">
+                            <span className="text-sm font-bold text-muted-foreground">
                               {formatDateRange(entry.startDate, entry.endDate)}
                             </span>
-                            <span className="text-xs text-zinc-400">
+                            <span className="text-xs text-muted-foreground">
                               {computeDuration(
                                 entry.startDate,
                                 entry.endDate,
@@ -91,7 +91,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                         {entry.bullets.map((bullet, i) => (
                           <li
                             key={i}
-                            className="text-base leading-relaxed text-zinc-700 pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-zinc-300"
+                            className="text-base leading-relaxed text-foreground pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-border"
                           >
                             <HighlightedBullet>{bullet}</HighlightedBullet>
                           </li>
