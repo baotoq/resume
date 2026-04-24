@@ -21,6 +21,11 @@
       "sourceType": "github",
       "computedHash": "2dcc7fe529ddad9b826fcc8ba43fb2357fc2919cc1d1cb5aaa6bcb434d872f9c"
     },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "computedHash": "2bc6cf38ec7b4a5778a43fabb3e87642c9897ad45e9eb42438b57fd2def6cca8"
+    },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
