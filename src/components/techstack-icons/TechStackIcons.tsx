@@ -86,7 +86,11 @@ function TechIcon({ tech }: { tech: string }) {
     );
   }
 
-  return <Badge variant="secondary" className="hover-lift">{tech}</Badge>;
+  return (
+    <Badge variant="secondary" className="hover-lift">
+      {tech}
+    </Badge>
+  );
 }
 
 export function TechStackIcons({ stack }: TechStackIconsProps) {

@@ -21,12 +21,16 @@ describe("parseResumeFile — real resume.md schema guard", () => {
     for (const [i, entry] of resume.experience.entries()) {
       expect(typeof entry.company, `experience[${i}].company`).toBe("string");
       expect(typeof entry.role, `experience[${i}].role`).toBe("string");
-      expect(typeof entry.startDate, `experience[${i}].startDate`).toBe("string");
+      expect(typeof entry.startDate, `experience[${i}].startDate`).toBe(
+        "string",
+      );
       expect(
         entry.endDate === null || typeof entry.endDate === "string",
         `experience[${i}].endDate`,
       ).toBe(true);
-      expect(Array.isArray(entry.bullets), `experience[${i}].bullets`).toBe(true);
+      expect(Array.isArray(entry.bullets), `experience[${i}].bullets`).toBe(
+        true,
+      );
       expect(typeof entry.logo_url, `experience[${i}].logo_url`).toBe("string");
       expect(typeof entry.link, `experience[${i}].link`).toBe("string");
     }
