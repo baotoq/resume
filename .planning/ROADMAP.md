@@ -207,7 +207,7 @@ Plans:
 | 10. Bio Paragraph + Duration Labels | v3.0 | 3/3 | Complete | 2026-04-24 |
 | 11. Education Section | v3.0 | 1/1 | Complete | 2026-04-24 |
 | 12. Typography & Spacing Overhaul | v3.0 | 0/? | Not started | — |
-| 13. shadcn Infrastructure | v4.0 | 0/? | Not started | — |
+| 13. shadcn Infrastructure | v4.0 | 2/2 | Complete    | 2026-04-24 |
 | 14. Card Swap | v4.0 | 0/? | Not started | — |
 | 15. Badge and Separator | v4.0 | 0/? | Not started | — |
 | 16. Token Unification | v4.0 | 0/? | Not started | — |
