@@ -107,7 +107,11 @@ Plans:
   2. Each education entry shows degree, institution name, and date range
   3. Relevant coursework or details are displayed when present in the YAML data
   4. The education section animates in on scroll entry, consistent with other sections
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 11-01-PLAN.md — Create EducationSection component and wire into page with AnimateIn
+
 **UI hint**: yes
 
 ### Phase 12: Typography & Spacing Overhaul
@@ -137,5 +141,5 @@ Plans:
 | 8. Decommission GitHub Pages | v2.0 | 2/2 | Complete | 2026-04-22 |
 | 9. Type System & Data Foundation | v3.0 | 0/1 | Not started | — |
 | 10. Bio Paragraph + Duration Labels | v3.0 | 3/3 | Complete    | 2026-04-24 |
-| 11. Education Section | v3.0 | 0/? | Not started | — |
+| 11. Education Section | v3.0 | 0/1 | Not started | — |
 | 12. Typography & Spacing Overhaul | v3.0 | 0/? | Not started | — |
