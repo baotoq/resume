@@ -19,7 +19,7 @@ npm run test:e2e    # playwright e2e (smoke)
 npm run test:all    # unit + e2e
 ```
 
-Unit tests are co-located with source as `*.test.tsx`. E2E tests live in `e2e/`. CI runs lint → unit → build → e2e on PRs.
+Unit tests are co-located with source as `*.test.ts(x)`. E2E tests live in `e2e/`. CI runs lint → unit → build → e2e on PRs.
 
 ## Architecture
 
