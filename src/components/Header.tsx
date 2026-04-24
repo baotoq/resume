@@ -1,3 +1,4 @@
+import { CopyableEmail } from "@/components/CopyableEmail";
 import { Card, CardContent } from "@/components/ui/card";
 import type { ResumeData } from "@/types/resume";
 
@@ -8,17 +9,19 @@ interface HeaderProps {
 }
 
 export function Header({ resume, email, phone }: HeaderProps) {
-  const contacts: { label: string; href: string; text: string }[] = [];
-  if (email)
-    contacts.push({ label: "Email", href: `mailto:${email}`, text: email });
+  const linkContacts: { label: string; href: string; text: string }[] = [];
   if (phone)
-    contacts.push({ label: "Phone", href: `tel:${phone}`, text: phone });
-  contacts.push({
+    linkContacts.push({
+      label: "Phone",
+      href: `tel:${phone}`,
+      text: phone,
+    });
+  linkContacts.push({
     label: "GitHub profile",
     href: resume.github,
     text: "GitHub",
   });
-  contacts.push({
+  linkContacts.push({
     label: "LinkedIn profile",
     href: resume.linkedin,
     text: "LinkedIn",
@@ -36,9 +39,12 @@ export function Header({ resume, email, phone }: HeaderProps) {
             {resume.title}
           </p>
           <div className="flex flex-wrap items-center gap-1 text-base mt-4">
-            {contacts.map((c, i) => (
+            {email && <CopyableEmail email={email} />}
+            {linkContacts.map((c, i) => (
               <span key={c.label}>
-                {i > 0 && <span className="text-muted-foreground"> · </span>}
+                {(email || i > 0) && (
+                  <span className="text-muted-foreground"> · </span>
+                )}
                 <a
                   href={c.href}
                   className="link-underline text-primary hover:text-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
