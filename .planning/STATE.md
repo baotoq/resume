@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: shadcn/ui Full Design System Swap — Phases 13-16
-status: planning
-last_updated: "2026-04-24T12:17:13.151Z"
+status: shipped
+last_updated: "2026-04-24T13:00:00.000Z"
 last_activity: 2026-04-24
 progress:
-  total_phases: 8
-  completed_phases: 6
-  total_plans: 19
+  total_phases: 4
+  completed_phases: 4
+  total_plans: 14
   completed_plans: 14
-  percent: 74
+  percent: 100
 ---
 
 # Project State
@@ -69,3 +69,19 @@ Progress: [█████████░] 91%
 - (none — shadcn/ui Tailwind v4 compatibility confirmed HIGH confidence per research)
 
 **Planned Phase:** 16 (token-unification) — 5 plans — 2026-04-24T12:17:13.144Z
+
+## Deferred Items
+
+Items acknowledged and deferred at milestone v4.0 close on 2026-04-24:
+
+| Category | Item | Status |
+|----------|------|--------|
+| uat_gap | phase-09-HUMAN-UAT | resolved (0 pending) |
+| uat_gap | phase-10-HUMAN-UAT | partial (1 pending) |
+| uat_gap | phase-11-HUMAN-UAT | partial (2 pending) |
+| verification_gap | phase-05-VERIFICATION | human_needed |
+| verification_gap | phase-09-VERIFICATION | human_needed |
+| verification_gap | phase-10-VERIFICATION | human_needed |
+| verification_gap | phase-11-VERIFICATION | human_needed |
+
+Note: all carried forward from prior milestones (v1.2, v3.0). Not v4.0 scope.

@@ -5,33 +5,9 @@
 
 ---
 
-## v4.0 Requirements
+## v4.0 Requirements (Shipped)
 
-Requirements for milestone v4.0 shadcn/ui Full Design System Swap.
-
-### Infrastructure
-
-- [x] **SHAD-01**: shadcn/ui is initialized — packages installed, components.json configured, cn() utility present, globals.css merged with Geist font vars preserved
-- [x] **SHAD-02**: shadcn component sources installed in src/components/ui/ (Card, Badge, Separator via CLI)
-
-### Card Swap
-
-- [x] **CARD-01
-**: Header section wrapper uses shadcn Card primitive instead of hand-rolled rounded-xl border bg-white classes
-- [x] **CARD-02
-**: Each WorkExperience entry card uses shadcn Card primitive
-- [x] **CARD-03
-**: Each EducationSection entry card uses shadcn Card primitive
-
-### Badge and Separator
-
-- [ ] **BADGE-01**: Unrecognized tech stack fallback pill in TechStackIcons uses shadcn Badge instead of hand-rolled zinc pill
-- [ ] **SEP-01**: Structural shadcn Separator is present between resume sections
-
-### Token Unification
-
-- [ ] **TOKEN-01**: Hardcoded zinc/indigo/blue color classes replaced with shadcn semantic tokens (text-foreground, text-muted-foreground, bg-card, border-border, etc.) across all components
-- [ ] **TOKEN-02**: Typography and spacing consistent across all components via shadcn design token layer — subsumes v3.0 TYP-01 through TYP-04
+Archived: `.planning/milestones/v4.0-REQUIREMENTS.md` — all 9 satisfied (2026-04-24).
 
 ---
 
@@ -111,25 +87,10 @@ Requirements for milestone v3.0 Content & Polish.
 | TYP-03 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
 | TYP-04 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
 
-### v4.0 Traceability
-
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| SHAD-01 | Phase 13 | Complete |
-| SHAD-02 | Phase 13 | Complete |
-| CARD-01 | Phase 14 | Verified |
-| CARD-02 | Phase 14 | Verified |
-| CARD-03 | Phase 14 | Verified |
-| BADGE-01 | Phase 15 | Pending |
-| SEP-01 | Phase 15 | Pending |
-| TOKEN-01 | Phase 16 | Pending |
-| TOKEN-02 | Phase 16 | Pending |
-
 **Coverage:**
 - v3.0 requirements: 12 total (8 complete, 4 superseded by v4.0)
-- v4.0 requirements: 9 total, 9 mapped (100%)
-- Phases 13-16 cover all v4.0 requirements
+- v4.0 requirements: archived to `.planning/milestones/v4.0-REQUIREMENTS.md` (9/9 complete)
 
 ---
 *Requirements defined: 2026-04-23*
-*Last updated: 2026-04-24 after v4.0 roadmap creation*
+*Last updated: 2026-04-24 after v4.0 milestone archive*
