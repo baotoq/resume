@@ -216,8 +216,7 @@ Phase 13 introduces no typography changes. The type scale is preserved from the 
 | Role | Size | Weight | Line Height | Status |
 |------|------|--------|-------------|--------|
 | Display (name h1) | 28px (`text-[28px]`) | 600 (semibold) | 1.2 | Preserved |
-| Heading (section h2) | 20px (`text-xl`) | 600 (semibold) | 1.4 | Preserved |
-| Subheading (role h3) | 18px (`text-lg`) | 700 (bold) | 1.4 | Preserved |
+| Heading (section h2 + role h3) | 20px (`text-xl`) | 600 (semibold) | 1.4 | Preserved (h2/h3 share size; context and surrounding size differences carry hierarchy) |
 | Body (bullets, bio) | 16px (`text-base`) | 400 (regular) | 1.6 | Preserved |
 | Secondary (dates, labels) | 14px (`text-sm`) | 400 (regular) | 1.5 | Preserved |
 
