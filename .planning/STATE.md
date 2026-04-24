@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: shadcn/ui Full Design System Swap — Phases 13-16
 status: planning
-last_updated: "2026-04-24T11:25:54.215Z"
+last_updated: "2026-04-24T11:26:44.839Z"
 last_activity: 2026-04-24
 progress:
   total_phases: 8
   completed_phases: 4
   total_plans: 11
-  completed_plans: 9
-  percent: 82
+  completed_plans: 10
+  percent: 91
 ---
 
 # Project State
@@ -29,7 +29,7 @@ Plan: Not started
 Status: Ready to plan
 Last activity: 2026-04-24
 
-Progress: [████████░░] 82%
+Progress: [█████████░] 91%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [████████░░] 82%
 - v4.0: Plain `npm install` — no `--legacy-peer-deps` needed; all packages declare React 19 peer deps at current versions
 - v4.0: Phase 14-01 — Header.tsx adopts shadcn Card with zero className overrides (D-03/04/05 defaults trusted)
 - 14-03: Kept key={index} on <article> (Pitfall #3); no className overrides on shadcn Card/CardContent
+- 14-02: swapped WorkExperience per-entry wrapper to shadcn Card; preserved article landmark, timeline dot, inner gap-4 wrapper
 
 ### Pending Todos
 
