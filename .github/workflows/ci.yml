@@ -4,9 +4,13 @@ on:
     branches: ["master"]
   pull_request:
     branches: ["master"]
+
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      EMAIL: ci@example.com
+      PHONE: "+10000000000"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,4 +19,16 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run lint
+      - run: npm run test
       - run: npm run build
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run E2E
+        run: npm run test:e2e
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
