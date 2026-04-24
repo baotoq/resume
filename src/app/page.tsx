@@ -6,6 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { WorkExperience } from "@/components/WorkExperience";
 import { parseResumeFile } from "@/lib/parse-resume";
 
+export const dynamic = "force-static";
+
 export default function Page() {
   const resume = parseResumeFile();
 
