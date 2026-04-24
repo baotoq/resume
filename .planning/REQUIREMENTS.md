@@ -103,7 +103,7 @@ Requirements for milestone v3.0 Content & Polish.
 | EDU-02 | Phase 11 | Complete |
 | EDU-03 | Phase 11 | Complete |
 | EDU-04 | Phase 11 | Complete |
-| TYP-01 | Phase 12 | Superseded by TOKEN-01/TOKEN-02 (v4.0) |
+| TYP-01 | Phase 12 | Superseded by TOKEN-02 (v4.0) |
 | TYP-02 | Phase 12 | Superseded by TOKEN-02 (v4.0) |
 | TYP-03 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
 | TYP-04 | Phase 12 | Superseded by TOKEN-01 (v4.0) |
@@ -112,21 +112,21 @@ Requirements for milestone v3.0 Content & Polish.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SHAD-01 | TBD | Pending |
-| SHAD-02 | TBD | Pending |
-| CARD-01 | TBD | Pending |
-| CARD-02 | TBD | Pending |
-| CARD-03 | TBD | Pending |
-| BADGE-01 | TBD | Pending |
-| SEP-01 | TBD | Pending |
-| TOKEN-01 | TBD | Pending |
-| TOKEN-02 | TBD | Pending |
+| SHAD-01 | Phase 13 | Pending |
+| SHAD-02 | Phase 13 | Pending |
+| CARD-01 | Phase 14 | Pending |
+| CARD-02 | Phase 14 | Pending |
+| CARD-03 | Phase 14 | Pending |
+| BADGE-01 | Phase 15 | Pending |
+| SEP-01 | Phase 15 | Pending |
+| TOKEN-01 | Phase 16 | Pending |
+| TOKEN-02 | Phase 16 | Pending |
 
 **Coverage:**
 - v3.0 requirements: 12 total (8 complete, 4 superseded by v4.0)
-- v4.0 requirements: 9 total
-- Mapped to phases: TBD (roadmap pending)
+- v4.0 requirements: 9 total, 9 mapped (100%)
+- Phases 13-16 cover all v4.0 requirements
 
 ---
 *Requirements defined: 2026-04-23*
-*Last updated: 2026-04-23 after roadmap creation*
+*Last updated: 2026-04-24 after v4.0 roadmap creation*
