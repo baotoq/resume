@@ -16,7 +16,8 @@ Requirements for milestone v4.0 shadcn/ui Full Design System Swap.
 
 ### Card Swap
 
-- [ ] **CARD-01**: Header section wrapper uses shadcn Card primitive instead of hand-rolled rounded-xl border bg-white classes
+- [x] **CARD-01
+**: Header section wrapper uses shadcn Card primitive instead of hand-rolled rounded-xl border bg-white classes
 - [ ] **CARD-02**: Each WorkExperience entry card uses shadcn Card primitive
 - [ ] **CARD-03**: Each EducationSection entry card uses shadcn Card primitive
 
