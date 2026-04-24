@@ -2,7 +2,7 @@
 phase: 10-bio-paragraph-duration-labels
 plan: "02"
 subsystem: WorkExperience
-status: checkpoint-pending
+status: complete
 tags:
   - duration-labels
   - server-component
@@ -28,7 +28,7 @@ decisions:
 metrics:
   duration: "~5 min"
   completed_date: "2026-04-24"
-  tasks_completed: 1
+  tasks_completed: 2
   tasks_total: 2
 ---
 
@@ -54,7 +54,7 @@ WorkExperience.tsx was modified to display a stacked date range and duration lab
 | Task | Name | Status | Commit |
 |------|------|--------|--------|
 | 1 | Wire computeDuration into WorkExperience.tsx | Complete | 02a68c9 |
-| 2 | Visual verification checkpoint | Pending — awaiting human verify | — |
+| 2 | Visual verification checkpoint | Complete — human approved | — |
 
 ## Deviations from Plan
 
