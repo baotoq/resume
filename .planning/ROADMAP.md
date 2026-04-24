@@ -160,7 +160,11 @@ Plans:
   3. Each EducationSection entry card uses `<Card><CardContent>` — the hand-rolled pattern is gone from EducationSection.tsx
   4. Visual parity: cards look the same (or better) on mobile (375px) and desktop (1280px) — no layout regressions, no content clipping
   5. `npm run build` and `npm run lint` pass with no errors after the swap
-**Plans**: TBD
+**Plans**: 4 plans
+  - [ ] 14-01-PLAN.md — Swap Header.tsx to shadcn Card (CARD-01)
+  - [ ] 14-02-PLAN.md — Swap WorkExperience.tsx to shadcn Card (CARD-02)
+  - [ ] 14-03-PLAN.md — Swap EducationSection.tsx to shadcn Card (CARD-03)
+  - [ ] 14-04-PLAN.md — Phase gate: build + lint + visual parity (all CARD reqs)
 **UI hint**: yes
 
 ### Phase 15: Badge and Separator
