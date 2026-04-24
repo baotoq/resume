@@ -1,10 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import type { ResumeData } from "@/types/resume";
+import { AnimateIn } from "@/components/animation/AnimateIn";
+import { EducationSection } from "@/components/EducationSection";
 import { Header } from "@/components/Header";
 import { WorkExperience } from "@/components/WorkExperience";
-import { AnimateIn } from "@/components/animation/AnimateIn";
+import type { ResumeData } from "@/types/resume";
 
 export default function Page() {
   const filePath = path.join(process.cwd(), "src/data/resume.md");
@@ -29,6 +30,9 @@ export default function Page() {
         </AnimateIn>
         <AnimateIn delay={0.1}>
           <WorkExperience experience={resume.experience} />
+        </AnimateIn>
+        <AnimateIn delay={0.2}>
+          <EducationSection education={resume.education ?? []} />
         </AnimateIn>
       </div>
     </main>
