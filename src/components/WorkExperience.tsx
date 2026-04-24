@@ -3,6 +3,7 @@
 import { LogoImage } from "@/components/company-logos/LogoImage";
 import { HighlightedBullet } from "@/components/HighlightedBullet";
 import { TechStackIcons } from "@/components/techstack-icons/TechStackIcons";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { computeDuration } from "@/lib/duration";
 import type { ExperienceEntry } from "@/types/resume";
@@ -35,7 +36,11 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
       <div className="relative pl-5 sm:pl-7 flex flex-col gap-6">
         {/* Single continuous timeline line — starts at first dot centre, ends at last card bottom */}
         <div
-          className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5 bg-border"
+          className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5"
+          style={{
+            background:
+              "linear-gradient(180deg, #14b8a6 0%, #10b981 30%, var(--border) 60%)",
+          }}
           aria-hidden="true"
         />
 
@@ -48,7 +53,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               <div
                 className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
                   isCurrent
-                    ? "bg-primary"
+                    ? "accent-gradient-bg animate-pulse-ring"
                     : "border-2 border-border bg-background"
                 }`}
                 aria-hidden="true"
@@ -56,7 +61,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
 
               {/* Card */}
               <article>
-                <Card>
+                <Card className="hover-lift">
                   <CardContent>
                     <div className="flex flex-col gap-4">
                       <div className="flex items-center gap-3">
@@ -73,17 +78,21 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                               {entry.role}
                             </p>
                           </div>
-                          <div className="flex flex-col items-end">
+                          <div className="flex flex-col items-end gap-1">
                             <span className="text-sm font-bold text-muted-foreground">
                               {formatDateRange(entry.startDate, entry.endDate)}
                             </span>
-                            <span className="text-xs text-muted-foreground">
-                              {computeDuration(
-                                entry.startDate,
-                                entry.endDate,
-                                now,
-                              )}
-                            </span>
+                            {isCurrent ? (
+                              <Badge variant="accent">Current</Badge>
+                            ) : (
+                              <span className="text-xs text-muted-foreground">
+                                {computeDuration(
+                                  entry.startDate,
+                                  entry.endDate,
+                                  now,
+                                )}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
