@@ -64,4 +64,22 @@ education:
     institution: "Ton Duc Thang University"
     startDate: "2014-09"
     endDate: "2018-06"
+# PLACEHOLDER — replace with real certs
+certifications:
+  - name: "Certified Kubernetes Administrator"
+    abbrev: "CKA"
+    issuer: "Linux Foundation"
+    year: 2024
+  - name: "AWS Solutions Architect — Professional"
+    abbrev: "AWS"
+    issuer: "Amazon"
+    year: 2023
+  - name: "Azure Developer Associate"
+    abbrev: "AZ"
+    issuer: "Microsoft"
+    year: 2022
+  - name: "Certified Kubernetes Application Developer"
+    abbrev: "CKAD"
+    issuer: "Linux Foundation"
+    year: 2023
 ---
