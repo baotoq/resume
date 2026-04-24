@@ -21,10 +21,10 @@ Requirements for milestone v3.0 Content & Polish.
 
 ### Education
 
-- [ ] **EDU-01**: User can read an education section below work experience
-- [ ] **EDU-02**: Education entry shows degree, institution, and date range
-- [ ] **EDU-03**: Education entry shows relevant coursework/details when present
-- [ ] **EDU-04**: Education section animates in on scroll entry
+- [x] **EDU-01**: User can read an education section below work experience
+- [x] **EDU-02**: Education entry shows degree, institution, and date range
+- [x] **EDU-03**: Education entry shows relevant coursework/details when present
+- [x] **EDU-04**: Education section animates in on scroll entry
 
 ### Typography
 
@@ -72,10 +72,10 @@ Requirements for milestone v3.0 Content & Polish.
 | BIO-02 | Phase 10 | Complete |
 | DUR-01 | Phase 10 | Complete |
 | DUR-02 | Phase 10 | Complete |
-| EDU-01 | Phase 11 | Pending |
-| EDU-02 | Phase 11 | Pending |
-| EDU-03 | Phase 11 | Pending |
-| EDU-04 | Phase 11 | Pending |
+| EDU-01 | Phase 11 | Complete |
+| EDU-02 | Phase 11 | Complete |
+| EDU-03 | Phase 11 | Complete |
+| EDU-04 | Phase 11 | Complete |
 | TYP-01 | Phase 12 | Pending |
 | TYP-02 | Phase 12 | Pending |
 | TYP-03 | Phase 12 | Pending |
