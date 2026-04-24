@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseResumeFile } from "./parse-resume";
+import { parseResumeFile, parseResumeString } from "./parse-resume";
 
 describe("parseResumeFile — real resume.md schema guard", () => {
   const resume = parseResumeFile();
@@ -43,5 +43,50 @@ describe("parseResumeFile — real resume.md schema guard", () => {
       expect(typeof key).toBe("string");
       expect(typeof value).toBe("string");
     }
+  });
+});
+
+describe("parseResumeString — fixtures", () => {
+  it("parses minimal valid frontmatter", () => {
+    const raw = `---
+name: Jane Doe
+title: Engineer
+github: https://github.com/jane
+linkedin: https://linkedin.com/in/jane
+experience: []
+skills: {}
+---
+`;
+    const data = parseResumeString(raw);
+    expect(data.name).toBe("Jane Doe");
+    expect(data.experience).toEqual([]);
+    expect(data.skills).toEqual({});
+  });
+
+  it("allows empty skills record", () => {
+    const raw = `---
+name: X
+title: Y
+github: g
+linkedin: l
+experience: []
+skills: {}
+---
+`;
+    const data = parseResumeString(raw);
+    expect(data.skills).toEqual({});
+  });
+
+  it("throws on malformed YAML", () => {
+    const raw = `---
+name: "unterminated
+---
+`;
+    expect(() => parseResumeString(raw)).toThrow();
+  });
+
+  it("returns empty object shape when frontmatter absent", () => {
+    const data = parseResumeString("no frontmatter here");
+    expect(data).toEqual({});
   });
 });
