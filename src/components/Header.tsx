@@ -29,7 +29,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
       <Card className="relative overflow-hidden">
         <div className="accent-glow" aria-hidden="true" />
         <CardContent className="relative">
-          <h1 className="text-[28px] font-semibold leading-[1.1] text-foreground">
+          <h1 className="accent-gradient-text text-[28px] font-semibold leading-[1.1]">
             {resume.name}
           </h1>
           <p className="text-xl font-semibold leading-[1.2] text-foreground mt-1">
