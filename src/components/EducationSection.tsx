@@ -24,7 +24,7 @@ export function EducationSection({ education }: EducationSectionProps) {
 
   return (
     <section>
-      <h2 className="text-xl font-semibold leading-[1.2] text-zinc-900 mb-6">
+      <h2 className="text-xl font-semibold leading-[1.2] text-foreground mb-6">
         Education
       </h2>
       <div className="flex flex-col gap-6">
@@ -34,19 +34,19 @@ export function EducationSection({ education }: EducationSectionProps) {
               <CardContent>
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-0">
                   <div className="flex flex-col gap-1">
-                    <h3 className="text-lg font-semibold text-zinc-900">
+                    <h3 className="text-lg font-semibold text-foreground">
                       {entry.degree}
                     </h3>
-                    <p className="text-base text-zinc-700">
+                    <p className="text-base text-foreground">
                       {entry.institution}
                     </p>
                   </div>
-                  <span className="text-sm font-semibold text-zinc-500 sm:text-right">
+                  <span className="text-sm font-semibold text-muted-foreground sm:text-right">
                     {formatDateRange(entry.startDate, entry.endDate)}
                   </span>
                 </div>
                 {entry.details && (
-                  <p className="mt-4 text-base leading-relaxed text-zinc-700">
+                  <p className="mt-4 text-base leading-relaxed text-foreground">
                     {entry.details}
                   </p>
                 )}
