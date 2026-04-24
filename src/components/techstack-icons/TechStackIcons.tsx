@@ -1,28 +1,29 @@
-import Go from "react-devicons/go/original";
-import Kubernetes from "react-devicons/kubernetes/plain";
 import Amazonwebservice from "react-devicons/amazonwebservices/original-wordmark";
-import Typescript from "react-devicons/typescript/original";
+import Docker from "react-devicons/docker/original-wordmark";
+import Dotnet from "react-devicons/dotnetcore/original";
+import Facebook from "react-devicons/facebook/original";
+import Github from "react-devicons/github/original-wordmark";
+import Go from "react-devicons/go/original";
+import Grafana from "react-devicons/grafana/original-wordmark";
+import Graphql from "react-devicons/graphql/plain";
+import Kubernetes from "react-devicons/kubernetes/plain";
+import Microsoftsqlserver from "react-devicons/microsoftsqlserver/plain-wordmark";
+import Mongodb from "react-devicons/mongodb/original-wordmark";
+import Mysql from "react-devicons/mysql/original";
+import Neo4j from "react-devicons/neo4j/original-wordmark";
 import Postgresql from "react-devicons/postgresql/original-wordmark";
 import ReactIcon from "react-devicons/react/original-wordmark";
-import Vuejs from "react-devicons/vuejs/original-wordmark";
-import Dotnet from "react-devicons/dotnetcore/original";
-import Mysql from "react-devicons/mysql/original";
-import Docker from "react-devicons/docker/original-wordmark";
-import Graphql from "react-devicons/graphql/plain";
-import Mongodb from "react-devicons/mongodb/original-wordmark";
 import Redis from "react-devicons/redis/original-wordmark";
 import Tailwindcss from "react-devicons/tailwindcss/original";
 import Terraform from "react-devicons/terraform/original-wordmark";
-import Github from "react-devicons/github/original-wordmark";
-import Facebook from "react-devicons/facebook/original";
-import Neo4j from "react-devicons/neo4j/original-wordmark";
-import Grafana from "react-devicons/grafana/original-wordmark";
-import Microsoftsqlserver from "react-devicons/microsoftsqlserver/plain-wordmark";
-import { ELKIcon } from "./ELKIcon";
+import Typescript from "react-devicons/typescript/original";
+import Vuejs from "react-devicons/vuejs/original-wordmark";
+import { Badge } from "@/components/ui/badge";
 import { AzureIcon } from "./AzureIcon";
-import { DaprIcon } from "./DaprIcon";
 import { DapperIcon } from "./DapperIcon";
+import { DaprIcon } from "./DaprIcon";
 import { EFCoreIcon } from "./EFCoreIcon";
+import { ELKIcon } from "./ELKIcon";
 import { FluxCDIcon } from "./FluxCDIcon";
 import { GrpcIcon } from "./GrpcIcon";
 import { OdooIcon } from "./OdooIcon";
@@ -85,11 +86,7 @@ function TechIcon({ tech }: { tech: string }) {
     );
   }
 
-  return (
-    <span className="bg-zinc-100 text-zinc-600 rounded-full px-2 py-0.5 text-xs">
-      {tech}
-    </span>
-  );
+  return <Badge variant="secondary">{tech}</Badge>;
 }
 
 export function TechStackIcons({ stack }: TechStackIconsProps) {
