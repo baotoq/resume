@@ -214,4 +214,4 @@ Plans:
 | 13. shadcn Infrastructure | v4.0 | 2/2 | Complete    | 2026-04-24 |
 | 14. Card Swap | v4.0 | 0/? | Not started | — |
 | 15. Badge and Separator | v4.0 | 3/3 | Complete | 2026-04-24 |
-| 16. Token Unification | v4.0 | 0/? | Not started | — |
+| 16. Token Unification | v4.0 | 5/5 | Complete | 2026-04-24 |
