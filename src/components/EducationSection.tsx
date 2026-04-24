@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: stable list from static YAML data */
 import type { EducationEntry } from "@/types/resume";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface EducationSectionProps {
   education: EducationEntry[];
@@ -27,26 +28,29 @@ export function EducationSection({ education }: EducationSectionProps) {
       </h2>
       <div className="flex flex-col gap-6">
         {education.map((entry, index) => (
-          <article
-            key={index}
-            className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-0">
-              <div className="flex flex-col gap-1">
-                <h3 className="text-lg font-semibold text-zinc-900">
-                  {entry.degree}
-                </h3>
-                <p className="text-base text-zinc-700">{entry.institution}</p>
-              </div>
-              <span className="text-sm font-semibold text-zinc-500 sm:text-right">
-                {formatDateRange(entry.startDate, entry.endDate)}
-              </span>
-            </div>
-            {entry.details && (
-              <p className="mt-4 text-base leading-relaxed text-zinc-700">
-                {entry.details}
-              </p>
-            )}
+          <article key={index}>
+            <Card>
+              <CardContent>
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-0">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-lg font-semibold text-zinc-900">
+                      {entry.degree}
+                    </h3>
+                    <p className="text-base text-zinc-700">
+                      {entry.institution}
+                    </p>
+                  </div>
+                  <span className="text-sm font-semibold text-zinc-500 sm:text-right">
+                    {formatDateRange(entry.startDate, entry.endDate)}
+                  </span>
+                </div>
+                {entry.details && (
+                  <p className="mt-4 text-base leading-relaxed text-zinc-700">
+                    {entry.details}
+                  </p>
+                )}
+              </CardContent>
+            </Card>
           </article>
         ))}
       </div>
