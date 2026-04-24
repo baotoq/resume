@@ -36,6 +36,8 @@ type IconComponent = React.FunctionComponent<
   React.SVGProps<SVGElement> & { size?: number | string }
 >;
 
+const REACT_BLUE = "#0380A2";
+
 const TECH_ICON_MAP: Record<string, IconComponent> = {
   go: Go,
   ".net": Dotnet,
@@ -54,8 +56,8 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   redis: Redis,
   mysql: Mysql,
   mssql: Microsoftsqlserver,
-  react: ({ size }) => <ReactIcon size={size} color="#0380A2" />,
-  vue: () => <Vuejs size={38} />,
+  react: ({ size }) => <ReactIcon size={size} color={REACT_BLUE} />,
+  vue: Vuejs,
   tailwindcss: Tailwindcss,
   facebook: Facebook,
   dapr: ({ size }) => <DaprIcon size={size} />,
