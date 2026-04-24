@@ -110,7 +110,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 11-01-PLAN.md — Create EducationSection component and wire into page with AnimateIn
+- [x] 11-01-PLAN.md — Create EducationSection component and wire into page with AnimateIn
 
 **UI hint**: yes
 
@@ -141,5 +141,5 @@ Plans:
 | 8. Decommission GitHub Pages | v2.0 | 2/2 | Complete | 2026-04-22 |
 | 9. Type System & Data Foundation | v3.0 | 0/1 | Not started | — |
 | 10. Bio Paragraph + Duration Labels | v3.0 | 3/3 | Complete    | 2026-04-24 |
-| 11. Education Section | v3.0 | 0/1 | Not started | — |
+| 11. Education Section | v3.0 | 1/1 | Complete    | 2026-04-24 |
 | 12. Typography & Spacing Overhaul | v3.0 | 0/? | Not started | — |
