@@ -146,7 +146,7 @@ Plans:
 
 Plans:
 - [x] 13-01-PLAN.md — Install packages, create components.json + utils.ts, merge globals.css
-- [ ] 13-02-PLAN.md — Install Card/Badge/Separator component sources via shadcn CLI + Biome fix + visual verify
+- [x] 13-02-PLAN.md — Install Card/Badge/Separator component sources via shadcn CLI + Biome fix + visual verify
 
 **UI hint**: yes
 
