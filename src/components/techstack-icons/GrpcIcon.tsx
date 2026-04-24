@@ -18,10 +18,24 @@ export function GrpcIcon({ size = 40 }: GrpcIconProps) {
       {/* Right small diamond */}
       <polygon points="70,20 80,30 70,40 60,30" fill="#00B5B1" />
       {/* Arrow → (top, pointing right) */}
-      <line x1="38" y1="25" x2="58" y2="25" stroke="#244B5A" strokeWidth="2.5" />
+      <line
+        x1="38"
+        y1="25"
+        x2="58"
+        y2="25"
+        stroke="#244B5A"
+        strokeWidth="2.5"
+      />
       <polygon points="60,25 53,20 53,30" fill="#244B5A" />
       {/* Arrow ← (bottom, pointing left) */}
-      <line x1="26" y1="35" x2="48" y2="35" stroke="#244B5A" strokeWidth="2.5" />
+      <line
+        x1="26"
+        y1="35"
+        x2="48"
+        y2="35"
+        stroke="#244B5A"
+        strokeWidth="2.5"
+      />
       <polygon points="24,35 31,30 31,40" fill="#244B5A" />
       {/* gRPC text */}
       <text
