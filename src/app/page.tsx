@@ -41,7 +41,7 @@ export default function Page() {
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON.stringify output is injection-safe for ld+json
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      <div className="relative z-10 mx-auto max-w-3xl flex flex-col gap-10">
+      <div className="relative z-10 mx-auto max-w-3xl flex flex-col gap-8">
         <AnimateIn delay={0}>
           <Header resume={resume} email={email} phone={phone} />
         </AnimateIn>
