@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
-
 import { LogoImage } from "@/components/company-logos/LogoImage";
 import { HighlightedBullet } from "@/components/HighlightedBullet";
 import { TechStackIcons } from "@/components/techstack-icons/TechStackIcons";
@@ -44,11 +42,11 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
           aria-hidden="true"
         />
 
-        {experience.map((entry, index) => {
+        {experience.map((entry) => {
           const isCurrent = entry.endDate === null;
 
           return (
-            <div key={index} className="relative">
+            <div key={`${entry.company}-${entry.startDate}`} className="relative">
               {/* Timeline dot — z-10 so it sits above the continuous line */}
               <div
                 className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
@@ -97,9 +95,9 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                         </div>
                       </div>
                       <ul className="flex flex-col gap-2">
-                        {entry.bullets.map((bullet, i) => (
+                        {entry.bullets.map((bullet) => (
                           <li
-                            key={i}
+                            key={bullet}
                             className="text-base leading-relaxed text-foreground pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-border"
                           >
                             <HighlightedBullet>{bullet}</HighlightedBullet>
