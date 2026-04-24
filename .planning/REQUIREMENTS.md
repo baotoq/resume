@@ -11,13 +11,13 @@ Requirements for milestone v3.0 Content & Polish.
 
 ### Bio
 
-- [ ] **BIO-01**: User can read a plain-text bio paragraph at the top of the resume page
-- [ ] **BIO-02**: Bio section animates in on scroll entry
+- [x] **BIO-01**: User can read a plain-text bio paragraph at the top of the resume page
+- [x] **BIO-02**: Bio section animates in on scroll entry
 
 ### Duration Labels
 
-- [ ] **DUR-01**: Each work experience entry displays a computed duration label ("X yrs Y mos") next to the date range
-- [ ] **DUR-02**: Duration computed at build time (static — no client JS required)
+- [x] **DUR-01**: Each work experience entry displays a computed duration label ("X yrs Y mos") next to the date range
+- [x] **DUR-02**: Duration computed at build time (static — no client JS required)
 
 ### Education
 
@@ -68,10 +68,10 @@ Requirements for milestone v3.0 Content & Polish.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BIO-01 | Phase 10 | Pending |
-| BIO-02 | Phase 10 | Pending |
-| DUR-01 | Phase 10 | Pending |
-| DUR-02 | Phase 10 | Pending |
+| BIO-01 | Phase 10 | Complete |
+| BIO-02 | Phase 10 | Complete |
+| DUR-01 | Phase 10 | Complete |
+| DUR-02 | Phase 10 | Complete |
 | EDU-01 | Phase 11 | Pending |
 | EDU-02 | Phase 11 | Pending |
 | EDU-03 | Phase 11 | Pending |
