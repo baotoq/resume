@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { AnimateIn } from "@/components/animation/AnimateIn";
 import { EducationSection } from "@/components/EducationSection";
 import { Header } from "@/components/Header";
+import { Separator } from "@/components/ui/separator";
 import { WorkExperience } from "@/components/WorkExperience";
 import type { ResumeData } from "@/types/resume";
 
@@ -29,7 +30,13 @@ export default function Page() {
           <Header resume={resume} email={email} phone={phone} />
         </AnimateIn>
         <AnimateIn delay={0.1}>
+          <Separator />
+        </AnimateIn>
+        <AnimateIn delay={0.1}>
           <WorkExperience experience={resume.experience} />
+        </AnimateIn>
+        <AnimateIn delay={0.2}>
+          <Separator />
         </AnimateIn>
         <AnimateIn delay={0.2}>
           <EducationSection education={resume.education ?? []} />
