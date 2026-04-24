@@ -20,7 +20,7 @@ Initialize shadcn/ui into the existing Next.js 16 + Tailwind v4 project. Install
 - **D-02:** Replace hex with oklch. The existing `--background: #fafafa` and `--foreground: #18181b` hex values are replaced with shadcn's generated oklch equivalents during the `globals.css` merge. Single color system from Phase 13 onward — no mixed hex/oklch.
 
 ### shadcn Style Preset
-- **D-03:** Use `"style": "default"` in `components.json`. Neutral, professional — appropriate for a resume. No `new-york` opinionated radius.
+- **D-03:** Use `"style": "new-york"` in `components.json`. Current official standard per shadcn docs for Tailwind v4 era — `"default"` is deprecated and cannot be changed after components.json is created.
 
 ### Package Installation
 - **D-04:** Install these 6 packages: `shadcn@4.4.0`, `class-variance-authority`, `clsx`, `tailwind-merge`, `tw-animate-css`, `lucide-react`. `tw-animate-css` must be manually `npm install`-ed — it is NOT auto-installed by the shadcn CLI.

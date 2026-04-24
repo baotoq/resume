@@ -139,10 +139,15 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. `npm run build` passes with no errors and no visual change is observable in the browser after the phase lands
   2. `src/lib/utils.ts` exists with the `cn()` utility function (clsx + tailwind-merge)
-  3. `components.json` exists at the project root with `"style": "default"` and `"tailwind": { "config": "" }` (v4 mode)
+  3. `components.json` exists at the project root with `"style": "new-york"` and `"tailwind": { "config": "" }` (v4 mode)
   4. `globals.css` contains the shadcn CSS variable block (oklch tokens) AND the existing Geist font vars (`--font-sans: var(--font-geist-sans)`) and `@theme inline` block are preserved
   5. `src/components/ui/card.tsx`, `badge.tsx`, and `separator.tsx` are present and TypeScript-clean (`npm run build` passes, `npm run lint` passes after Biome format)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 13-01-PLAN.md — Install packages, create components.json + utils.ts, merge globals.css
+- [ ] 13-02-PLAN.md — Install Card/Badge/Separator component sources via shadcn CLI + Biome fix + visual verify
+
 **UI hint**: yes
 
 ### Phase 14: Card Swap
