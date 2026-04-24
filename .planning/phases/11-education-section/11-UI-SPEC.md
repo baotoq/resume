@@ -54,7 +54,7 @@ All values derived from `src/components/WorkExperience.tsx` to maintain visual c
 | Section heading | 20px (`text-xl`) | 600 (`font-semibold`) | 1.2 (`leading-[1.2]`) | zinc-900 | "Education" `<h2>` |
 | Degree title | 18px (`text-lg`) | 600 (`font-semibold`) | 1.2 | zinc-900 | Degree name in card `<h3>` |
 | Institution | 16px (`text-base`) | 400 (regular) | 1.5 | zinc-700 | Institution name `<p>` |
-| Date range | 14px (`text-sm`) | 700 (`font-bold`) | normal | zinc-500 | Date range `<span>` (right-aligned) |
+| Date range | 14px (`text-sm`) | 600 (`font-semibold`) | normal | zinc-500 | Date range `<span>` (right-aligned) |
 | Details paragraph | 16px (`text-base`) | 400 (regular) | relaxed (`leading-relaxed`) | zinc-700 | Optional details `<p>` when `details` field present |
 
 ---
@@ -98,7 +98,7 @@ Internal structure — two-column responsive header (mobile stacks, sm+ aligns r
   </div>
 
   <!-- RIGHT COLUMN -->
-  <span>  date range     text-sm font-bold text-zinc-500 sm:text-right
+  <span>  date range     text-sm font-semibold text-zinc-500 sm:text-right
 ```
 
 Optional details paragraph (rendered only when `details` field is non-empty):
