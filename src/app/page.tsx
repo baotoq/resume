@@ -24,8 +24,23 @@ export default function Page() {
   const email = process.env.EMAIL ?? "";
   const phone = process.env.PHONE ?? "";
 
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: resume.name,
+    jobTitle: resume.title,
+    description: resume.bio,
+    ...(email ? { email } : {}),
+    sameAs: [resume.github, resume.linkedin].filter(Boolean),
+  };
+
   return (
     <main className="page-grain min-h-screen bg-zinc-50 py-12 px-4 sm:px-8">
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON.stringify output is injection-safe for ld+json
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
       <div className="relative z-10 mx-auto max-w-3xl flex flex-col gap-10">
         <AnimateIn delay={0}>
           <Header resume={resume} email={email} phone={phone} />
