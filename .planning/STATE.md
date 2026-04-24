@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: shadcn/ui Full Design System Swap — Phases 13-16
 status: planning
-last_updated: "2026-04-24T11:25:46.180Z"
+last_updated: "2026-04-24T11:25:54.215Z"
 last_activity: 2026-04-24
 progress:
   total_phases: 8
@@ -56,6 +56,7 @@ Progress: [████████░░] 82%
 - v4.0: Card and Badge are Server Component safe (no "use client"); Separator has "use client" but is a safe leaf node import
 - v4.0: Plain `npm install` — no `--legacy-peer-deps` needed; all packages declare React 19 peer deps at current versions
 - v4.0: Phase 14-01 — Header.tsx adopts shadcn Card with zero className overrides (D-03/04/05 defaults trusted)
+- 14-03: Kept key={index} on <article> (Pitfall #3); no className overrides on shadcn Card/CardContent
 
 ### Pending Todos
 
