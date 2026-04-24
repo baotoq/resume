@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { parseResumeFile } from "./parse-resume";
 
 describe("parseResumeFile — real resume.md schema guard", () => {
