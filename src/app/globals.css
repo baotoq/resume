@@ -63,7 +63,11 @@ body {
 
 @layer utilities {
   .accent-gradient-bg {
-    background: linear-gradient(135deg, var(--color-accent-start), var(--color-accent-end));
+    background: linear-gradient(
+      135deg,
+      var(--color-accent-start),
+      var(--color-accent-end)
+    );
   }
   .card-gradient-hover {
     position: relative;
@@ -74,7 +78,11 @@ body {
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, var(--color-accent-start), var(--color-accent-end));
+    background: linear-gradient(
+      135deg,
+      var(--color-accent-start),
+      var(--color-accent-end)
+    );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
