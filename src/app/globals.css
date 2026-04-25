@@ -117,11 +117,11 @@ body {
 }
 
 [data-print] .hover-lift {
-  transform: none !important;
+  transform: none;
   transition: none;
 }
 [data-print] .card-gradient-hover::after {
-  opacity: 0.22 !important;
+  opacity: 0.22;
 }
 [data-print] [data-pdf-trigger] {
   display: none;
