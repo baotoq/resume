@@ -76,9 +76,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
             ))}
           </div>
           {resume.bio && (
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              {resume.bio}
-            </p>
+            <p className="mt-4 text-base leading-relaxed">{resume.bio}</p>
           )}
         </CardContent>
       </Card>
