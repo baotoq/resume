@@ -53,17 +53,17 @@ try {
   }
 
   const browser = await chromium.launch();
-  const page = await browser.newPage({
+  const context = await browser.newContext({
     viewport: { width: 900, height: 1200 },
+    reducedMotion: "reduce",
   });
-
-  await page.emulateMedia({ media: "screen", reducedMotion: "reduce" });
+  const page = await context.newPage();
 
   await page.goto(BASE, { waitUntil: "networkidle" });
   await page.evaluate(() => {
     document.documentElement.setAttribute("data-print", "");
   });
-  await page.evaluate(() => document.fonts.ready.then(() => true));
+  await page.evaluate(() => document.fonts.ready);
 
   const common = {
     printBackground: true,

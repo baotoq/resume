@@ -15,7 +15,9 @@
       "!build",
       "!playwright-report",
       "!test-results",
-      "!.vitest-cache"
+      "!.vitest-cache",
+      "!types/validator.ts",
+      "!types/routes.d.ts"
     ]
   },
   "formatter": {
