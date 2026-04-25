@@ -120,13 +120,14 @@ body {
   transform: none;
   transition: none;
 }
-[data-print] .card-gradient-hover::after {
-  opacity: 0.22;
-}
 [data-print] [data-pdf-trigger] {
   display: none;
 }
 [data-print] section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+[data-print] article {
   break-inside: avoid;
   page-break-inside: avoid;
 }
