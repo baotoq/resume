@@ -80,13 +80,14 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                               {entry.role}
                             </p>
                           </div>
-                          <div className="flex flex-col items-end gap-1">
+                          <div className="flex flex-col items-start sm:items-end gap-1">
                             <span className="text-sm font-bold text-muted-foreground">
                               {formatDateRange(entry.startDate, entry.endDate)}
                             </span>
-                            {isCurrent ? (
-                              <Badge variant="accent">Current</Badge>
-                            ) : (
+                            <div className="flex items-center gap-1.5">
+                              {isCurrent && (
+                                <Badge variant="accent">Current</Badge>
+                              )}
                               <span className="text-xs text-muted-foreground">
                                 {computeDuration(
                                   entry.startDate,
@@ -94,7 +95,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                                   now,
                                 )}
                               </span>
-                            )}
+                            </div>
                           </div>
                         </div>
                       </div>

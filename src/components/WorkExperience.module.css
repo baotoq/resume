@@ -7,12 +7,12 @@
   }
 }
 
-.animate-pulse-ring {
+.animatePulseRing {
   animation: pulse-ring 2s ease-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-pulse-ring {
+  .animatePulseRing {
     animation: none;
   }
 }
