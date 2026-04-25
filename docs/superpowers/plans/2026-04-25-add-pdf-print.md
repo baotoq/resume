@@ -68,14 +68,56 @@ git commit -m "feat: add shadcn dropdown-menu component"
 **Files:**
 - Create: `src/components/DownloadResumePill.tsx`
 - Test: `src/components/DownloadResumePill.test.tsx`
+- Modify: `src/test/setup.ts` (Radix-in-jsdom polyfills)
 
-- [ ] **Step 1: Write the failing test**
+Radix DropdownMenu calls `Element.prototype.hasPointerCapture` and `scrollIntoView` which are not implemented in jsdom — this is a documented Radix pitfall. The unit test deliberately avoids opening the menu via click (which is unreliable in jsdom even with polyfills) and instead asserts:
+- the trigger renders correctly with the right attributes (no menu interaction)
+- the menu items render correctly when forced open via `defaultOpen` on a wrapping `DropdownMenu` in the test
+
+The full open-flow (click → menu appears → links work) is covered by the E2E test in Task 8.
+
+- [ ] **Step 1: Install `@testing-library/user-event`**
+
+(It's not currently a devDep. Even though our unit test doesn't click anything, future tests in this file may; install it now to avoid a follow-up commit.)
+
+```bash
+npm i -D @testing-library/user-event
+```
+
+- [ ] **Step 2: Add Radix-in-jsdom polyfills to `src/test/setup.ts`**
+
+Edit `src/test/setup.ts` so it reads:
+
+```ts
+import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach } from "vitest";
+
+// Radix UI primitives reach for browser APIs jsdom doesn't implement.
+// Polyfill the minimum surface needed so component tests can render Radix overlays.
+if (typeof window !== "undefined") {
+  if (!Element.prototype.hasPointerCapture) {
+    Element.prototype.hasPointerCapture = () => false;
+  }
+  if (!Element.prototype.releasePointerCapture) {
+    Element.prototype.releasePointerCapture = () => {};
+  }
+  if (!Element.prototype.scrollIntoView) {
+    Element.prototype.scrollIntoView = () => {};
+  }
+}
+
+afterEach(() => {
+  cleanup();
+});
+```
+
+- [ ] **Step 3: Write the failing test**
 
 Create `src/components/DownloadResumePill.test.tsx`:
 
 ```tsx
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { DownloadResumePill } from "./DownloadResumePill";
 
@@ -87,13 +129,11 @@ describe("DownloadResumePill", () => {
     expect(trigger).toHaveTextContent(/download pdf/i);
   });
 
-  it("opens a menu with A4 and Letter download links", async () => {
-    const user = userEvent.setup();
-    render(<DownloadResumePill />);
-    await user.click(screen.getByRole("button", { name: /download resume as pdf/i }));
+  it("renders A4 and Letter menu items as download links when open", () => {
+    render(<DownloadResumePill defaultOpen />);
 
-    const a4 = await screen.findByRole("menuitem", { name: /a4/i });
-    const letter = screen.getByRole("menuitem", { name: /letter/i });
+    const a4 = screen.getByRole("menuitem", { name: /a4/i });
+    const letter = screen.getByRole("menuitem", { name: /us letter/i });
 
     expect(a4).toHaveAttribute("href", "/to-quoc-bao-resume-a4.pdf");
     expect(a4).toHaveAttribute("download");
@@ -103,13 +143,9 @@ describe("DownloadResumePill", () => {
 });
 ```
 
-If `@testing-library/user-event` is not yet a devDep, add it:
+Note: the test passes `defaultOpen` to the component. Step 4's implementation accepts that prop and forwards it to the underlying `DropdownMenu`. This keeps the test reliable without simulating pointer events, and adds a tiny prop API rather than a test-only escape hatch (the prop is also useful for storybook-style previews).
 
-```bash
-npm i -D @testing-library/user-event
-```
-
-- [ ] **Step 2: Run test to verify it fails**
+- [ ] **Step 4: Run test to verify it fails**
 
 ```bash
 npx vitest run src/components/DownloadResumePill.test.tsx
@@ -117,7 +153,7 @@ npx vitest run src/components/DownloadResumePill.test.tsx
 
 Expected: FAIL — module not found.
 
-- [ ] **Step 3: Implement the component**
+- [ ] **Step 5: Implement the component**
 
 Create `src/components/DownloadResumePill.tsx`:
 
@@ -135,9 +171,13 @@ import {
 const TRIGGER_CLASSES =
   "inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-sm text-foreground/80 transition-all hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2";
 
-export function DownloadResumePill() {
+interface DownloadResumePillProps {
+  defaultOpen?: boolean;
+}
+
+export function DownloadResumePill({ defaultOpen }: DownloadResumePillProps = {}) {
   return (
-    <DropdownMenu>
+    <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger
         aria-label="Download resume as PDF"
         data-pdf-trigger
@@ -163,7 +203,7 @@ export function DownloadResumePill() {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [ ] **Step 6: Run test to verify it passes**
 
 ```bash
 npx vitest run src/components/DownloadResumePill.test.tsx
@@ -171,10 +211,10 @@ npx vitest run src/components/DownloadResumePill.test.tsx
 
 Expected: PASS (both tests).
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add src/components/DownloadResumePill.tsx src/components/DownloadResumePill.test.tsx package.json package-lock.json
+git add src/components/DownloadResumePill.tsx src/components/DownloadResumePill.test.tsx src/test/setup.ts package.json package-lock.json
 git commit -m "feat: add DownloadResumePill component with A4/Letter menu"
 ```
 
