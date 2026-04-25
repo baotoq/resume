@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Separator } from "@/components/ui/separator";
 import { WorkExperience } from "@/components/WorkExperience";
 import { parseResumeFile } from "@/lib/parse-resume";
+import styles from "./page.module.css";
 
 export const dynamic = "force-static";
 
@@ -25,7 +26,9 @@ export default function Page() {
   };
 
   return (
-    <main className="page-grain min-h-screen bg-zinc-50 py-12 px-4 sm:px-8">
+    <main
+      className={`${styles.pageGrain} min-h-screen bg-zinc-50 py-12 px-4 sm:px-8`}
+    >
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON.stringify output is injection-safe for ld+json
