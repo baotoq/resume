@@ -38,15 +38,13 @@ test.describe("print mode visual state", () => {
   });
 
   test("AnimateIn wrappers are not stuck at opacity 0", async ({ page }) => {
-    const stuck = await page.evaluate(() => {
-      const wrappers = Array.from(
-        document.querySelectorAll<HTMLElement>("main div"),
-      );
-      return wrappers.some((el) => {
-        const computed = window.getComputedStyle(el);
-        return computed.opacity === "0";
-      });
+    const wrappers = page.locator("main div").filter({
+      has: page.locator("section"),
     });
-    expect(stuck).toBe(false);
+    const count = await wrappers.count();
+    expect(count).toBeGreaterThan(0);
+    for (let i = 0; i < count; i++) {
+      await expect(wrappers.nth(i)).toHaveCSS("opacity", "1");
+    }
   });
 });
