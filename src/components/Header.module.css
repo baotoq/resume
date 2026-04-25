@@ -1,4 +1,4 @@
-.accent-gradient-text {
+.accentGradientText {
   background: linear-gradient(
     135deg,
     var(--color-accent-start),
@@ -9,7 +9,7 @@
   color: transparent;
 }
 
-.accent-glow {
+.accentGlow {
   position: absolute;
   top: -40px;
   right: -40px;
@@ -23,7 +23,7 @@
   pointer-events: none;
 }
 
-.accent-glow-bottom {
+.accentGlowBottom {
   position: absolute;
   bottom: -40px;
   left: -40px;

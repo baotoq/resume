@@ -1,8 +1,8 @@
-.page-grain {
+.pageGrain {
   position: relative;
 }
 
-.page-grain::before {
+.pageGrain::before {
   content: "";
   position: fixed;
   inset: 0;
