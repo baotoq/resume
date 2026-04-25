@@ -2,6 +2,7 @@ import { Phone } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { CopyableEmail } from "@/components/CopyableEmail";
+import { DownloadResumePill } from "@/components/DownloadResumePill";
 import { Card, CardContent } from "@/components/ui/card";
 import type { ResumeData } from "@/types/resume";
 import styles from "./Header.module.css";
@@ -77,6 +78,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
             {pills.map((link) => (
               <ContactPill key={link.label} link={link} />
             ))}
+            <DownloadResumePill />
           </div>
           {resume.bio && (
             <p className="mt-4 text-base leading-relaxed">{resume.bio}</p>
