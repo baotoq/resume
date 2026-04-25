@@ -1,0 +1,34 @@
+.accent-gradient-text {
+  background: linear-gradient(135deg, #14b8a6, #10b981);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.accent-glow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 260px;
+  height: 160px;
+  background: radial-gradient(
+    ellipse at top right,
+    rgba(20, 184, 166, 0.18),
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.accent-glow-bottom {
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 280px;
+  height: 180px;
+  background: radial-gradient(
+    ellipse at bottom left,
+    rgba(16, 185, 129, 0.16),
+    transparent 65%
+  );
+  pointer-events: none;
+}
