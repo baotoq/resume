@@ -1,7 +1,7 @@
 // scripts/build-pdf.mjs
 //
 // Build-time PDF capture. Assumes `next build` has already produced .next/.
-// Boots `next start` on an ephemeral port, opens it in headless Chromium with
+// Boots `next start` on port 4321, opens it in headless Chromium with
 // data-print + reducedMotion emulation, writes A4 and Letter PDFs to public/,
 // validates each output (magic-byte + min size), and tears the server down.
 
@@ -20,27 +20,38 @@ const server = spawn("npx", ["next", "start", "-p", String(PORT)], {
   env: process.env,
 });
 
-let ready = false;
-for (let i = 0; i < BOOT_TRIES; i++) {
-  try {
-    const r = await fetch(BASE);
-    if (r.ok) {
-      ready = true;
-      break;
-    }
-  } catch {
-    /* not up yet */
-  }
-  await sleep(BOOT_DELAY_MS);
-}
-if (!ready) {
-  server.kill("SIGTERM");
-  throw new Error(
-    `next start did not become ready at ${BASE} within ${(BOOT_TRIES * BOOT_DELAY_MS) / 1000}s`,
-  );
-}
+let serverExited = false;
+let serverExitCode = null;
+server.on("exit", (code) => {
+  serverExited = true;
+  serverExitCode = code;
+});
 
 try {
+  let ready = false;
+  for (let i = 0; i < BOOT_TRIES; i++) {
+    if (serverExited) {
+      throw new Error(
+        `next start exited prematurely with code ${serverExitCode} (port ${PORT} already in use?)`,
+      );
+    }
+    try {
+      const r = await fetch(BASE);
+      if (r.ok) {
+        ready = true;
+        break;
+      }
+    } catch {
+      /* not up yet */
+    }
+    await sleep(BOOT_DELAY_MS);
+  }
+  if (!ready) {
+    throw new Error(
+      `next start did not become ready at ${BASE} within ${(BOOT_TRIES * BOOT_DELAY_MS) / 1000}s`,
+    );
+  }
+
   const browser = await chromium.launch();
   const page = await browser.newPage({
     viewport: { width: 900, height: 1200 },
