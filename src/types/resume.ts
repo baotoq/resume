@@ -1,6 +1,6 @@
 export type {
-  ResumeData,
-  ExperienceEntry,
-  EducationEntry,
   CertificationEntry,
+  EducationEntry,
+  ExperienceEntry,
+  ResumeData,
 } from "@/lib/resume-schema";
