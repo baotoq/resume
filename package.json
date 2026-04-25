@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/build-pdf.mjs",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:all": "npm run test && npm run test:e2e"
+    "test:all": "npm run test && npm run test:e2e",
+    "build:pdf": "node scripts/build-pdf.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
