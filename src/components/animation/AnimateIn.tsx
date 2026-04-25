@@ -20,7 +20,6 @@ export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
 
   useEffect(() => {
     if (typeof document === "undefined") return;
-    setIsPrint(readPrintMode());
     const observer = new MutationObserver(() => {
       setIsPrint(readPrintMode());
     });
