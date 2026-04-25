@@ -233,3 +233,13 @@ Notably NOT modified:
 - **`next start` boot time on CI**: typically 1–3s after `next build`. The 60-iteration × 500ms wait loop tolerates up to 30s, with a fast path on first 200 OK.
 - **Resume length**: current resume is likely 2 pages on A4. Page-break rules added upfront (`break-inside: avoid` on `section`, `break-after: avoid` on `h2`) cover the foreseeable cases without waiting for breakage.
 - **Future static-export note**: if `output: "export"` is added later, `npm run build` produces `out/` instead of `.next/`, and `public/` files are copied into `out/` at build time. The PDF script would then need to either (a) write to `out/` directly after capture, or (b) run before a final `next build` pass. Out of scope for this work.
+
+## Implementation Deviations
+
+Two deviations from this spec were necessary during implementation. Both are isolated and reversible.
+
+**1. `src/components/animation/AnimateIn.tsx` was modified.**
+The spec listed AnimateIn under "Notably NOT modified" — the assumption was that Playwright's `reducedMotion: "reduce"` emulation would route AnimateIn through its existing `useReducedMotion()` short-circuit and bypass framer-motion entirely. In practice, framer-motion's SSR `motion.div` ships with inline `style="opacity:0;transform:translateY(16px)"`, and React reuses the DOM node when AnimateIn switches branches to a plain `<div>` (same host element type), so the inline style persists and the children render invisibly. AnimateIn was extended to also detect `<html data-print>` synchronously on first render via a lazy `useState` initializer, plus a small `useEffect` that imperatively clears the leaked `opacity` and `transform` properties on the wrapper element. The non-print user path is unchanged.
+
+**2. `!important` was dropped from the `[data-print]` CSS rules.**
+The original spec specified `!important` on `.hover-lift { transform }` and `.card-gradient-hover::after { opacity }` to override the existing `:hover` rules. In practice this proved unnecessary: Playwright PDF capture never produces a `:hover` state, so the `[data-print]` selectors set the resting values without competing for specificity. Removing `!important` also avoids biome's `noImportantStyles` rule. The dead `.card-gradient-hover::after` rule was also dropped (its value was already the default), and a `[data-print] article { break-inside: avoid }` rule was added so per-job cards in `WorkExperience` don't split across pages.
