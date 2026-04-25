@@ -26,7 +26,9 @@ test.describe("print mode visual state", () => {
     expect(display).toBe("none");
   });
 
-  test("pulse ring animation is suppressed under reducedMotion", async ({ page }) => {
+  test("pulse ring animation is suppressed under reducedMotion", async ({
+    page,
+  }) => {
     const animationName = await page.evaluate(() => {
       const el = document.querySelector('[class*="animatePulseRing"]');
       if (!el) return null;
