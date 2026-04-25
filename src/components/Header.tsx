@@ -4,6 +4,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { CopyableEmail } from "@/components/CopyableEmail";
 import { Card, CardContent } from "@/components/ui/card";
 import type { ResumeData } from "@/types/resume";
+import styles from "./Header.module.css";
 
 interface HeaderProps {
   resume: ResumeData;
@@ -60,10 +61,12 @@ export function Header({ resume, email, phone }: HeaderProps) {
   return (
     <section>
       <Card className="hover-lift relative overflow-hidden">
-        <div className="accent-glow" aria-hidden="true" />
-        <div className="accent-glow-bottom" aria-hidden="true" />
+        <div className={styles.accentGlow} aria-hidden="true" />
+        <div className={styles.accentGlowBottom} aria-hidden="true" />
         <CardContent className="relative">
-          <h1 className="accent-gradient-text text-[28px] font-semibold leading-[1.1]">
+          <h1
+            className={`${styles.accentGradientText} text-[28px] font-semibold leading-[1.1]`}
+          >
             {resume.name}
           </h1>
           <p className="text-xl font-semibold leading-[1.2] text-foreground mt-1">
