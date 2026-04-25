@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { computeDuration } from "@/lib/duration";
 import type { ExperienceEntry } from "@/types/resume";
+import styles from "./WorkExperience.module.css";
 
 interface WorkExperienceProps {
   experience: ExperienceEntry[];
@@ -37,7 +38,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
           className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5"
           style={{
             background:
-              "linear-gradient(180deg, #14b8a6 0%, #10b981 30%, var(--border) 60%)",
+              "linear-gradient(180deg, var(--color-accent-start) 0%, var(--color-accent-end) 30%, var(--border) 60%)",
           }}
           aria-hidden="true"
         />
@@ -54,7 +55,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               <div
                 className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
                   isCurrent
-                    ? "accent-gradient-bg animate-pulse-ring"
+                    ? `accent-gradient-bg ${styles.animatePulseRing}`
                     : "border-2 border-border bg-background"
                 }`}
                 aria-hidden="true"
