@@ -69,3 +69,8 @@ jobs:
             git commit -m "chore: regenerate resume PDFs"
             git push
           fi
+      - name: Notify Vercel
+        if: always()
+        uses: vercel/repository-dispatch/actions/status@v1
+        with:
+          name: Vercel - resume: ci
