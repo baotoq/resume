@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/build-pdf.mjs",
+    "build": "next build && npx playwright install chromium && node scripts/build-pdf.mjs",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
