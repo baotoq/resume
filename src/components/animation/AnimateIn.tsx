@@ -34,7 +34,8 @@ export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
   // from SSR'd motion.div output (opacity:0;transform:translateY(16px)).
   useEffect(() => {
     if ((shouldReduce || isPrint) && ref.current) {
-      ref.current.removeAttribute("style");
+      ref.current.style.removeProperty("opacity");
+      ref.current.style.removeProperty("transform");
     }
   }, [shouldReduce, isPrint]);
 
