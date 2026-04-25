@@ -8,7 +8,7 @@ on:
     branches: ["master"]
 
 jobs:
-  check:
+  ci:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -36,11 +36,29 @@ jobs:
           name: playwright-report
           path: playwright-report
           retention-days: 7
-      - name: Build PDFs
+      - name: Detect PDF source changes
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        id: pdf-changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            sources:
+              - 'src/**'
+              - 'public/fonts/**'
+              - 'next.config.ts'
+              - 'package.json'
+              - 'package-lock.json'
+      - name: Build PDFs
+        if: |
+          github.event_name == 'push'
+          && github.ref == 'refs/heads/master'
+          && steps.pdf-changes.outputs.sources == 'true'
         run: npm run build:pdf
       - name: Commit regenerated PDFs
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: |
+          github.event_name == 'push'
+          && github.ref == 'refs/heads/master'
+          && steps.pdf-changes.outputs.sources == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
