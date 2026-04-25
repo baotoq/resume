@@ -29,10 +29,11 @@ This sidesteps three problems flagged in spec review:
 2. No URL contract means no risk of someone visiting `/?print=1` and accidentally landing in a half-styled state.
 3. `AnimateIn` already honors `prefers-reduced-motion` (per commit `02f0682`); emulating `reducedMotion: "reduce"` reuses that path.
 
-CSS — additions in `globals.css`:
+CSS additions split across two files (only `.hover-lift` and `.card-gradient-hover` are global utilities in `globals.css`; `.pageGrain` is a CSS Module class in `page.module.css` and must be addressed there):
+
+`globals.css`:
 
 ```css
-[data-print] .page-grain { display: none; }
 [data-print] .hover-lift { transform: none !important; transition: none; }
 [data-print] .card-gradient-hover::after { opacity: 0.22 !important; }
 
@@ -40,14 +41,19 @@ CSS — additions in `globals.css`:
 [data-print] [data-pdf-trigger] { display: none; }
 
 /* Page-break hygiene for the PDF output */
-@media print { /* harmless in browser; Chromium honors during page.pdf() */
-  .resume-card { break-inside: avoid; page-break-inside: avoid; }
-}
 [data-print] section { break-inside: avoid; page-break-inside: avoid; }
 [data-print] h2 { break-after: avoid; page-break-after: avoid; }
 ```
 
-(Class names like `.page-grain`, `.card-gradient-hover`, `.hover-lift` are existing utilities in `globals.css`.)
+`page.module.css` (CSS Modules — use `:global([data-print])` so the attribute selector isn't scoped):
+
+```css
+:global([data-print]) .pageGrain::before { display: none; }
+```
+
+**Pulse ring is already handled.** `WorkExperience.module.css` already contains `@media (prefers-reduced-motion: reduce) { .animatePulseRing { animation: none; } }`. Playwright's `emulateMedia({ reducedMotion: "reduce" })` triggers that rule and the pulse stops. No new CSS needed for it.
+
+**Hover and gradient freezing.** The `.hover-lift` and `.card-gradient-hover::after` rules above ensure those utilities sit at their default (non-hover) state during the capture, since `page.pdf()` doesn't simulate hover.
 
 ## UI: download dropdown pill
 
@@ -185,7 +191,11 @@ Unit (vitest):
 - `DownloadResumePill.test.tsx` — renders trigger, opens menu, both items have correct `href` + `download` attribute, trigger has `data-pdf-trigger`.
 
 E2E (playwright, `e2e/`):
-- `pdf.spec.ts` — driven against `next start`. Sets `data-print` and `reducedMotion: "reduce"` the same way the build script does. Asserts: `.page-grain` not visible, no pulse-ring node visible, dropdown pill hidden.
+- `pdf.spec.ts` — driven against `next start`. Sets `data-print` and `reducedMotion: "reduce"` the same way the build script does. Asserts:
+  - `<html>` has `data-print` attribute (sanity)
+  - `[data-pdf-trigger]` is hidden (`expect(...).toBeHidden()`)
+  - the pulse-ring element has computed `animation-name: none` (reduced-motion path engaged)
+  - the page-grain `::before` is not visible (computed `display: none` on the pseudo can be probed via `getComputedStyle(el, '::before').display`)
 
 Build verification (machine-checked, inside `scripts/build-pdf.mjs`):
 - Each output file exists, size ≥ 1024 bytes, first four bytes are `%PDF`. Failure aborts the build.
@@ -205,6 +215,7 @@ New:
 
 Modified:
 - `src/app/globals.css` — add `[data-print]` rules and page-break hygiene
+- `src/app/page.module.css` — add `:global([data-print]) .pageGrain::before { display: none; }`
 - `src/components/Header.tsx` — render `<DownloadResumePill />` in the pill row
 - `package.json` — `build` and `build:pdf` scripts
 - `.gitignore` — generated PDF paths
@@ -213,7 +224,7 @@ Modified:
 Notably NOT modified:
 - `src/app/page.tsx` — no `searchParams` change, no print prop threading.
 - `src/components/animation/AnimateIn.tsx` — animations skip via `prefers-reduced-motion: reduce` emulation; no code change.
-- `src/components/WorkExperience.tsx` — pulse ring stays in markup; CSS hides it under `[data-print]`.
+- `src/components/WorkExperience.tsx` — pulse ring stays in markup; the existing `prefers-reduced-motion` rule in `WorkExperience.module.css` stops the animation when Playwright emulates reduced motion.
 - `next.config.ts` — `headers()` block is fine because we're NOT switching to static export.
 
 ## Risks & open questions
