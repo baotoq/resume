@@ -57,12 +57,12 @@ try {
     viewport: { width: 900, height: 1200 },
   });
 
-  await page.addInitScript(() => {
-    document.documentElement.setAttribute("data-print", "");
-  });
   await page.emulateMedia({ media: "screen", reducedMotion: "reduce" });
 
   await page.goto(BASE, { waitUntil: "networkidle" });
+  await page.evaluate(() => {
+    document.documentElement.setAttribute("data-print", "");
+  });
   await page.evaluate(() => document.fonts.ready.then(() => true));
 
   const common = {
