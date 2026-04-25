@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/performance/noImgElement: <explanation> */
+/** biome-ignore-all lint/performance/noImgElement: external logo URLs from resume data */
 
 import { CoverGoLogo } from "./CovergoLogo";
 import { UpmeshLogo } from "./UpmeshLogo";
