@@ -65,6 +65,17 @@ try {
   });
   await page.evaluate(() => document.fonts.ready);
 
+  const stuck = await page.evaluate(() =>
+    Array.from(document.querySelectorAll("main div")).some(
+      (el) => window.getComputedStyle(el).opacity === "0",
+    ),
+  );
+  if (stuck) {
+    throw new Error(
+      "Print mode regression: at least one element under <main> has opacity:0 — AnimateIn fix may be broken",
+    );
+  }
+
   const common = {
     printBackground: true,
     preferCSSPageSize: false,
