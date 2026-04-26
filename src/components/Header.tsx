@@ -45,7 +45,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
         <div className={styles.accentGlowBottom} aria-hidden="true" />
         <CardContent className="relative">
           <h1
-            className={`${styles.accentGradientText} text-[28px] font-semibold leading-[1.1]`}
+            className={`${styles.accentGradientText} text-3xl font-semibold leading-[1.1]`}
           >
             {resume.name}
           </h1>
