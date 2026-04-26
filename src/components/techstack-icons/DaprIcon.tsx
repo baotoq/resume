@@ -1,9 +1,7 @@
-interface DaprIconProps {
-  size?: number | string;
-}
+import { resolveSize, type SizedIconProps } from "./icon-props";
 
-export function DaprIcon({ size = 40 }: DaprIconProps) {
-  const w = typeof size === "number" ? size : parseFloat(size as string);
+export function DaprIcon({ size }: SizedIconProps) {
+  const w = resolveSize(size);
   return (
     <svg
       width={w}

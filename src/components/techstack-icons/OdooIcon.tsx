@@ -1,9 +1,7 @@
-interface OdooIconProps {
-  size?: number | string;
-}
+import { resolveSize, type SizedIconProps } from "./icon-props";
 
-export function OdooIcon({ size = 40 }: OdooIconProps) {
-  const w = typeof size === "number" ? size : parseFloat(size as string);
+export function OdooIcon({ size }: SizedIconProps) {
+  const w = resolveSize(size);
   return (
     <svg
       width={w}

@@ -1,3 +1,5 @@
+"use client";
+
 import Amazonwebservice from "react-devicons/amazonwebservices/original-wordmark";
 import Docker from "react-devicons/docker/original-wordmark";
 import Dotnet from "react-devicons/dotnetcore/original";
