@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: stable list from static YAML data */
 
-import { formatDateRange } from "./formatDateRange";
 import { Card, CardContent } from "@/components/ui/card";
 import type { EducationEntry } from "@/types/resume";
+import { formatDateRange } from "./formatDateRange";
 
 interface EducationSectionProps {
   education: EducationEntry[];
