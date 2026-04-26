@@ -118,6 +118,25 @@ body {
   }
 }
 
+@media print {
+  * {
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    font-variant-ligatures: none !important;
+    font-kerning: normal !important;
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+  }
+}
+
+[data-print] * {
+  text-rendering: auto !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-variant-ligatures: none !important;
+  font-kerning: normal !important;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+}
 [data-print] .hover-lift {
   transform: none;
   transition: none;
