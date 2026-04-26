@@ -9,8 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        pill:
-          "gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-sm text-foreground/80 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2",
+        pill: "gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-sm text-foreground/80 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2",
       },
     },
     defaultVariants: {
