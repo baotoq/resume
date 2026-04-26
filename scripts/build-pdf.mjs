@@ -82,7 +82,7 @@ try {
     margin: { top: "12mm", right: "12mm", bottom: "12mm", left: "12mm" },
   };
   const targets = [
-    { format: "A4", path: "public/to-quoc-bao-resume-a4.pdf" },
+    { format: "A4", path: "public/to-quoc-bao-resume.pdf" },
   ];
 
   for (const t of targets) {
