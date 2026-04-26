@@ -34,15 +34,14 @@ import { EFCoreIcon } from "./EFCoreIcon";
 import { ELKIcon } from "./ELKIcon";
 import { FluxCDIcon } from "./FluxCDIcon";
 import { GrpcIcon } from "./GrpcIcon";
+import type { SizedIconProps } from "./icon-props";
 import { OdooIcon } from "./OdooIcon";
 
 interface TechStackIconsProps {
   stack?: string[];
 }
 
-type IconComponent = React.FunctionComponent<
-  React.SVGProps<SVGElement> & { size?: number | string }
->;
+type IconComponent = React.FunctionComponent<SizedIconProps>;
 
 const REACT_BLUE = "#0380A2";
 
@@ -55,7 +54,7 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   grafana: Grafana,
   github: Github,
   aws: Amazonwebservice,
-  azure: ({ size }) => <AzureIcon size={size} />,
+  azure: AzureIcon,
   typescript: Typescript,
   graphql: Graphql,
   postgresql: Postgresql,
@@ -68,13 +67,13 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   vue: Vuejs,
   tailwindcss: Tailwindcss,
   facebook: Facebook,
-  dapr: ({ size }) => <DaprIcon size={size} />,
-  dapper: ({ size }) => <DapperIcon size={size} />,
-  "ef core": ({ size }) => <EFCoreIcon size={size} />,
-  "elk stack": ({ size }) => <ELKIcon size={size} />,
-  fluxcd: ({ size }) => <FluxCDIcon size={size} />,
-  grpc: ({ size }) => <GrpcIcon size={size} />,
-  odoo: ({ size }) => <OdooIcon size={size} />,
+  dapr: DaprIcon,
+  dapper: DapperIcon,
+  "ef core": EFCoreIcon,
+  "elk stack": ELKIcon,
+  fluxcd: FluxCDIcon,
+  grpc: GrpcIcon,
+  odoo: OdooIcon,
 };
 
 function normalizeTech(tech: string) {
