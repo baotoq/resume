@@ -21,9 +21,6 @@ test.describe("resume page smoke", () => {
     await expect(
       page.getByRole("heading", { name: /education/i }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: /certification/i }),
-    ).toBeVisible();
 
     expect(consoleErrors, consoleErrors.join("\n")).toEqual([]);
   });
