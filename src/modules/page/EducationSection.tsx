@@ -1,8 +1,6 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: stable list from static YAML data */
-
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import type { EducationEntry } from "@/types/resume";
-import { formatDateRange } from "./formatDateRange";
 
 interface EducationSectionProps {
   education: EducationEntry[];
@@ -17,22 +15,36 @@ export function EducationSection({ education }: EducationSectionProps) {
         Education
       </h2>
       <div className="flex flex-col gap-6">
-        {education.map((entry, index) => (
-          <article key={index}>
+        {education.map((entry) => (
+          <article key={`${entry.institution}-${entry.degree}`}>
             <Card>
               <CardContent>
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-0">
-                  <div className="flex flex-col gap-1">
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {entry.degree}
-                    </h3>
-                    <p className="text-base text-foreground">
-                      {entry.institution}
-                    </p>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-4">
+                    {entry.logo_url && (
+                      <div>
+                        <Image
+                          src={entry.logo_url}
+                          alt={entry.institution}
+                          width={80}
+                          height={80}
+                          className="rounded-md"
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-col">
+                      <h3 className="text-lg font-semibold text-foreground">
+                        {entry.degree}
+                      </h3>
+                      <p className="text-base text-foreground">
+                        {entry.institution}
+                      </p>
+                      <span className="text-sm font-semibold text-muted-foreground mt-0.5">
+                        {entry.startDate.slice(0, 4)} –{" "}
+                        {entry.endDate ? entry.endDate.slice(0, 4) : "Present"}
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-sm font-semibold text-muted-foreground sm:text-right">
-                    {formatDateRange(entry.startDate, entry.endDate)}
-                  </span>
                 </div>
                 {entry.details && (
                   <p className="mt-4 text-base leading-relaxed text-foreground">

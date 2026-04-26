@@ -31,7 +31,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
           className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5"
           style={{
             background:
-              "linear-gradient(180deg, var(--color-accent-start) 0%, var(--color-accent-end) 30%, var(--border) 60%)",
+              "linear-gradient(180deg, var(--color-accent-start) 0%, var(--color-accent-end) 15%, var(--border) 40%)",
           }}
           aria-hidden="true"
         />

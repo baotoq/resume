@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/suspicious/noArrayIndexKey: stable list from static YAML data */
-
 import { Card, CardContent } from "@/components/ui/card";
 import type { CertificationEntry } from "@/types/resume";
 
@@ -46,11 +44,11 @@ export function CertificationsSection({
         Certifications
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {certifications.map((entry, index) => {
+        {certifications.map((entry) => {
           if (entry.url) {
             return (
               <a
-                key={index}
+                key={`${entry.name}-${entry.issuer}`}
                 href={entry.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -65,7 +63,7 @@ export function CertificationsSection({
             );
           }
           return (
-            <Card key={index} className="hover-lift">
+            <Card key={`${entry.name}-${entry.issuer}`} className="hover-lift">
               <CardContent>
                 <CertBody entry={entry} />
               </CardContent>

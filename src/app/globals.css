@@ -1,3 +1,5 @@
+/* biome-ignore-all lint/complexity/noImportantStyles: Print overrides require !important to guarantee precedence over Tailwind utility classes. */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
