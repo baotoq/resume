@@ -14,7 +14,7 @@ export function DownloadResumePill() {
       <TooltipTrigger asChild>
         <Button asChild variant="pill">
           <a
-            href="/to-quoc-bao-resume-a4.pdf"
+            href="/to-quoc-bao-resume.pdf"
             download
             aria-label="Download resume as PDF"
             data-pdf-trigger
