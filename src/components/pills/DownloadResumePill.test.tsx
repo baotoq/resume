@@ -1,10 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { DownloadResumePill } from "./DownloadResumePill";
 
 describe("DownloadResumePill", () => {
   it("renders an A4 download link with data-pdf-trigger", () => {
-    render(<DownloadResumePill />);
+    render(
+      <TooltipProvider>
+        <DownloadResumePill />
+      </TooltipProvider>,
+    );
     const link = screen.getByRole("link", {
       name: /download resume as pdf/i,
     });

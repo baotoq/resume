@@ -1,9 +1,12 @@
+"use client";
+
 import { Phone } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { ContactPill, type PillLink } from "@/components/pills/ContactPill";
 import { CopyableEmailPill } from "@/components/pills/CopyableEmailPill";
 import { DownloadResumePill } from "@/components/pills/DownloadResumePill";
 import { Card, CardContent } from "@/components/ui/card";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import type { ResumeData } from "@/types/resume";
 import styles from "./Header.module.css";
 
@@ -49,13 +52,15 @@ export function Header({ resume, email, phone }: HeaderProps) {
           <p className="text-lg font-semibold leading-[1.2] text-foreground mt-1">
             {resume.title}
           </p>
-          <div className="flex flex-wrap items-center gap-2 mt-4">
-            {email && <CopyableEmailPill email={email} />}
-            {pills.map((link) => (
-              <ContactPill key={link.label} link={link} />
-            ))}
-            <DownloadResumePill />
-          </div>
+          <TooltipProvider delayDuration={100}>
+            <div className="flex flex-wrap items-center gap-2 mt-4">
+              {email && <CopyableEmailPill email={email} />}
+              {pills.map((link) => (
+                <ContactPill key={link.label} link={link} />
+              ))}
+              <DownloadResumePill />
+            </div>
+          </TooltipProvider>
           {resume.bio && (
             <p className="mt-4 text-base leading-relaxed">{resume.bio}</p>
           )}
