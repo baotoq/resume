@@ -83,7 +83,6 @@ try {
   };
   const targets = [
     { format: "A4", path: "public/to-quoc-bao-resume-a4.pdf" },
-    { format: "Letter", path: "public/to-quoc-bao-resume-letter.pdf" },
   ];
 
   for (const t of targets) {

@@ -24,7 +24,7 @@ export function EducationSection({ education }: EducationSectionProps) {
 
   return (
     <section>
-      <h2 className="text-xl font-semibold leading-[1.2] text-foreground mb-6">
+      <h2 className="text-2xl font-semibold leading-[1.2] text-foreground mb-6">
         Education
       </h2>
       <div className="flex flex-col gap-6">

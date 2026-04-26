@@ -36,3 +36,8 @@
   );
   pointer-events: none;
 }
+
+:global([data-print]) .accentGlow,
+:global([data-print]) .accentGlowBottom {
+  display: none;
+}

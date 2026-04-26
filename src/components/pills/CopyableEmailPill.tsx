@@ -3,11 +3,11 @@
 import { Check, Copy, Mail } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
-interface CopyableEmailProps {
+interface CopyableEmailPillProps {
   email: string;
 }
 
-export function CopyableEmail({ email }: CopyableEmailProps) {
+export function CopyableEmailPill({ email }: CopyableEmailPillProps) {
   const { copied, copy } = useCopyToClipboard();
 
   return (
