@@ -71,36 +71,6 @@ body {
       var(--color-accent-end)
     );
   }
-  .card-gradient-hover {
-    position: relative;
-  }
-  .card-gradient-hover::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      var(--color-accent-start),
-      var(--color-accent-end)
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0.22;
-    transition:
-      opacity 200ms ease,
-      padding 200ms ease;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .card-gradient-hover:hover::after {
-    opacity: 1;
-    padding: 1.5px;
-  }
   .hover-lift {
     transition: transform 200ms ease;
   }
@@ -169,9 +139,6 @@ body {
 [data-print] h2 {
   break-after: avoid;
   page-break-after: avoid;
-}
-[data-print] .card-gradient-hover::after {
-  display: none !important;
 }
 [data-print] [data-slot="separator"] {
   display: none !important;
