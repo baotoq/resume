@@ -17,26 +17,26 @@ interface HeaderProps {
 }
 
 export function Header({ resume, email, phone }: HeaderProps) {
-  const pills: PillLink[] = [];
-  if (phone)
-    pills.push({
+  const pills = [
+    phone && {
       label: "Phone",
       href: `tel:${phone}`,
       text: phone,
       Icon: Phone,
-    });
-  pills.push({
-    label: "GitHub profile",
-    href: resume.github,
-    text: "GitHub",
-    Icon: FaGithub,
-  });
-  pills.push({
-    label: "LinkedIn profile",
-    href: resume.linkedin,
-    text: "LinkedIn",
-    Icon: FaLinkedin,
-  });
+    },
+    {
+      label: "GitHub profile",
+      href: resume.github,
+      text: "GitHub",
+      Icon: FaGithub,
+    },
+    {
+      label: "LinkedIn profile",
+      href: resume.linkedin,
+      text: "LinkedIn",
+      Icon: FaLinkedin,
+    },
+  ].filter(Boolean) as PillLink[];
 
   return (
     <section>
