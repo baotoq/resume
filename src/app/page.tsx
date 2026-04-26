@@ -1,8 +1,8 @@
 import { AnimateIn } from "@/components/animation/AnimateIn";
-import { CertificationsSection } from "@/components/CertificationsSection";
-import { EducationSection } from "@/components/EducationSection";
-import { Header } from "@/components/Header";
-import { WorkExperience } from "@/components/WorkExperience";
+import { CertificationsSection } from "@/modules/page/CertificationsSection";
+import { EducationSection } from "@/modules/page/EducationSection";
+import { Header } from "@/modules/page/Header";
+import { WorkExperience } from "@/modules/page/WorkExperience";
 import { parseResumeFile } from "@/lib/parse-resume";
 import styles from "./page.module.css";
 
