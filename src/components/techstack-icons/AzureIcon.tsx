@@ -1,9 +1,7 @@
-interface AzureIconProps {
-  size?: number | string;
-}
+import { resolveSize, type SizedIconProps } from "./icon-props";
 
-export function AzureIcon({ size = 40 }: AzureIconProps) {
-  const w = typeof size === "number" ? size : parseFloat(size as string);
+export function AzureIcon({ size }: SizedIconProps) {
+  const w = resolveSize(size);
   return (
     <svg
       width={w}

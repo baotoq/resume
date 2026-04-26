@@ -1,9 +1,7 @@
-interface FluxCDIconProps {
-  size?: number | string;
-}
+import { resolveSize, type SizedIconProps } from "./icon-props";
 
-export function FluxCDIcon({ size = 40 }: FluxCDIconProps) {
-  const w = typeof size === "number" ? size : parseFloat(size as string);
+export function FluxCDIcon({ size }: SizedIconProps) {
+  const w = resolveSize(size);
   return (
     <svg
       width={w}

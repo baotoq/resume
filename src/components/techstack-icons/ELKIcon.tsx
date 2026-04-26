@@ -1,9 +1,7 @@
-interface ELKIconProps {
-  size?: number | string;
-}
+import { resolveSize, type SizedIconProps } from "./icon-props";
 
-export function ELKIcon({ size = 40 }: ELKIconProps) {
-  const w = typeof size === "number" ? size : parseFloat(size as string);
+export function ELKIcon({ size }: SizedIconProps) {
+  const w = resolveSize(size);
   return (
     <svg
       width={w}

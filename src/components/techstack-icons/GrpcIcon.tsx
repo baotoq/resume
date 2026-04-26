@@ -1,9 +1,7 @@
-interface GrpcIconProps {
-  size?: number | string;
-}
+import { resolveSize, type SizedIconProps } from "./icon-props";
 
-export function GrpcIcon({ size = 40 }: GrpcIconProps) {
-  const w = typeof size === "number" ? size : parseFloat(size as string);
+export function GrpcIcon({ size }: SizedIconProps) {
+  const w = resolveSize(size);
   return (
     <svg
       width={w}

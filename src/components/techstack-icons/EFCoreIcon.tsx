@@ -1,9 +1,7 @@
-interface EFCoreIconProps {
-  size?: number | string;
-}
+import { resolveSize, type SizedIconProps } from "./icon-props";
 
-export function EFCoreIcon({ size = 40 }: EFCoreIconProps) {
-  const w = typeof size === "number" ? size : parseFloat(size as string);
+export function EFCoreIcon({ size }: SizedIconProps) {
+  const w = resolveSize(size);
   return (
     <svg
       width={w}
