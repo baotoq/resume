@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { HighlightedBullet } from "./HighlightedBullet";
+import { HighlightedBullet } from "../../HighlightedBullet";
 
 describe("HighlightedBullet", () => {
   it("wraps **bold** text in a span with font-semibold", () => {
