@@ -23,11 +23,11 @@ export function CopyableEmailPill({ email }: CopyableEmailPillProps) {
           variant="pill"
           onClick={() => copy(email)}
           aria-label={copied ? "Email copied" : "Copy email to clipboard"}
-          className="cursor-pointer pl-3 pr-1 print:pr-3"
+          className="cursor-pointer"
         >
           <Mail className="h-3.5 w-3.5" aria-hidden="true" />
           <span>{copied ? "Copied!" : email}</span>
-          <span className="print:hidden inline-flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground transition-colors">
+          <span className="print:hidden inline-flex items-center justify-center rounded-full text-muted-foreground transition-colors">
             {copied ? (
               <Check className="h-3.5 w-3.5 text-primary" />
             ) : (
