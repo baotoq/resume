@@ -15,11 +15,15 @@ function readPrintMode(): boolean {
 
 export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
   const shouldReduce = useReducedMotion();
-  const [isPrint, setIsPrint] = useState<boolean>(readPrintMode);
+  const [hasMounted, setHasMounted] = useState(false);
+  const [isPrint, setIsPrint] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
+    setHasMounted(true);
+    setIsPrint(readPrintMode());
+
     const observer = new MutationObserver(() => {
       setIsPrint(readPrintMode());
     });
@@ -30,16 +34,18 @@ export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
     return () => observer.disconnect();
   }, []);
 
+  const skipAnimation = (hasMounted && shouldReduce) || isPrint;
+
   // When rendering as plain <div>, clear any residual inline style left over
   // from SSR'd motion.div output (opacity:0;transform:translateY(16px)).
   useEffect(() => {
-    if ((shouldReduce || isPrint) && ref.current) {
+    if (skipAnimation && ref.current) {
       ref.current.style.removeProperty("opacity");
       ref.current.style.removeProperty("transform");
     }
-  }, [shouldReduce, isPrint]);
+  }, [skipAnimation]);
 
-  if (shouldReduce || isPrint) {
+  if (skipAnimation) {
     return (
       <div ref={ref} suppressHydrationWarning>
         {children}

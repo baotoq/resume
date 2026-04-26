@@ -64,6 +64,7 @@ education:
     institution: "Ton Duc Thang University"
     startDate: "2014-09"
     endDate: "2018-06"
+    logo_url: "/tdt-icon.png"
 # PLACEHOLDER — replace with real certs
 certifications:
   - name: "Certified Kubernetes Administrator"
