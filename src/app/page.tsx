@@ -1,9 +1,9 @@
 import { AnimateIn } from "@/components/animation/AnimateIn";
+import { CertificationsSection } from "@/features/page/CertificationsSection";
+import { EducationSection } from "@/features/page/EducationSection";
+import { Header } from "@/features/page/Header";
+import { WorkExperience } from "@/features/page/WorkExperience";
 import { parseResumeFile } from "@/lib/parse-resume";
-import { CertificationsSection } from "@/modules/page/CertificationsSection";
-import { EducationSection } from "@/modules/page/EducationSection";
-import { Header } from "@/modules/page/Header";
-import { WorkExperience } from "@/modules/page/WorkExperience";
 import styles from "./page.module.css";
 
 export const dynamic = "force-static";
