@@ -42,7 +42,7 @@ export function CertificationsSection({
 
   return (
     <section>
-      <h2 className="text-xl font-semibold leading-[1.2] text-foreground mb-6">
+      <h2 className="text-2xl font-semibold leading-[1.2] text-foreground mb-6">
         Certifications
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

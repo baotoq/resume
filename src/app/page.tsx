@@ -2,7 +2,6 @@ import { AnimateIn } from "@/components/animation/AnimateIn";
 import { CertificationsSection } from "@/components/CertificationsSection";
 import { EducationSection } from "@/components/EducationSection";
 import { Header } from "@/components/Header";
-import { Separator } from "@/components/ui/separator";
 import { WorkExperience } from "@/components/WorkExperience";
 import { parseResumeFile } from "@/lib/parse-resume";
 import styles from "./page.module.css";
@@ -39,19 +38,10 @@ export default function Page() {
           <Header resume={resume} email={email} phone={phone} />
         </AnimateIn>
         <AnimateIn delay={0.1}>
-          <Separator />
-        </AnimateIn>
-        <AnimateIn delay={0.1}>
           <WorkExperience experience={resume.experience} />
         </AnimateIn>
         <AnimateIn delay={0.2}>
-          <Separator />
-        </AnimateIn>
-        <AnimateIn delay={0.2}>
           <EducationSection education={resume.education ?? []} />
-        </AnimateIn>
-        <AnimateIn delay={0.3}>
-          <Separator />
         </AnimateIn>
         <AnimateIn delay={0.3}>
           <CertificationsSection certifications={resume.certifications ?? []} />

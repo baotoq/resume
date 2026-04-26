@@ -19,6 +19,12 @@ import Terraform from "react-devicons/terraform/original-wordmark";
 import Typescript from "react-devicons/typescript/original";
 import Vuejs from "react-devicons/vuejs/original-wordmark";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { AzureIcon } from "./AzureIcon";
 import { DapperIcon } from "./DapperIcon";
 import { DaprIcon } from "./DaprIcon";
@@ -79,12 +85,14 @@ function TechIcon({ tech }: { tech: string }) {
 
   if (Icon) {
     return (
-      <div className="relative group hover-lift">
-        <Icon size={40} />
-        <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-popover text-popover-foreground border border-border text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap pointer-events-none z-10">
-          {tech}
-        </span>
-      </div>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="hover-lift">
+            <Icon size={40} />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>{tech}</TooltipContent>
+      </Tooltip>
     );
   }
 
@@ -99,10 +107,15 @@ export function TechStackIcons({ stack }: TechStackIconsProps) {
   if (!stack?.length) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-2 justify-center">
-      {stack.map((tech) => (
-        <TechIcon key={tech} tech={tech} />
-      ))}
-    </div>
+    <TooltipProvider delayDuration={100}>
+      <div
+        data-tech-stack
+        className="flex flex-wrap items-center gap-2 justify-center"
+      >
+        {stack.map((tech) => (
+          <TechIcon key={tech} tech={tech} />
+        ))}
+      </div>
+    </TooltipProvider>
   );
 }

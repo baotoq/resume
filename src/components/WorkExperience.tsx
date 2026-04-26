@@ -27,14 +27,18 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
   const now = new Date();
   return (
     <section>
-      <h2 className="text-xl font-semibold leading-[1.2] text-foreground mb-6">
+      <h2 className="text-2xl font-semibold leading-[1.2] text-foreground mb-6">
         Work Experience
       </h2>
 
       {/* Rail wrapper — relative context for line + dots */}
-      <div className="relative pl-5 sm:pl-7 flex flex-col gap-6">
+      <div
+        data-timeline-wrap
+        className="relative pl-5 sm:pl-7 flex flex-col gap-6"
+      >
         {/* Single continuous timeline line — starts at first dot centre, ends at last card bottom */}
         <div
+          data-timeline
           className="absolute left-0.75 sm:left-1.75 top-7 bottom-0 w-0.5"
           style={{
             background:
@@ -43,16 +47,19 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
           aria-hidden="true"
         />
 
-        {experience.map((entry) => {
+        {experience.map((entry, index) => {
           const isCurrent = entry.endDate === null;
+          const breakAfter = index === 2;
 
           return (
             <div
               key={`${entry.company}-${entry.startDate}`}
               className="relative"
+              {...(breakAfter ? { "data-pdf-break-after": "" } : {})}
             >
               {/* Timeline dot — z-10 so it sits above the continuous line */}
               <div
+                data-timeline
                 className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
                   isCurrent
                     ? `accent-gradient-bg ${styles.animatePulseRing}`
@@ -65,7 +72,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
               <article>
                 <Card className="hover-lift">
                   <CardContent>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-3">
                         <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-center sm:justify-between">
                           <div>
@@ -76,7 +83,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                                 logoUrl={entry.logo_url}
                               />
                             </h3>
-                            <p className="text-xl font-bold text-foreground">
+                            <p className="text-lg font-bold text-foreground">
                               {entry.role}
                             </p>
                           </div>
@@ -99,6 +106,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </div>
                         </div>
                       </div>
+                      <TechStackIcons stack={entry.tech_stack} />
                       <ul className="flex flex-col gap-2">
                         {entry.bullets.map((bullet) => (
                           <li
@@ -109,7 +117,6 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </li>
                         ))}
                       </ul>
-                      <TechStackIcons stack={entry.tech_stack} />
                     </div>
                   </CardContent>
                 </Card>
