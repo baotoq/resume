@@ -13,8 +13,8 @@ jobs:
     permissions:
       contents: write
     env:
-      EMAIL: ci@example.com
-      PHONE: "+10000000000"
+      EMAIL: ${{ secrets.EMAIL }}
+      PHONE: ${{ secrets.PHONE }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
