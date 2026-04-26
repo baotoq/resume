@@ -14,7 +14,7 @@ describe("DownloadResumePill", () => {
       name: /download resume as pdf/i,
     });
     expect(link).toHaveAttribute("data-pdf-trigger");
-    expect(link).toHaveAttribute("href", "/to-quoc-bao-resume-a4.pdf");
+    expect(link).toHaveAttribute("href", "/to-quoc-bao-resume.pdf");
     expect(link).toHaveAttribute("download");
     expect(link).toHaveTextContent(/download pdf/i);
   });
