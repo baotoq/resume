@@ -1,20 +1,12 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
 import { ImageResponse } from "next/og";
-import type { ResumeData } from "@/types/resume";
+import { parseResumeFile } from "@/lib/parse-resume";
 
 export const alt = "To Quoc Bao — Senior Software Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  const raw = fs.readFileSync(
-    path.join(process.cwd(), "src/data/resume.md"),
-    "utf-8",
-  );
-  const { data } = matter(raw);
-  const resume = data as ResumeData;
+  const resume = parseResumeFile();
 
   return new ImageResponse(
     <div
