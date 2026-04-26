@@ -1,11 +1,11 @@
 import { LogoImage } from "@/components/company-logos/LogoImage";
-import { formatDateRange } from "./formatDateRange";
-import { HighlightedBullet } from "./components/HighlightedBullet";
 import { TechStackIcons } from "@/components/techstack-icons/TechStackIcons";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { computeDuration } from "@/lib/duration";
 import type { ExperienceEntry } from "@/types/resume";
+import { HighlightedBullet } from "./components/HighlightedBullet";
+import { formatDateRange } from "./formatDateRange";
 import styles from "./WorkExperience.module.css";
 
 interface WorkExperienceProps {

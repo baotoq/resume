@@ -2,11 +2,14 @@
 
 import { Phone } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
-import { ContactPill, type PillLink } from "@/modules/page/components/pills/ContactPill";
-import { CopyableEmailPill } from "@/modules/page/components/pills/CopyableEmailPill";
-import { DownloadResumePill } from "@/modules/page/components/pills/DownloadResumePill";
 import { Card, CardContent } from "@/components/ui/card";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import {
+  ContactPill,
+  type PillLink,
+} from "@/modules/page/components/pills/ContactPill";
+import { CopyableEmailPill } from "@/modules/page/components/pills/CopyableEmailPill";
+import { DownloadResumePill } from "@/modules/page/components/pills/DownloadResumePill";
 import type { ResumeData } from "@/types/resume";
 import styles from "./Header.module.css";
 

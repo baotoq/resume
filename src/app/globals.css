@@ -159,15 +159,9 @@ html[data-print],
   border: 1px solid
     color-mix(
       in srgb,
-      color-mix(
-        in srgb,
-        var(--color-accent-start),
-        var(--color-accent-end)
-      )
-      22%,
+      color-mix(in srgb, var(--color-accent-start), var(--color-accent-end)) 22%,
       transparent
-    )
-    !important;
+    ) !important;
   box-shadow: none !important;
 }
 [data-print] article h3 svg,

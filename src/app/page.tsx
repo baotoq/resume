@@ -1,9 +1,9 @@
 import { AnimateIn } from "@/components/animation/AnimateIn";
+import { parseResumeFile } from "@/lib/parse-resume";
 import { CertificationsSection } from "@/modules/page/CertificationsSection";
 import { EducationSection } from "@/modules/page/EducationSection";
 import { Header } from "@/modules/page/Header";
 import { WorkExperience } from "@/modules/page/WorkExperience";
-import { parseResumeFile } from "@/lib/parse-resume";
 import styles from "./page.module.css";
 
 export const dynamic = "force-static";
