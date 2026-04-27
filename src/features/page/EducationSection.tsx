@@ -17,10 +17,10 @@ export function EducationSection({ education }: EducationSectionProps) {
       <div className="flex flex-col gap-6">
         {education.map((entry) => (
           <article key={`${entry.institution}-${entry.degree}`}>
-            <Card className="p-4">
+            <Card className="transition-transform hover:-translate-y-1">
               <CardContent>
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-4">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3">
                     {entry.logo_url && (
                       <div>
                         <Image
@@ -28,29 +28,35 @@ export function EducationSection({ education }: EducationSectionProps) {
                           alt={entry.institution}
                           width={80}
                           height={80}
-                          className="rounded-md"
+                          className="rounded-md w-[60px] h-[60px] print:w-[45px] print:h-[45px] object-contain"
                         />
                       </div>
                     )}
-                    <div className="flex flex-col">
-                      <h3 className="text-lg font-semibold text-foreground">
-                        {entry.degree}
-                      </h3>
-                      <p className="text-base text-foreground">
-                        {entry.institution}
-                      </p>
-                      <span className="text-sm font-semibold text-muted-foreground mt-0.5">
-                        {entry.startDate.slice(0, 4)} –{" "}
-                        {entry.endDate ? entry.endDate.slice(0, 4) : "Present"}
-                      </span>
+                    <div className="flex flex-1 gap-1 flex-row items-center justify-between">
+                      <div>
+                        <h3 className="font-bold text-primary text-lg">
+                          {entry.institution}
+                        </h3>
+                        <p className="text-lg font-bold text-foreground">
+                          {entry.degree}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="text-sm font-extrabold text-muted-foreground">
+                          {entry.startDate.slice(0, 4)} –{" "}
+                          {entry.endDate
+                            ? entry.endDate.slice(0, 4)
+                            : "Present"}
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  {entry.details && (
+                    <p className="mt-1 text-base leading-relaxed text-foreground">
+                      {entry.details}
+                    </p>
+                  )}
                 </div>
-                {entry.details && (
-                  <p className="mt-4 text-base leading-relaxed text-foreground">
-                    {entry.details}
-                  </p>
-                )}
               </CardContent>
             </Card>
           </article>
