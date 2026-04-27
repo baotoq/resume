@@ -81,7 +81,7 @@ certifications:
     issuer: "Amazon"
     year: 2023
   - name: "Azure Developer Associate"
-    abbrev: "AZ"
+    abbrev: "AZ."
     issuer: "Microsoft"
     year: 2022
   - name: "Certified Kubernetes Application Developer"
