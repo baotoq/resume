@@ -1,5 +1,3 @@
-"use client";
-
 import Amazonwebservice from "react-devicons/amazonwebservices/original-wordmark";
 import Docker from "react-devicons/docker/original-wordmark";
 import Dotnet from "react-devicons/dotnetcore/original";
@@ -21,12 +19,6 @@ import Terraform from "react-devicons/terraform/original-wordmark";
 import Typescript from "react-devicons/typescript/original";
 import Vuejs from "react-devicons/vuejs/original-wordmark";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { AzureIcon } from "./AzureIcon";
 import { DapperIcon } from "./DapperIcon";
@@ -37,6 +29,8 @@ import { FluxCDIcon } from "./FluxCDIcon";
 import { GrpcIcon } from "./GrpcIcon";
 import type { SizedIconProps } from "./icon-props";
 import { OdooIcon } from "./OdooIcon";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipWrapper } from "./TooltipWrapper";
 
 interface TechStackIconsProps {
   stack?: string[];
@@ -88,14 +82,9 @@ function TechIcon({ tech }: { tech: string }) {
 
   if (Icon) {
     return (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div className="transition-transform hover:scale-125">
-            <Icon size={40} />
-          </div>
-        </TooltipTrigger>
-        <TooltipContent>{tech}</TooltipContent>
-      </Tooltip>
+      <TooltipWrapper content={tech}>
+        <Icon size={40} />
+      </TooltipWrapper>
     );
   }
 
