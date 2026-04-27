@@ -27,7 +27,7 @@ export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        className="hover-lift inline-block"
+        className="transition-transform hover:-translate-y-1 inline-block"
       >
         <LogoComponent width={150} height={45} />
       </a>
@@ -37,7 +37,7 @@ export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
   return (
     <div className="flex items-center h-12">
       <a
-        className="logo hover-lift inline-block"
+        className="logo transition-transform hover:-translate-y-1 inline-block"
         target="_blank"
         rel="noopener noreferrer"
         href={link}

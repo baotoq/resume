@@ -54,7 +54,7 @@ export function CertificationsSection({
                 rel="noopener noreferrer"
                 className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 rounded-2xl"
               >
-                <Card className="hover-lift">
+                <Card className="transition-transform hover:-translate-y-1">
                   <CardContent>
                     <CertBody entry={entry} />
                   </CardContent>
@@ -63,7 +63,10 @@ export function CertificationsSection({
             );
           }
           return (
-            <Card key={`${entry.name}-${entry.issuer}`} className="hover-lift">
+            <Card
+              key={`${entry.name}-${entry.issuer}`}
+              className="transition-transform hover:-translate-y-1"
+            >
               <CardContent>
                 <CertBody entry={entry} />
               </CardContent>

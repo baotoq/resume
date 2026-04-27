@@ -60,7 +60,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
 
               {/* Card */}
               <article>
-                <Card className="hover-lift">
+                <Card className="transition-transform hover:-translate-y-1">
                   <CardContent>
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-3">

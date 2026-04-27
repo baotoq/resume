@@ -71,21 +71,6 @@ body {
       var(--color-accent-end)
     );
   }
-  .hover-lift {
-    transition: transform 200ms ease;
-  }
-  .hover-lift:hover {
-    transform: translateY(-2px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hover-lift {
-    transition: none;
-  }
-  .hover-lift:hover {
-    transform: none;
-  }
 }
 
 @media print {
@@ -124,10 +109,6 @@ body {
 [data-print] li,
 [data-print] a {
   text-rendering: geometricPrecision !important;
-}
-[data-print] .hover-lift {
-  transform: none;
-  transition: none;
 }
 [data-print] [data-pdf-trigger] {
   display: none;
