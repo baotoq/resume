@@ -1,6 +1,7 @@
 "use client";
 
 import { Phone } from "lucide-react";
+import { useMemo } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { Card, CardContent } from "@/components/ui/card";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,26 +20,30 @@ interface HeaderProps {
 }
 
 export function Header({ resume, email, phone }: HeaderProps) {
-  const pills = [
-    phone && {
-      label: "Phone",
-      href: `tel:${phone}`,
-      text: phone,
-      Icon: Phone,
-    },
-    {
-      label: "GitHub profile",
-      href: resume.github,
-      text: "GitHub",
-      Icon: FaGithub,
-    },
-    {
-      label: "LinkedIn profile",
-      href: resume.linkedin,
-      text: "LinkedIn",
-      Icon: FaLinkedin,
-    },
-  ].filter(Boolean) as PillLink[];
+  const pills = useMemo(
+    () =>
+      [
+        phone && {
+          label: "Phone",
+          href: `tel:${phone}`,
+          text: phone,
+          Icon: Phone,
+        },
+        {
+          label: "GitHub profile",
+          href: resume.github,
+          text: "GitHub",
+          Icon: FaGithub,
+        },
+        {
+          label: "LinkedIn profile",
+          href: resume.linkedin,
+          text: "LinkedIn",
+          Icon: FaLinkedin,
+        },
+      ].filter(Boolean) as PillLink[],
+    [phone, resume.github, resume.linkedin],
+  );
 
   return (
     <section>

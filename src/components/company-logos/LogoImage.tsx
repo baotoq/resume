@@ -42,7 +42,7 @@ export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
         rel="noopener noreferrer"
         href={link}
       >
-        <img src={logoUrl} alt={company} width={150} />
+        <img src={logoUrl} alt={company} width={150} loading="lazy" />
       </a>
     </div>
   );
