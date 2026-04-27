@@ -167,25 +167,7 @@ body {
   background: radial-gradient(
     ellipse at bottom left,
     rgba(16, 185, 129, 0.16),
-    transparent 100%
-  );
-  pointer-events: none;
-
-  [data-print] & {
-    display: none;
-  }
-}
-
-@utility accent-glow-bottom {
-  position: absolute;
-  bottom: -40px;
-  left: -40px;
-  width: 280px;
-  height: 180px;
-  background: radial-gradient(
-    ellipse at bottom left,
-    rgba(16, 185, 129, 0.16),
-    transparent 100%
+    transparent 65%
   );
   pointer-events: none;
 
