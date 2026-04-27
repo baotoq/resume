@@ -1,6 +1,6 @@
 "use client";
 
-import { domAnimation, LazyMotion, m, MotionConfig } from "framer-motion";
+import { domAnimation, LazyMotion, MotionConfig, m } from "framer-motion";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 interface AnimateInProps {
