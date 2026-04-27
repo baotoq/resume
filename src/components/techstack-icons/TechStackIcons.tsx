@@ -27,6 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import { AzureIcon } from "./AzureIcon";
 import { DapperIcon } from "./DapperIcon";
 import { DaprIcon } from "./DaprIcon";
@@ -39,6 +40,7 @@ import { OdooIcon } from "./OdooIcon";
 
 interface TechStackIconsProps {
   stack?: string[];
+  className?: string;
 }
 
 type IconComponent = React.FunctionComponent<SizedIconProps>;
@@ -104,14 +106,17 @@ function TechIcon({ tech }: { tech: string }) {
   );
 }
 
-export function TechStackIcons({ stack }: TechStackIconsProps) {
+export function TechStackIcons({ stack, className }: TechStackIconsProps) {
   if (!stack?.length) return null;
 
   return (
     <TooltipProvider delayDuration={100}>
       <div
         data-tech-stack
-        className="flex flex-wrap items-center gap-2 justify-center"
+        className={cn(
+          "flex flex-wrap items-center gap-2 justify-center",
+          className,
+        )}
       >
         {stack.map((tech) => (
           <TechIcon key={tech} tech={tech} />
