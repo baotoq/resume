@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { computeDuration } from "@/lib/duration";
 import type { ExperienceEntry } from "@/types/resume";
+import { CompanyDescription } from "./components/CompanyDescription";
 import { HighlightedBullet } from "./components/HighlightedBullet";
 import { formatDateRange } from "./formatDateRange";
 import styles from "./WorkExperience.module.css";
@@ -95,14 +96,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </div>
                         </div>
                       </div>
-                      {entry.description && (
-                        <p className="text-sm text-muted-foreground italic mb-1 leading-relaxed">
-                          <HighlightedBullet>
-                            {entry.description}
-                          </HighlightedBullet>
-                        </p>
-                      )}
-                      <TechStackIcons stack={entry.tech_stack} />
+                      <CompanyDescription description={entry.description} />
                       <ul className="flex flex-col gap-2">
                         {entry.bullets.map((bullet) => (
                           <li
@@ -113,6 +107,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </li>
                         ))}
                       </ul>
+                      <TechStackIcons className="pt-2" stack={entry.tech_stack} />
                     </div>
                   </CardContent>
                 </Card>
