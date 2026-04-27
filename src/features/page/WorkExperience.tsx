@@ -63,7 +63,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                   <CardContent>
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-3">
-                        <div className="flex flex-col flex-1 gap-1 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex  flex-1 gap-1 flex-row items-center justify-between">
                           <div>
                             <h3 className="font-bold text-primary text-lg">
                               <LogoImage
@@ -76,15 +76,15 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                               {entry.role}
                             </p>
                           </div>
-                          <div className="flex flex-col items-start sm:items-end gap-1">
-                            <span className="text-sm font-bold text-muted-foreground">
+                          <div className="flex flex-col items-end gap-1">
+                            <span className="text-sm font-extrabold text-muted-foreground">
                               {formatDateRange(entry.startDate, entry.endDate)}
                             </span>
                             <div className="flex items-center gap-1.5">
                               {isCurrent && (
                                 <Badge variant="accent">Current</Badge>
                               )}
-                              <span className="text-xs text-muted-foreground">
+                              <span className="text-sm text-muted-foreground">
                                 {computeDuration(
                                   entry.startDate,
                                   entry.endDate,
