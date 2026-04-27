@@ -10,7 +10,7 @@ experience:
     endDate: null
     description: "*CoverGo* is a **Series A** *Insurtech* SaaS startup (raised $17.7M) providing an API-first, no-code insurance platfrom. Enables enterprise insurers to automate the full policy lifecycle via a cloud-native architecture."
     logo_url: "/covergo_logo.svg"
-    link: "https://covergo.com"
+    link: "https://www.linkedin.com/company/covergo"
     tech_stack: [".NET", "GraphQL", "Dapr", "Vue", "Redis", "MongoDB", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
     bullets:
       - "Built *quotation engine* for **multi-tenant** insurance administration, serving ⟨N⟩ tenants."
@@ -23,7 +23,7 @@ experience:
     endDate: "2025-01"
     description: "*Upmesh* is a **pre-Series A** *E-commerce* SaaS startup (raised $10.5M) that enables seamless purchases through livestreams (Facebook & Instagram), transforming e-commerce into an interactive, real-time experience."
     logo_url: "/upmesh_logo.svg"
-    link: "https://upmesh.io"
+    link: "https://www.linkedin.com/company/upmeshlive/home"
     tech_stack: [".NET", "EF Core","Go", "gRPC", "ELK Stack", "MySQL", "PostgreSQL", "Redis", "GitHub", "Docker", "Kubernetes", "FluxCD", "AWS", "Terraform"]
     bullets:
       - "Built a high-throughput *Facebook* capture system handling **10k comments/sec** at peak, integrating **Stripe** and **3rd-party logistics** for near real-time order processing and fulfillment."
@@ -37,7 +37,7 @@ experience:
     endDate: "2021-09"
     description: "Contributed to the development for **Premex Group**, a leading UK medico-legal services provider specializing in **insurance claims**, **medical reporting**, and **rehabilitation case management**."
     logo_url: "/aswhite-logo.svg"
-    link: "https://aswhiteglobal.com/"
+    link: "https://www.linkedin.com/company/as-white-global"
     tech_stack: [".NET", "EF Core", "MSSQL", "React", "Redis", "Docker", "Azure"]
     bullets:
       - "Collaborated with UK stakeholders to translate **insurance claim workflows** into clear technical requirements."
@@ -50,7 +50,7 @@ experience:
     endDate: "2020-12"
     description: "Contributed to the development of a cutting-edge portal for **Lowell**, a leading European credit management company, streamlining **document management** and improving internal **interactions with courts**."
     logo_url: "/nashtech-inline.svg"
-    link: "https://www.nashtechglobal.com/"
+    link: "https://www.linkedin.com/company/nashtech-global"
     tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
     bullets:
       - "Built a **data standardization adapter** to **transform** and **bridge** data between legacy systems and new internal platforms, enabling seamless integration."
@@ -69,6 +69,7 @@ education:
     startDate: "2014-09"
     endDate: "2018-06"
     logo_url: "/tdt-icon.png"
+    link: "https://www.linkedin.com/school/ton-duc-thang-university"
 # PLACEHOLDER — replace with real certs
 certifications:
   - name: "Certified Kubernetes Administrator"
