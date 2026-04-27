@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write",
+    "format": "biome check --write",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
@@ -16,7 +16,7 @@
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx,json,md,css}": [
-      "biome format --write"
+      "biome check --write"
     ]
   },
   "dependencies": {

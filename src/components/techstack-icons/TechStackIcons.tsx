@@ -19,6 +19,7 @@ import Terraform from "react-devicons/terraform/original-wordmark";
 import Typescript from "react-devicons/typescript/original";
 import Vuejs from "react-devicons/vuejs/original-wordmark";
 import { Badge } from "@/components/ui/badge";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { AzureIcon } from "./AzureIcon";
 import { DapperIcon } from "./DapperIcon";
@@ -29,7 +30,6 @@ import { FluxCDIcon } from "./FluxCDIcon";
 import { GrpcIcon } from "./GrpcIcon";
 import type { SizedIconProps } from "./icon-props";
 import { OdooIcon } from "./OdooIcon";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { TooltipWrapper } from "./TooltipWrapper";
 
 interface TechStackIconsProps {
