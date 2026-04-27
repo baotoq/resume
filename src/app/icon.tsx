@@ -14,13 +14,13 @@ export default function Icon() {
         justifyContent: "center",
         background: "linear-gradient(135deg, #14b8a6, #10b981)",
         color: "#fff",
-        fontSize: 22,
+        fontSize: 17,
         fontWeight: 800,
         fontFamily: "system-ui, sans-serif",
         borderRadius: 6,
       }}
     >
-      B
+      BT
     </div>,
     size,
   );
