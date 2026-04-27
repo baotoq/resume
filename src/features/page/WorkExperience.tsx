@@ -95,6 +95,13 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </div>
                         </div>
                       </div>
+                      {entry.description && (
+                        <p className="text-sm text-muted-foreground italic mb-1 leading-relaxed">
+                          <HighlightedBullet>
+                            {entry.description}
+                          </HighlightedBullet>
+                        </p>
+                      )}
                       <TechStackIcons stack={entry.tech_stack} />
                       <ul className="flex flex-col gap-2">
                         {entry.bullets.map((bullet) => (

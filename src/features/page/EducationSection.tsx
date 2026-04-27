@@ -17,7 +17,7 @@ export function EducationSection({ education }: EducationSectionProps) {
       <div className="flex flex-col gap-6">
         {education.map((entry) => (
           <article key={`${entry.institution}-${entry.degree}`}>
-            <Card>
+            <Card className="p-4">
               <CardContent>
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-4">

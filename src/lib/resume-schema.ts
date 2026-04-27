@@ -8,6 +8,7 @@ export const ExperienceEntrySchema = z
     role: z.string().min(1),
     startDate: yearMonth,
     endDate: yearMonth.nullable(),
+    description: z.string().optional(),
     bullets: z.array(z.string().min(1)).min(1),
     logo_url: z.string().min(1),
     link: z.string().min(1),
