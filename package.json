@@ -15,7 +15,7 @@
     "build:pdf": "node scripts/build-pdf.mjs"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,json,md,css}": [
+    "*.{js,ts,jsx,tsx,json,css}": [
       "biome check --write"
     ]
   },
