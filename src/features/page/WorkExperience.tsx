@@ -7,7 +7,6 @@ import type { ExperienceEntry } from "@/types/resume";
 import { CompanyDescription } from "./components/CompanyDescription";
 import { HighlightedBullet } from "./components/HighlightedBullet";
 import { formatDateRange } from "./formatDateRange";
-import styles from "./WorkExperience.module.css";
 
 interface WorkExperienceProps {
   experience: ExperienceEntry[];
@@ -52,7 +51,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                 data-timeline
                 className={`absolute z-10 -left-5.5 sm:-left-6.5 top-5.5 w-3 h-3 rounded-full ${
                   isCurrent
-                    ? `accent-gradient-bg ${styles.animatePulseRing}`
+                    ? "accent-gradient-bg animate-pulse-ring"
                     : "border-2 border-border bg-background"
                 }`}
                 aria-hidden="true"

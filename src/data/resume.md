@@ -21,7 +21,7 @@ experience:
     role: "Senior Software Engineer"
     startDate: "2021-10"
     endDate: "2025-01"
-    description: "*Upmesh* is a **pre-Series A** SaaS startup (raised $10.5M) that enables seamless purchases through livestreams (Facebook & Instagram), transforming **e-commerce** into an interactive, real-time experience."
+    description: "*Upmesh* is a **pre-Series A** *E-commerce* SaaS startup (raised $10.5M) that enables seamless purchases through livestreams (Facebook & Instagram), transforming e-commerce into an interactive, real-time experience."
     logo_url: "/upmesh_logo.svg"
     link: "https://upmesh.io"
     tech_stack: [".NET", "EF Core","Go", "gRPC", "ELK Stack", "MySQL", "PostgreSQL", "Redis", "GitHub", "Docker", "Kubernetes", "FluxCD", "AWS", "Terraform"]
@@ -35,7 +35,7 @@ experience:
     role: "Software Engineer"
     startDate: "2021-01"
     endDate: "2021-09"
-    description: "Contributed to systems at **Premex Group**, a leading UK medico-legal services provider specializing in **insurance claims**, **medical reporting**, and **rehabilitation case management**."
+    description: "Contributed to the development for **Premex Group**, a leading UK medico-legal services provider specializing in **insurance claims**, **medical reporting**, and **rehabilitation case management**."
     logo_url: "/aswhite-logo.svg"
     link: "https://aswhiteglobal.com/"
     tech_stack: [".NET", "EF Core", "MSSQL", "React", "Redis", "Docker", "Azure"]
@@ -48,7 +48,7 @@ experience:
     role: "Software Engineer"
     startDate: "2018-12"
     endDate: "2020-12"
-    description: "Contributed to the development of a cutting-edge portal at **Lowell**, a leading European credit management company, streamlining **document management** and improving internal **interactions with courts**."
+    description: "Contributed to the development of a cutting-edge portal for **Lowell**, a leading European credit management company, streamlining **document management** and improving internal **interactions with courts**."
     logo_url: "/nashtech-inline.svg"
     link: "https://www.nashtechglobal.com/"
     tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
