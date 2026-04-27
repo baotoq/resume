@@ -90,7 +90,7 @@ function TechIcon({ tech }: { tech: string }) {
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="hover-lift">
+          <div className="transition-transform hover:scale-125">
             <Icon size={40} />
           </div>
         </TooltipTrigger>
@@ -100,7 +100,7 @@ function TechIcon({ tech }: { tech: string }) {
   }
 
   return (
-    <Badge variant="secondary" className="hover-lift">
+    <Badge variant="secondary" className="transition-transform hover:scale-125">
       {tech}
     </Badge>
   );

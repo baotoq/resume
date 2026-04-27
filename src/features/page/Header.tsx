@@ -43,7 +43,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
 
   return (
     <section>
-      <Card className="hover-lift relative overflow-hidden">
+      <Card className="transition-transform hover:-translate-y-1 relative overflow-hidden">
         <div className={styles.accentGlow} aria-hidden="true" />
         <div className={styles.accentGlowBottom} aria-hidden="true" />
         <CardContent className="relative">
