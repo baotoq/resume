@@ -107,7 +107,10 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </li>
                         ))}
                       </ul>
-                      <TechStackIcons className="pt-2" stack={entry.tech_stack} />
+                      <TechStackIcons
+                        className="pt-2"
+                        stack={entry.tech_stack}
+                      />
                     </div>
                   </CardContent>
                 </Card>
