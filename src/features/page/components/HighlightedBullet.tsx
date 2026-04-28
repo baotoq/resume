@@ -27,7 +27,7 @@ export function HighlightedBullet({ children }: HighlightedBulletProps) {
           elements.push(
             <span
               key={`${boldIndex}-${italicIndex}`}
-              className="text-blue-700 italic font-semibold"
+              className="text-blue-700 font-semibold"
             >
               {italicSegment}
             </span>,
