@@ -13,10 +13,17 @@ export function TooltipWrapper({
   children: React.ReactNode;
   content: React.ReactNode;
 }) {
+  const label = typeof content === "string" ? content : undefined;
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="transition-transform hover:scale-125">{children}</div>
+        <div
+          role="img"
+          aria-label={label}
+          className="transition-transform duration-200 ease-out hover:scale-125 motion-reduce:transition-none motion-reduce:transform-none"
+        >
+          {children}
+        </div>
       </TooltipTrigger>
       <TooltipContent>{content}</TooltipContent>
     </Tooltip>

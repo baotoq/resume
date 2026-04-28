@@ -24,7 +24,16 @@ export default function Page() {
   };
 
   return (
-    <main className="page-grain min-h-screen bg-zinc-50 py-12 px-4 sm:px-8">
+    <main
+      id="main"
+      className="page-grain min-h-screen bg-zinc-50 py-12 px-4 sm:px-8"
+    >
+      <a
+        href="#main"
+        className="skip-link sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background focus:outline focus:outline-2 focus:outline-primary"
+      >
+        Skip to main content
+      </a>
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON.stringify output is injection-safe for ld+json

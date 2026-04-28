@@ -26,12 +26,25 @@ export function CopyableEmailPill({ email }: CopyableEmailPillProps) {
           className="cursor-pointer"
         >
           <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-          <span>{copied ? "Copied!" : email}</span>
+          <span className="relative inline-grid">
+            <span
+              className="invisible col-start-1 row-start-1"
+              aria-hidden="true"
+            >
+              {email}
+            </span>
+            <span
+              className="col-start-1 row-start-1 truncate"
+              aria-live="polite"
+            >
+              {copied ? "Copied!" : email}
+            </span>
+          </span>
           <span className="print:hidden inline-flex items-center justify-center rounded-full text-muted-foreground transition-colors">
             {copied ? (
-              <Check className="h-3.5 w-3.5 text-primary" />
+              <Check className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
             ) : (
-              <Copy className="h-3.5 w-3.5" />
+              <Copy className="h-3.5 w-3.5" aria-hidden="true" />
             )}
           </span>
         </Button>
