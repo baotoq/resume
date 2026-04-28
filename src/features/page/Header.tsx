@@ -48,7 +48,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
 
   return (
     <header>
-      <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:-translate-y-1 relative overflow-hidden">
+      <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:scale-[1.01] relative overflow-hidden">
         <div className="accent-glow" aria-hidden="true" />
         <div className="accent-glow-bottom" aria-hidden="true" />
         <CardContent className="relative flex flex-col gap-4">

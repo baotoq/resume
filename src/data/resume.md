@@ -22,16 +22,21 @@ experience:
     role: "Senior Software Engineer"
     startDate: "2021-10"
     endDate: "2025-01"
-    description: "*Upmesh* is a **pre-Series A** *E-commerce* SaaS startup (raised $10.5M) that enables seamless purchases through livestreams (Facebook & Instagram), transforming e-commerce into an interactive, real-time experience."
+    description: "*Upmesh* is a **pre-Series A** *E-commerce* SaaS startup (raised $10.5M) that enables seamless purchases through livestreams (Facebook & Instagram), transforming live commerce into an interactive, real-time experience."
     logo_url: "/upmesh_logo.svg"
     link: "https://www.linkedin.com/company/upmeshlive/home"
     tech_stack: [".NET", "EF Core","Go", "gRPC", "ELK Stack", "MySQL", "PostgreSQL", "Redis", "GitHub", "Docker", "Kubernetes", "FluxCD", "AWS", "Terraform"]
+    images:
+      - "/upmesh/1.png"
+      - "/upmesh/2.png"
+      - "/upmesh/3.png"
     bullets:
-      - "Built a high-throughput *Facebook* capture system handling **10k comments/sec** at peak, integrating **Stripe** and **3rd-party logistics** for near real-time order processing and fulfillment."
+      - "Built a high-throughput “*comments-to-carts*” system on Facebook, processing **10k+ comments/sec** at peak; auto-detected products from comments and responded to customers in near real-time."
+      - Integrated **Stripe** and **3rd-party logistics**, enabling seamless order processing and fulfillment
       - "Implemented **full-text search** with *Elasticsearch* for **10M+ records**, reducing latency and improving query speed under load."
-      - "Owned **end-to-end delivery** across the full lifecycle, from architecture design and development to deployment, monitoring, and production operations"
+      - "Owned **end-to-end delivery** across the full lifecycle, from architecture design, implementation to deployment, monitoring, and production operations."
       - "Operated *GitOps* workflows (*FluxCD, Kubernetes, GitHub Actions*), reducing deployment time by **75%** and accelerating time-to-market."
-      - "Architected **integration tests** using *Testcontainers*, reducing environment setup time by **50%** and eliminating flaky tests."
+      - "Architected **integration tests** using *Testcontainers*, reducing environment setup time by **65%** and eliminating flaky tests."
   - company: "AS White Global"
     role: "Software Engineer"
     startDate: "2021-01"

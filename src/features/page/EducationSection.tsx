@@ -17,7 +17,7 @@ export function EducationSection({ education }: EducationSectionProps) {
       <div className="flex flex-col gap-6">
         {education.map((entry) => (
           <article key={`${entry.institution}-${entry.degree}`}>
-            <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:-translate-y-1">
+            <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:scale-[1.01]">
               <CardContent>
                 <div className="flex flex-col gap-2">
                   <div className="flex items-start gap-3">

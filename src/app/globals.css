@@ -245,7 +245,8 @@ body {
 [data-print] a {
   text-rendering: geometricPrecision !important;
 }
-[data-print] [data-pdf-trigger] {
+[data-print] [data-pdf-trigger],
+[data-print] [data-pdf-hidden] {
   display: none;
 }
 [data-print] article {
