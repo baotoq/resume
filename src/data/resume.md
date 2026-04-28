@@ -3,7 +3,7 @@ name: "To Quoc Bao"
 title: "Senior Software Engineer"
 github: "https://github.com/baotoq"
 linkedin: "https://www.linkedin.com/in/baotoq"
-bio: "**Senior Software Engineer** with **7+ years** of experience building distributed systems across **insurance**, **e-commerce**, and enterprise platforms. Specialized in *.NET*, *Go*, and *Kubernetes*-native architectures, with expertise in *GitOps*-driven delivery. Designed and operated high-throughput, scalable systems, and owned the full development lifecycle—from design and implementation to production—ensuring performance, reliability, and rapid iteration."
+bio: "*Senior Software Engineer* with *7+ years* building distributed systems across **insurance**, **e-commerce**, and **SaaS platforms**. Expert in *.NET*, *Golang*, *Kubernetes*, and *GitOps*. Delivered high-throughput, scalable systems and owned the full lifecycle from design to production with a focus on performance and reliability."
 experience:
   - company: "CoverGo"
     role: "Senior Software Engineer"
