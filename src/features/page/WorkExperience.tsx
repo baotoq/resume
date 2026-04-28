@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { computeDuration } from "@/lib/duration";
 import type { ExperienceEntry } from "@/types/resume";
 import { CompanyDescription } from "./components/CompanyDescription";
+import { ExperienceImageGallery } from "./components/ExperienceImageGallery";
 import { HighlightedBullet } from "./components/HighlightedBullet";
 import { formatDateRange } from "./formatDateRange";
 
@@ -59,7 +60,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
 
               {/* Card */}
               <article>
-                <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:-translate-y-1">
+                <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:scale-[1.01]">
                   <CardContent>
                     <div className="flex flex-col gap-2">
                       <div className="flex items-start gap-3">
@@ -106,6 +107,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </li>
                         ))}
                       </ul>
+                      <ExperienceImageGallery images={entry.images ?? []} />
                       <TechStackIcons
                         className="pt-2 justify-center"
                         stack={entry.tech_stack}

@@ -13,6 +13,7 @@ export const ExperienceEntrySchema = z
     logo_url: z.string().min(1),
     link: z.string().min(1),
     tech_stack: z.array(z.string()).optional(),
+    images: z.array(z.string().min(1)).optional(),
   })
   .strict();
 

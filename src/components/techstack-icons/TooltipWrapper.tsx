@@ -20,7 +20,7 @@ export function TooltipWrapper({
         <div
           role="img"
           aria-label={label}
-          className="transition-transform duration-200 ease-out hover:scale-125 motion-reduce:transition-none motion-reduce:transform-none"
+          className="transition-transform duration-200 ease-out hover:scale-[1.25] motion-reduce:transition-none motion-reduce:transform-none"
         >
           {children}
         </div>
