@@ -59,12 +59,12 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
 
               {/* Card */}
               <article>
-                <Card className="transition-transform hover:-translate-y-1">
+                <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:-translate-y-1">
                   <CardContent>
                     <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-3">
-                        <div className="flex  flex-1 gap-1 flex-row items-center justify-between">
-                          <div>
+                      <div className="flex items-start gap-3">
+                        <div className="flex flex-1 gap-3 flex-row items-start justify-between">
+                          <div className="min-w-0">
                             <h3 className="font-bold text-primary text-lg">
                               <LogoImage
                                 company={entry.company}
@@ -72,19 +72,19 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                                 logoUrl={entry.logo_url}
                               />
                             </h3>
-                            <p className="text-lg font-bold text-foreground">
+                            <p className="text-lg font-bold text-foreground text-balance">
                               {entry.role}
                             </p>
                           </div>
-                          <div className="flex flex-col items-end gap-1">
-                            <span className="text-sm font-extrabold text-muted-foreground">
+                          <div className="flex flex-col items-end gap-1 shrink-0">
+                            <span className="text-sm font-extrabold text-muted-foreground tabular">
                               {formatDateRange(entry.startDate, entry.endDate)}
                             </span>
                             <div className="flex items-center gap-1.5">
                               {isCurrent && (
                                 <Badge variant="accent">Current</Badge>
                               )}
-                              <span className="text-sm text-muted-foreground">
+                              <span className="text-sm text-muted-foreground tabular">
                                 {computeDuration(
                                   entry.startDate,
                                   entry.endDate,
@@ -100,14 +100,14 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                         {entry.bullets.map((bullet) => (
                           <li
                             key={bullet}
-                            className="text-base leading-relaxed text-foreground pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-border"
+                            className="text-base leading-relaxed text-foreground text-pretty pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-border"
                           >
                             <HighlightedBullet>{bullet}</HighlightedBullet>
                           </li>
                         ))}
                       </ul>
                       <TechStackIcons
-                        className="pt-2"
+                        className="pt-2 justify-center"
                         stack={entry.tech_stack}
                       />
                     </div>

@@ -46,20 +46,20 @@ export function Header({ resume, email, phone }: HeaderProps) {
   );
 
   return (
-    <section>
-      <Card className="transition-transform hover:-translate-y-1 relative overflow-hidden">
+    <header>
+      <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:-translate-y-1 relative overflow-hidden">
         <div className="accent-glow" aria-hidden="true" />
         <div className="accent-glow-bottom" aria-hidden="true" />
         <CardContent className="relative flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <h1 className="accent-gradient-text text-3xl font-semibold">
+            <h1 className="accent-gradient-text text-3xl font-semibold text-balance">
               {resume.name}
             </h1>
-            <p className="text-lg font-semibold text-foreground">
+            <p className="text-lg font-semibold text-foreground text-balance">
               {resume.title}
             </p>
           </div>
-          <TooltipProvider delayDuration={100}>
+          <TooltipProvider delayDuration={200}>
             <div className="flex flex-wrap items-center gap-2">
               {email && <CopyableEmailPill email={email} />}
               {pills.map((link) => (
@@ -69,10 +69,12 @@ export function Header({ resume, email, phone }: HeaderProps) {
             </div>
           </TooltipProvider>
           {resume.bio && (
-            <p className="text-base leading-relaxed">{resume.bio}</p>
+            <p className="text-base leading-relaxed text-pretty">
+              {resume.bio}
+            </p>
           )}
         </CardContent>
       </Card>
-    </section>
+    </header>
   );
 }

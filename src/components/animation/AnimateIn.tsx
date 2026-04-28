@@ -49,7 +49,7 @@ export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: "easeOut", delay }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1], delay }}
         >
           {children}
         </m.div>

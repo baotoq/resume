@@ -17,12 +17,12 @@ export function EducationSection({ education }: EducationSectionProps) {
       <div className="flex flex-col gap-6">
         {education.map((entry) => (
           <article key={`${entry.institution}-${entry.degree}`}>
-            <Card className="transition-transform hover:-translate-y-1">
+            <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:-translate-y-1">
               <CardContent>
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-start gap-3">
                     {entry.logo_url && (
-                      <div>
+                      <div className="shrink-0">
                         <Image
                           src={entry.logo_url}
                           alt={entry.institution}
@@ -32,17 +32,17 @@ export function EducationSection({ education }: EducationSectionProps) {
                         />
                       </div>
                     )}
-                    <div className="flex flex-1 gap-1 flex-row items-center justify-between">
-                      <div>
-                        <h3 className="font-bold text-primary text-lg">
+                    <div className="flex flex-1 gap-3 flex-row items-start justify-between min-w-0">
+                      <div className="min-w-0">
+                        <h3 className="font-bold text-primary text-lg text-balance">
                           {entry.institution}
                         </h3>
-                        <p className="text-lg font-bold text-foreground">
+                        <p className="text-lg font-bold text-foreground text-balance">
                           {entry.degree}
                         </p>
                       </div>
-                      <div className="flex flex-col items-end gap-1">
-                        <span className="text-sm font-extrabold text-muted-foreground">
+                      <div className="flex flex-col items-end gap-1 shrink-0">
+                        <span className="text-sm font-extrabold text-muted-foreground tabular">
                           {entry.startDate.slice(0, 4)} –{" "}
                           {entry.endDate
                             ? entry.endDate.slice(0, 4)
@@ -52,7 +52,7 @@ export function EducationSection({ education }: EducationSectionProps) {
                     </div>
                   </div>
                   {entry.details && (
-                    <p className="mt-1 text-base leading-relaxed text-foreground">
+                    <p className="mt-1 text-base leading-relaxed text-foreground text-pretty">
                       {entry.details}
                     </p>
                   )}

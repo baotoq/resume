@@ -89,7 +89,10 @@ function TechIcon({ tech }: { tech: string }) {
   }
 
   return (
-    <Badge variant="secondary" className="transition-transform hover:scale-125">
+    <Badge
+      variant="secondary"
+      className="transition-transform duration-200 ease-out hover:scale-125 motion-reduce:transition-none motion-reduce:transform-none"
+    >
       {tech}
     </Badge>
   );
@@ -99,11 +102,11 @@ export function TechStackIcons({ stack, className }: TechStackIconsProps) {
   if (!stack?.length) return null;
 
   return (
-    <TooltipProvider delayDuration={100}>
+    <TooltipProvider delayDuration={50}>
       <div
         data-tech-stack
         className={cn(
-          "flex flex-wrap items-center gap-2 justify-center",
+          "flex flex-wrap items-center gap-2 justify-start",
           className,
         )}
       >

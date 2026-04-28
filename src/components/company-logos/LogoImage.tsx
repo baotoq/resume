@@ -27,7 +27,8 @@ export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        className="transition-transform hover:-translate-y-1 inline-block"
+        aria-label={`${company} (opens in new tab)`}
+        className="transition-transform duration-200 ease-out hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none inline-block rounded-sm outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
       >
         <LogoComponent width={150} height={45} />
       </a>
@@ -37,10 +38,11 @@ export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
   return (
     <div className="flex items-center h-12">
       <a
-        className="logo transition-transform hover:-translate-y-1 inline-block"
+        className="logo transition-transform duration-200 ease-out hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none inline-block rounded-sm outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
         target="_blank"
         rel="noopener noreferrer"
         href={link}
+        aria-label={`${company} (opens in new tab)`}
       >
         <img src={logoUrl} alt={company} width={150} loading="lazy" />
       </a>
