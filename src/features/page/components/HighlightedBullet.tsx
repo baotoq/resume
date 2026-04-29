@@ -19,23 +19,23 @@ export function HighlightedBullet({ children }: HighlightedBulletProps) {
         </span>,
       );
     } else {
-      // Even indices are plain/italic text — parse italic within them
-      const italicSegments = segment.split(/\*([^*]+)\*/g);
-      italicSegments.forEach((italicSegment, italicIndex) => {
-        if (italicIndex % 2 === 1) {
-          // Odd indices are italic matches
+      // Even indices are plain/accented text — parse accent within them
+      const accentSegments = segment.split(/\*([^*]+)\*/g);
+      accentSegments.forEach((accentSegment, accentIndex) => {
+        if (accentIndex % 2 === 1) {
+          // Odd indices are accent matches
           elements.push(
             <span
-              key={`${boldIndex}-${italicIndex}`}
+              key={`${boldIndex}-${accentIndex}`}
               className="text-blue-700 font-semibold"
             >
-              {italicSegment}
+              {accentSegment}
             </span>,
           );
         } else {
           // Plain text
-          if (italicSegment) {
-            elements.push(italicSegment);
+          if (accentSegment) {
+            elements.push(accentSegment);
           }
         }
       });

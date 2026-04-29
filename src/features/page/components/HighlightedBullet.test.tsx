@@ -12,15 +12,15 @@ describe("HighlightedBullet", () => {
     expect(screen.getByText(/tail/)).toBeInTheDocument();
   });
 
-  it("wraps *italic* text in a span with text-blue-700 and font-semibold", () => {
+  it("wraps *accent* text in a span with text-blue-700 and font-semibold", () => {
     render(<HighlightedBullet>foo *emph* bar</HighlightedBullet>);
-    const italic = screen.getByText("emph");
-    expect(italic.tagName).toBe("SPAN");
-    expect(italic).toHaveClass("text-blue-700");
-    expect(italic).toHaveClass("font-semibold");
+    const accent = screen.getByText("emph");
+    expect(accent.tagName).toBe("SPAN");
+    expect(accent).toHaveClass("text-blue-700");
+    expect(accent).toHaveClass("font-semibold");
   });
 
-  it("handles mixed **bold** and *italic* in one line", () => {
+  it("handles mixed **bold** and *accent* in one line", () => {
     render(<HighlightedBullet>pre **B** mid *I* end</HighlightedBullet>);
     expect(screen.getByText("B")).toHaveClass("font-semibold");
     expect(screen.getByText("I")).toHaveClass("text-blue-700");
