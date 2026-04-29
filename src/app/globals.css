@@ -144,6 +144,13 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+
+  [data-print] & {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    color: var(--color-accent-start) !important;
+  }
 }
 
 @utility accent-glow {
