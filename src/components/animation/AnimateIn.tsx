@@ -43,7 +43,7 @@ export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
 
   return (
     <LazyMotion features={domAnimation}>
-      <MotionConfig reducedMotion="user">
+      <MotionConfig>
         <m.div
           ref={ref}
           initial={{ opacity: 0, y: 16 }}
