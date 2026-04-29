@@ -62,7 +62,7 @@ jobs:
       - name: Detect PDF source changes
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         id: pdf-changes
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             sources:
