@@ -244,6 +244,155 @@ No commit at this step (verification only).
 
 ---
 
+## Task 4: Pivot to print-only website note
+
+> **Amendment.** Tasks 1–3 shipped the screen-mode Website pill. After review, behavior was pivoted: drop the screen pill entirely and surface the URL in print/PDF only. See spec amendment in `docs/superpowers/specs/2026-05-05-add-website-field-design.md`.
+
+**Files:**
+- Modify: `src/features/page/Header.tsx` (revert pill, add print-only span)
+- Modify: `src/app/globals.css` (add `[data-pdf-only]` selectors)
+
+- [ ] **Step 1: Revert Header pill imports and useMemo block**
+
+In `src/features/page/Header.tsx`:
+
+Change line 3 from:
+
+```ts
+import { Globe, Phone } from "lucide-react";
+```
+
+back to:
+
+```ts
+import { Phone } from "lucide-react";
+```
+
+Replace the entire `pills` `useMemo` block with the pre-Task-2 form (no `resume.website` entry, no `resume.website` in deps):
+
+```ts
+const pills = useMemo(
+  () =>
+    [
+      phone && {
+        label: "Phone",
+        href: `tel:${phone}`,
+        text: phone,
+        Icon: Phone,
+      },
+      {
+        label: "GitHub profile",
+        href: resume.github,
+        text: "GitHub",
+        Icon: FaGithub,
+      },
+      {
+        label: "LinkedIn profile",
+        href: resume.linkedin,
+        text: "LinkedIn",
+        Icon: FaLinkedin,
+      },
+    ].filter(Boolean) as PillLink[],
+  [phone, resume.github, resume.linkedin],
+);
+```
+
+- [ ] **Step 2: Add print-only span after `<DownloadResumePill />`**
+
+In the same file, find the JSX block:
+
+```tsx
+<DownloadResumePill />
+```
+
+Immediately after it (still inside the same `<div className="flex flex-wrap items-center gap-2">`), insert:
+
+```tsx
+{resume.website && (
+  <span data-pdf-only className="text-sm text-muted-foreground">
+    Find latest version at{" "}
+    <a href={resume.website} className="underline">
+      {resume.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+    </a>
+  </span>
+)}
+```
+
+- [ ] **Step 3: Add `[data-pdf-only]` CSS rules**
+
+In `src/app/globals.css`, locate the existing block at line 255:
+
+```css
+[data-print] [data-pdf-trigger],
+[data-print] [data-pdf-hidden] {
+  display: none;
+}
+```
+
+Immediately after that block, insert:
+
+```css
+[data-pdf-only] {
+  display: none;
+}
+[data-print] [data-pdf-only] {
+  display: inline;
+}
+@media print {
+  [data-pdf-only] {
+    display: inline !important;
+  }
+}
+```
+
+Rationale: matches the existing convention in this file. `[data-pdf-trigger]` / `[data-pdf-hidden]` are screen-visible, print-hidden; `[data-pdf-only]` is the inverse. The `@media print` rule with `!important` handles real browser print (Cmd+P) where the `data-print` attribute is not set.
+
+- [ ] **Step 4: Run lint**
+
+Run: `npm run lint`
+
+Expected: PASS.
+
+- [ ] **Step 5: Run unit tests**
+
+Run: `npm run test`
+
+Expected: PASS — 42/42.
+
+- [ ] **Step 6: Run build**
+
+Run: `npm run build`
+
+Expected: PASS.
+
+- [ ] **Step 7: Run e2e**
+
+Run: `npm run test:e2e`
+
+Expected: PASS — including `e2e/pdf.spec.ts` which already asserts `data-pdf-trigger` is hidden in print. The new element is `data-pdf-only`, hidden on screen, visible in print — should not cause regressions.
+
+- [ ] **Step 8: Visual verify (screen + print)**
+
+Run `npm run dev` (background, e.g. `PORT=3137`). Then:
+
+1. `curl -s http://localhost:3137/ | grep -c "Find latest version"` should return `1` (DOM present even when hidden).
+2. `curl -s http://localhost:3137/ | grep -c 'data-pdf-only'` should return `1`.
+3. `curl -s http://localhost:3137/ | grep -c '"GitHub"'` should still return `1`.
+4. `curl -s http://localhost:3137/ | grep -c '>baotoq.dev<'` should return `1` (link text in DOM).
+
+Stop the dev server.
+
+If any check fails, report DONE_WITH_CONCERNS with the failing greps.
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add src/features/page/Header.tsx src/app/globals.css
+git commit -m "feat(header): replace screen website pill with print-only note"
+```
+
+---
+
 ## Out of Scope
 
 - Deploying the site to `baotoq.dev` (DNS, hosting).
