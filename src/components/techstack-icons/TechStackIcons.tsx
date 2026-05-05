@@ -1,3 +1,4 @@
+import { ClaudeCode } from "@lobehub/icons";
 import Amazonwebservice from "react-devicons/amazonwebservices/original-wordmark";
 import Docker from "react-devicons/docker/original-wordmark";
 import Dotnet from "react-devicons/dotnetcore/original";
@@ -31,7 +32,6 @@ import { GrpcIcon } from "./GrpcIcon";
 import { resolveSize, type SizedIconProps } from "./icon-props";
 import { OdooIcon } from "./OdooIcon";
 import { TooltipWrapper } from "./TooltipWrapper";
-import { ClaudeCode } from "@lobehub/icons";
 
 interface TechStackIconsProps {
   stack?: string[];
