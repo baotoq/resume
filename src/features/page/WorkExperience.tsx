@@ -37,15 +37,13 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
           aria-hidden="true"
         />
 
-        {experience.map((entry, index) => {
+        {experience.map((entry) => {
           const isCurrent = entry.endDate === null;
-          const breakAfter = index === 2;
 
           return (
             <div
               key={`${entry.company}-${entry.startDate}`}
               className="relative"
-              {...(breakAfter ? { "data-pdf-break-after": "" } : {})}
             >
               {/* Timeline dot — z-10 so it sits above the continuous line */}
               <div

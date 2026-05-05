@@ -70,7 +70,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
             </div>
           </TooltipProvider>
           {resume.website && (
-            <div data-pdf-only className="text-sm text-muted-foreground">
+            <div data-pdf-only className="text-base font-bold text-foreground">
               Find latest version at{" "}
               <a
                 href={resume.website}
