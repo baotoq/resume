@@ -1,6 +1,6 @@
 "use client";
 
-import { Globe, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { useMemo } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,12 +30,6 @@ export function Header({ resume, email, phone }: HeaderProps) {
           text: phone,
           Icon: Phone,
         },
-        resume.website && {
-          label: "Personal website",
-          href: resume.website,
-          text: resume.website.replace(/^https?:\/\//, "").replace(/\/$/, ""),
-          Icon: Globe,
-        },
         {
           label: "GitHub profile",
           href: resume.github,
@@ -49,7 +43,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
           Icon: FaLinkedin,
         },
       ].filter(Boolean) as PillLink[],
-    [phone, resume.website, resume.github, resume.linkedin],
+    [phone, resume.github, resume.linkedin],
   );
 
   return (
@@ -73,6 +67,16 @@ export function Header({ resume, email, phone }: HeaderProps) {
                 <ContactPill key={link.label} link={link} />
               ))}
               <DownloadResumePill />
+              {resume.website && (
+                <span data-pdf-only className="text-sm text-muted-foreground">
+                  Find latest version at{" "}
+                  <a href={resume.website} className="underline">
+                    {resume.website
+                      .replace(/^https?:\/\//, "")
+                      .replace(/\/$/, "")}
+                  </a>
+                </span>
+              )}
             </div>
           </TooltipProvider>
           {resume.bio && (

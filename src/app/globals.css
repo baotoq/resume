@@ -256,6 +256,17 @@ body {
 [data-print] [data-pdf-hidden] {
   display: none;
 }
+[data-pdf-only] {
+  display: none;
+}
+[data-print] [data-pdf-only] {
+  display: inline;
+}
+@media print {
+  [data-pdf-only] {
+    display: inline !important;
+  }
+}
 [data-print] article {
   break-inside: avoid;
   page-break-inside: avoid;
