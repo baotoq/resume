@@ -31,7 +31,7 @@ experience:
       - "/upmesh/2.png"
       - "/upmesh/3.png"
     bullets:
-      - "Built a high-throughput “*comments-to-carts*” system on Facebook, processing **10k+ comments/sec** at peak; auto-detected products from comments and responded to customers in near real-time."
+      - "Built *.NET Core* and *Golang* services for “*comments-to-carts*” platform, processing **10k+ comments/sec** at peak; auto-detected products from Facebook comments and responded to customers in near real-time."
       - Integrated **Stripe** and **3rd-party logistics**, enabling seamless order processing and fulfillment
       - "Implemented **full-text search** with *Elasticsearch* for **10M+ records**, reducing latency and improving query speed under load."
       - "Owned **end-to-end delivery** across the full lifecycle, from architecture design, implementation to deployment, monitoring, and production operations."
