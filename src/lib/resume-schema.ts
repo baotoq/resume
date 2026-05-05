@@ -45,6 +45,7 @@ export const ResumeSchema = z
     title: z.string().min(1),
     github: z.string().min(1),
     linkedin: z.string().min(1),
+    website: z.string().min(1).optional(),
     experience: z.array(ExperienceEntrySchema),
     skills: z.record(z.string(), z.string()),
     bio: z.string().optional(),

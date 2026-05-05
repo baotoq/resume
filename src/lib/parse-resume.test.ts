@@ -10,6 +10,8 @@ describe("parseResumeFile — real resume.md schema guard", () => {
     expect(typeof resume.title).toBe("string");
     expect(typeof resume.github).toBe("string");
     expect(typeof resume.linkedin).toBe("string");
+    expect(typeof resume.website).toBe("string");
+    expect(resume.website).toMatch(/^https?:\/\//);
   });
 
   it("has a non-empty experience array", () => {
