@@ -323,6 +323,15 @@ html[data-print],
   width: 24px !important;
   height: 24px !important;
 }
+[data-tech-stack] [data-claude-combine] svg {
+  height: 22px !important;
+  width: auto !important;
+  max-width: none !important;
+}
+[data-print] [data-tech-stack] [data-claude-combine] svg {
+  height: 13px !important;
+  width: auto !important;
+}
 [data-print] [data-timeline] {
   display: none !important;
 }
