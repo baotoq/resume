@@ -260,7 +260,7 @@ body {
   display: none;
 }
 [data-print] [data-pdf-only] {
-  display: inline;
+  display: inline !important;
 }
 @media print {
   [data-pdf-only] {

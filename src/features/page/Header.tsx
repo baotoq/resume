@@ -67,23 +67,21 @@ export function Header({ resume, email, phone }: HeaderProps) {
                 <ContactPill key={link.label} link={link} />
               ))}
               <DownloadResumePill />
-              {resume.website && (
-                <span data-pdf-only className="text-sm text-muted-foreground">
-                  Find latest version at{" "}
-                  <a
-                    href={resume.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    {resume.website
-                      .replace(/^https?:\/\//, "")
-                      .replace(/\/$/, "")}
-                  </a>
-                </span>
-              )}
             </div>
           </TooltipProvider>
+          {resume.website && (
+            <div data-pdf-only className="text-sm text-muted-foreground">
+              Find latest version at{" "}
+              <a
+                href={resume.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-primary"
+              >
+                {resume.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+              </a>
+            </div>
+          )}
           {resume.bio && (
             <p className="text-base leading-relaxed text-pretty">
               <HighlightedBullet>{resume.bio}</HighlightedBullet>
