@@ -28,7 +28,7 @@ import { EFCoreIcon } from "./EFCoreIcon";
 import { ELKIcon } from "./ELKIcon";
 import { FluxCDIcon } from "./FluxCDIcon";
 import { GrpcIcon } from "./GrpcIcon";
-import type { SizedIconProps } from "./icon-props";
+import { resolveSize, type SizedIconProps } from "./icon-props";
 import { OdooIcon } from "./OdooIcon";
 import { TooltipWrapper } from "./TooltipWrapper";
 import { ClaudeCode } from "@lobehub/icons";
@@ -72,7 +72,9 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   grpc: GrpcIcon,
   odoo: OdooIcon,
   claude: ({ size }) => (
-    <ClaudeCode.Combine width={size} height={size} type={"color"} />
+    <span data-claude-combine className="inline-flex items-center">
+      <ClaudeCode.Combine size={resolveSize(size)} type={"color"} />
+    </span>
   ),
 };
 
