@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { TechStackIcons } from "./TechStackIcons";
+
+vi.mock("@lobehub/icons", () => ({
+  ClaudeCode: { Combine: () => null },
+}));
 
 describe("TechStackIcons", () => {
   it("returns null when stack is undefined", () => {
