@@ -1,6 +1,6 @@
 "use client";
 
-import { Phone } from "lucide-react";
+import { Globe, Phone } from "lucide-react";
 import { useMemo } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,6 +30,12 @@ export function Header({ resume, email, phone }: HeaderProps) {
           text: phone,
           Icon: Phone,
         },
+        resume.website && {
+          label: "Personal website",
+          href: resume.website,
+          text: resume.website.replace(/^https?:\/\//, "").replace(/\/$/, ""),
+          Icon: Globe,
+        },
         {
           label: "GitHub profile",
           href: resume.github,
@@ -43,7 +49,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
           Icon: FaLinkedin,
         },
       ].filter(Boolean) as PillLink[],
-    [phone, resume.github, resume.linkedin],
+    [phone, resume.website, resume.github, resume.linkedin],
   );
 
   return (
