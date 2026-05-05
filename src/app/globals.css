@@ -260,11 +260,11 @@ body {
   display: none;
 }
 [data-print] [data-pdf-only] {
-  display: inline !important;
+  display: block !important;
 }
 @media print {
   [data-pdf-only] {
-    display: inline !important;
+    display: block !important;
   }
 }
 [data-print] article {
