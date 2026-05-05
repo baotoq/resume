@@ -12,12 +12,13 @@ experience:
     description: "*CoverGo* is a **Series A** *Insurtech* SaaS startup (raised $17.7M) leading global AI, no-code insurance platform. Enables enterprise insurers to automate the full policy lifecycle in the most flexible, and cost-effective way."
     logo_url: "/covergo_logo.svg"
     link: "https://www.linkedin.com/company/covergo"
-    tech_stack: [".NET", "GraphQL", "Dapr", "Vue", "Redis", "MongoDB", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
+    tech_stack: [".NET", "Claude", "GraphQL", "Dapr", "Vue", "Redis", "MongoDB", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
     bullets:
       - "Built quoting features for *multi-tenant* insurance administration following **Clean Architecture** and **DDD** principles."
-      - "Implemented scalable *.NET 8* backend services, **GraphQL APIs** and modern frontends with *Vue.js*."
+      - "Implemented scalable *.NET 8* **GraphQL** backend services, and modern frontends with *Vue.js*."
       - "Leveraged *Dapr* building blocks for industry best practices, security, resiliency, and observability."
       - "Operated **cloud-native containerized** workloads on *Kubernetes* with *FluxCD*."
+      - "Adopted *Claude Code* for AI-assisted development, accelerating feature delivery and code quality."
   - company: "Upmesh"
     role: "Senior Software Engineer"
     startDate: "2021-10"
@@ -31,7 +32,7 @@ experience:
       - "/upmesh/2.png"
       - "/upmesh/3.png"
     bullets:
-      - "Built *.NET Core* and *Golang* services for “*comments-to-carts*” platform, processing **10k+ comments/sec** at peak; auto-detected products from Facebook comments and responded to customers in near real-time."
+      - "Built *.NET* and *Golang* services for “*comments-to-carts*” platform, processing **10k+ comments/sec** at peak; auto-detected products from Facebook comments and responded to customers in near real-time."
       - Integrated **Stripe** and **3rd-party logistics**, enabling seamless order processing and fulfillment
       - "Implemented **full-text search** with *Elasticsearch* for **10M+ records**, reducing latency and improving query speed under load."
       - "Owned **end-to-end delivery** across the full lifecycle, from architecture design, implementation to deployment, monitoring, and production operations."
@@ -47,7 +48,7 @@ experience:
     tech_stack: [".NET", "EF Core", "MSSQL", "React", "Redis", "Docker", "Azure"]
     bullets:
       - "Collaborated with UK stakeholders to translate **insurance claim workflows** into clear technical requirements."
-      - "Built a *React.js* portal and *.NET Core* **RESTful APIs**, streamlining claim processing and data flow."
+      - "Built a *React.js* portal and *.NET* **RESTful**, streamlining claim processing and data flow."
       - "Optimized **database queries** and **indexing strategies**, reducing API response times by **~35%** for claim-related operations."
       - "Set up **CI/CD pipelines** on *Azure DevOps*, enabling automated testing and faster delivery."
   - company: "NashTech Limited"
@@ -60,7 +61,7 @@ experience:
     tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
     bullets:
       - "Built a **data standardization adapter** to **transform** and **bridge** data between legacy systems and new internal platforms, enabling seamless integration."
-      - "Developed a *Vue.js* feature-rich portal backed by *.NET Core* **RESTful APIs** and **gRPC** services supporting core backend workflows."
+      - "Developed a *Vue.js* feature-rich portal backed by *.NET* **RESTful** and **gRPC** services supporting core backend workflows."
       - "Implemented **real-time push notifications** using *Azure SignalR* for instant user updates."
       - "Integrated with *Opentelemetry* for observability, enabling faster incident detection."
       - "Conducted comprehensive unit tests and integration tests, maintaining a minimum **code coverage of 90%**."

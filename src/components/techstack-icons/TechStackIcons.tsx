@@ -31,6 +31,7 @@ import { GrpcIcon } from "./GrpcIcon";
 import type { SizedIconProps } from "./icon-props";
 import { OdooIcon } from "./OdooIcon";
 import { TooltipWrapper } from "./TooltipWrapper";
+import { ClaudeCode } from "@lobehub/icons";
 
 interface TechStackIconsProps {
   stack?: string[];
@@ -70,6 +71,9 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   fluxcd: FluxCDIcon,
   grpc: GrpcIcon,
   odoo: OdooIcon,
+  claude: ({ size }) => (
+    <ClaudeCode.Combine width={size} height={size} type={"color"} />
+  ),
 };
 
 function normalizeTech(tech: string) {
