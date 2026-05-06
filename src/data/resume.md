@@ -4,18 +4,18 @@ title: "Senior Software Engineer"
 github: "https://github.com/baotoq"
 linkedin: "https://www.linkedin.com/in/baotoq"
 website: "https://baotoq.dev"
-bio: "*Senior Software Engineer* with *7+ years* building distributed systems across **insurance**, **e-commerce**, and **SaaS platforms**. Expert in *.NET*, *Golang*, *Kubernetes*, and *GitOps*. Delivered high-throughput, scalable systems and owned the full lifecycle from design to production with a focus on performance and reliability."
+bio: "*Senior Software Engineer* with *7+ years* building distributed systems across **insurtech**, **e-commerce**, and **SaaS platforms**. Expert in *.NET*, *Golang*, *Kubernetes*, and *GitOps*. Delivered high-throughput, scalable systems and owned the full lifecycle from design to production with a focus on performance and reliability."
 experience:
   - company: "CoverGo"
     role: "Senior Software Engineer"
     startDate: "2025-02"
     endDate: null
-    description: "*CoverGo* is a **Series A** *Insurtech* SaaS startup (raised $17.7M) leading global AI, no-code insurance platform. Enables enterprise insurers to automate the full policy lifecycle in the most flexible, and cost-effective way."
+    description: "*CoverGo* is a **Series A** *Insurtech* SaaS startup (raised $17.7M) leading global AI, no-code platform. Enables enterprise insurers to automate the full policy lifecycle in the most flexible, and cost-effective way."
     logo_url: "/covergo_logo.svg"
     link: "https://www.linkedin.com/company/covergo"
     tech_stack: [".NET", "Claude", "GraphQL", "Dapr", "Vue", "Redis", "MongoDB", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
     bullets:
-      - "Built quoting features for *multi-tenant* insurance administration following **Clean Architecture** and **DDD** principles."
+      - "Built quoting features for *multi-tenant* insurtech administration following **Clean Architecture** and **DDD** principles."
       - "Implemented scalable *.NET 8* **GraphQL** backend services, and modern frontends with *Vue.js*."
       - "Leveraged *Dapr* building blocks for industry best practices, security, resiliency, and observability."
       - "Operated **cloud-native containerized** workloads on *Kubernetes* with *FluxCD*."
