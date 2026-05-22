@@ -15,7 +15,7 @@ experience:
     link: "https://www.linkedin.com/company/covergo"
     tech_stack: [".NET", "Claude", "GraphQL", "Dapr", "Vue", "Redis", "MongoDB", "Docker", "Kubernetes", "GitHub", "FluxCD", "AWS"]
     bullets:
-      - "Built quoting features for *multi-tenant* insurtech administration following **Clean Architecture** and **DDD** principles."
+      - "Built quoting features for *multi-tenant* insurtech administration following **Clean Architecture**."
       - "Implemented scalable *.NET 8* **GraphQL** backend services, and modern frontends with *Vue.js*."
       - "Leveraged *Dapr* building blocks for industry best practices, security, resiliency, and observability."
       - "Operated **cloud-native containerized** workloads on *Kubernetes* with *FluxCD*."

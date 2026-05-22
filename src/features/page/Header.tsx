@@ -69,7 +69,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
               <DownloadResumePill />
             </div>
           </TooltipProvider>
-          {resume.website && (
+          {/* {resume.website && (
             <div data-pdf-only className="text-base font-bold text-foreground">
               Find latest version at{" "}
               <a
@@ -81,7 +81,7 @@ export function Header({ resume, email, phone }: HeaderProps) {
                 {resume.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
               </a>
             </div>
-          )}
+          )} */}
           {resume.bio && (
             <p className="text-base leading-relaxed text-pretty">
               <HighlightedBullet>{resume.bio}</HighlightedBullet>
