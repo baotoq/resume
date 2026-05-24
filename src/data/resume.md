@@ -77,22 +77,12 @@ education:
     endDate: "2018-06"
     logo_url: "/tdt-icon.png"
     link: "https://www.linkedin.com/school/ton-duc-thang-university"
-# PLACEHOLDER — replace with real certs
 certifications:
-  - name: "Certified Kubernetes Administrator"
-    abbrev: "CKA"
-    issuer: "Linux Foundation"
-    year: 2024
-  - name: "AWS Solutions Architect — Professional"
-    abbrev: "AWS"
-    issuer: "Amazon"
-    year: 2023
-  - name: "Azure Developer Associate"
-    abbrev: "AZ."
-    issuer: "Microsoft"
-    year: 2022
-  - name: "Certified Kubernetes Application Developer"
-    abbrev: "CKAD"
-    issuer: "Linux Foundation"
-    year: 2023
+  - name: "KCNA: Kubernetes and Cloud Native Associate"
+    abbrev: "KCNA"
+    issuer: "The Linux Foundation"
+    issuedDate: "2026-05"
+    expiresDate: "2028-05"
+    logo_url: "https://images.credly.com/images/f28f1d88-428a-47f6-95b5-7da1dd6c1000/KCNA_badge.png"
+    url: "https://www.credly.com/badges/78ac6d26-cc9c-4c33-a44f-eb17f044ae7f"
 ---
