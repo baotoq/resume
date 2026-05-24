@@ -20,7 +20,7 @@ export function EducationSection({ education }: EducationSectionProps) {
             <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:scale-[1.01]">
               <CardContent>
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-center gap-3">
                     {entry.logo_url && (
                       <div className="shrink-0">
                         <Image
@@ -32,7 +32,7 @@ export function EducationSection({ education }: EducationSectionProps) {
                         />
                       </div>
                     )}
-                    <div className="flex flex-1 gap-3 flex-row items-start justify-between min-w-0">
+                    <div className="flex flex-1 gap-3 flex-row items-center justify-between min-w-0">
                       <div className="min-w-0">
                         <h3 className="font-bold text-primary text-lg text-balance">
                           {entry.institution}

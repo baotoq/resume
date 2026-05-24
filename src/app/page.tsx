@@ -47,15 +47,11 @@ export default function Page() {
           <WorkExperience experience={resume.experience} />
         </AnimateIn>
         <AnimateIn delay={0.2}>
+          <CertificationsSection certifications={resume.certifications ?? []} />
+        </AnimateIn>
+        <AnimateIn delay={0.3}>
           <EducationSection education={resume.education ?? []} />
         </AnimateIn>
-        {false && (
-          <AnimateIn delay={0.3}>
-            <CertificationsSection
-              certifications={resume.certifications ?? []}
-            />
-          </AnimateIn>
-        )}
       </div>
     </main>
   );

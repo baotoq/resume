@@ -34,7 +34,9 @@ export const CertificationEntrySchema = z
     name: z.string().min(1),
     abbrev: z.string().max(4).optional(),
     issuer: z.string().min(1),
-    year: z.number().int(),
+    issuedDate: yearMonth,
+    expiresDate: yearMonth.optional(),
+    logo_url: z.string().optional(),
     url: z.string().optional(),
   })
   .strict();
