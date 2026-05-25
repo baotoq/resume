@@ -17,35 +17,29 @@ const COMPANY_LOGO_MAP: Record<
   Upmesh: UpmeshLogo,
 };
 
+const logoAnchorClass =
+  "transition-transform hover:scale-[1.1] duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none inline-block rounded-sm outline-hidden focus-visible:outline focus-visible:outline-primary focus-visible:outline-offset-2";
+
 export function LogoImage({ link, logoUrl, company }: LogoImageProps) {
   const LogoComponent = COMPANY_LOGO_MAP[company];
 
   if (LogoComponent) {
-    // Use the SVG component for the specified company to ensure it scales well and looks crisp
     return (
       <a
         href={link}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${company} (opens in new tab)`}
-        className="
-          transition-transform hover:scale-[1.1]
-          duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none inline-block rounded-sm
-          outline-none focus-visible:outline focus-visible:outline-primary focus-visible:outline-offset-2
-        "
+        className={logoAnchorClass}
       >
         <LogoComponent width={150} height={45} />
       </a>
     );
   }
-  // Fallback for other companies
   return (
     <div className="flex items-center h-12">
       <a
-        className="
-          logo transition-transform hover:scale-[1.1] duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none inline-block
-          rounded-sm outline-none focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2
-        "
+        className={logoAnchorClass}
         target="_blank"
         rel="noopener noreferrer"
         href={link}

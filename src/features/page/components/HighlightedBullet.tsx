@@ -6,39 +6,33 @@ interface HighlightedBulletProps {
 }
 
 export function HighlightedBullet({ children }: HighlightedBulletProps) {
-  const boldSegments = children.split(/\*\*([^*]+)\*\*/g);
+  const segments = children.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
 
   const elements: ReactNode[] = [];
 
-  boldSegments.forEach((segment, boldIndex) => {
-    if (boldIndex % 2 === 1) {
-      // Odd indices are bold matches
+  segments.forEach((segment, index) => {
+    if (
+      segment.startsWith("**") &&
+      segment.endsWith("**") &&
+      segment.length > 4
+    ) {
       elements.push(
-        <span key={boldIndex} className="font-semibold">
-          {segment}
+        <span key={index} className="font-semibold">
+          {segment.slice(2, -2)}
         </span>,
       );
-    } else {
-      // Even indices are plain/accented text — parse accent within them
-      const accentSegments = segment.split(/\*([^*]+)\*/g);
-      accentSegments.forEach((accentSegment, accentIndex) => {
-        if (accentIndex % 2 === 1) {
-          // Odd indices are accent matches
-          elements.push(
-            <span
-              key={`${boldIndex}-${accentIndex}`}
-              className="text-blue-700 font-semibold"
-            >
-              {accentSegment}
-            </span>,
-          );
-        } else {
-          // Plain text
-          if (accentSegment) {
-            elements.push(accentSegment);
-          }
-        }
-      });
+    } else if (
+      segment.startsWith("*") &&
+      segment.endsWith("*") &&
+      segment.length > 2
+    ) {
+      elements.push(
+        <span key={index} className="text-blue-700 font-semibold">
+          {segment.slice(1, -1)}
+        </span>,
+      );
+    } else if (segment) {
+      elements.push(segment);
     }
   });
 

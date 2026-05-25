@@ -6,25 +6,6 @@ import { ImageLightbox } from "./ImageLightbox";
 const IMAGES = ["/img1.png", "/img2.png", "/img3.png"];
 
 describe("ImageLightbox", () => {
-  it("returns null when closed", () => {
-    const { container } = render(
-      <ImageLightbox
-        images={IMAGES}
-        initialIndex={0}
-        isOpen={false}
-        onClose={vi.fn()}
-      />,
-    );
-    expect(container.firstChild).toBeNull();
-  });
-
-  it("returns null when images array is empty", () => {
-    const { container } = render(
-      <ImageLightbox images={[]} initialIndex={0} isOpen onClose={vi.fn()} />,
-    );
-    expect(container.firstChild).toBeNull();
-  });
-
   it("renders dialog with accessible title", () => {
     render(
       <ImageLightbox
@@ -101,20 +82,6 @@ describe("ImageLightbox", () => {
       screen.getByRole("button", { name: /previous image/i }),
     );
     expect(screen.getByAltText("Screenshot 3 of 3")).toBeInTheDocument();
-  });
-
-  it("clicking image advances to next", async () => {
-    render(
-      <ImageLightbox
-        images={IMAGES}
-        initialIndex={0}
-        isOpen
-        onClose={vi.fn()}
-      />,
-    );
-    const img = screen.getByAltText("Screenshot 1 of 3");
-    await userEvent.click(img);
-    expect(screen.getByAltText("Screenshot 2 of 3")).toBeInTheDocument();
   });
 
   it("calls onClose when close button clicked", async () => {

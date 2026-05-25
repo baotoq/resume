@@ -14,7 +14,7 @@ export function ExperienceImageGallery({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  if (!images || images.length === 0) return null;
+  if (images.length === 0) return null;
 
   const openLightbox = (index: number) => {
     setSelectedIndex(index);

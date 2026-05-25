@@ -1,6 +1,6 @@
 "use client";
 
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -8,7 +8,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type IconType = ComponentType<SVGProps<SVGSVGElement>>;
+type IconType = ComponentType<{
+  className?: string;
+  "aria-hidden"?: boolean | "true" | "false";
+}>;
 
 export interface PillLink {
   label: string;

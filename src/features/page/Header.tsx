@@ -1,17 +1,6 @@
-"use client";
-
-import { Phone } from "lucide-react";
-import { useMemo } from "react";
-import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { Card, CardContent } from "@/components/ui/card";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import {
-  ContactPill,
-  type PillLink,
-} from "@/features/page/components/pills/ContactPill";
-import { CopyableEmailPill } from "@/features/page/components/pills/CopyableEmailPill";
-import { DownloadResumePill } from "@/features/page/components/pills/DownloadResumePill";
 import type { ResumeData } from "@/types/resume";
+import { ContactPillsRow } from "./components/ContactPillsRow";
 import { HighlightedBullet } from "./components/HighlightedBullet";
 
 interface HeaderProps {
@@ -21,31 +10,6 @@ interface HeaderProps {
 }
 
 export function Header({ resume, email, phone }: HeaderProps) {
-  const pills = useMemo(
-    () =>
-      [
-        phone && {
-          label: "Phone",
-          href: `tel:${phone}`,
-          text: phone,
-          Icon: Phone,
-        },
-        {
-          label: "GitHub profile",
-          href: resume.github,
-          text: "GitHub",
-          Icon: FaGithub,
-        },
-        {
-          label: "LinkedIn profile",
-          href: resume.linkedin,
-          text: "LinkedIn",
-          Icon: FaLinkedin,
-        },
-      ].filter(Boolean) as PillLink[],
-    [phone, resume.github, resume.linkedin],
-  );
-
   return (
     <header>
       <Card className="transition-transform duration-200 ease-out motion-reduce:transition-none motion-reduce:transform-none hover:scale-[1.01] relative overflow-hidden">
@@ -60,28 +24,12 @@ export function Header({ resume, email, phone }: HeaderProps) {
               {resume.title}
             </p>
           </div>
-          <TooltipProvider delayDuration={200}>
-            <div className="flex flex-wrap items-center gap-2">
-              {email && <CopyableEmailPill email={email} />}
-              {pills.map((link) => (
-                <ContactPill key={link.label} link={link} />
-              ))}
-              <DownloadResumePill />
-            </div>
-          </TooltipProvider>
-          {/* {resume.website && (
-            <div data-pdf-only className="text-base font-bold text-foreground">
-              Find latest version at{" "}
-              <a
-                href={resume.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-primary"
-              >
-                {resume.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
-              </a>
-            </div>
-          )} */}
+          <ContactPillsRow
+            email={email}
+            phone={phone}
+            github={resume.github}
+            linkedin={resume.linkedin}
+          />
           {resume.bio && (
             <p className="text-base leading-relaxed text-pretty">
               <HighlightedBullet>{resume.bio}</HighlightedBullet>

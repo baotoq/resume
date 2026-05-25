@@ -64,7 +64,7 @@ export function CertificationsSection({
       </h2>
       <div className="flex flex-col gap-4">
         {certifications.map((entry) => {
-          const key = `${entry.name}-${entry.issuer}`;
+          const key = `${entry.name}-${entry.issuer}-${entry.issuedDate}`;
           const card = (
             <Card className="transition-transform hover:scale-[1.01]">
               <CardContent>

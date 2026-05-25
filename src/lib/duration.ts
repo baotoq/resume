@@ -2,11 +2,14 @@
  * Computes a human-readable duration between two "YYYY-MM" date strings.
  * endDate === null means the role is ongoing; `now` is used as the end point.
  *
+ * Endpoints are inclusive (LinkedIn convention): same-month range returns "1 mos",
+ * Jan-Dec same year returns "1 yrs", Jan-Jan next year returns "1 yrs 1 mos".
+ *
  * Format rules (D-07):
  *   >= 1 year with months remainder: "X yrs Y mos"  (e.g. "4 yrs 3 mos")
  *   >= 1 year, no remainder:         "X yrs"         (e.g. "2 yrs")
  *   < 1 year:                        "Y mos"         (e.g. "8 mos")
- *   < 1 month (incl. negative):      "< 1 mo"
+ *   < 1 month (negative range only): "< 1 mo"
  */
 export function computeDuration(
   startDate: string,
