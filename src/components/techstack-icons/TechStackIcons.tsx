@@ -42,6 +42,18 @@ type IconComponent = React.FunctionComponent<SizedIconProps>;
 
 const REACT_BLUE = "#0380A2";
 
+function ReactCombinedIcon({ size }: SizedIconProps) {
+  return <ReactIcon size={size} color={REACT_BLUE} />;
+}
+
+function ClaudeCombinedIcon({ size }: SizedIconProps) {
+  return (
+    <span data-claude-combine className="inline-flex items-center">
+      <ClaudeCode.Combine size={resolveSize(size)} type={"color"} />
+    </span>
+  );
+}
+
 const TECH_ICON_MAP: Record<string, IconComponent> = {
   go: Go,
   ".net": Dotnet,
@@ -60,7 +72,7 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   redis: Redis,
   mysql: Mysql,
   mssql: Microsoftsqlserver,
-  react: ({ size }) => <ReactIcon size={size} color={REACT_BLUE} />,
+  react: ReactCombinedIcon,
   vue: Vuejs,
   tailwindcss: Tailwindcss,
   facebook: Facebook,
@@ -71,11 +83,7 @@ const TECH_ICON_MAP: Record<string, IconComponent> = {
   fluxcd: FluxCDIcon,
   grpc: GrpcIcon,
   odoo: OdooIcon,
-  claude: ({ size }) => (
-    <span data-claude-combine className="inline-flex items-center">
-      <ClaudeCode.Combine size={resolveSize(size)} type={"color"} />
-    </span>
-  ),
+  claude: ClaudeCombinedIcon,
 };
 
 function normalizeTech(tech: string) {

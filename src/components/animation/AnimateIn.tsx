@@ -1,51 +1,60 @@
 "use client";
 
 import { domAnimation, LazyMotion, MotionConfig, m } from "framer-motion";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useSyncExternalStore } from "react";
 
 interface AnimateInProps {
   children: ReactNode;
   delay?: number;
 }
 
-function readPrintMode(): boolean {
-  if (typeof document === "undefined") return false;
-  return document.documentElement.hasAttribute("data-print");
-}
+type Listener = () => void;
+const listeners = new Set<Listener>();
+let observer: MutationObserver | null = null;
 
-export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
-  const [isPrint, setIsPrint] = useState<boolean>(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    setIsPrint(readPrintMode());
-
-    const observer = new MutationObserver(() => {
-      setIsPrint(readPrintMode());
+function subscribe(listener: Listener) {
+  if (listeners.size === 0) {
+    observer = new MutationObserver(() => {
+      for (const l of listeners) l();
     });
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-print"],
     });
-    return () => observer.disconnect();
-  }, []);
+  }
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0) {
+      observer?.disconnect();
+      observer = null;
+    }
+  };
+}
 
-  const skipAnimation = isPrint;
+function getSnapshot(): boolean {
+  return document.documentElement.hasAttribute("data-print");
+}
 
-  if (skipAnimation) {
-    return (
-      <div ref={ref} suppressHydrationWarning>
-        {children}
-      </div>
-    );
+function getServerSnapshot(): boolean {
+  return false;
+}
+
+export function AnimateIn({ children, delay = 0 }: AnimateInProps) {
+  const isPrint = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  );
+
+  if (isPrint) {
+    return <div suppressHydrationWarning>{children}</div>;
   }
 
   return (
     <LazyMotion features={domAnimation}>
       <MotionConfig reducedMotion="user">
         <m.div
-          ref={ref}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

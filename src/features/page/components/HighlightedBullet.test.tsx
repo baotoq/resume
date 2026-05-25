@@ -36,4 +36,13 @@ describe("HighlightedBullet", () => {
     render(<HighlightedBullet>unmatched *star here</HighlightedBullet>);
     expect(screen.getByText(/unmatched \*star here/)).toBeInTheDocument();
   });
+
+  it("renders ***triple*** as bold inner text with surrounding literal asterisks", () => {
+    const { container } = render(
+      <HighlightedBullet>***triple***</HighlightedBullet>,
+    );
+    // single-pass regex matches **triple** inside, leaving outer * as plain text
+    expect(screen.getByText("triple")).toHaveClass("font-semibold");
+    expect(container.textContent).toBe("*triple*");
+  });
 });

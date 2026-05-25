@@ -96,9 +96,9 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                       </div>
                       <CompanyDescription description={entry.description} />
                       <ul className="flex flex-col gap-2">
-                        {entry.bullets.map((bullet) => (
+                        {entry.bullets.map((bullet, i) => (
                           <li
-                            key={bullet}
+                            key={`${entry.company}-${i}`}
                             className="text-base leading-relaxed text-foreground text-pretty pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-border"
                           >
                             <HighlightedBullet>{bullet}</HighlightedBullet>

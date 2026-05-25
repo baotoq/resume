@@ -59,15 +59,13 @@ export function ImageLightbox({
     };
   }, [isOpen, onClose, goNext, goPrev]);
 
-  if (!isOpen || images.length === 0) return null;
-
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogPortal>
         <DialogOverlay className="bg-black/80 backdrop-blur-sm" />
         <DialogContent
           showCloseButton={false}
-          className="fixed inset-0 z-50 flex translate-x-0 translate-y-0 border-0 bg-transparent p-0 shadow-none outline-none sm:max-w-none"
+          className="fixed inset-0 z-50 flex translate-x-0 translate-y-0 border-0 bg-transparent p-0 shadow-none outline-hidden sm:max-w-none"
           onInteractOutside={(e) => e.preventDefault()}
         >
           <DialogTitle className="sr-only">Image Lightbox</DialogTitle>
@@ -111,11 +109,7 @@ export function ImageLightbox({
             </div>
           )}
 
-          <button
-            type="button"
-            onClick={goNext}
-            className="absolute inset-4 z-40 flex items-center justify-center cursor-default"
-          >
+          <div className="absolute inset-4 z-40 flex items-center justify-center">
             <div className="relative w-full h-full max-h-[95vh]">
               <Image
                 src={images[currentIndex]}
@@ -126,7 +120,7 @@ export function ImageLightbox({
                 priority
               />
             </div>
-          </button>
+          </div>
         </DialogContent>
       </DialogPortal>
     </Dialog>

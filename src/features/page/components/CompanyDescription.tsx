@@ -10,7 +10,7 @@ export function CompanyDescription({ description }: CompanyDescriptionProps) {
   return (
     <div className="flex items-start gap-2.5 text-sm text-zinc-600 leading-relaxed">
       <svg
-        className="w-4 h-4 text-zinc-400 mt-[3px] flex-shrink-0"
+        className="w-4 h-4 text-zinc-400 mt-[3px] shrink-0"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

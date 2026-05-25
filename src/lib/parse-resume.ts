@@ -18,6 +18,7 @@ export function parseResumeString(raw: string): ResumeData {
   return result.data;
 }
 
+// filePath is a test-only escape hatch; production always uses the default path
 export const parseResumeFile = cache((filePath?: string): ResumeData => {
   const resolved = filePath ?? path.join(process.cwd(), "src/data/resume.md");
   const raw = fs.readFileSync(resolved, "utf-8");

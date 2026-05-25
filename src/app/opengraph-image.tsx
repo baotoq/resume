@@ -5,7 +5,7 @@ export const alt = "To Quoc Bao — Senior Software Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default async function OpengraphImage() {
+export default function OpengraphImage() {
   const resume = parseResumeFile();
 
   return new ImageResponse(
