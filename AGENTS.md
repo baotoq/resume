@@ -9,14 +9,14 @@ Always use Context7 when I need library/API documentation, code generation, setu
 ## Commands
 
 ```bash
-npm run dev         # start dev server on http://localhost:3000
-npm run build       # production build
-npm run lint        # biome check (linter)
-npm run format      # biome format --write
-npm run test        # vitest unit tests (single run)
-npm run test:watch  # vitest watch mode
-npm run test:e2e    # playwright e2e (smoke)
-npm run test:all    # unit + e2e
+pnpm dev         # start dev server on http://localhost:3000
+pnpm build       # production build
+pnpm lint        # biome check (linter)
+pnpm format      # biome format --write
+pnpm test        # vitest unit tests (single run)
+pnpm test:watch  # vitest watch mode
+pnpm test:e2e    # playwright e2e (smoke)
+pnpm test:all    # unit + e2e
 ```
 
 Unit tests are co-located with source as `*.test.ts(x)`. E2E tests live in `e2e/`. CI runs lint → unit → build → e2e on PRs.
@@ -35,7 +35,7 @@ Next.js 16 (App Router) + React 19 + Tailwind CSS 4 + TypeScript. Single-page re
 
 **Adding a company logo:** Add an SVG component in `src/components/company-logos/` and register it in `COMPANY_LOGO_MAP` in `LogoImage.tsx` (key = exact `company` string from resume data). Falls back to `<img src={logo_url}>` for unregistered companies.
 
-**shadcn/ui:** Style `new-york`, base color `neutral`, CSS variables enabled. Add components via `npx shadcn add <component>`; they land in `src/components/ui/`. Do not hand-edit generated files — re-run the CLI instead.
+**shadcn/ui:** Style `new-york`, base color `neutral`, CSS variables enabled. Add components via `pnpm dlx shadcn add <component>`; they land in `src/components/ui/`. Do not hand-edit generated files — re-run the CLI instead.
 
 **Bullet formatting:** Supports `**bold**` and `*italic*` markdown inline — rendered via `HighlightedBullet` component.
 

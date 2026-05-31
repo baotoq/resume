@@ -21,37 +21,36 @@ jobs:
       PHONE: ${{ secrets.PHONE }}
     steps:
       - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
         with:
           node-version: "24"
-          cache: "npm"
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+      - run: pnpm run test
       - name: Cache Next.js build
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.npm
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v5
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-chromium-${{ hashFiles('package-lock.json') }}
+          key: playwright-chromium-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
       - name: Install Playwright system deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
-      - run: npm run build
+        run: pnpm exec playwright install-deps chromium
+      - run: pnpm run build
       - name: Run E2E
-        run: npm run test:e2e
+        run: pnpm run test:e2e
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
@@ -70,13 +69,13 @@ jobs:
               - 'public/fonts/**'
               - 'next.config.ts'
               - 'package.json'
-              - 'package-lock.json'
+              - 'pnpm-lock.yaml'
       - name: Build PDFs
         if: |
           github.event_name == 'push'
           && github.ref == 'refs/heads/master'
           && steps.pdf-changes.outputs.sources == 'true'
-        run: npm run build:pdf
+        run: pnpm run build:pdf
       - name: Commit regenerated PDFs
         if: |
           github.event_name == 'push'
