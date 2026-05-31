@@ -23,7 +23,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: isCI ? "npm run build && npm start" : "npm run dev",
+    command: isCI ? "pnpm run build && pnpm start" : "pnpm run dev",
     url: baseURL,
     reuseExistingServer: !isCI,
     timeout: 120_000,

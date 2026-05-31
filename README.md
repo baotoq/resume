@@ -21,21 +21,21 @@ The content of the resume is completely decoupled from the UI components.
 
 ```bash
 # Development
-npm run dev         # start dev server on http://localhost:3000
+pnpm dev         # start dev server on http://localhost:3000
 
 # Building
-npm run build       # production static build
-npm run build:pdf   # generate a PDF version of the resume locally
+pnpm build       # production static build
+pnpm build:pdf   # generate a PDF version of the resume locally
 
 # Formatting & Linting
-npm run lint        # biome check (linter)
-npm run format      # biome format --write
+pnpm lint        # biome check (linter)
+pnpm format      # biome format --write
 
 # Testing
-npm run test        # vitest unit tests (single run)
-npm run test:watch  # vitest watch mode
-npm run test:e2e    # playwright e2e (smoke)
-npm run test:all    # run both unit and e2e tests
+pnpm test        # vitest unit tests (single run)
+pnpm test:watch  # vitest watch mode
+pnpm test:e2e    # playwright e2e (smoke)
+pnpm test:all    # run both unit and e2e tests
 ```
 
 ## Customizing the Resume
@@ -57,6 +57,6 @@ To update job experience, education, or bio, modify the YAML frontmatter inside 
 
 The project includes a print-optimized stylesheet. You can generate a pixel-perfect PDF version of the resume by running:
 ```bash
-npm run build:pdf
+pnpm build:pdf
 ```
 This uses Playwright under the hood to render the page and export it, outputting the file to the `public/` directory so it can be hosted and downloaded by visitors directly from the web interface.

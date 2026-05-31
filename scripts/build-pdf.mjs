@@ -15,7 +15,7 @@ const BASE = `http://localhost:${PORT}`;
 const BOOT_TRIES = 60;
 const BOOT_DELAY_MS = 500;
 
-const server = spawn("npx", ["next", "start", "-p", String(PORT)], {
+const server = spawn("pnpm", ["exec", "next", "start", "-p", String(PORT)], {
   stdio: ["ignore", "inherit", "inherit"],
   env: process.env,
 });
