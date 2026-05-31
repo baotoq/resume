@@ -13,6 +13,14 @@ export default function Page() {
   const email = process.env.EMAIL ?? "";
   const phone = process.env.PHONE ?? "";
 
+  // Gate the chat feature on its server-only env vars (read at build time, like
+  // EMAIL/PHONE). When unset, the button is not rendered and the feature is off.
+  const chatEnabled = Boolean(
+    process.env.ANTHROPIC_API_KEY &&
+      process.env.UPSTASH_REDIS_REST_URL &&
+      process.env.UPSTASH_REDIS_REST_TOKEN,
+  );
+
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -41,7 +49,12 @@ export default function Page() {
       />
       <div className="relative z-10 mx-auto max-w-3xl flex flex-col gap-8">
         <AnimateIn delay={0}>
-          <Header resume={resume} email={email} phone={phone} />
+          <Header
+            resume={resume}
+            email={email}
+            phone={phone}
+            chatEnabled={chatEnabled}
+          />
         </AnimateIn>
         <AnimateIn delay={0.1}>
           <WorkExperience experience={resume.experience} />

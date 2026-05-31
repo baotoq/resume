@@ -16,6 +16,7 @@ The content of the resume is completely decoupled from the UI components.
 - **Resume Data:** The primary data source is `src/data/resume.md`. It uses YAML frontmatter (parsed via `gray-matter`) to populate the site's content at request/build time. 
 - **Type Safety:** The parsed data is validated and typed against a Zod schema (`src/lib/resume-schema.ts`) and injected into the page as `ResumeData`.
 - **Environment Variables:** Sensitive contact information (`EMAIL` and `PHONE`) are injected via environment variables (`.env.local`) rather than hardcoded in the repository.
+- **"Ask my resume" AI chat (optional):** A header button opens a dialog that answers questions about Bao's background live, streamed from Claude Haiku and grounded in `src/data/resume.md`. It requires three **server-only** env vars — `ANTHROPIC_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` (per-IP daily rate limiting via Upstash Redis). When any is absent (local dev, CI, or an unconfigured deploy) the feature **self-disables**: the button is not rendered and `/api/chat` returns `503`. See `.env.example`.
 
 ## Commands
 
