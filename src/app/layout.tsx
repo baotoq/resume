@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Lato, Roboto_Mono } from "next/font/google";
@@ -68,7 +69,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
-        {process.env.VERCEL && <SpeedInsights />}
+        {process.env.VERCEL && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );
