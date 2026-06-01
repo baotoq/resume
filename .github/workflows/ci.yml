@@ -14,6 +14,7 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     env:
@@ -44,9 +45,28 @@ jobs:
           key: playwright-chromium-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
+        env:
+          # The browser download has no idle timeout by default; on the CI runner a
+          # stalled connection to cdn.playwright.dev hung the job for hours. Bound each
+          # connection and retry on a fresh one so a transient stall self-heals (and the
+          # first green run finally populates the cache, so later runs skip this entirely).
+          PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: "60000"
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::playwright install (attempt ${attempt}/3)"
+            if timeout --kill-after=30s 4m pnpm exec playwright install --with-deps chromium; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "attempt ${attempt} stalled or failed — retrying with a fresh connection…"
+            sleep 5
+          done
+          echo "::error::playwright browser install failed after 3 attempts"
+          exit 1
       - name: Install Playwright system deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 6
         run: pnpm exec playwright install-deps chromium
       - run: pnpm run build
       - name: Run E2E

@@ -78,6 +78,13 @@ education:
     logo_url: "/tdt-icon.png"
     link: "https://www.linkedin.com/school/ton-duc-thang-university"
 certifications:
+  - name: "CKAD: Certified Kubernetes Application Developer"
+    abbrev: "CKAD"
+    issuer: "The Linux Foundation"
+    issuedDate: "2026-05"
+    expiresDate: "2028-05"
+    logo_url: "https://images.credly.com/images/cc8adc83-1dc6-4d57-8e20-22171247e052/blob"
+    url: "https://www.credly.com/badges/fd3889a3-c9db-4f17-8c5a-05d0a9bfcd03"
   - name: "KCNA: Kubernetes and Cloud Native Associate"
     abbrev: "KCNA"
     issuer: "The Linux Foundation"
