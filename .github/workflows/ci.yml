@@ -14,6 +14,17 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Run inside Playwright's official image: Chromium (used by both the e2e
+    # suite and build:pdf) is preinstalled, so CI never downloads it from
+    # cdn.playwright.dev. That download has no idle timeout and stalls on GitHub
+    # runners, repeatedly hanging the job until the timeout fired.
+    # The tag MUST stay pinned to the @playwright/test version in package.json
+    # (1.59.1). On mismatch Playwright fails fast ("executable doesn't exist"),
+    # so drift is loud, not a silent stall — bump both together.
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
+      options: --user 1001
     permissions:
       contents: write
     env:
@@ -36,18 +47,6 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-chromium-${{ hashFiles('pnpm-lock.yaml') }}
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Install Playwright system deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps chromium
       - run: pnpm run build
       - name: Run E2E
         run: pnpm run test:e2e

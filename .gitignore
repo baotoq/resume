@@ -51,3 +51,5 @@ next-env.d.ts
 /.vitest-cache
 
 .omc/
+
+.playwright-mcp/
