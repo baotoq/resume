@@ -6,6 +6,15 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+    # Let new releases age before Dependabot opens a PR. pnpm 11 enforces a
+    # supply-chain policy (minimumReleaseAge: 1440 min = 1 day, on by default)
+    # that rejects packages published within the last 24h during
+    # `pnpm install --frozen-lockfile` — same-day bumps (e.g. next/react in #5)
+    # broke CI. A cooldown longer than that 1-day gate guarantees bumped
+    # versions have aged past the policy by the time CI runs.
+    cooldown:
+      default-days: 7
+      semver-patch-days: 3
     groups:
       # Bundle minor/patch bumps so they land as one reviewable PR each.
       # Major bumps stay as individual PRs for isolated review.
