@@ -99,7 +99,7 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                         {entry.bullets.map((bullet, i) => (
                           <li
                             key={`${entry.company}-${i}`}
-                            className="text-base leading-relaxed text-foreground text-pretty pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[10px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-border"
+                            className="text-base leading-relaxed text-foreground text-pretty pl-4 relative before:content-[''] before:absolute before:left-0 before:top-2.5 before:h-1.5 before:w-1.5 before:rounded-full before:bg-border"
                           >
                             <HighlightedBullet>{bullet}</HighlightedBullet>
                           </li>
