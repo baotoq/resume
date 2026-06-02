@@ -22,13 +22,13 @@ function CertLogo({ entry }: { entry: CertificationEntry }) {
         src={entry.logo_url}
         alt={entry.issuer}
         loading="lazy"
-        className="h-16 w-16 shrink-0 rounded-md object-contain"
+        className="h-24 w-24 shrink-0 rounded-md object-contain"
       />
     );
   }
   const label = entry.abbrev ?? entry.name.slice(0, 3).toUpperCase();
   return (
-    <div className="accent-gradient-bg flex h-16 w-16 shrink-0 items-center justify-center rounded-md text-white font-bold text-xs">
+    <div className="accent-gradient-bg flex h-24 w-24 shrink-0 items-center justify-center rounded-md text-white font-bold text-xs">
       {label}
     </div>
   );
@@ -36,9 +36,9 @@ function CertLogo({ entry }: { entry: CertificationEntry }) {
 
 function CertBody({ entry }: { entry: CertificationEntry }) {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center justify-center gap-4">
       <CertLogo entry={entry} />
-      <div className="min-w-0 flex flex-1 flex-col gap-1">
+      <div className="min-w-0 flex flex-col gap-1 max-w-50">
         <h3 className="text-sm font-semibold text-foreground leading-snug text-balance">
           {entry.name}
         </h3>
@@ -66,8 +66,8 @@ export function CertificationsSection({
         {certifications.map((entry) => {
           const key = `${entry.name}-${entry.issuer}-${entry.issuedDate}`;
           const card = (
-            <Card className="transition-transform hover:scale-[1.01]">
-              <CardContent>
+            <Card className="transition-transform hover:scale-[1.01] py-4">
+              <CardContent className="px-4">
                 <CertBody entry={entry} />
               </CardContent>
             </Card>
