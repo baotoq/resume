@@ -37,7 +37,7 @@ experience:
       - Integrated **Stripe** and **3rd-party logistics**, enabling seamless order processing and fulfillment
       - "Implemented **full-text search** with *Elasticsearch* for **10M+ records**, reducing latency and improving query speed under load."
       - "Owned **end-to-end delivery** across the full lifecycle, from architecture design, implementation to deployment, monitoring, and production operations."
-      - "Operated *GitOps* workflows (*FluxCD, Kubernetes, GitHub Actions*), reducing deployment time by **75%** and accelerating time-to-market."
+      - "Operated *GitOps* workflows (*FluxCD, Kubernetes, GitHub Actions*), reducing deployment time and making developers' lives easier."
       - "Architected **integration tests** using *Testcontainers*, reducing environment setup time by **65%** and eliminating flaky tests."
   - company: "AS White Global"
     role: "Software Engineer"
