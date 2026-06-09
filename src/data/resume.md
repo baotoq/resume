@@ -78,6 +78,13 @@ education:
     logo_url: "/tdt-icon.png"
     link: "https://www.linkedin.com/school/ton-duc-thang-university"
 certifications:
+  - name: "CKA: Certified Kubernetes Administrator"
+    abbrev: "CKA"
+    issuer: "The Linux Foundation"
+    issuedDate: "2026-06"
+    expiresDate: "2028-06"
+    logo_url: "https://images.credly.com/images/8b8ed108-e77d-4396-ac59-2504583b9d54/cka_from_cncfsite__281_29.png"
+    url: "https://www.credly.com/badges/ebe7f7c7-c6ee-40ff-9285-c86806e156c7"
   - name: "CKAD: Certified Kubernetes Application Developer"
     abbrev: "CKAD"
     issuer: "The Linux Foundation"
