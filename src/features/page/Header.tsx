@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import type { ResumeData } from "@/types/resume";
+import type { ResumeData } from "@/lib/resume-schema";
 import { ContactPillsRow } from "./components/ContactPillsRow";
 import { HighlightedBullet } from "./components/HighlightedBullet";
 

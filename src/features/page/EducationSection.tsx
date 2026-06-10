@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import type { EducationEntry } from "@/types/resume";
+import type { EducationEntry } from "@/lib/resume-schema";
 
 interface EducationSectionProps {
   education: EducationEntry[];

@@ -2,12 +2,10 @@ import { LogoImage } from "@/components/company-logos/LogoImage";
 import { TechStackIcons } from "@/components/techstack-icons/TechStackIcons";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { computeDuration } from "@/lib/duration";
-import type { ExperienceEntry } from "@/types/resume";
-import { CompanyDescription } from "./components/CompanyDescription";
+import { computeDuration, formatDateRange } from "@/lib/dates";
+import type { ExperienceEntry } from "@/lib/resume-schema";
 import { ExperienceImageGallery } from "./components/ExperienceImageGallery";
 import { HighlightedBullet } from "./components/HighlightedBullet";
-import { formatDateRange } from "./formatDateRange";
 
 interface WorkExperienceProps {
   experience: ExperienceEntry[];
@@ -94,7 +92,29 @@ export function WorkExperience({ experience }: WorkExperienceProps) {
                           </div>
                         </div>
                       </div>
-                      <CompanyDescription description={entry.description} />
+                      {entry.description && (
+                        <div className="flex items-start gap-2.5 text-sm text-zinc-600 leading-relaxed">
+                          <svg
+                            className="w-4 h-4 text-zinc-400 mt-[3px] shrink-0"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          <p>
+                            <HighlightedBullet>
+                              {entry.description}
+                            </HighlightedBullet>
+                          </p>
+                        </div>
+                      )}
                       <ul className="flex flex-col gap-2">
                         {entry.bullets.map((bullet, i) => (
                           <li

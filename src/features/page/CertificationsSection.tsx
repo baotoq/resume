@@ -1,18 +1,11 @@
 /** biome-ignore-all lint/performance/noImgElement: external cert badge urls (e.g. credly.com) */
 
 import { Card, CardContent } from "@/components/ui/card";
-import type { CertificationEntry } from "@/types/resume";
+import { formatMonth } from "@/lib/dates";
+import type { CertificationEntry } from "@/lib/resume-schema";
 
 interface CertificationsSectionProps {
   certifications: CertificationEntry[];
-}
-
-function formatMonth(d: string): string {
-  const [year, month] = d.split("-");
-  return new Date(Number(year), Number(month) - 1).toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
 }
 
 function CertLogo({ entry }: { entry: CertificationEntry }) {

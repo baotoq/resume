@@ -1,4 +1,24 @@
 /**
+ * Resume date helpers. Resume dates are month-resolution "YYYY-MM" strings;
+ * endDate === null means the role is ongoing ("Present"). This module is the
+ * only place that knows the representation.
+ */
+
+/** Formats a "YYYY-MM" string as e.g. "Jan 2024". */
+export function formatMonth(d: string): string {
+  const [year, month] = d.split("-");
+  return new Date(Number(year), Number(month) - 1).toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+/** Formats a range as e.g. "Jan 2024 – Jun 2025" or "Jan 2024 – Present". */
+export function formatDateRange(start: string, end: string | null): string {
+  return `${formatMonth(start)} – ${end ? formatMonth(end) : "Present"}`;
+}
+
+/**
  * Computes a human-readable duration between two "YYYY-MM" date strings.
  * endDate === null means the role is ongoing; `now` is used as the end point.
  *

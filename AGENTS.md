@@ -25,7 +25,9 @@ Unit tests are co-located with source as `*.test.ts(x)`. E2E tests live in `e2e/
 
 Next.js 16 (App Router) + React 19 + Tailwind CSS 4 + TypeScript. Single-page resume site.
 
-**Data flow:** `src/data/resume.md` (YAML frontmatter, no body) → parsed in `src/app/page.tsx` via `gray-matter` at request time → typed as `ResumeData` from `src/types/resume.ts` → passed to components.
+**Data flow:** `src/data/resume.md` (YAML frontmatter, no body) → parsed in `src/app/page.tsx` via `gray-matter` at request time → typed as `ResumeData` from `src/lib/resume-schema.ts` → passed to components.
+
+**Dates:** resume dates are month-resolution `"YYYY-MM"` strings (`endDate: null` = ongoing). All date formatting/duration logic lives in `src/lib/dates.ts` — don't parse `"YYYY-MM"` anywhere else.
 
 **Contact info** (`EMAIL`, `PHONE`) comes from environment variables, not the markdown file.
 

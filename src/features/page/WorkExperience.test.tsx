@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { formatDateRange } from "@/lib/dates";
 import { parseResumeFile } from "@/lib/parse-resume";
-import { formatDateRange } from "./formatDateRange";
 import { WorkExperience } from "./WorkExperience";
 
 // ClaudeCode.Combine reaches for browser internals jsdom lacks; the icon
