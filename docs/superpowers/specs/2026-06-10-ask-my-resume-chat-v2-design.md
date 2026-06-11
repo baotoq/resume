@@ -52,7 +52,8 @@ answers, no admin dashboard, no multi-language, no voice, no tool-use, no prompt
 | Streaming | Yes — `toUIMessageStreamResponse()` / `useChat` | The live-typing signature of the feature |
 | Multi-turn | Yes, in-session; client history is untrusted & capped | Natural follow-ups |
 | `MAX_OUTPUT_TOKENS` | **512** (`maxOutputTokens`) | Answers are 2–4 sentences; bounds output cost |
-| `MAX_INPUT_CHARS` | **500** per message, every message | Bounds input cost; anti-amplification |
+| `MAX_INPUT_CHARS` | **500** per user message | Bounds input cost; anti-amplification |
+| `MAX_ASSISTANT_CHARS` | **2048** (= 4 × `MAX_OUTPUT_TOKENS`) per assistant history turn | History replays model output, which can exceed the user cap; one cap for both roles broke follow-ups after a long answer |
 | `MAX_HISTORY` | **6 messages** (user+assistant; server truncates to last 6) | Bounds context size |
 | `MAX_BODY_BYTES` | **16 KB** total request body | UIMessage JSON (ids/parts) is bulkier than v1's bare strings |
 | `RATE_LIMIT` | **10 requests / IP / day**, `Ratelimit.fixedWindow(10, "1 d")` | Per-IP daily cap |

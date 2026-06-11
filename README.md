@@ -17,6 +17,13 @@ The content of the resume is completely decoupled from the UI components.
 - **Type Safety:** The parsed data is validated and typed against a Zod schema (`src/lib/resume-schema.ts`) and injected into the page as `ResumeData`.
 - **Environment Variables:** Sensitive contact information (`EMAIL` and `PHONE`) are injected via environment variables (`.env.local`) rather than hardcoded in the repository.
 
+### Ask my resume chat
+
+An env-gated AI chat in the header that answers questions about the resume.
+- **Gating:** enabled only when both `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` are set at build time; without them the button simply doesn't render (local dev/CI stay zero-config).
+- **Model:** Claude Haiku 4.5 via Vercel AI Gateway — OIDC auth in production, `AI_GATEWAY_API_KEY` for local development.
+- **Abuse control:** per-IP daily rate limit backed by Upstash Redis.
+
 ## Commands
 
 ```bash

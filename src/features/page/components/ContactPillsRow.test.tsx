@@ -25,4 +25,14 @@ describe("ContactPillsRow", () => {
     expect(anchor).toHaveAttribute("href", "tel:+15555550100");
     expect(anchor).not.toHaveAttribute("target");
   });
+
+  it("shows the ask-my-resume button only when chat is enabled", () => {
+    const { rerender } = render(<ContactPillsRow {...props} />);
+    expect(screen.queryByRole("button", { name: /ask my resume/i })).toBeNull();
+
+    rerender(<ContactPillsRow {...props} chatEnabled />);
+    expect(
+      screen.getByRole("button", { name: /ask my resume/i }),
+    ).toBeInTheDocument();
+  });
 });

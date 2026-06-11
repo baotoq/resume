@@ -55,4 +55,14 @@ describe("Header (data contract)", () => {
       "tel:+123456789",
     );
   });
+
+  it("shows the ask-my-resume button only when chat is enabled", () => {
+    const { rerender } = render(<Header resume={resume} email="" phone="" />);
+    expect(screen.queryByRole("button", { name: /ask my resume/i })).toBeNull();
+
+    rerender(<Header resume={resume} email="" phone="" chatEnabled />);
+    expect(
+      screen.getByRole("button", { name: /ask my resume/i }),
+    ).toBeInTheDocument();
+  });
 });

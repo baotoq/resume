@@ -12,6 +12,9 @@ export default function Page() {
 
   const email = process.env.EMAIL ?? "";
   const phone = process.env.PHONE ?? "";
+  const chatEnabled = Boolean(
+    process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN,
+  );
 
   const personSchema = {
     "@context": "https://schema.org",
@@ -41,7 +44,12 @@ export default function Page() {
       />
       <div className="relative z-10 mx-auto max-w-3xl flex flex-col gap-8">
         <AnimateIn delay={0}>
-          <Header resume={resume} email={email} phone={phone} />
+          <Header
+            resume={resume}
+            email={email}
+            phone={phone}
+            chatEnabled={chatEnabled}
+          />
         </AnimateIn>
         <AnimateIn delay={0.1}>
           <WorkExperience experience={resume.experience} />

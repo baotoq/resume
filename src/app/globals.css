@@ -235,6 +235,14 @@ body {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  /* dialog.tsx is shadcn-generated (do not hand-edit); disable its zoom-fade globally. */
+  [data-slot="dialog-content"],
+  [data-slot="dialog-overlay"] {
+    animation: none !important;
+  }
+}
+
 [data-print] * {
   text-rendering: geometricPrecision !important;
   -webkit-font-smoothing: antialiased !important;

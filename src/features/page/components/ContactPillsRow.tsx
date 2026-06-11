@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { AskResumeButton } from "@/features/chat/AskResumeButton";
 import { CopyableEmailPill } from "@/features/page/components/pills/CopyableEmailPill";
 import { DownloadResumePill } from "@/features/page/components/pills/DownloadResumePill";
 
@@ -30,6 +31,7 @@ interface ContactPillsRowProps {
   phone: string;
   github: string;
   linkedin: string;
+  chatEnabled?: boolean;
 }
 
 export function ContactPillsRow({
@@ -37,6 +39,7 @@ export function ContactPillsRow({
   phone,
   github,
   linkedin,
+  chatEnabled = false,
 }: ContactPillsRowProps) {
   const pills: PillLink[] = [
     ...(phone
@@ -78,6 +81,7 @@ export function ContactPillsRow({
           );
         })}
         <DownloadResumePill />
+        {chatEnabled && <AskResumeButton />}
       </div>
     </TooltipProvider>
   );
