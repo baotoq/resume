@@ -20,6 +20,7 @@ experience:
       - "Leveraged *Dapr* building blocks for industry best practices, security, resiliency, and observability."
       - "Operated **cloud-native containerized** workloads on *Kubernetes* with *FluxCD*."
       - "Adopted *Claude Code* for AI-assisted development, accelerating feature delivery and code quality."
+      - "Architected **integration tests** using *Testcontainers*, reducing CI/CD pipeline time by **45%** and eliminating flaky tests."
   - company: "Upmesh"
     role: "Senior Software Engineer"
     startDate: "2021-10"
@@ -38,7 +39,6 @@ experience:
       - "Implemented **full-text search** with *Elasticsearch* for **10M+ records**, reducing latency and improving query speed under load."
       - "Owned **end-to-end delivery** across the full lifecycle, from architecture design, implementation to deployment, monitoring, and production operations."
       - "Operated *GitOps* workflows (*FluxCD, Kubernetes, GitHub Actions*), reducing deployment time and making developers' lives easier."
-      - "Architected **integration tests** using *Testcontainers*, reducing environment setup time by **65%** and eliminating flaky tests."
   - company: "AS White Global"
     role: "Software Engineer"
     startDate: "2021-01"
@@ -59,10 +59,10 @@ experience:
     description: "Contributed to the development of a cutting-edge portal for **Lowell**, a leading European credit management company, streamlining **document management** and improving internal **interactions with courts**."
     logo_url: "/nashtech-inline.svg"
     link: "https://www.linkedin.com/company/nashtech-global"
-    tech_stack: [".NET", "Dapper", "gRPC", "Vue", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
+    tech_stack: [".NET", "Dapper", "gRPC", "React", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
     bullets:
       - "Built a **data standardization adapter** to **transform** and **bridge** data between legacy systems and new internal platforms, enabling seamless integration."
-      - "Developed a *Vue.js* feature-rich portal backed by *.NET* **RESTful** and **gRPC** services supporting core backend workflows."
+      - "Developed a feature-rich portal backed by *.NET* **RESTful** and **gRPC** services supporting core backend workflows."
       - "Implemented **real-time push notifications** using *Azure SignalR* for instant user updates."
       - "Integrated with *Opentelemetry* for observability, enabling faster incident detection."
       - "Conducted comprehensive unit tests and integration tests, maintaining a minimum **code coverage of 90%**."
