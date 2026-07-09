@@ -56,7 +56,7 @@ experience:
     role: "Software Engineer"
     startDate: "2018-12"
     endDate: "2020-12"
-    description: "Contributed to the development of a cutting-edge portal for **Lowell**, a leading European credit management company, streamlining **document management** and improving internal **interactions with courts**."
+    description: "Contributed to the development of a cutting-edge portal, a leading European credit management company, streamlining **document management** and improving internal **interactions with courts**."
     logo_url: "/nashtech-inline.svg"
     link: "https://www.linkedin.com/company/nashtech-global"
     tech_stack: [".NET", "Dapper", "gRPC", "React", "PostgreSQL", "Neo4j", "Redis", "Grafana", "Docker", "Kubernetes", "Azure"]
